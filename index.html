@@ -9,24 +9,67 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .hero-section {
-            background: linear-gradient(rgba(0, 32, 74, 0.8), rgba(0, 32, 74, 0.8)), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&w=1920&q=80') center/cover;
-            color: white;
-            padding: 100px 0;
+        :root {
+            --royal-blue: #00204a; /* الأزرق الغامق من اللوجو */
+            --gold-accent: #b59410; /* الذهبي من اللوجو */
+            --light-tech: #f8faff;
         }
-        .service-icon { font-size: 3rem; color: #0056b3; margin-bottom: 15px; }
+
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--light-tech); }
+
+        /* المنيو الملكي */
+        .navbar { 
+            background-color: var(--royal-blue) !important; 
+            border-bottom: 3px solid var(--gold-accent);
+            padding: 10px 0;
+        }
+        .nav-link { color: white !important; font-weight: 500; transition: 0.3s; }
+        .nav-link:hover { color: var(--gold-accent) !important; }
+
+        /* قسم الواجهة الفخم */
+        .hero-section {
+            background: linear-gradient(rgba(0, 32, 74, 0.85), rgba(0, 32, 74, 0.85)), 
+                        url('https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&w=1920&q=80') center/cover;
+            color: white; 
+            padding: 140px 0; 
+            border-bottom: 5px solid var(--gold-accent);
+        }
+
+        /* كروت الخدمات */
+        .card { border: none; border-radius: 15px; transition: 0.4s; }
+        .card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 15px 35px rgba(0,32,74,0.15); 
+            border-bottom: 3px solid var(--gold-accent);
+        }
+        .service-icon { color: var(--royal-blue); font-size: 3rem; margin-bottom: 15px; }
+
+        /* قسم التواصل */
+        #contact { background-color: var(--royal-blue) !important; color: white; padding: 80px 0; }
+        .btn-primary { background-color: var(--gold-accent); border: none; font-weight: bold; padding: 12px 30px; }
+        .btn-primary:hover { background-color: #8e740d; transform: scale(1.05); }
+        .form-control { border-radius: 8px; border: none; }
+
+        /* الزرار العائم للواتساب */
+        .whatsapp-float {
+            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
+            background-color: #25d366; color: #FFF; border-radius: 50px;
+            text-align: center; font-size: 30px; box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); color: white; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="images/logo.png" alt="Queen Tech Solutions" style="height: 50px; width: auto; margin-right: 12px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));">
-                <span class="fw-bold text-white d-none d-sm-block">Queen Tech</span>
+                <img src="images/logo.png" alt="Queen Tech Solutions" style="height: 60px; width: auto; margin-right: 12px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2));">
+                <span class="fw-bold text-white d-none d-sm-block" style="letter-spacing: 1px;">QUEEN TECH</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -34,50 +77,56 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                <li class="nav-item d-flex align-items-center ms-lg-3">
-                        <a class="nav-link text-primary px-2" href="https://www.facebook.com/AQTS74" target="_blank"><i class="fab fa-facebook fs-5"></i></a>
-                        <a class="nav-link text-danger px-2" href="https://www.instagram.com/qts_74" target="_blank"><i class="fab fa-instagram fs-5"></i></a>
-                        <a class="nav-link text-success px-2" href="https://share.google/zmrf8CnZ1TSqrZ1Ls" target="_blank"><i class="fas fa-map-marker-alt fs-5"></i></a>
-                    </li></ul>
+                    <li class="nav-item d-flex align-items-center ms-lg-3 mt-2 mt-lg-0">
+                        <a class="nav-link px-2" href="https://www.facebook.com/AQTS74" target="_blank"><i class="fab fa-facebook fs-5"></i></a>
+                        <a class="nav-link px-2" href="https://www.instagram.com/qts_74" target="_blank"><i class="fab fa-instagram fs-5"></i></a>
+                        <a class="nav-link px-2" href="https://share.google/zmrf8CnZ1TSqrZ1Ls" target="_blank"><i class="fas fa-map-marker-alt fs-5"></i></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
     <header id="home" class="hero-section text-center">
         <div class="container">
-            <h1 class="display-4 fw-bold mb-4">Empowering Your Business with Cutting-Edge IT & Security</h1>
-            <p class="lead mb-5">Comprehensive IT maintenance, advanced networking, and reliable CCTV systems designed for seamless operations and ultimate peace of mind.</p>
-            <a href="#services" class="btn btn-primary btn-lg me-2">Explore Our Services</a>
-            <a href="#contact" class="btn btn-outline-light btn-lg">Get a Free Consultation</a>
+            <h1 class="display-3 fw-bold mb-4">Empowering Your Business <br>with <span style="color: var(--gold-accent);">Cutting-Edge IT</span></h1>
+            <p class="lead mb-5 fs-4">Comprehensive IT maintenance, advanced networking, and reliable CCTV systems designed for seamless operations in Dubai.</p>
+            <a href="#services" class="btn btn-primary btn-lg me-sm-2 mb-3 mb-sm-0">Explore Our Services</a>
+            <a href="#contact" class="btn btn-outline-light btn-lg mb-3 mb-sm-0">Get a Free Consultation</a>
         </div>
     </header>
 
-<section id="about" class="py-5 bg-light">
+    <section id="about" class="py-5 bg-light">
         <div class="container text-center">
-            <h2 class="fw-bold mb-4">About Us</h2>
-            <div class="row justify-content-center text-center g-4 mb-5">
+            <h2 class="fw-bold mb-5">Trusted IT Partner in Dubai</h2>
+            <div class="row justify-content-center g-4">
                 <div class="col-6 col-md-2">
-                    <i class="fas fa-map-marker-alt fs-3 mb-2 text-primary"></i>
-                    <p><a href="https://share.google/zmrf8CnZ1TSqrZ1Ls" class="text-white text-decoration-none" target="_blank">Our Location</a></p>
+                    <a href="https://share.google/zmrf8CnZ1TSqrZ1Ls" target="_blank" class="text-decoration-none">
+                        <i class="fas fa-map-marker-alt fs-2 mb-2 text-primary"></i>
+                        <p class="text-dark fw-bold">Location</p>
+                    </a>
                 </div>
                 <div class="col-6 col-md-2">
-                    <i class="fas fa-envelope fs-3 mb-2 text-primary"></i>
-                    <p><a href="mailto:info@queentechsolution.info" class="text-white text-decoration-none">Email Us</a></p>
+                    <a href="mailto:info@queentechsolution.info" class="text-decoration-none">
+                        <i class="fas fa-envelope fs-2 mb-2 text-primary"></i>
+                        <p class="text-dark fw-bold">Email Us</p>
+                    </a>
                 </div>
                 <div class="col-6 col-md-2">
-                    <i class="fab fa-whatsapp fs-3 mb-2 text-success"></i>
-                    <p><a href="https://wa.me/971563373437" class="text-white text-decoration-none" target="_blank">WhatsApp</a></p>
+                    <a href="https://wa.me/971563373437" target="_blank" class="text-decoration-none">
+                        <i class="fab fa-whatsapp fs-2 mb-2 text-success"></i>
+                        <p class="text-dark fw-bold">WhatsApp</p>
+                    </a>
                 </div>
                 <div class="col-6 col-md-2">
-                    <i class="fab fa-facebook fs-3 mb-2 text-primary"></i>
-                    <p><a href="https://www.facebook.com/AQTS74" class="text-white text-decoration-none" target="_blank">Facebook</a></p>
-                </div>
-                <div class="col-6 col-md-2">
-                    <i class="fab fa-instagram fs-3 mb-2 text-danger"></i>
-                    <p><a href="https://www.instagram.com/qts_74" class="text-white text-decoration-none" target="_blank">Instagram</a></p>
+                    <a href="https://www.facebook.com/AQTS74" target="_blank" class="text-decoration-none">
+                        <i class="fab fa-facebook fs-2 mb-2 text-primary"></i>
+                        <p class="text-dark fw-bold">Facebook</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -85,136 +134,119 @@
 
     <section id="services" class="py-5">
         <div class="container">
-            <h2 class="text-center fw-bold mb-5">Our Services</h2>
+            <h2 class="text-center fw-bold mb-5">Our Expertise</h2>
             <div class="row g-4 text-center">
                 <div class="col-md-6 col-lg-3">
-                    <div class="card h-100 border-0 shadow-sm p-3">
+                    <div class="card h-100 shadow-sm p-4">
                         <i class="fas fa-tools service-icon"></i>
-                        <h5 class="card-title fw-bold">IT Maintenance & Support</h5>
-                        <p class="card-text text-muted">Proactive maintenance, hardware/software troubleshooting, and complete IT system optimizations.</p>
+                        <h5 class="fw-bold">IT Maintenance</h5>
+                        <p class="text-muted">Proactive support and hardware troubleshooting for seamless business flow.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <div class="card h-100 border-0 shadow-sm p-3">
+                    <div class="card h-100 shadow-sm p-4">
                         <i class="fas fa-video service-icon"></i>
-                        <h5 class="card-title fw-bold">CCTV & Security Systems</h5>
-                        <p class="card-text text-muted">Professional installation and configuration of high-definition security cameras for round-the-clock protection.</p>
+                        <h5 class="fw-bold">CCTV Systems</h5>
+                        <p class="text-muted">High-definition security camera installations and 24/7 monitoring setup.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <div class="card h-100 border-0 shadow-sm p-3">
+                    <div class="card h-100 shadow-sm p-4">
                         <i class="fas fa-network-wired service-icon"></i>
-                        <h5 class="card-title fw-bold">Networking & Cybersecurity</h5>
-                        <p class="card-text text-muted">Secure network design, setup, and robust cybersecurity measures to protect your sensitive data.</p>
+                        <h5 class="fw-bold">Networking</h5>
+                        <p class="text-muted">Secure network design and cybersecurity measures to protect your assets.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <div class="card h-100 border-0 shadow-sm p-3">
+                    <div class="card h-100 shadow-sm p-4">
                         <i class="fas fa-server service-icon"></i>
-                        <h5 class="card-title fw-bold">Data & Email Backup</h5>
-                        <p class="card-text text-muted">Reliable, automated backup solutions to secure your emails and critical business files.</p>
+                        <h5 class="fw-bold">Data Backup</h5>
+                        <p class="text-muted">Automated cloud and local backup solutions for critical business data.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-<section id="projects" class="py-5 bg-light">
+
+    <section id="projects" class="py-5 bg-light">
         <div class="container">
-            <h2 class="text-center fw-bold mb-5">Our Latest Projects</h2>
+            <h2 class="text-center fw-bold mb-5">Recent Projects</h2>
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card border-0 shadow-sm overflow-hidden h-100">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80" class="card-img p-3 rounded" style="height: 250px; object-fit: cover;" alt="CCTV Installation">
+                    <div class="card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80" style="height:200px; object-fit:cover;" alt="CCTV">
                         <div class="card-body text-center">
-                            <h5 class="fw-bold">High-End CCTV Setup</h5>
-                            <p class="text-muted text-sm">Dubai Business Center</p>
+                            <h6 class="fw-bold">CCTV Installation</h6>
+                            <p class="small text-muted">Dubai Business Hub</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card border-0 shadow-sm overflow-hidden h-100">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" class="card-img p-3 rounded" style="height: 250px; object-fit: cover;" alt="Networking">
+                    <div class="card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" style="height:200px; object-fit:cover;" alt="Networking">
                         <div class="card-body text-center">
-                            <h5 class="fw-bold">Enterprise Networking</h5>
-                            <p class="text-muted text-sm">Warehouse Connectivity Solutions</p>
+                            <h6 class="fw-bold">Network Overhaul</h6>
+                            <p class="small text-muted">Enterprise Warehouse</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card border-0 shadow-sm overflow-hidden h-100">
-                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" class="card-img p-3 rounded" style="height: 250px; object-fit: cover;" alt="Server Room">
+                    <div class="card overflow-hidden h-100">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" style="height:200px; object-fit:cover;" alt="Servers">
                         <div class="card-body text-center">
-                            <h5 class="fw-bold">Server Room Optimization</h5>
-                            <p class="text-muted text-sm">Tech Infrastructure Overhaul</p>
+                            <h6 class="fw-bold">Server Management</h6>
+                            <p class="small text-muted">Tech Startup Facility</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-center mt-5">
-                <a href="https://www.facebook.com/AQTS74" target="_blank" class="btn btn-primary btn-lg px-5">View More on Facebook</a>
             </div>
         </div>
     </section>
-<section id="contact" class="py-5 bg-dark text-white">
+
+    <section id="contact">
         <div class="container">
-            <h2 class="text-center fw-bold mb-4">Ready to Secure Your Business?</h2>
-            <p class="text-center lead mb-5">Contact us today to discuss your IT and security needs.</p>
-            <div class="row justify-content-center">
-                
-                <div class="col-md-5 mb-4 text-center text-md-start">
-                    <div class="mb-4">
-                        <i class="fas fa-map-marker-alt fs-3 mb-2 text-primary"></i>
-                        <p class="fs-5">Dubai, United Arab Emirates</p>
+            <div class="row align-items-center">
+                <div class="col-md-5 mb-5 mb-md-0">
+                    <h2 class="fw-bold mb-4">Get In Touch</h2>
+                    <p class="lead mb-4">Let's discuss how Queen Tech can secure and optimize your IT infrastructure.</p>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-envelope me-3 text-warning fs-4"></i>
+                        <span>info@queentechsolution.info</span>
                     </div>
-                    <div class="mb-4">
-                        <i class="fas fa-envelope fs-3 mb-2 text-primary"></i>
-                        <p class="fs-5"><a href="mailto:info@queentechsolution.info" class="text-white text-decoration-none">info@queentechsolution.info</a></p>
-                    </div>
-                    <div class="mb-4">
-                        <i class="fab fa-whatsapp fs-3 mb-2 text-success"></i>
-                        <p class="fs-5"><a href="https://wa.me/971563373437" class="text-white text-decoration-none" target="_blank">+971 56 337 3437</a></p>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fab fa-whatsapp me-3 text-success fs-4"></i>
+                        <span>+971 56 337 3437</span>
                     </div>
                 </div>
-
-               <div class="col-md-6">
-                    <form name="contact" method="POST" data-netlify="true" class="bg-secondary p-4 rounded text-start shadow">
-                        
+                <div class="col-md-7">
+                    <form name="contact" method="POST" data-netlify="true" class="bg-white p-4 p-lg-5 rounded shadow text-dark">
                         <input type="hidden" name="form-name" value="contact">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Message</label>
+                            <textarea name="message" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                        <div class="mb-3">
-                            <label for="name" class="form-label fw-bold">Your Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label fw-bold">Your Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label fw-bold">How can we help you?</label>
-                            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">Send Message</button>
-</form>
-                </div> </div> </div> </section>
+    <footer class="bg-black text-white text-center py-4">
+        <p class="mb-0">&copy; 2026 Queen Tech Solutions. All Rights Reserved.</p>
+    </footer>
 
     <a href="https://wa.me/971563373437" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
-
-    <style>
-    .whatsapp-float {
-        position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
-        background-color: #25d366; color: #FFF; border-radius: 50px;
-        text-align: center; font-size: 30px; box-shadow: 2px 2px 3px #999;
-        z-index: 1000; display: flex; align-items: center; justify-content: center;
-        text-decoration: none; transition: 0.3s;
-    }
-    .whatsapp-float:hover { transform: scale(1.1); color: white; }
-    </style>
-
-    <footer class="bg-black text-white text-center py-3">
-        <p class="mb-0">&copy; 2026 Queen Tech Solutions. All Rights Reserved.</p>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
