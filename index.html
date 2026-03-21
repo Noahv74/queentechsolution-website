@@ -96,20 +96,45 @@
         </div>
     </section>
 
-    <section id="contact" class="py-5 bg-dark text-white text-center">
-        <div class="row justify-content-center mb-4">
-                <div class="col-md-4 mb-3">
-                    <i class="fas fa-map-marker-alt fs-3 mb-2 text-primary"></i>
-                    <p>Dubai, United Arab Emirates</p>
+<section id="contact" class="py-5 bg-dark text-white">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-4">Ready to Secure Your Business?</h2>
+            <p class="text-center lead mb-5">Contact us today to discuss your IT and security needs.</p>
+            <div class="row justify-content-center">
+                
+                <div class="col-md-5 mb-4 text-center text-md-start">
+                    <div class="mb-4">
+                        <i class="fas fa-map-marker-alt fs-3 mb-2 text-primary"></i>
+                        <p class="fs-5">Dubai, United Arab Emirates</p>
+                    </div>
+                    <div class="mb-4">
+                        <i class="fas fa-envelope fs-3 mb-2 text-primary"></i>
+                        <p class="fs-5"><a href="mailto:info@queentechsolution.info" class="text-white text-decoration-none">info@queentechsolution.info</a></p>
+                    </div>
+                    <div class="mb-4">
+                        <i class="fab fa-whatsapp fs-3 mb-2 text-success"></i>
+                        <p class="fs-5"><a href="https://wa.me/971563373437" class="text-white text-decoration-none" target="_blank">+971 56 337 3437</a></p>
+                    </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <i class="fas fa-envelope fs-3 mb-2 text-primary"></i>
-                    <p><a href="mailto:info@queentechsolution.info" class="text-white text-decoration-none">info@queentechsolution.info</a></p>
+
+                <div class="col-md-6">
+                    <form name="contact" method="POST" data-netlify="true" class="bg-secondary p-4 rounded text-start shadow">
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-bold">Your Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="E.g. Ahmed" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Your Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="name@company.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label fw-bold">How can we help you?</label>
+                            <textarea class="form-control" id="message" name="message" rows="4" placeholder="Describe your IT or Security needs..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">Send Message</button>
+                    </form>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <i class="fab fa-whatsapp fs-3 mb-2 text-success"></i>
-                    <p><a href="https://wa.me/971563373437" class="text-white text-decoration-none" target="_blank">+971 56 337 3437</a></p>
-                </div>
+
             </div>
         </div>
     </section>
