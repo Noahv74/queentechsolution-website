@@ -1,210 +1,783 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Queen Tech Solutions | IT & Security Dubai</title>
-    
-    <link rel="icon" type="image/png" href="images/logo.png" />
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Queen Tech Solutions in Dubai and Abu Dhabi: CCTV, access control and gate barrier installation and maintenance, networking and WiFi, PC, laptop and mobile repair, software installation and data backup. Free site survey.">
+<meta name="keywords" content="CCTV installation Dubai, access control Dubai, gate barrier Dubai, laptop repair Dubai, mobile repair Dubai, network installation Dubai, IT support Dubai, data backup Dubai, CCTV Abu Dhabi, access control Abu Dhabi, IT support Abu Dhabi, laptop repair Abu Dhabi">
+<link rel="canonical" href="https://queentechsolution.info/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Queen Tech Solutions | CCTV, Access Control & IT Repair in Dubai">
+<meta property="og:description" content="CCTV, access control, gate barriers, networking, and PC, laptop and phone repair in Dubai and Abu Dhabi. Free site survey.">
+<meta property="og:url" content="https://queentechsolution.info/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Queen Tech Solutions","url":"https://queentechsolution.info/","telephone":"+971557971520","email":"info@queentechsolution.info","address":{"@type":"PostalAddress","addressLocality":"Dubai","addressCountry":"AE"},"areaServed":[{"@type":"City","name":"Dubai"},{"@type":"City","name":"Abu Dhabi"}],"description":"CCTV, access control and gate barrier installation and maintenance, networking, PC, laptop and mobile repair, software installation and data backup in Dubai and Abu Dhabi.","sameAs":["https://www.facebook.com/AQTS74","https://www.instagram.com/qts_74"]}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do you visit the site before giving a price?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We visit for free, check the space, and then send a written quote. You only pay if you decide to go ahead."}}, {"@type": "Question", "name": "Can I watch my cameras from my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We set up the app on your phone and show you how to watch live and play back recordings from anywhere."}}, {"@type": "Question", "name": "How long is the footage kept?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on the number of cameras and the recorder's storage. We size the storage to match how many days of footage you need."}}, {"@type": "Question", "name": "Can you fix or upgrade a system someone else installed?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We regularly repair, extend and upgrade existing cameras, networks and computers."}}, {"@type": "Question", "name": "Do you repair laptops and phones for individuals?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Send us the device model and the problem on WhatsApp, and we will tell you the likely fix and cost before you bring it in."}}, {"@type": "Question", "name": "Do you service gate barriers and access control installed by others?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We repair and maintain most common barrier and access control brands, and can set up regular maintenance visits so problems are caught early."}}, {"@type": "Question", "name": "Do you work in Abu Dhabi as well as Dubai?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We cover both Dubai and Abu Dhabi for installations, maintenance and on-site repairs."}}, {"@type": "Question", "name": "Can you work outside business hours?", "acceptedAnswer": {"@type": "Answer", "text": "For shops and restaurants we can plan installation around opening hours so your customers are not disturbed."}}]}
+</script>
+<title>Queen Tech Solutions | CCTV, Access Control & IT Repair in Dubai & Abu Dhabi</title>
+<meta name="theme-color" content="#131210">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Kufi+Arabic:wght@500&display=swap">
+<style>
+/* Concept: a security control room. Warm charcoal surfaces, brand gold as the signal colour, monospace readouts, and a live CCTV monitor wall as the hero. */
+:root{
+  --bg:#131210; --bg-2:#1A1916; --surface:#201E1A; --surface-2:#2A2722;
+  --ink:#EFE8DB; --muted:#A79E8F; --dim:#6E675C; --line:#36322B; --line-2:#4A443A;
+  --gold:#E2A63F; --gold-2:#F3C877; --gold-soft:rgba(226,166,63,.12);
+  --live:#E25B45; --wa:#2FA866; --wa-ink:#0E1A12;
+  --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --f-ar:"Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:var(--gold)}
+::selection{background:var(--gold);color:var(--bg)}
+:focus-visible{outline:2px solid var(--gold-2);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(18px,4vw,40px)}
+h1,h2,h3{margin:0;font-family:var(--f-display);line-height:.95;text-transform:uppercase;letter-spacing:.005em;text-wrap:balance}
+h2{font-size:clamp(2.6rem,6vw,4.8rem);font-weight:800}
+h3{font-size:1.6rem;font-weight:800;letter-spacing:.01em}
+p{margin:0}
+.mono{font-family:var(--f-mono)}
+.tag{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:10px}
+.tag::before{content:"";width:22px;height:1px;background:currentColor}
+.lede{color:var(--muted);max-width:56ch;font-size:1.08rem}
+.sec{padding-block:clamp(72px,10vw,128px);position:relative}
 
-    <style>
-        :root { --royal-blue: #00204a; --gold-accent: #b59410; --light-tech: #f8faff; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--light-tech); scroll-behavior: smooth; }
+/* buttons */
+.btn{--bh:var(--surface-2);display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:4px;font:600 .95rem/1 var(--f-body);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .2s var(--ease),background .2s,border-color .2s,color .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:#34B970}
+.btn-gold{background:var(--gold);color:var(--bg)}
+.btn-gold:hover{background:var(--gold-2)}
+.btn-line{border-color:var(--line-2);color:var(--ink);background:transparent}
+.btn-line:hover{border-color:var(--gold);color:var(--gold-2)}
+.btn .arr{transition:transform .2s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
 
-        /* Navbar & Logo Styling */
-        .navbar { background-color: var(--royal-blue) !important; border-bottom: 3px solid var(--gold-accent); padding: 15px 0; }
-        .nav-link { color: white !important; font-weight: 500; transition: 0.3s; }
-        .nav-link:hover { color: var(--gold-accent) !important; }
-        .logo-wrapper {
-            background: white; padding: 5px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-            margin-top: -25px; margin-bottom: -25px; border: 2px solid var(--gold-accent); display: inline-block;
-        }
+/* header */
+header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:24px;min-height:70px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);margin-right:auto}
+.crown{width:36px;height:36px;flex:none}
+.brand b{display:block;font:900 1.35rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.brand small{display:block;font:500 .6rem/1.4 var(--f-mono);letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.links{display:flex;gap:28px;align-items:center}
+.links a:not(.btn){color:var(--muted);text-decoration:none;font-weight:500;font-size:.93rem;position:relative}
+.links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
+.links a:not(.btn):hover{color:var(--ink)}
+.links a:not(.btn):hover::after{transform:scaleX(1)}
+.clock{font:500 .72rem var(--f-mono);color:var(--muted);letter-spacing:.08em;display:flex;align-items:center;gap:8px;padding-left:24px;border-left:1px solid var(--line)}
+.clock i,.rec i{width:7px;height:7px;border-radius:50%;background:var(--live);animation:blink 1.6s steps(2,start) infinite}
+@keyframes blink{50%{opacity:.15}}
+@media (max-width:980px){.clock{display:none}}
+@media (max-width:820px){.links a.hide-sm{display:none}}
 
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(rgba(0, 32, 74, 0.85), rgba(0, 32, 74, 0.85)), 
-                        url('https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&w=1920&q=80') center/cover;
-            color: white; padding: 140px 0; border-bottom: 5px solid var(--gold-accent);
-        }
+/* hero */
+.hero{padding-block:clamp(40px,6vw,72px) clamp(56px,8vw,96px);position:relative;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:
+  radial-gradient(60% 50% at 82% 30%,rgba(226,166,63,.10),transparent 70%),
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/100% 64px;opacity:.9;
+  mask-image:linear-gradient(180deg,#000 40%,transparent)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center}
+@media (max-width:960px){.hero-grid{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(3.4rem,8.6vw,7.4rem);font-weight:900;line-height:.86;margin-top:22px;letter-spacing:-.005em}
+.hero h1 .l{display:block;overflow:hidden}
+.hero h1 .l span{display:inline-block}
+.hero h1 em{font-style:normal;color:var(--gold);position:relative}
+.hero h1 .out{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+.ar{font-family:var(--f-ar);direction:rtl;color:var(--muted);font-size:1rem;margin-top:22px}
+.hero .lede{margin-top:16px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.promise{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:0;margin:34px 0 0;padding:0;list-style:none;border:1px solid var(--line);border-radius:4px;width:max-content;max-width:100%}
+.promise li{font:500 .74rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:12px 16px;display:flex;align-items:center;gap:8px}
+.promise li+li{border-left:1px solid var(--line)}
+.promise li b{color:var(--gold);font-weight:500}
+@media (max-width:560px){.promise{grid-template-columns:1fr;width:100%}.promise li+li{border-left:0;border-top:1px solid var(--line)}}
 
-        /* Cards & Hover Effects */
-        .card { border: none; border-radius: 15px; transition: 0.4s; overflow: hidden; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,32,74,0.15); }
-        .service-icon { color: var(--royal-blue); font-size: 3rem; margin-bottom: 15px; }
+/* monitor wall */
+.wall{position:relative;background:var(--bg-2);border:1px solid var(--line-2);border-radius:8px;padding:12px;box-shadow:0 40px 80px -30px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.04);transform:rotate(1.2deg)}
+.wall-bar{display:flex;justify-content:space-between;align-items:center;font:500 .66rem var(--f-mono);color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding:2px 4px 10px}
+.rec{display:flex;align-items:center;gap:7px;color:var(--live)}
+.feeds{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.feed{position:relative;aspect-ratio:4/3;border-radius:3px;overflow:hidden;background:#1d211b}
+.feed.big{grid-column:span 2;aspect-ratio:16/7}
+.feed svg{position:absolute;inset:0;width:100%;height:100%}
+.feed::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px)}
+.feed::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(0,0,0,.55))}
+.feed .hud{position:absolute;z-index:3;inset:8px 10px;display:flex;flex-direction:column;justify-content:space-between;font:500 .6rem var(--f-mono);color:#D8E6CF;letter-spacing:.06em;text-shadow:0 1px 2px rgba(0,0,0,.6);pointer-events:none}
+.feed .hud div{display:flex;justify-content:space-between;gap:8px}
+.feed .sweep{position:absolute;z-index:2;left:0;right:0;height:30%;background:linear-gradient(180deg,transparent,rgba(216,230,207,.06),transparent);animation:sweep 6s linear infinite}
+@keyframes sweep{from{transform:translateY(-100%)}to{transform:translateY(400%)}}
+.feed .box{position:absolute;z-index:3;border:1px solid var(--gold-2);animation:track 7s var(--ease) infinite alternate}
+.feed .box::after{content:attr(data-l);position:absolute;top:-15px;left:-1px;background:var(--gold-2);color:var(--bg);font:500 .55rem/1 var(--f-mono);padding:2px 4px;letter-spacing:.05em}
+@keyframes track{0%{transform:translate(0,0)}50%{transform:translate(18px,4px)}100%{transform:translate(42px,-2px)}}
+.wall-foot{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:10px 12px}
+.stat .k{font:500 .58rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.stat .v{font:800 1.35rem/1.1 var(--f-display);margin-top:2px;font-variant-numeric:tabular-nums}
+.stat .v small{font:500 .62rem var(--f-mono);color:var(--muted);margin-left:4px}
+.bars{display:flex;gap:2px;align-items:flex-end;height:14px;margin-top:4px}
+.bars i{flex:1;background:var(--gold);opacity:.75;border-radius:1px;transform-origin:bottom;animation:eq 1.4s ease-in-out infinite alternate}
+@keyframes eq{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+.wall-note{position:absolute;left:-24px;bottom:-58px;background:var(--gold);color:var(--bg);font:600 .78rem/1.3 var(--f-body);padding:12px 14px;border-radius:4px;max-width:190px;transform:rotate(-3.5deg);box-shadow:0 14px 30px -10px rgba(0,0,0,.6)}
+.wall-note b{display:block;font:900 1.1rem/1 var(--f-display);text-transform:uppercase}
+.wall{margin-bottom:64px!important}
+@media (max-width:960px){.wall{transform:none}.wall-note{left:auto;right:12px;bottom:-58px}}
+@media (max-width:480px){.wall-foot{grid-template-columns:1fr 1fr}.wall-foot .stat:last-child{display:none}}
 
-        /* Contact Section */
-        #contact { background-color: var(--royal-blue) !important; color: white; padding: 80px 0; }
-        .btn-primary { background-color: var(--gold-accent); border: none; font-weight: bold; padding: 12px 30px; }
-        .btn-primary:hover { background-color: #8e740d; transform: scale(1.05); }
+/* ticker */
+.ticker{border-block:1px solid var(--line);background:var(--bg-2);overflow:hidden;white-space:nowrap}
+.ticker-track{display:inline-flex;gap:48px;padding:18px 0;animation:tick 40s linear infinite}
+.ticker span{font:800 1.5rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.03em;color:var(--dim);display:inline-flex;align-items:center;gap:48px}
+.ticker span::after{content:"";width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.ticker span:nth-child(3n+1){color:var(--ink)}
+@keyframes tick{to{transform:translateX(-50%)}}
 
-        /* WhatsApp Floating Button */
-        .whatsapp-float {
-            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
-            background-color: #25d366; color: #FFF; border-radius: 50px;
-            text-align: center; font-size: 30px; box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
-            z-index: 1000; display: flex; align-items: center; justify-content: center;
-            text-decoration: none; transition: 0.3s;
-        }
-        .whatsapp-float:hover { transform: scale(1.1); color: white; }
-    </style>
+/* section heads */
+.head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px 64px;align-items:end;margin-bottom:clamp(40px,6vw,72px)}
+.head .tag{grid-column:1/-1}
+@media (max-width:860px){.head{grid-template-columns:1fr}}
+
+/* services */
+.svc-list{border-top:1px solid var(--line)}
+.svc{display:grid;grid-template-columns:90px minmax(0,1.1fr) minmax(0,1.3fr);gap:24px 48px;padding:40px 0;border-bottom:1px solid var(--line);position:relative;transition:background .3s}
+.svc::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--gold);transition:width .6s var(--ease)}
+.svc:hover::before{width:100%}
+.svc .num{font:500 .8rem var(--f-mono);color:var(--gold);padding-top:8px}
+.svc-t{display:grid;gap:16px;align-content:start}
+.svc-t h3{font-size:clamp(2rem,3.6vw,3rem);transition:color .25s}
+.svc:hover h3{color:var(--gold-2)}
+.svc-t p{color:var(--muted);max-width:40ch}
+.ico{width:46px;height:46px;border:1px solid var(--line-2);border-radius:4px;display:grid;place-items:center;transition:border-color .25s,background .25s}
+.svc:hover .ico{border-color:var(--gold);background:var(--gold-soft)}
+.ico svg{width:24px;height:24px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.svc ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 28px;align-content:start}
+.svc li{padding:11px 0 11px 22px;border-bottom:1px dashed var(--line);position:relative;font-size:.97rem}
+.svc li::before{content:"";position:absolute;left:0;top:1.15em;width:10px;height:1px;background:var(--gold)}
+.svc li.specs{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding:0;border:0}
+.svc li.specs::before{display:none}
+.spec{font:500 .7rem var(--f-mono);padding:5px 9px;border:1px solid var(--line-2);border-radius:2px;color:var(--muted);letter-spacing:.04em}
+@media (max-width:960px){.svc{grid-template-columns:60px minmax(0,1fr)}.svc>ul{grid-column:2}}
+@media (max-width:620px){.svc{grid-template-columns:1fr}.svc>ul{grid-column:auto;grid-template-columns:1fr}}
+
+/* audiences */
+.aud{background:var(--gold);color:var(--bg)}
+.aud .tag{color:var(--bg)}
+.aud .lede{color:color-mix(in srgb,var(--bg) 75%,var(--gold))}
+.aud h2 .out{color:transparent;-webkit-text-stroke:1.5px var(--bg)}
+.aud-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+.aud-card{background:var(--bg);color:var(--ink);border-radius:6px;padding:clamp(28px,4vw,44px);display:grid;gap:18px;align-content:start;position:relative;overflow:hidden}
+.aud-card:nth-child(2){margin-top:56px}.aud-card:nth-child(3){margin-top:112px}
+.aud-card .k{font:500 .72rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.aud-card h3{font-size:clamp(2rem,3.2vw,2.8rem)}
+.aud-card ul{margin:0;padding:0;list-style:none;display:grid;gap:0;color:var(--muted)}
+.aud-card li{padding:12px 0;border-top:1px solid var(--line);display:flex;gap:14px}
+.aud-card li span{font:500 .72rem var(--f-mono);color:var(--dim);padding-top:4px}
+.aud-card .glyph{position:absolute;right:-20px;top:-20px;width:150px;height:150px;opacity:.07;stroke:var(--gold);fill:none;stroke-width:1}
+@media (max-width:1060px){.aud-grid{grid-template-columns:1fr 1fr}.aud-card:nth-child(3){grid-column:1/-1;margin-top:0}}
+@media (max-width:820px){.aud-grid{grid-template-columns:1fr}.aud-card:nth-child(n){margin-top:0}}
+
+/* process */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px;counter-reset:s;position:relative}
+.steps::before{content:"";position:absolute;left:0;right:0;top:27px;height:1px;background:repeating-linear-gradient(90deg,var(--line-2) 0 6px,transparent 6px 12px)}
+.steps li{position:relative;display:grid;gap:12px;align-content:start}
+.steps li::before{counter-increment:s;content:"0" counter(s);width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1px solid var(--line-2);font:500 .85rem var(--f-mono);color:var(--gold);position:relative;transition:background .3s,color .3s,border-color .3s}
+.steps li:hover::before{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.steps h3{font-size:1.5rem;margin-top:8px}
+.steps p{color:var(--muted);font-size:.95rem}
+@media (max-width:900px){.steps{grid-template-columns:1fr;gap:28px}.steps::before{left:27px;right:auto;top:0;bottom:0;width:1px;height:auto;background:repeating-linear-gradient(180deg,var(--line-2) 0 6px,transparent 6px 12px)}.steps li{grid-template-columns:54px 1fr;column-gap:20px}.steps li::before{grid-row:span 2}.steps h3{margin-top:12px}}
+
+/* packages */
+.pk-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:6px;align-items:stretch}
+.pk{padding:clamp(28px,3vw,40px);display:flex;flex-direction:column;gap:18px;position:relative}
+.pk+.pk{border-left:1px solid var(--line)}
+.pk.feat{background:var(--surface);margin:-18px 0;border:1px solid var(--gold);border-radius:6px;box-shadow:0 30px 60px -30px rgba(226,166,63,.35)}
+.pk.feat+.pk{border-left:0}
+.pk .ribbon{position:absolute;top:-1px;right:24px;background:var(--gold);color:var(--bg);font:500 .62rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:0 0 3px 3px}
+.pk .for{font:500 .7rem var(--f-mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.pk h3{font-size:2.3rem}
+.pk ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;flex:1}
+.pk li{display:flex;gap:12px;font-size:.97rem}
+.pk li svg{width:16px;height:16px;flex:none;margin-top:4px;stroke:var(--gold);fill:none;stroke-width:2.2}
+.pk .price{font:800 1.4rem/1.1 var(--f-display);text-transform:uppercase;padding-top:18px;border-top:1px dashed var(--line-2)}
+.pk .price small{display:block;font:400 .84rem var(--f-body);text-transform:none;color:var(--muted);margin-top:4px}
+.pk .btn{justify-content:center}
+@media (max-width:920px){.pk-grid{grid-template-columns:1fr;border:0;gap:16px}.pk{border:1px solid var(--line)!important;border-radius:6px}.pk.feat{margin:0;border-color:var(--gold)!important}}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:48px;align-items:start}
+@media (max-width:860px){.faq-grid{grid-template-columns:1fr}}
+.faq-grid .head{display:block;margin:0;position:sticky;top:110px}
+.faq-grid .head h2{margin-top:18px}
+@media (max-width:860px){.faq-grid .head{position:static}}
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:40px 1fr 28px;gap:12px;align-items:center;padding:24px 0;font-weight:600;font-size:1.08rem;transition:color .2s}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--gold-2)}
+.faq summary .n{font:500 .72rem var(--f-mono);color:var(--dim)}
+.faq summary .pm{width:28px;height:28px;border:1px solid var(--line-2);border-radius:50%;position:relative;transition:transform .3s var(--ease),background .2s,border-color .2s}
+.faq summary .pm::before,.faq summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;background:var(--gold);transform:translate(-50%,-50%)}
+.faq summary .pm::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s var(--ease)}
+.faq details[open] .pm{background:var(--gold-soft);border-color:var(--gold)}
+.faq details[open] .pm::after{transform:translate(-50%,-50%) rotate(0)}
+.faq details p{padding:0 40px 26px 52px;color:var(--muted);max-width:62ch}
+@media (max-width:520px){.faq details p{padding-left:0;padding-right:0}}
+
+
+/* areas */
+.areas-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.areas-grid{grid-template-columns:1fr}}
+.area{border:1px solid var(--line);border-radius:6px;padding:clamp(24px,3vw,36px);display:grid;gap:18px;align-content:start;background:var(--bg-2)}
+.area-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.area h3{font-size:clamp(2.2rem,4vw,3.2rem)}
+.area .ar-n{font-family:var(--f-ar);color:var(--gold);font-size:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 .76rem var(--f-mono);letter-spacing:.04em;padding:7px 11px;border:1px solid var(--line-2);border-radius:2px;color:var(--muted)}
+.area-note{color:var(--muted);font-size:.95rem}
+
+/* contact */
+.contact{background:var(--bg-2);border-top:1px solid var(--line)}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(36px,6vw,80px);align-items:start}
+@media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
+.contact h2{font-size:clamp(3rem,7vw,5.6rem);margin-top:18px}
+.contact h2 em{font-style:normal;color:var(--gold)}
+.contact .lede{margin-top:18px}
+.cbox{display:grid;margin-top:36px;border-top:1px solid var(--line)}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.crow .k{font:500 .66rem var(--f-mono);text-transform:uppercase;letter-spacing:.14em;color:var(--dim)}
+.crow .v{font:800 1.5rem/1.2 var(--f-display);letter-spacing:.02em;user-select:all;word-break:break-word}
+.copy{font:500 .74rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-2);background:transparent;color:var(--ink);border-radius:3px;padding:8px 12px;cursor:pointer;text-decoration:none;transition:border-color .2s,color .2s}
+.copy:hover{border-color:var(--gold);color:var(--gold-2)}
+.copy.ok{border-color:var(--wa);color:#6FD49B}
+.socials{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+form.lead{background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:clamp(24px,3.4vw,40px);display:grid;gap:18px;position:relative}
+form.lead::before{content:"Quote request · via WhatsApp";position:absolute;top:-11px;left:24px;background:var(--bg-2);padding:0 10px;font:500 .66rem/22px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.field{display:grid;gap:7px}
+.field label{font:500 .7rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{font:inherit;font-size:1rem;padding:13px 14px;border:1px solid var(--line-2);border-radius:3px;background:var(--bg);color:var(--ink);width:100%;transition:border-color .2s,box-shadow .2s}
+.field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+.field input::placeholder,.field textarea::placeholder{color:var(--dim)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+.field textarea{min-height:120px;resize:vertical}
+.field.err input{border-color:var(--live)}
+.field .msg{font-size:.82rem;color:#F08A78;display:none}
+.field.err .msg{display:block}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:540px){.two{grid-template-columns:1fr}}
+.form-end{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.form-note{font-size:.86rem;color:var(--muted)}
+.sent{padding:14px 16px;border-radius:3px;background:rgba(47,168,102,.12);border:1px solid rgba(47,168,102,.4);font-size:.93rem}
+.sent a{color:#6FD49B}
+
+footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--muted);font-size:.88rem;overflow:hidden}
+.big-mark{font:900 clamp(4rem,17vw,15rem)/.8 var(--f-display);text-transform:uppercase;color:transparent;-webkit-text-stroke:1px var(--line-2);letter-spacing:-.01em;white-space:nowrap;margin-bottom:28px;user-select:none}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.74rem;letter-spacing:.04em}
+
+.wa-float{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.45);transition:transform .2s var(--ease)}
+.wa-float:hover{transform:scale(1.07)}
+.wa-float::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wa);animation:ping 2.6s var(--ease) infinite}
+@keyframes ping{from{transform:scale(1);opacity:.7}to{transform:scale(1.6);opacity:0}}
+.wa-float svg{width:28px;height:28px;fill:#fff}
+
+/* motion */
+@media (prefers-reduced-motion: no-preference){
+  .js .rv{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+  .js .rv.in{opacity:1;transform:none}
+  .hero h1 .l span{animation:rise 1s var(--ease) both;animation-delay:calc(var(--i)*.1s + .1s)}
+  .hero .fade{animation:fadeup .9s var(--ease) both;animation-delay:var(--d,.5s)}
+  .wall{animation:wallin 1.2s var(--ease) .25s both}
+}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+@keyframes fadeup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes wallin{from{opacity:0;transform:translateY(30px) rotate(3deg)}to{opacity:1;transform:rotate(1.2deg)}}
+@media (max-width:960px){@keyframes wallin{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <div class="logo-wrapper"><img src="images/logo.png" alt="Queen Tech" style="height: 75px; width: 75px; object-fit: contain;"></div>
-                <span class="fw-bold text-white ms-3 d-none d-sm-block" style="letter-spacing: 1px;">QUEEN TECH SOLUTIONS</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto text-center">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item d-flex align-items-center justify-content-center ms-lg-3 mt-2 mt-lg-0">
-                        <a class="nav-link px-2" href="https://www.facebook.com/AQTS74" target="_blank"><i class="fab fa-facebook fs-5"></i></a>
-                        <a class="nav-link px-2" href="https://www.instagram.com/qts_74" target="_blank"><i class="fab fa-instagram fs-5"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<script>document.documentElement.classList.add("js")</script>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="#home" aria-label="Queen Tech Solutions home">
+      <svg class="crown" viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" rx="5" fill="none" stroke="var(--gold)"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="var(--gold)"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="var(--gold)"/></svg>
+      <span><b>Queen Tech</b><small>Solutions · Dubai · Abu Dhabi</small></span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a class="hide-sm" href="#services">Services</a>
+      <a class="hide-sm" href="#who">Who we serve</a>
+      <a class="hide-sm" href="#packages">Packages</a>
+      <a class="hide-sm" href="#areas">Areas</a>
+      <a class="hide-sm" href="#faq">FAQ</a>
+      <a class="btn btn-gold" href="#contact">Free site visit</a>
     </nav>
+    <div class="clock" aria-hidden="true"><i></i><span>DXB</span><span id="clk">--:--:--</span><span>GST</span></div>
+  </div>
+</header>
 
-    <header id="home" class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-4">Empowering Your Business with <span style="color: var(--gold-accent);">Cutting-Edge IT</span></h1>
-            <p class="lead mb-5 fs-4">Comprehensive IT maintenance, networking, and CCTV systems in Dubai.</p>
-            <a href="#services" class="btn btn-primary btn-lg me-sm-2 mb-3 mb-sm-0">Explore Our Services</a>
-            <a href="#contact" class="btn btn-outline-light btn-lg">Get a Free Consultation</a>
+<main id="home">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="tag fade" style="--d:.05s">CCTV · Access control · IT · Repairs · Dubai &amp; Abu Dhabi</span>
+      <h1 aria-label="Your office and shop, connected and protected.">
+        <span class="l" aria-hidden="true"><span style="--i:0">Your office</span></span>
+        <span class="l" aria-hidden="true"><span style="--i:1" class="out">&amp; shop,</span></span>
+        <span class="l" aria-hidden="true"><span style="--i:2"><em>connected</em></span></span>
+        <span class="l" aria-hidden="true"><span style="--i:3">&amp; protected.</span></span>
+      </h1>
+      <p class="ar fade" lang="ar" style="--d:.55s">كاميرات المراقبة، أنظمة الدخول، الشبكات وصيانة الكمبيوتر والجوال في دبي وأبوظبي</p>
+      <p class="lede fade" style="--d:.65s">We install CCTV, access control and gate barriers, build reliable networks, and repair PCs, laptops and phones. One team for all of it, with a clear quote before any work starts.</p>
+      <div class="cta-row fade" style="--d:.75s">
+        <a class="btn btn-wa" href="https://wa.me/971557971520?text=Hello%20Queen%20Tech%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg>
+          WhatsApp us
+        </a>
+        <a class="btn btn-line" href="tel:+971557971520"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call +971 55 797 1520</a>
+      </div>
+      <ul class="promise fade" style="--d:.85s">
+        <li><b>01</b>Free site survey</li>
+        <li><b>02</b>Written quote first</li>
+        <li><b>03</b>Support after installation</li>
+      </ul>
+    </div>
+
+    <figure class="wall" aria-label="Example monitoring screen with four CCTV camera feeds and network status, as set up for a retail client" style="margin:0">
+      <div class="wall-bar"><span>NVR-01 · Retail unit · 4 ch</span><span class="rec"><i></i>REC</span></div>
+      <div class="feeds" aria-hidden="true">
+        <div class="feed big">
+          <svg viewBox="0 0 320 140" preserveAspectRatio="xMidYMid slice"><rect width="320" height="140" fill="#262b22"/><path d="M0 140 L120 70 H200 L320 140Z" fill="#30362b"/><rect x="120" y="22" width="80" height="48" fill="#3b4235"/><rect x="128" y="28" width="30" height="42" fill="#4a5342"/><rect x="162" y="28" width="30" height="42" fill="#4a5342"/><path d="M0 0 L120 22 V70 L0 140Z" fill="#20241d"/><path d="M320 0 L200 22 V70 L320 140Z" fill="#20241d"/><ellipse cx="160" cy="112" rx="60" ry="10" fill="#2a3025"/><g fill="#141712"><circle cx="150" cy="70" r="6"/><rect x="144" y="76" width="12" height="24" rx="4"/></g></svg>
+          <div class="sweep"></div>
+          <div class="box" data-l="PERSON 0.94" style="left:44%;top:44%;width:9%;height:32%"></div>
+          <div class="hud"><div><span>CAM 01 · ENTRANCE</span><span class="ts">--</span></div><div><span>4MP · H.265</span><span>IR AUTO</span></div></div>
         </div>
-    </header>
-
-    <section id="about" class="py-5 bg-light">
-        <div class="container text-center">
-            <h2 class="fw-bold mb-5">Connect With Us</h2>
-            <div class="row justify-content-center g-4 mb-5">
-                <div class="col-6 col-md-2">
-                    <i class="fas fa-map-marker-alt fs-3 mb-2 text-primary"></i>
-                    <p><a href="https://share.google/zmrf8CnZ1TSqrZ1Ls" class="text-dark text-decoration-none" target="_blank">Our Location</a></p>
-                </div>
-                <div class="col-6 col-md-2">
-                    <i class="fas fa-envelope fs-3 mb-2 text-primary"></i>
-                    <p><a href="mailto:info@queentechsolution.info" class="text-dark text-decoration-none">Email Us</a></p>
-                </div>
-                <div class="col-6 col-md-2">
-                    <i class="fab fa-whatsapp fs-3 mb-2 text-success"></i>
-                    <p><a href="https://wa.me/971563373437" class="text-dark text-decoration-none" target="_blank">WhatsApp</a></p>
-                </div>
-                <div class="col-6 col-md-2">
-                    <i class="fab fa-facebook fs-3 mb-2 text-primary"></i>
-                    <p><a href="https://www.facebook.com/AQTS74" class="text-dark text-decoration-none" target="_blank">Facebook</a></p>
-                </div>
-                <div class="col-6 col-md-2">
-                    <i class="fab fa-instagram fs-3 mb-2 text-danger"></i>
-                    <p><a href="https://www.instagram.com/qts_74" class="text-dark text-decoration-none" target="_blank">Instagram</a></p>
-                </div>
-            </div>
-            <a href="https://share.google/zmrf8CnZ1TSqrZ1Ls" target="_blank" class="btn btn-outline-primary px-5 py-2 fw-bold">OUR LOCATION</a>
+        <div class="feed">
+          <svg viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice"><rect width="160" height="120" fill="#232820"/><path d="M0 70 H160 V120 H0Z" fill="#2e3429"/><rect x="20" y="58" width="120" height="22" fill="#3d4537"/><rect x="96" y="44" width="26" height="16" rx="2" fill="#4c5544"/><rect x="40" y="40" width="22" height="18" fill="#353c30"/><circle cx="70" cy="34" r="7" fill="#171a14"/><rect x="62" y="41" width="16" height="20" rx="5" fill="#171a14"/></svg>
+          <div class="hud"><div><span>CAM 02 · TILL</span></div><div><span class="ts">--</span><span>2.8MM</span></div></div>
         </div>
-    </section>
-
-    <section id="services" class="py-5">
-        <div class="container text-center">
-            <h2 class="fw-bold mb-5 text-uppercase">Our Services</h2>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="card h-100 shadow-sm p-4 border-top border-4 border-primary">
-                        <i class="fas fa-tools service-icon"></i>
-                        <h5 class="fw-bold">IT Maintenance</h5>
-                        <p class="text-muted">Proactive hardware & software support for business flow.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card h-100 shadow-sm p-4 border-top border-4 border-primary">
-                        <i class="fas fa-video service-icon"></i>
-                        <h5 class="fw-bold">CCTV Systems</h5>
-                        <p class="text-muted">HD security camera installation and configuration.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card h-100 shadow-sm p-4 border-top border-4 border-primary">
-                        <i class="fas fa-network-wired service-icon"></i>
-                        <h5 class="fw-bold">Networking</h5>
-                        <p class="text-muted">Secure WiFi and network infrastructure design.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="card h-100 shadow-sm p-4 border-top border-4 border-primary">
-                        <i class="fas fa-server service-icon"></i>
-                        <h5 class="fw-bold">Data Backup</h5>
-                        <p class="text-muted">Reliable automated backup for critical files.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="feed">
+          <svg viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice"><rect width="160" height="120" fill="#20251d"/><g fill="#363d31"><rect x="10" y="16" width="44" height="96"/><rect x="106" y="16" width="44" height="96"/></g><g fill="#2a3025"><rect x="14" y="34" width="36" height="2"/><rect x="14" y="58" width="36" height="2"/><rect x="14" y="82" width="36" height="2"/><rect x="110" y="34" width="36" height="2"/><rect x="110" y="58" width="36" height="2"/><rect x="110" y="82" width="36" height="2"/></g><g fill="#4a5342"><rect x="16" y="22" width="14" height="12"/><rect x="34" y="46" width="12" height="12"/><rect x="114" y="70" width="16" height="12"/><rect x="128" y="22" width="12" height="12"/></g></svg>
+          <div class="hud"><div><span>CAM 03 · STOCK</span></div><div><span class="ts">--</span><span>IR ON</span></div></div>
         </div>
-    </section>
+      </div>
+      <div class="wall-foot" aria-hidden="true">
+        <div class="stat"><div class="k">AP-1 · WiFi 6</div><div class="v"><span id="mbps">412</span><small>Mbps</small></div><div class="bars"><i style="animation-delay:-.2s"></i><i style="animation-delay:-.9s"></i><i style="animation-delay:-.5s"></i><i style="animation-delay:-1.1s"></i><i style="animation-delay:-.3s"></i><i style="animation-delay:-.7s"></i></div></div>
+        <div class="stat"><div class="k">Storage</div><div class="v">27<small>days kept</small></div></div>
+        <div class="stat"><div class="k">Backup</div><div class="v">02:00<small>daily ✓</small></div></div>
+      </div>
+      <figcaption class="wall-note"><b>Watch live</b>on your phone, from anywhere.</figcaption>
+    </figure>
+  </div>
+</section>
 
-    <section id="projects" class="py-5 bg-light">
-        <div class="container text-center">
-            <h2 class="fw-bold mb-5">Latest Projects</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80" style="height:220px; object-fit:cover;" alt="CCTV">
-                        <div class="card-body"><h5>CCTV Hub Setup</h5><p class="text-muted">Business Tower, Dubai</p></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" style="height:220px; object-fit:cover;" alt="Network">
-                        <div class="card-body"><h5>Network Overhaul</h5><p class="text-muted">Enterprise Warehouse</p></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" style="height:220px; object-fit:cover;" alt="Server">
-                        <div class="card-body"><h5>Server Support</h5><p class="text-muted">Tech Startup Facility</p></div>
-                    </div>
-                </div>
-            </div>
-            <a href="https://www.facebook.com/AQTS74" target="_blank" class="btn btn-primary mt-5 px-5">BE FREE TO JOIN US ON FACEBOOK</a>
-        </div>
-    </section>
+<div class="ticker" aria-hidden="true"><div class="ticker-track">
+  <span>CCTV installation</span><span>Access control</span><span>Gate barriers</span><span>Business WiFi</span><span>Laptop repair</span><span>Mobile repair</span><span>Software installation</span><span>Data backup</span><span>IT support</span>
+  <span>CCTV installation</span><span>Access control</span><span>Gate barriers</span><span>Business WiFi</span><span>Laptop repair</span><span>Mobile repair</span><span>Software installation</span><span>Data backup</span><span>IT support</span>
+</div></div>
 
-    <section id="contact">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-5 mb-5 mb-md-0">
-                    <h2 class="fw-bold mb-4">Ready to Secure Your Business?</h2>
-                    <p class="mb-3"><i class="fas fa-envelope me-3 text-warning fs-4"></i> info@queentechsolution.info</p>
-                    <p class="mb-3"><i class="fab fa-whatsapp me-3 text-success fs-4"></i> +971 56 337 3437</p>
-                    <p class="mb-3"><i class="fas fa-map-marker-alt me-3 text-primary fs-4"></i> Dubai, UAE</p>
-                </div>
-                <div class="col-md-7">
-                    <form name="contact" method="POST" data-netlify="true" class="bg-white p-5 rounded shadow text-dark">
-                        <input type="hidden" name="form-name" value="contact">
-                        <div class="mb-3"><label class="form-label fw-bold">Full Name</label><input type="text" name="name" class="form-control bg-light" required></div>
-                        <div class="mb-3"><label class="form-label fw-bold">Email Address</label><input type="email" name="email" class="form-control bg-light" required></div>
-                        <div class="mb-3"><label class="form-label fw-bold">How can we help?</label><textarea name="message" class="form-control bg-light" rows="4" required></textarea></div>
-                        <button type="submit" class="btn btn-primary w-100 shadow">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag rv">Services</span>
+      <h2 class="rv">Everything your business runs on, set up properly.</h2>
+      <p class="lede rv" style="--d:.1s">Security systems, networks and repairs from one team. We plan each job around your space and budget, then do it neatly and show you how everything works.</p>
+    </div>
+    <div class="svc-list">
+      <article class="svc rv">
+        <span class="num">01 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 8l12-4 2 6-12 4z"/><path d="M8 13l1 5h4"/><circle cx="12" cy="8" r="1.4"/><path d="M17 10l4 1"/></svg></span><h3>CCTV &amp; security cameras</h3><p>Cameras placed where they matter: entrances, tills, stock rooms and parking.</p></div>
+        <ul>
+          <li>Site survey and camera layout plan</li>
+          <li>HD and night-vision IP cameras</li>
+          <li>Recorder (NVR) with weeks of stored footage</li>
+          <li>Live view and playback on your phone</li>
+          <li>Upgrades and repairs for existing systems</li>
+          <li class="specs"><span class="spec">4MP / 8MP</span><span class="spec">Night vision</span><span class="spec">PoE</span><span class="spec">Mobile app</span></li>
+        </ul>
+      </article>
+      <article class="svc rv">
+        <span class="num">02 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><rect x="9" y="5.5" width="6" height="4" rx="1"/><path d="M9 13h.01M12 13h.01M15 13h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span><h3>Access control</h3><p>Control who enters your office, server room or staff areas, with a record of every entry.</p></div>
+        <ul>
+          <li>Card, PIN, fingerprint and face readers</li>
+          <li>Magnetic locks and door controllers</li>
+          <li>Staff attendance records</li>
+          <li>Installation of new systems</li>
+          <li>Repair and maintenance of existing systems</li>
+          <li class="specs"><span class="spec">RFID card</span><span class="spec">Biometric</span><span class="spec">Attendance</span><span class="spec">Maintenance</span></li>
+        </ul>
+      </article>
+      <article class="svc rv">
+        <span class="num">03 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="10" width="4" height="11" rx="1"/><path d="M7 13h14"/><path d="M10 11v4M13 11v4M16 11v4M19 11v4"/><path d="M2 21h20"/></svg></span><h3>Gate barriers</h3><p>Automatic barriers for parking areas, buildings and compounds, controlled the way that suits your site.</p></div>
+        <ul>
+          <li>Barrier supply and installation</li>
+          <li>Remote, card or number-plate control</li>
+          <li>Safety sensors and loop detectors</li>
+          <li>Regular servicing and maintenance</li>
+          <li>Repairs and spare parts</li>
+          <li class="specs"><span class="spec">Parking</span><span class="spec">Remote</span><span class="spec">ANPR</span><span class="spec">Maintenance</span></li>
+        </ul>
+      </article>
+      <article class="svc rv">
+        <span class="num">04 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg></span><h3>Networking &amp; WiFi</h3><p>Fast, stable internet in every corner of your office or shop, with a separate network for guests.</p></div>
+        <ul>
+          <li>Structured cabling and network cabinets</li>
+          <li>Business WiFi with full coverage</li>
+          <li>Guest WiFi kept apart from your systems</li>
+          <li>Firewall and secure remote access</li>
+          <li>Fixing slow or dropping connections</li>
+          <li class="specs"><span class="spec">Cat6</span><span class="spec">WiFi 6</span><span class="spec">VLAN</span><span class="spec">Firewall</span></li>
+        </ul>
+      </article>
+      <article class="svc rv">
+        <span class="num">05 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M14.5 8.5l-3 3-1.5-1.5"/></svg></span><h3>IT maintenance &amp; support</h3><p>Someone to call when a computer, printer or email stops working, plus regular checks so it happens less.</p></div>
+        <ul>
+          <li>Email and Microsoft 365 setup</li>
+          <li>Printer and device setup</li>
+          <li>Antivirus and security updates</li>
+          <li>On-site and remote support</li>
+          <li>Monthly support plans for small offices</li>
+          <li class="specs"><span class="spec">On-site</span><span class="spec">Remote</span><span class="spec">Monthly plans</span></li>
+        </ul>
+      </article>
+      <article class="svc rv">
+        <span class="num">06 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="11" rx="1.5"/><path d="M2 19h20"/><path d="M12 7.5v4M10 9.5h4"/></svg></span><h3>PC &amp; laptop repair</h3><p>Hardware and software repairs for desktops and laptops, for businesses and individuals.</p></div>
+        <ul>
+          <li>Slow, crashing or not turning on</li>
+          <li>Screen, keyboard, battery and charger</li>
+          <li>SSD and RAM upgrades</li>
+          <li>Virus removal and Windows reinstall</li>
+          <li>Overheating, fan and cleaning service</li>
+          <li class="specs"><span class="spec">Hardware</span><span class="spec">Software</span><span class="spec">Upgrades</span></li>
+        </ul>
+      </article>
+      <article class="svc rv">
+        <span class="num">07 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg></span><h3>Mobile phone repair</h3><p>Software and hardware fixes for iPhone and Android phones.</p></div>
+        <ul>
+          <li>Screen and battery replacement</li>
+          <li>Charging port, speaker and mic problems</li>
+          <li>Software updates and system restore</li>
+          <li>Phone stuck, slow or not starting</li>
+          <li>Data transfer to a new phone</li>
+          <li class="specs"><span class="spec">iPhone</span><span class="spec">Android</span><span class="spec">Hardware</span><span class="spec">Software</span></li>
+        </ul>
+      </article>
+      <article class="svc rv">
+        <span class="num">08 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/><path d="M12 11v6M9 14l3 3 3-3"/></svg></span><h3>Software installation</h3><p>The programs your work depends on, installed, activated and set up correctly.</p></div>
+        <ul>
+          <li>Windows and macOS installation</li>
+          <li>Microsoft Office and Microsoft 365</li>
+          <li>Accounting, POS and business software</li>
+          <li>Drivers, printers and email setup</li>
+          <li>Licensed software and activation</li>
+          <li class="specs"><span class="spec">Windows</span><span class="spec">macOS</span><span class="spec">Office</span><span class="spec">POS</span></li>
+        </ul>
+      </article>
+      <article class="svc rv">
+        <span class="num">09 /</span>
+        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span><h3>Laptop &amp; data backup</h3><p>Copies of your files and photos, so a broken or stolen laptop does not mean losing everything.</p></div>
+        <ul>
+          <li>Laptop and PC backup</li>
+          <li>Automatic daily backups for offices</li>
+          <li>External drive, NAS or cloud copies</li>
+          <li>Backups for accounts, POS and shared folders</li>
+          <li>Restore testing so you know it works</li>
+          <li class="specs"><span class="spec">Laptop</span><span class="spec">NAS</span><span class="spec">Cloud</span><span class="spec">Daily</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
 
-    <footer class="bg-black text-white text-center py-4 mt-5">
-        <p class="mb-0">&copy; 2026 Queen Tech Solutions. All Rights Reserved.</p>
-    </footer>
+<section class="sec aud" id="who">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag rv">Who we serve</span>
+      <h2 class="rv">Built for businesses that <span class="out">cannot afford</span> downtime.</h2>
+      <p class="lede rv" style="--d:.1s">Businesses of every size, and individuals who need a device fixed or a home secured. If that sounds like you, we already know what you need.</p>
+    </div>
+    <div class="aud-grid">
+      <div class="aud-card rv">
+        <svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="k">Offices &amp; companies</span>
+        <h3>Keep your team working.</h3>
+        <ul>
+          <li><span>A</span>Office network and WiFi for every desk and meeting room</li>
+          <li><span>B</span>New staff laptops set up and ready on day one</li>
+          <li><span>C</span>Email, shared files and printers that just work</li>
+          <li><span>D</span>Backups and security for client data</li>
+          <li><span>E</span>Access control and attendance for staff doors</li>
+          <li><span>F</span>Laptop repairs, upgrades and software setup</li>
+        </ul>
+      </div>
+      <div class="aud-card rv" style="--d:.15s">
+        <svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l2-5h14l2 5M3 9v11h18V9M3 9h18"/><path d="M9 20v-6h6v6"/></svg>
+        <span class="k">Shops &amp; restaurants</span>
+        <h3>See everything, lose nothing.</h3>
+        <ul>
+          <li><span>A</span>CCTV over tills, entrances, kitchen and stock room</li>
+          <li><span>B</span>Watch your branch live from your phone</li>
+          <li><span>C</span>Reliable connection for POS and delivery apps</li>
+          <li><span>D</span>Separate guest WiFi for customers</li>
+          <li><span>E</span>Gate barriers for parking areas</li>
+          <li><span>F</span>Fast help when something stops during opening hours</li>
+        </ul>
+      </div>
+      <div class="aud-card rv" style="--d:.3s">
+        <svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>
+        <span class="k">End users &amp; homes</span>
+        <h3>Fixed, set up, backed up.</h3>
+        <ul>
+          <li><span>A</span>Laptop and PC repairs and upgrades</li>
+          <li><span>B</span>Phone screen, battery and software fixes</li>
+          <li><span>C</span>Software installation and Windows setup</li>
+          <li><span>D</span>Backup of your photos and files</li>
+          <li><span>E</span>Home CCTV and villa gate barriers</li>
+          <li><span>F</span>Home WiFi that reaches every room</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <a href="https://wa.me/971563373437" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<section class="sec" id="process">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag rv">How we work</span>
+      <h2 class="rv">From first message to finished job.</h2>
+    </div>
+    <ol class="steps">
+      <li class="rv"><h3>Message us</h3><p>Tell us what you need on WhatsApp, phone or the form below.</p></li>
+      <li class="rv" style="--d:.08s"><h3>Site visit</h3><p>We come to your location, check the space and listen to what matters to you.</p></li>
+      <li class="rv" style="--d:.16s"><h3>Clear quote</h3><p>You get a written quote with equipment and price. No surprises.</p></li>
+      <li class="rv" style="--d:.24s"><h3>Installation</h3><p>Neat cabling and setup, planned around your opening hours.</p></li>
+      <li class="rv" style="--d:.32s"><h3>Handover &amp; support</h3><p>We show your team how it works and stay available after.</p></li>
+    </ol>
+  </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<section class="sec" id="packages" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag rv">Popular packages</span>
+      <h2 class="rv">A starting point for most jobs.</h2>
+      <p class="lede rv" style="--d:.1s">Every site is different, so we confirm the final price after a free visit.</p>
+    </div>
+    <div class="pk-grid rv">
+      <div class="pk">
+        <span class="for">For shops &amp; restaurants</span>
+        <h3>Shop CCTV kit</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>4 HD night-vision cameras</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Recorder with stored footage</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Phone app setup</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Installation and cabling</li>
+        </ul>
+        <p class="price">Price on request<small>Free site survey included</small></p>
+        <a class="btn btn-line" href="#contact" data-pick="Shop CCTV kit">Get a price <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+      <div class="pk feat">
+        <span class="ribbon">Most requested</span>
+        <span class="for">For offices</span>
+        <h3>Office network setup</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Network cabinet and cabling</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Business WiFi across the office</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Firewall and guest network</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Printers and devices connected</li>
+        </ul>
+        <p class="price">Price on request<small>Based on office size</small></p>
+        <a class="btn btn-gold" href="#contact" data-pick="Office network setup">Get a price <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+      <div class="pk">
+        <span class="for">For offices &amp; shops</span>
+        <h3>Monthly IT support</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Remote help when you need it</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Regular on-site checks</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Updates, antivirus and backups</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>One fixed monthly fee</li>
+        </ul>
+        <p class="price">Price on request<small>Based on number of users</small></p>
+        <a class="btn btn-line" href="#contact" data-pick="Monthly IT support">Get a price <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="wrap faq-grid">
+    <div class="head">
+      <span class="tag rv">Questions</span>
+      <h2 class="rv">Common questions.</h2>
+    </div>
+    <div class="faq rv">
+      <details><summary><span class="n">Q.01</span>Do you visit the site before giving a price?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We visit for free, check the space, and then send a written quote. You only pay if you decide to go ahead.</p></details>
+      <details><summary><span class="n">Q.02</span>Can I watch my cameras from my phone?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We set up the app on your phone and show you how to watch live and play back recordings from anywhere.</p></details>
+      <details><summary><span class="n">Q.03</span>How long is the footage kept?<span class="pm" aria-hidden="true"></span></summary><p>It depends on the number of cameras and the recorder's storage. We size the storage to match how many days of footage you need.</p></details>
+      <details><summary><span class="n">Q.04</span>Can you fix or upgrade a system someone else installed?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We regularly repair, extend and upgrade existing cameras, networks and computers.</p></details>
+      <details><summary><span class="n">Q.05</span>Do you repair laptops and phones for individuals?<span class="pm" aria-hidden="true"></span></summary><p>Yes. Send us the device model and the problem on WhatsApp, and we will tell you the likely fix and cost before you bring it in.</p></details>
+      <details><summary><span class="n">Q.06</span>Do you service gate barriers and access control installed by others?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We repair and maintain most common barrier and access control brands, and can set up regular maintenance visits so problems are caught early.</p></details>
+      <details><summary><span class="n">Q.07</span>Do you work in Abu Dhabi as well as Dubai?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We cover both Dubai and Abu Dhabi for installations, maintenance and on-site repairs.</p></details>
+      <details><summary><span class="n">Q.08</span>Can you work outside business hours?<span class="pm" aria-hidden="true"></span></summary><p>For shops and restaurants we can plan installation around opening hours so your customers are not disturbed.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="areas" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag rv">Where we work</span>
+      <h2 class="rv">Dubai &amp; Abu Dhabi.</h2>
+      <p class="lede rv" style="--d:.1s">We come to you for installations, site surveys and on-site repairs across both emirates. Not sure if we cover your area? Send us a message.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area rv">
+        <div class="area-top"><h3>Dubai</h3><span class="ar-n" lang="ar">دبي</span></div>
+        <div class="chips"><span class="chip">Business Bay</span><span class="chip">Downtown</span><span class="chip">Deira</span><span class="chip">Bur Dubai</span><span class="chip">Al Quoz</span><span class="chip">Al Barsha</span><span class="chip">JLT</span><span class="chip">Dubai Marina</span><span class="chip">Silicon Oasis</span><span class="chip">Jebel Ali</span></div>
+        <p class="area-note">And other areas across Dubai.</p>
+      </div>
+      <div class="area rv" style="--d:.12s">
+        <div class="area-top"><h3>Abu Dhabi</h3><span class="ar-n" lang="ar">أبوظبي</span></div>
+        <div class="chips"><span class="chip">Abu Dhabi City</span><span class="chip">Al Reem Island</span><span class="chip">Mussafah</span><span class="chip">Khalifa City</span><span class="chip">Mohammed Bin Zayed City</span><span class="chip">Al Raha</span><span class="chip">Yas Island</span></div>
+        <p class="area-note">And other areas across Abu Dhabi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <span class="tag rv">Contact</span>
+      <h2 class="rv">Book your <em>free</em> site visit.</h2>
+      <p class="lede rv">Message us with what you need. We usually reply on WhatsApp the same day.</p>
+      <div class="cbox rv">
+        <div class="crow"><div><div class="k">Phone &amp; WhatsApp</div><div class="v">+971 55 797 1520</div></div><button class="copy" type="button" data-copy="+971557971520">Copy</button></div>
+        <div class="crow"><div><div class="k">Email</div><div class="v">info@queentechsolution.info</div></div><button class="copy" type="button" data-copy="info@queentechsolution.info">Copy</button></div>
+        <div class="crow"><div><div class="k">Location</div><div class="v">Dubai &amp; Abu Dhabi, UAE</div></div><a class="copy" href="https://share.google/zmrf8CnZ1TSqrZ1Ls" target="_blank" rel="noopener">Open map ↗</a></div>
+      </div>
+      <div class="socials rv">
+        <a class="btn btn-line" href="https://www.facebook.com/AQTS74" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn btn-line" href="https://www.instagram.com/qts_74" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+
+    <form class="lead rv" id="leadForm" novalidate style="--d:.1s">
+      <div class="two">
+        <div class="field" id="fld-name"><label for="f-name">Your name</label><input id="f-name" name="name" required autocomplete="name" aria-describedby="err-name"><span class="msg" id="err-name">Please enter your name so we know who to reply to.</span></div>
+        <div class="field"><label for="f-company">Business name</label><input id="f-company" name="company" autocomplete="organization"></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="f-type">Type of business</label>
+          <select id="f-type" name="type"><option>Office / company</option><option>Shop</option><option>Restaurant / cafe</option><option>End user / home</option><option>Other</option></select></div>
+        <div class="field"><label for="f-need">What do you need?</label>
+          <select id="f-need" name="need"><option>CCTV cameras</option><option>Network / WiFi</option><option>IT support</option><option>Access control</option><option>Gate barrier</option><option>PC / laptop repair</option><option>Mobile phone repair</option><option>Software installation</option><option>Laptop / data backup</option><option>Shop CCTV kit</option><option>Office network setup</option><option>Monthly IT support</option><option>Not sure yet</option></select></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="f-city">Emirate</label><select id="f-city" name="city"><option>Dubai</option><option>Abu Dhabi</option><option>Other</option></select></div>
+        <div class="field"><label for="f-area">Area</label><input id="f-area" name="area" placeholder="e.g. Business Bay, Mussafah"></div>
+      </div>
+      <div class="field"><label for="f-msg">Tell us a little more</label><textarea id="f-msg" name="msg" placeholder="Number of cameras, office size, current problem…"></textarea></div>
+      <div class="form-end">
+        <button class="btn btn-wa" type="submit">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg>
+          Send on WhatsApp</button>
+        <p class="form-note">Your message opens in WhatsApp, ready to send to us.</p>
+      </div>
+      <div class="sent" id="sent" hidden role="status">WhatsApp should open with your message. If it didn't, <a id="sentLink" href="https://wa.me/971557971520" target="_blank" rel="noopener">tap here</a> or call +971 55 797 1520.</div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="big-mark" aria-hidden="true">Queen Tech</div>
+    <div class="foot">
+      <span>© 2026 Queen Tech Solutions · CCTV, access control, networking &amp; IT repair in Dubai &amp; Abu Dhabi, UAE</span>
+      <span>+971 55 797 1520 · info@queentechsolution.info</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/971557971520" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg></a>
+
+<script>
+(function(){
+  var WA="971557971520";
+  var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Dubai clock + feed timestamps
+  var clk=document.getElementById("clk"),ts=document.querySelectorAll(".feed .ts"),mb=document.getElementById("mbps");
+  function pad(n){return n<10?"0"+n:""+n}
+  function tick(){
+    var now=new Date(),d=new Date(now.getTime()+(now.getTimezoneOffset()+240)*60000); // GST = UTC+4
+    var t=pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds());
+    var day=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+    if(clk)clk.textContent=t;
+    ts.forEach(function(el,i){el.textContent=i===0?day+" "+t:t});
+    if(mb&&!reduce)mb.textContent=388+Math.floor(Math.random()*47);
+  }
+  tick();setInterval(tick,1000);
+
+  // scroll reveal
+  var rv=document.querySelectorAll(".rv");
+  if("IntersectionObserver" in window&&!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px",threshold:.08});
+    rv.forEach(function(el){io.observe(el)});
+  }else rv.forEach(function(el){el.classList.add("in")});
+
+  document.querySelectorAll("[data-pick]").forEach(function(a){
+    a.addEventListener("click",function(){var s=document.getElementById("f-need");if(s)s.value=a.getAttribute("data-pick");});
+  });
+  document.querySelectorAll("[data-copy]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var t=b.getAttribute("data-copy");
+      var done=function(){var o=b.textContent;b.textContent="Copied";b.classList.add("ok");setTimeout(function(){b.textContent=o;b.classList.remove("ok")},1500)};
+      try{navigator.clipboard.writeText(t).then(done,function(){sel(b)})}catch(e){sel(b)}
+    });
+  });
+  function sel(b){var v=b.parentElement.querySelector(".v");if(!v)return;var r=document.createRange();r.selectNodeContents(v);var s=getSelection();s.removeAllRanges();s.addRange(r);}
+
+  var f=document.getElementById("leadForm"),fn=document.getElementById("fld-name");
+  f.elements.name.addEventListener("input",function(){if(this.value.trim()){fn.classList.remove("err");this.removeAttribute("aria-invalid")}});
+  f.addEventListener("submit",function(e){
+    e.preventDefault();
+    var name=f.elements.name;
+    if(!name.value.trim()){fn.classList.add("err");name.setAttribute("aria-invalid","true");name.focus();return;}
+    var lines=["Hello Queen Tech, I'd like a quote.","Name: "+name.value.trim()];
+    if(f.elements.company.value.trim())lines.push("Business: "+f.elements.company.value.trim());
+    lines.push("Type: "+f.elements.type.value,"Need: "+f.elements.need.value);
+    lines.push("Location: "+f.elements.city.value+(f.elements.area.value.trim()?", "+f.elements.area.value.trim():""));
+    if(f.elements.msg.value.trim())lines.push("Details: "+f.elements.msg.value.trim());
+    var url="https://wa.me/"+WA+"?text="+encodeURIComponent(lines.join("\n"));
+    document.getElementById("sentLink").href=url;
+    document.getElementById("sent").hidden=false;
+    try{window.open(url,"_blank","noopener")}catch(err){}
+  });
+})();
+</script>
+
 </body>
 </html>
