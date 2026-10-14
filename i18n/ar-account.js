@@ -75,3 +75,4 @@ QT_AR.add({
   "Sent again. Check your inbox.":"تم الإرسال مرة أخرى. تحقّق من صندوق الوارد.",
   "We emailed you a link to set a new password.":"أرسلنا إلى بريدك الإلكتروني رابطاً لتعيين كلمة مرور جديدة."
 });
+QT_AR.add({"Privacy":"الخصوصية","Delete my account":"حذف حسابي"});

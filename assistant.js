@@ -31,17 +31,18 @@ var GAMER=[
   ["power","No power or no picture","الجهاز لا يعمل أو لا توجد صورة"],
   ["build","New build or upgrade","تجميع جهاز أو ترقية"]
 ];
+var B="(^|[\\s،,.؟?!:])";          /* Arabic has no \\b: match short Arabic words only as whole words */
 var INTENTS=[
-  {k:/steam|assetto|beam ?ng|gta|grand theft|buy (a )?game|game offer|ستيم|اسيتو|عروض الالعاب|عروض الألعاب|اشتري لعب|شراء لعب|تنصيب لعب|تسطيب لعب/i,a:"games"},
-  {k:/price|cost|how much|quote|rate|سعر|اسعار|أسعار|بكام|كام|تكلف|تكلفة|عرض سعر/i,a:"price"},
-  {k:/offer|discount|promo|sale|عرض|عروض|خصم|تخفيض/i,a:"offer"},
-  {k:/anydesk|remote|online fix|عن بعد|انى ديسك|اني ديسك|أني ديسك/i,a:"remote"},
-  {k:/where|location|address|office|area|abu dhabi|dubai|sharjah|فين|عنوان|مكان|موقع|مكتب|ابوظبي|أبوظبي|دبي|الشارقة/i,a:"where"},
-  {k:/visit|survey|book|appointment|technician|زيارة|معاينة|حجز|احجز|موعد|فني/i,a:"visit"},
-  {k:/bandwidth|storage|hard ?disk size|how many tb|boq|bill of quant|calculator|باندويث|تخزين|حاسبة|جدول الكميات/i,a:"tools"},
-  {k:/hours|open now|working time|مواعيد|ساعات العمل|مفتوح/i,a:"hours"},
-  {k:/^(hi|hello|hey|salam|السلام|مرحبا|اهلا|أهلا|هاي)\b/i,a:"hi"},
-  {k:/thank|thanks|شكرا|شكراً|تسلم/i,a:"thanks"}
+  {k:/\b(steam|assetto|beam ?ng|gta|grand theft)\b|buy (a )?game|game offers?|ستيم|اسيتو|عروض الالعاب|عروض الألعاب|اشتري لعب|شراء لعب|تنصيب لعب|تسطيب لعب/i,a:"games"},
+  {k:new RegExp("\\b(price|prices|pricing|cost|costs|how much|quote|rates?)\\b|سعر|أسعار|اسعار|بكام|تكلف|"+B+"كام($|[\\s؟?])","i"),a:"price"},
+  {k:/\b(offers?|discounts?|promo|sale|deals?)\b|عروض|خصم|تخفيض|العرض/i,a:"offer"},
+  {k:/\b(anydesk|remote(ly)?|online fix)\b|عن بعد|انى ديسك|اني ديسك|أني ديسك/i,a:"remote"},
+  {k:/\b(opening hours|working hours|open now|what time)\b|مواعيد العمل|ساعات العمل|مفتوحين/i,a:"hours"},
+  {k:/^\s*(hi|hello|hey|salam)\b|^\s*(السلام|مرحبا|مرحباً|اهلا|أهلا|هاي)/i,a:"hi"},
+  {k:/\bthank|شكرا|شكراً|تسلم/i,a:"thanks"},
+  {k:/where (are|is) (you|your)|your (office|shop|location|address)|\b(location|address)\b|فين|عنوان|مكانكم|مكانك|لوكيشن|موقعكم|مكتبكم/i,a:"where"},
+  {k:/\b(site visit|survey|book(ing)?|appointment|technician)\b|زيار|معاين|حجز|احجز|موعد/i,a:"visit"},
+  {k:/\b(bandwidth|storage|boq|calculator)\b|hard ?disk size|how many tb|bill of quant|باندويث|تخزين|حاسبة|جدول الكميات/i,a:"tools"}
 ];
 var HELP=null;
 function loadHelp(cb){

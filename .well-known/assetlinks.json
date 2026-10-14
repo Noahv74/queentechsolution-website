@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "info.queentechsolution.app",
+      "sha256_cert_fingerprints": [
+        "39:DB:4D:08:F9:F5:ED:87:DF:66:BE:8C:63:E4:AB:3C:9F:0D:38:FA:AF:74:B3:92:33:A6:24:D6:35:F6:3D:A3"
+      ]
+    }
+  }
+]

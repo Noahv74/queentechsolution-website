@@ -7,5 +7,7 @@ Disallow: /right-sidebar.html
 Disallow: /no-sidebar.html
 Disallow: /testfile
 Disallow: /ai-worker/
+Disallow: /android/
+Disallow: /offline.html
 
 Sitemap: https://queentechsolution.info/sitemap.xml

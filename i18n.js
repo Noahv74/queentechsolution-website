@@ -20,6 +20,18 @@
     try{localStorage.setItem(KEY,lang)}catch(e){}
   }
   window.QT_LANG=lang;
+  /* Running inside the installed app (Android app / installed PWA)? */
+  var APP=false;
+  try{
+    if(/[?&]source=(app|pwa)\b/.test(location.search)||document.referrer.indexOf("android-app://")===0)sessionStorage.setItem("qt-app","1");
+    APP=sessionStorage.getItem("qt-app")==="1"||matchMedia("(display-mode: standalone)").matches;
+  }catch(e){}
+  window.QT_APP=APP;if(APP)document.documentElement.classList.add("qt-app");
+  /* Install from Chrome (PWA) */
+  var installEvt=null;
+  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();installEvt=e;document.documentElement.classList.add("qt-can-install");document.dispatchEvent(new Event("qt-installable"))});
+  window.addEventListener("appinstalled",function(){installEvt=null;document.documentElement.classList.remove("qt-can-install")});
+  window.QT_INSTALL=function(){if(!installEvt)return false;var ev=installEvt;installEvt=null;ev.prompt();(ev.userChoice||Promise.resolve()).then(function(){document.documentElement.classList.remove("qt-can-install")});return true};
   var ls=document.createElement("style");ls.textContent=".lang-tg{display:inline-flex;align-items:center;color:var(--gold,#E2A63F)!important;border:1px solid var(--line-2,#4A443A);border-radius:3px;padding:5px 10px;font:600 .82rem/1.2 'Noto Kufi Arabic','Figtree',system-ui,sans-serif;text-decoration:none;white-space:nowrap}.lang-tg:hover{border-color:var(--gold,#E2A63F)}@media (max-width:520px){.lang-tg{padding:4px 7px;font-size:.74rem}.brand small{display:none!important}.links{gap:10px!important}.nav{gap:10px!important}.brand b{font-size:1.1rem!important}.brand .crown{width:30px!important;height:30px!important}.links .btn{padding:10px 11px!important;font-size:.8rem!important}}@media (max-width:380px){.links .btn{display:none!important}}";document.head.appendChild(ls);
   /* ---- Offers: everything ends 1 December 2026, 23:59 Dubai time. Change OFFER_END to extend. ---- */
   var OFFER_END=Date.UTC(2026,11,1,19,59,59);
@@ -32,7 +44,7 @@
   /* ---- Site-wide section bar (every page): one page per section, always visible under the header ---- */
   var STATIC=document.documentElement.hasAttribute("data-i18n-static");
   if(STATIC){var hl=document.documentElement.lang==="ar"?"ar":"en";lang=hl;window.QT_LANG=hl}
-  var PAGES=[["/","Home","الرئيسية",1],["/services.html","Services","الخدمات",1],["/price.html","Prices","الأسعار"],["/tools.html","Free tools","أدوات مجانية",1],["/tech.html","Tech corner","ركن الفنيين"],["/help.html","Help centre","مركز المساعدة"],["/gamers.html","Gamers & PC","الجيمرز والكمبيوتر",0,1],["/contact.html","Contact","تواصل معنا",1]];
+  var PAGES=[["/","Home","الرئيسية",1],["/services.html","Services","الخدمات",1],["/price.html","Prices","الأسعار"],["/tools.html","Free tools","أدوات مجانية",1],["/tech.html","Tech corner","ركن الفنيين"],["/help.html","Help centre","مركز المساعدة"],["/gamers.html","Gamers & PC","الجيمرز والكمبيوتر",0,1],["/contact.html","Contact","تواصل معنا",1],["/app.html","📲 App","📲 التطبيق",0,0,1]];
   window.QT_STATIC_AR={"/":"/ar/","/services.html":"/ar/services.html","/tools.html":"/ar/tools.html","/contact.html":"/ar/contact.html"};
   /* A returning visitor who picked a language lands on that version of the static pages. */
   if(STATIC){
@@ -54,6 +66,7 @@
     var nav=document.createElement("nav");nav.className="qt-sec";nav.setAttribute("aria-label",ar?"أقسام الموقع":"Site sections");nav.setAttribute("translate","no");
     var h='<div class="wrap qt-in">';
     PAGES.forEach(function(g){
+      if(g[5]&&APP)return;
       var href=ar&&g[3]?window.QT_STATIC_AR[g[0]]:g[0],on=p===g[0];
       h+='<a href="'+href+'"'+(on?' class="on" aria-current="page"':'')+'>'+(ar?g[2]:g[1].replace("&","&amp;"))+(g[4]?'<i>'+(ar?"جديد":"NEW")+'</i>':'')+'</a>';
     });
@@ -99,6 +112,8 @@
     document.addEventListener("keydown",key);
     bs.forEach(function(b){b.addEventListener("click",function(){var l=b.getAttribute("data-l");markChosen(l);var u=urlFor(l);if(u)location.href=u;else close()})});
   }
+  function sw(){if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"))navigator.serviceWorker.register("/sw.js").catch(function(){})}
+  if(document.readyState==="complete")setTimeout(sw,0);else window.addEventListener("load",sw);
   function boot(){secnav();offers();picker();if(!/\/(boq|account)\.html$/.test(location.pathname)){var as=document.createElement("script");as.src="/assistant.js";as.defer=true;document.body.appendChild(as)}}
   document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot):setTimeout(boot);
 
