@@ -1,0 +1,29 @@
+/* boq.html – right-to-left fixes for Arabic */
+html.rtl th{text-align:right;text-transform:none;font-size:.74rem}
+html.rtl th.num,html.rtl td.num{text-align:left}
+/* numbers with units (GB, TB, Mbps) and level counts (2 ID + 1 DET) read left to right */
+html.rtl td.num,html.rtl .tot span:last-child{direction:ltr}
+html.rtl td.static,html.rtl .pill{unicode-bidi:plaintext}
+html.rtl td.static.num{unicode-bidi:normal}
+html.rtl .seg label+label span{border-left:0;border-right:1px solid var(--line-2)}
+html.rtl .boq .auto-tag,html.rtl .auto-tag{margin-left:0;margin-right:6px;font-family:var(--f-body)!important;font-size:.66rem!important}
+html.rtl .steps a{font-size:.8rem}
+html.rtl .field>label,html.rtl .field>.lbl{font-size:.8rem;text-transform:none}
+html.rtl .pill{font-family:var(--f-body);font-size:.8rem}
+html.rtl .chip{font-family:var(--f-body);font-size:.8rem}
+html.rtl .seg span{font-family:var(--f-body);font-size:.82rem}
+html.rtl .tools h3 small{font-family:var(--f-body);font-size:.74rem}
+html.rtl .empty b{font-size:1.2rem}
+html.rtl .tot div.g{font-size:1.2rem}
+html.rtl .toast{direction:rtl}
+html.rtl footer{font-family:var(--f-body);font-size:.8rem}
+/* typed data (names, models, NVR, floors, refs) is mostly Latin: follow the text's own direction */
+html.rtl input:not([type]),html.rtl input[type=text]{unicode-bidi:plaintext}
+html.rtl .preview{direction:ltr;text-align:right}
+html.rtl textarea::placeholder{font-family:var(--f-body);font-size:.85rem}
+/* the printed BOQ stays in English, left to right */
+html.rtl #print{direction:ltr;text-align:left;font-family:"Figtree","Segoe UI",system-ui,sans-serif}
+@media print{html.rtl #print th{text-align:left}html.rtl #print td.num{text-align:right}html.rtl #print .ph .r{text-align:right}}
+/* empty fields: Arabic placeholders stay right to left */
+html.rtl input:placeholder-shown{unicode-bidi:normal}
+html.rtl #p-coord,html.rtl #p-loc,html.rtl #b-prefix{direction:ltr;text-align:right}

@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="/i18n.js"></script>
+<script src="/i18n/ar-common.js"></script>
+<script src="/i18n/ar-auth.js"></script>
+<script src="/i18n/ar-boq.js"></script>
 <title>BOQ Builder | Queen Tech Solutions</title>
 <meta name="description" content="Free CCTV BOQ builder from Queen Tech Solutions: list cameras, get the bill of quantities, NVR storage and hard disks, and export to Excel or PDF.">
 <link rel="canonical" href="https://queentechsolution.info/boq.html">
@@ -209,6 +213,7 @@ footer{padding-block:28px 40px;color:var(--dim);font:500 .72rem var(--f-mono);le
     <a class="btn btn-line btn-sm" href="/bandwidth.html" style="border:0;color:var(--muted)">Calculator</a>
     <div class="save-state" id="saveState" title="Saved on this device only"><i></i><span>Saved on this device</span></div>
     <div class="acts">
+      <a class="lang-tg" data-lang-toggle href="?lang=ar">العربية</a>
       <button class="btn btn-line btn-sm" id="btnNew" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg><span class="lbl">New</span></button>
       <button class="btn btn-line btn-sm" id="btnOpen" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h6l2 2h10v10H3z"/></svg><span class="lbl">Open / import</span></button>
       <button class="btn btn-gold btn-sm" id="btnXlsx" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span class="lbl">Excel</span></button>
@@ -369,12 +374,13 @@ footer{padding-block:28px 40px;color:var(--dim);font:500 .72rem var(--f-mono);le
 
 <datalist id="dl-models"></datalist><datalist id="dl-nvr"></datalist><datalist id="dl-floor"></datalist><datalist id="dl-types"></datalist>
 <div class="toast" id="toast" role="status"></div>
-<div id="print"></div>
+<div id="print" translate="no"></div>
 
 <script>
 (function(){
 "use strict";
 var KEY="qt-boq-v1";
+var T=window.t||function(s){return s};   // Arabic text for confirm() boxes (i18n.js)
 var LEVELS=[["Detection Level","DET"],["Recognition Level","REC"],["Identification Level","ID"],["Observation Level","OBS"],["ANPR","ANPR"]];
 var ABBR={};LEVELS.forEach(function(l){ABBR[l[0]]=l[1]});
 var TYPES=["Camera","NVR","Hard disk","Switch","Rack","UPS","Screen","Cable","Accessories","Labour","Other"];
@@ -463,7 +469,7 @@ $("btnAddCam").addEventListener("click",function(){
   renderCams();var rows=$("camBody").rows;rows[rows.length-1].querySelector("input").focus();
 });
 function nextName(n){if(!n)return"CAM/01";var m=String(n).match(/^(.*?)(\d+)(\D*)$/);if(!m)return n+"-2";var x=String(+m[2]+1);while(x.length<m[2].length)x="0"+x;return m[1]+x+m[3]}
-$("btnClearCams").addEventListener("click",function(){if(!S.cameras.length)return;if(confirm("Remove all "+S.cameras.length+" cameras from the list?")){S.cameras=[];renderCams()}});
+$("btnClearCams").addEventListener("click",function(){if(!S.cameras.length)return;if(confirm(T("Remove all "+S.cameras.length+" cameras from the list?"))){S.cameras=[];renderCams()}});
 
 /* bulk */
 function bulkNames(){var n=Math.max(1,Math.min(500,+$("b-n").value||1)),st=+$("b-start").value||0,p=$("b-prefix").value,w=Math.max(2,String(st+n-1).length),out=[];
@@ -573,7 +579,7 @@ function renderStorage(){
 $("btnStoreBoq").addEventListener("click",function(){
   var st=storage().filter(function(r){return r.nvr!=="(no NVR)"});if(!st.length){toast("Give the cameras an NVR first");return}
   var manual=S.items.filter(function(it){return!it.fromStorage&&/^(nvr|hard ?disk|hdd)$/i.test(String(it.type).trim())});
-  var rep=manual.length&&confirm("The BOQ already has "+manual.length+" NVR / hard disk line"+(manual.length>1?"s":"")+".\n\nOK = replace them with the suggested lines\nCancel = keep them and add the suggestion too");
+  var rep=manual.length&&confirm(T("The BOQ already has "+manual.length+" NVR / hard disk line"+(manual.length>1?"s":"")+".\n\nOK = replace them with the suggested lines\nCancel = keep them and add the suggestion too"));
   S.items=S.items.filter(function(it){return!it.fromStorage&&!(rep&&manual.indexOf(it)>-1)});
   var groups={};
   st.forEach(function(r){var d=r.ch+" Channel NVR with "+r.bays+"x HDD, H.265";groups[d]=groups[d]||{n:0,names:[]};groups[d].n++;groups[d].names.push(r.nvr)});
@@ -625,13 +631,13 @@ function excel(){if(window.ExcelJS)return Promise.resolve(window.ExcelJS);if(exL
   exLoad=new Promise(function(res,rej){var s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js";s.onload=function(){res(window.ExcelJS)};s.onerror=function(){exLoad=null;rej(new Error("load"))};document.head.appendChild(s)});return exLoad}
 
 $("btnJson").addEventListener("click",function(){download(new Blob([JSON.stringify(S,null,1)],{type:"application/json"}),fname("json").replace("_BOQ.json",".qtboq.json"));toast("Project file saved")});
-$("btnNew").addEventListener("click",function(){if((S.cameras.length||S.items.length||S.project.name)&&!confirm("Start a new project? The current one will be cleared from this device. Download it first if you need it."))return;S=blank();reloadUI();toast("New project started")});
+$("btnNew").addEventListener("click",function(){if((S.cameras.length||S.items.length||S.project.name)&&!confirm(T("Start a new project? The current one will be cleared from this device. Download it first if you need it.")))return;S=blank();reloadUI();toast("New project started")});
 function pick(){$("fileIn").value="";$("fileIn").click()}
 $("btnOpen").addEventListener("click",pick);$("btnImport2").addEventListener("click",pick);
 $("fileIn").addEventListener("change",function(){
   var f=this.files[0];if(!f)return;
   if(/\.json$/i.test(f.name)){f.text().then(function(t){try{var s=JSON.parse(t);if(!s.cameras)throw 0;
-      if((S.cameras.length||S.items.length)&&!confirm("Replace the current project with "+f.name+"?"))return;S=fix(s);reloadUI();toast("Project opened")}catch(e){toast("That file isn't a BOQ project file")}});return}
+      if((S.cameras.length||S.items.length)&&!confirm(T("Replace the current project with "+f.name+"?")))return;S=fix(s);reloadUI();toast("Project opened")}catch(e){toast("That file isn't a BOQ project file")}});return}
   toast("Reading "+f.name+"…");
   Promise.all([excel(),f.arrayBuffer()]).then(function(r){var wb=new r[0].Workbook();return wb.xlsx.load(r[1]).then(function(){importBook(wb)})})
     .catch(function(){toast("Couldn't read that Excel file")});
@@ -641,7 +647,7 @@ function cv(cell){var v=cell.value;if(v==null&&cell.isMerged&&cell.master)v=cell
   return v==null?"":v}
 function rowsOf(ws){var out=[];ws.eachRow({includeEmpty:true},function(row){var a=[];for(var c=1;c<=Math.max(row.cellCount,10);c++)a.push(cv(row.getCell(c)));out.push(a)});return out}
 function importBook(wb){
-  var replace=!(S.cameras.length||S.items.length)||confirm("Replace the current project with this file?\n\nOK = replace, Cancel = add the cameras to the current list");
+  var replace=!(S.cameras.length||S.items.length)||confirm(T("Replace the current project with this file?\n\nOK = replace, Cancel = add the cameras to the current list"));
   if(replace){S=blank()}
   var cams=0,items=0;
   wb.eachSheet(function(ws){

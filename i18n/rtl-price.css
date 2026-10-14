@@ -1,0 +1,31 @@
+/* Arabic / right-to-left fixes for price.html */
+/* header: keep the nav inside a phone screen */
+@media (max-width:520px){
+  html.rtl .nav{gap:10px}
+  html.rtl .links{gap:8px;min-width:0}
+  html.rtl .links .btn{padding:9px 10px;font-size:.8rem;white-space:normal;line-height:1.25;text-align:center;max-width:120px}
+  html.rtl .lang-tg{padding:5px 8px}
+}
+/* goal cards: text and tick mirrored */
+html.rtl .goal{text-align:right}
+html.rtl .goal .tick{right:auto;left:14px}
+html.rtl .goal b,html.rtl .grp h3{line-height:1.35}
+/* mode switch divider on the other side */
+html.rtl .modes button+button{border-left:0;border-right:1px solid var(--line-2)}
+/* "why" note bar on the right */
+html.rtl .why{border-left:0;border-right:2px solid var(--gold);padding:4px 12px 4px 0}
+/* checkbox square on the right */
+html.rtl .opt.chk span{padding-left:14px;padding-right:34px}
+html.rtl .opt.chk span::before{left:auto;right:12px}
+/* quote panel */
+html.rtl .qhead .tot small{margin-right:0;margin-left:6px}
+html.rtl .badge{margin-left:0;margin-right:6px}
+html.rtl .removed span{margin:3px 0 3px 10px}
+html.rtl .tools ul{padding:0 18px 0 0}
+html.rtl .qty,html.rtl .step{direction:ltr}
+html.rtl .grp h3 span{unicode-bidi:isolate}
+/* price column: crossed-out and new price stay in reading order 900 → 450 */
+html.rtl .li .p{direction:ltr}
+/* shop links: "Amazon.ae (عبر Pricena) ↗" in the right order */
+html.rtl .li .n a{unicode-bidi:plaintext}
+html.rtl .addrow select{padding-right:10px!important}

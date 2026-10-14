@@ -1,0 +1,26 @@
+/* bandwidth.html – right-to-left fixes */
+html.rtl .tabs button+button{border-left:0;border-right:1px solid var(--line-2)}
+html.rtl .grp::before{left:auto;right:-1px}
+html.rtl .r-main .big small{margin-left:0;margin-right:8px}
+html.rtl .stat .v small{margin-left:0;margin-right:4px}
+html.rtl .phead::before{background:
+  radial-gradient(60% 60% at 15% 20%,rgba(226,166,63,.10),transparent 70%),
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/100% 64px}
+html.rtl .phead h1{line-height:1.25}
+html.rtl .ttable td:first-child{unicode-bidi:plaintext;text-align:right}
+html.rtl .grp-h .info{unicode-bidi:isolate}
+/* header: Arabic button + language toggle are wider than the English ones */
+@media (max-width:480px){
+  html.rtl .nav{gap:12px}
+  html.rtl .links{gap:10px}
+  html.rtl .links .btn{padding:10px 11px;font-size:.84rem}
+  html.rtl .lang-tg{padding:4px 7px}
+}
+@media (max-width:380px){html.rtl .brand small{display:none}}
+/* Arabic words in the mono font render with gaps; use the Arabic body font */
+html.rtl .grp-h .info,html.rtl .mini,html.rtl .urow small,html.rtl .seg span{font-family:var(--f-body)}
+html.rtl .grp-h .info{font-size:.78rem}
+@media (max-width:480px){html.rtl .brand small{display:none}}
+/* "64.2 TB" style values: keep in left-to-right order */
+html.rtl .ttable td:last-child{unicode-bidi:plaintext;text-align:left}
+html.rtl .stat .v small#c-groups{margin-right:8px;font-family:var(--f-body)}

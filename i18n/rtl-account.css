@@ -1,0 +1,23 @@
+/* account.html – right-to-left fixes (loaded by i18n.js in Arabic mode) */
+html.rtl .side h1{font-size:clamp(2.4rem,5.4vw,4.2rem);line-height:1.25}
+html.rtl .side p{font-size:1.08rem}
+html.rtl .card h2{font-size:1.85rem;line-height:1.35}
+html.rtl .card .k,html.rtl .side .tag{font-size:.8rem;font-weight:600}
+html.rtl .field label{font-size:.85rem;font-weight:600}
+html.rtl .tabs button{font-size:.92rem;font-weight:600}
+html.rtl .tabs button+button{border-left:0;border-right:1px solid var(--line-2)}
+html.rtl .or{font-family:var(--f-body);font-size:.8rem}
+html.rtl .me .row span:first-child{font-size:.82rem}
+html.rtl .badge{font-family:var(--f-body);font-size:.78rem}
+/* password Show/Hide button on the left */
+html.rtl .pw button{right:auto;left:8px;font-family:var(--f-body);font-size:.82rem}
+html.rtl .pw input{padding-right:14px;padding-left:72px}
+html.rtl .pw input[type=password],html.rtl .pw input[type=text]{direction:ltr;text-align:right}
+/* email addresses and names inside Arabic text keep their own direction */
+html.rtl #vf-email,html.rtl #me-email,html.rtl #me-name{unicode-bidi:plaintext}
+html.rtl #me-email{direction:ltr}
+html.rtl #me-name{text-align:right}
+html.rtl footer .tel{direction:ltr;unicode-bidi:isolate;display:inline-block}
+/* header on small phones */
+html.rtl .nav a.back,html.rtl .brand b{white-space:nowrap}
+@media (max-width:480px){html.rtl .nav{gap:10px}html.rtl .brand{gap:8px}html.rtl .brand b{font-size:1.1rem}html.rtl .brand small{font-size:.55rem}html.rtl .nav a.back{font-size:.85rem}html.rtl .nav .lang-tg{padding:5px 8px}}

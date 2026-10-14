@@ -1,0 +1,32 @@
+/* Queen Tech – shared right-to-left styles for Arabic (loaded by i18n.js) */
+html.rtl{
+  --f-display:"Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --f-mono:"JetBrains Mono","IBM Plex Sans Arabic",ui-monospace,monospace;
+}
+html.rtl body{font-family:var(--f-body);line-height:1.75}
+html.rtl *{letter-spacing:0!important}
+html.rtl h1,html.rtl h2,html.rtl h3{line-height:1.3;text-transform:none}
+html.rtl h1 .out,html.rtl h2 .out{-webkit-text-stroke:0;color:var(--muted)}
+html.rtl .tag,html.rtl .k,html.rtl .lbl,html.rtl label,html.rtl th,html.rtl .chip,html.rtl .badge,html.rtl .steps a,html.rtl .jump a,html.rtl .modes button,html.rtl .tabs button,html.rtl .brand small,html.rtl .save-state,html.rtl .pill,html.rtl .r-bar,html.rtl .stat .k{font-family:var(--f-body)}
+html.rtl .brand b{font-family:"Big Shoulders Display","Arial Narrow",sans-serif}
+html.rtl .brand{margin-right:0;margin-left:auto}
+/* numbers, codes, phone numbers, models and inputs stay left-to-right */
+html.rtl .mono,html.rtl code,html.rtl input[type=number],html.rtl input[type=tel],html.rtl input[type=email],html.rtl input[type=url],html.rtl .big,html.rtl .tot,html.rtl .v{unicode-bidi:plaintext}
+html.rtl input[type=tel],html.rtl input[type=email],html.rtl input[type=url]{direction:ltr;text-align:right}
+/* selects: arrow on the left */
+html.rtl select{background-position:16px 55%,21px 55%!important;padding-right:12px!important;padding-left:34px!important}
+/* arrows point the other way */
+html.rtl .arr{display:inline-block;transform:scaleX(-1)}
+/* floating WhatsApp to the left */
+html.rtl .wa-float{right:auto;left:18px}
+/* labels drawn with ::before on top-left move to top-right */
+html.rtl .inputs::before,html.rtl .qs::before,html.rtl form.lead::before{left:auto;right:24px;font-family:var(--f-body)}
+/* tag line */
+html.rtl .tag::before{order:0}
+/* lists with a small dash on the left */
+html.rtl .r-note p::before{margin-top:.85em}
+html.rtl .ttable td:last-child,html.rtl td.num,html.rtl th.num,html.rtl .num{text-align:left}
+html.rtl .li .p{text-align:left}
+html.rtl .readout,html.rtl .quote{direction:rtl}
+html.rtl .lang-tg{font-family:"Figtree",system-ui,sans-serif}
