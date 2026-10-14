@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BOQ Builder | Queen Tech Solutions</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#131210">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#131210; --bg-2:#1A1916; --surface:#201E1A; --surface-2:#2A2722;
+  --ink:#EFE8DB; --muted:#A79E8F; --dim:#6E675C; --line:#36322B; --line-2:#4A443A;
+  --gold:#E2A63F; --gold-2:#F3C877; --gold-soft:rgba(226,166,63,.12);
+  --live:#E25B45; --ok:#2FA866;
+  --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:140px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;overflow-x:hidden}
+a{color:var(--gold)}
+::selection{background:var(--gold);color:var(--bg)}
+:focus-visible{outline:2px solid var(--gold-2);outline-offset:2px;border-radius:3px}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:clamp(14px,3vw,36px)}
+h1,h2,h3{margin:0;font-family:var(--f-display);line-height:.95;text-transform:uppercase;letter-spacing:.005em}
+h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:800}
+h3{font-size:1.25rem;font-weight:800;letter-spacing:.02em}
+p{margin:0}
+.tag{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:10px}
+.tag::before{content:"";width:22px;height:1px;background:currentColor}
+.muted{color:var(--muted)}
+.hint{font-size:.84rem;color:var(--dim)}
+[hidden]{display:none!important}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:4px;font:600 .9rem/1 var(--f-body);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,border-color .2s,color .2s,transform .15s;white-space:nowrap;background:transparent;color:var(--ink)}
+.btn:active{transform:scale(.98)}
+.btn svg{width:16px;height:16px;flex:none}
+.btn-gold{background:var(--gold);color:var(--bg)}
+.btn-gold:hover{background:var(--gold-2)}
+.btn-line{border-color:var(--line-2)}
+.btn-line:hover{border-color:var(--gold);color:var(--gold-2)}
+.btn-sm{padding:8px 11px;font-size:.8rem}
+.btn-x{border:1px solid transparent;color:var(--dim);padding:6px 8px;background:none;cursor:pointer;border-radius:3px;font:500 1rem/1 var(--f-mono)}
+.btn-x:hover{color:var(--live);border-color:var(--line-2)}
+.chip{font:500 .74rem var(--f-mono);letter-spacing:.03em;padding:8px 11px;border:1px dashed var(--line-2);border-radius:3px;background:transparent;color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s}
+.chip:hover{border-color:var(--gold);color:var(--gold-2);border-style:solid}
+
+/* header */
+header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:16px;min-height:64px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);margin-right:auto}
+.crown{width:34px;height:34px;flex:none}
+.brand b{display:block;font:900 1.25rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.brand small{display:block;font:500 .58rem/1.4 var(--f-mono);letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-top:3px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.save-state{font:500 .66rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px}
+.save-state i{width:6px;height:6px;border-radius:50%;background:var(--ok)}
+.steps{display:flex;gap:0;border-top:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.steps a{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:12px 16px;white-space:nowrap;border-bottom:2px solid transparent;display:flex;gap:8px;align-items:center}
+.steps a b{color:var(--gold);font-weight:500}
+.steps a:hover{color:var(--ink)}
+.steps a.on{color:var(--ink);border-bottom-color:var(--gold)}
+.steps .cnt{font-size:.66rem;color:var(--bg);background:var(--gold);border-radius:9px;padding:1px 7px}
+@media (max-width:640px){.acts .lbl{display:none}.save-state span{display:none}}
+
+/* page */
+.intro{padding-block:32px 8px;display:flex;justify-content:space-between;gap:20px;align-items:end;flex-wrap:wrap}
+.intro h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;line-height:.9;margin-top:14px}
+.intro h1 em{font-style:normal;color:var(--gold)}
+.intro p{max-width:60ch;margin-top:12px}
+.sec{padding-block:36px;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sec-head .tag{display:flex;margin-bottom:10px}
+.card{background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:clamp(16px,2.4vw,26px)}
+
+/* forms */
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 16px}
+.grid .s2{grid-column:span 2}
+@media (max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.grid{grid-template-columns:1fr}.grid .s2{grid-column:auto}}
+.field{display:grid;gap:6px;min-width:0}
+.field>label,.field>.lbl{font:500 .66rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+input,select,textarea{font:inherit;font-size:.95rem;padding:10px 12px;border:1px solid var(--line-2);border-radius:3px;background:var(--bg);color:var(--ink);width:100%;min-width:0;transition:border-color .2s,box-shadow .2s}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%);background-position:calc(100% - 16px) 55%,calc(100% - 11px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:30px}
+textarea{min-height:110px;resize:vertical;font-family:var(--f-mono);font-size:.82rem}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+input::placeholder,textarea::placeholder{color:var(--dim)}
+input[type=number]{font-variant-numeric:tabular-nums}
+.toggle{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:.9rem;color:var(--muted);user-select:none}
+.toggle input{width:auto;accent-color:var(--gold);transform:scale(1.15)}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:3px;overflow:hidden}
+.seg label{cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none;width:auto}
+.seg span{display:block;font:500 .74rem var(--f-mono);padding:9px 12px;color:var(--muted);transition:background .2s,color .2s}
+.seg label+label span{border-left:1px solid var(--line-2)}
+.seg input:checked+span{background:var(--gold);color:var(--bg)}
+.seg input:focus-visible+span{outline:2px solid var(--gold-2);outline-offset:-2px}
+
+/* tools row */
+.tools{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;margin-bottom:16px}
+@media (max-width:980px){.tools{grid-template-columns:1fr}}
+.tools .card{display:grid;gap:14px;align-content:start}
+.tools h3{display:flex;gap:10px;align-items:center}
+.tools h3 small{font:500 .66rem var(--f-mono);color:var(--dim);letter-spacing:.08em;text-transform:none}
+.bulk{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.bulk .s2{grid-column:span 2}
+.bulk .s3{grid-column:span 3}
+@media (max-width:640px){.bulk{grid-template-columns:repeat(2,minmax(0,1fr))}.bulk .s3,.bulk .s2{grid-column:span 2}}
+.preview{font:500 .74rem var(--f-mono);color:var(--gold-2);padding:8px 10px;background:var(--bg);border:1px dashed var(--line-2);border-radius:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line-2);border-radius:6px;background:var(--surface)}
+table{width:100%;border-collapse:collapse}
+th{font:500 .64rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:11px 8px;background:var(--bg-2);border-bottom:1px solid var(--line-2);white-space:nowrap;position:sticky;top:0}
+td{padding:4px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td input,td select{padding:8px 9px;font-size:.88rem;border-color:transparent;background:transparent}
+td input:hover,td select:hover{border-color:var(--line-2)}
+td input:focus,td select:focus{background:var(--bg)}
+td.n{font:500 .74rem var(--f-mono);color:var(--dim);text-align:center;width:42px}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.static{padding:10px 9px;font-size:.9rem}
+.cams{min-width:1080px}
+.cams col.c-name{width:22%}.cams col.c-model{width:14%}.cams col.c-lvl{width:15%}.cams col.c-st{width:10%}.cams col.c-nvr{width:9%}.cams col.c-fl{width:10%}.cams col.c-rm{width:auto}
+tr.new td:nth-child(5) select{color:var(--gold-2)}
+.lvl-ID{color:#F08A78}.lvl-REC{color:var(--gold-2)}.lvl-DET{color:#8FC6A3}.lvl-ANPR{color:#9CB7E8}.lvl-OBS{color:var(--muted)}
+.empty{padding:36px 20px;text-align:center;color:var(--muted)}
+.empty b{display:block;font:800 1.4rem var(--f-display);text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.sumbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.pill{font:500 .72rem var(--f-mono);padding:6px 10px;border:1px solid var(--line-2);border-radius:3px;color:var(--muted)}
+.pill b{color:var(--ink);font-weight:500}
+.cat{min-width:760px}
+.boq{min-width:860px}
+.boq tr.auto td{background:rgba(226,166,63,.04)}
+.boq .auto-tag{font:500 .6rem var(--f-mono);letter-spacing:.08em;color:var(--gold);border:1px solid var(--gold);border-radius:2px;padding:1px 5px;margin-left:6px;vertical-align:middle}
+.tot{display:grid;justify-content:end;gap:4px;padding:14px 16px;border-top:1px solid var(--line-2);font-variant-numeric:tabular-nums}
+.tot div{display:flex;justify-content:space-between;gap:40px;font-size:.92rem;color:var(--muted)}
+.tot div.g{color:var(--ink);font:800 1.4rem var(--f-display);text-transform:uppercase;padding-top:6px;border-top:1px dashed var(--line-2);margin-top:4px}
+.stor{min-width:900px}
+.ok{color:#6FD49B}.warn{color:#F08A78}
+.opts{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin-bottom:16px}
+.opts .field{display:flex;align-items:center;gap:10px}
+.opts .field input,.opts .field select{width:auto;min-width:90px}
+
+/* export */
+.exp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.exp{grid-template-columns:1fr}}
+.exp .card{display:grid;gap:10px;align-content:start}
+.exp .card .btn{justify-self:start;margin-top:6px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--surface-2);border:1px solid var(--gold);color:var(--ink);padding:12px 18px;border-radius:4px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s var(--ease);z-index:200;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translateX(-50%)}
+footer{padding-block:28px 40px;color:var(--dim);font:500 .72rem var(--f-mono);letter-spacing:.04em}
+
+/* print */
+#print{display:none}
+@media print{
+  @page{size:A4;margin:14mm 12mm}
+  :root{color-scheme:light}
+  html,body{background:#fff!important;color:#111;font-size:10.5pt;overflow:visible!important;width:auto!important}
+  #print{overflow-wrap:anywhere}
+  body>*:not(#print){display:none!important}
+  #print{display:block}
+  #print h1{font:900 22pt/1 var(--f-display);text-transform:uppercase;margin:0}
+  #print h2{font:800 13pt/1 var(--f-display);text-transform:uppercase;margin:18px 0 6px;color:#111}
+  #print .ph{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #E2A63F;padding-bottom:10px;margin-bottom:12px}
+  #print .ph small{display:block;font:500 7.5pt var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:#7a6a4a;margin-top:4px}
+  #print .ph .r{text-align:right;font-size:8.5pt;color:#444;line-height:1.5}
+  #print .info{display:grid;grid-template-columns:1fr 1fr;gap:2px 24px;font-size:9.5pt}
+  #print .info b{display:inline-block;min-width:92px;color:#555;font-weight:500}
+  #print table{width:100%;border-collapse:collapse;font-size:9pt;page-break-inside:auto}
+  #print tr{page-break-inside:avoid}
+  #print th{position:static;background:#F3E3C3;color:#111;font:600 7.5pt var(--f-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid #bbb;padding:5px 6px}
+  #print td{border:1px solid #ccc;padding:4px 6px;vertical-align:top}
+  #print td.num{text-align:right}
+  #print td:first-child{white-space:nowrap;overflow-wrap:normal}
+  #print h2{page-break-after:avoid;break-after:avoid}
+  #print .tot{border:0;padding:6px 0 0;justify-content:end;display:grid}
+  #print .tot div{color:#333;gap:30px}
+  #print .tot div.g{color:#111;font-size:13pt;border-top:1px solid #999}
+  #print .sig{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:36px;font-size:9pt}
+  #print .sig div{border-top:1px solid #999;padding-top:6px;color:#555}
+  #print .foot{margin-top:18px;font-size:8pt;color:#777}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Queen Tech Solutions home">
+      <svg class="crown" viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" rx="5" fill="none" stroke="var(--gold)"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="var(--gold)"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="var(--gold)"/></svg>
+      <span><b>Queen Tech</b><small>BOQ builder · technician tool</small></span>
+    </a>
+    <div class="save-state" id="saveState" title="Saved on this device only"><i></i><span>Saved on this device</span></div>
+    <div class="acts">
+      <button class="btn btn-line btn-sm" id="btnNew" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg><span class="lbl">New</span></button>
+      <button class="btn btn-line btn-sm" id="btnOpen" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h6l2 2h10v10H3z"/></svg><span class="lbl">Open / import</span></button>
+      <button class="btn btn-gold btn-sm" id="btnXlsx" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span class="lbl">Excel</span></button>
+      <input type="file" id="fileIn" accept=".xlsx,.json" hidden>
+    </div>
+  </div>
+  <nav class="wrap steps" aria-label="Sections">
+    <a href="#project"><b>01</b>Project</a>
+    <a href="#cameras"><b>02</b>Cameras <span class="cnt" id="navCams">0</span></a>
+    <a href="#storage"><b>03</b>Storage</a>
+    <a href="#boq"><b>04</b>BOQ <span class="cnt" id="navBoq">0</span></a>
+    <a href="#export"><b>05</b>Export</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <div>
+      <span class="tag">Internal · for site technicians</span>
+      <h1>Survey to <em>BOQ</em>, on site.</h1>
+      <p class="muted">List the cameras as you walk the site. The BOQ, the camera breakdown per model and the hard-disk storage per NVR are worked out for you. Export to Excel or print to PDF when you're done.</p>
+    </div>
+    <p class="hint" style="max-width:34ch">Everything stays on this device and is saved automatically. Nothing is uploaded. Use <b>Excel</b> or <b>Save project file</b> to move a job to another device.</p>
+  </section>
+
+  <!-- 01 PROJECT -->
+  <section class="sec" id="project">
+    <div class="sec-head"><div><span class="tag">Step 01</span><h2>Project &amp; client</h2></div></div>
+    <form class="card grid" id="projForm" onsubmit="return false" autocomplete="off">
+      <div class="field s2"><label for="p-name">Project name</label><input id="p-name" data-p="name" placeholder="e.g. Sunset Residences 4 - SS4"></div>
+      <div class="field"><label for="p-ref">Project / job ref</label><input id="p-ref" data-p="ref" placeholder="e.g. SS1-CT-19-0041"></div>
+      <div class="field"><label for="p-date">Survey date</label><input id="p-date" data-p="date" type="date"></div>
+      <div class="field s2"><label for="p-client">Client name</label><input id="p-client" data-p="client"></div>
+      <div class="field"><label for="p-cid">Client ID</label><input id="p-cid" data-p="clientId" inputmode="numeric"></div>
+      <div class="field"><label for="p-phone">Client phone</label><input id="p-phone" data-p="phone" type="tel" placeholder="9715…"></div>
+      <div class="field s2"><label for="p-email">Client email</label><input id="p-email" data-p="email" type="email"></div>
+      <div class="field"><label for="p-loc">Location link</label><input id="p-loc" data-p="location" type="url" placeholder="maps.app.goo.gl/…"></div>
+      <div class="field"><label for="p-coord">Coordinates</label>
+        <div style="display:flex;gap:6px"><input id="p-coord" data-p="coords" placeholder="24.56, 54.45"><button class="btn btn-line btn-sm" type="button" id="btnGeo" title="Use my current location" aria-label="Use my current location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button></div></div>
+      <div class="field"><label for="p-tech">Technician</label><input id="p-tech" data-p="tech"></div>
+      <div class="field"><label for="p-amc">AMC expiry</label><input id="p-amc" data-p="amc" type="date"></div>
+      <div class="field"><label for="p-val">Contract value</label><input id="p-val" data-p="value" placeholder="e.g. 800000 AED"></div>
+      <div class="field"><label for="p-notes">Notes</label><input id="p-notes" data-p="notes"></div>
+    </form>
+  </section>
+
+  <!-- 02 CAMERAS -->
+  <section class="sec" id="cameras">
+    <div class="sec-head">
+      <div><span class="tag">Step 02</span><h2>Camera list</h2></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-line btn-sm" type="button" id="btnAddCam">+ One camera</button>
+        <button class="btn btn-line btn-sm" type="button" id="btnClearCams">Clear list</button>
+      </div>
+    </div>
+
+    <div class="tools">
+      <form class="card" id="bulkForm" onsubmit="return false" autocomplete="off">
+        <h3>Add a batch <small>e.g. all cameras on one floor</small></h3>
+        <div class="bulk">
+          <div class="field"><label for="b-n">How many</label><input id="b-n" type="number" min="1" max="500" value="3" inputmode="numeric"></div>
+          <div class="field s3"><label for="b-prefix">Name prefix</label><input id="b-prefix" value="CAM/" placeholder="IDF-QAH-FF-CAM/"></div>
+          <div class="field s2"><label for="b-start">Start number</label><input id="b-start" type="number" min="0" value="1" inputmode="numeric"></div>
+          <div class="field s2"><label for="b-model">Model</label><input id="b-model" list="dl-models" placeholder="INV711Z-RTN"></div>
+          <div class="field s2"><label for="b-lvl">Coverage</label><select id="b-lvl"></select></div>
+          <div class="field s2"><label for="b-st">Existing / new</label><select id="b-st"><option>New</option><option>Existing</option></select></div>
+          <div class="field s2"><label for="b-nvr">NVR</label><input id="b-nvr" list="dl-nvr" value="NVR1"></div>
+          <div class="field s2"><label for="b-floor">Floor</label><input id="b-floor" list="dl-floor" placeholder="GF"></div>
+          <div class="field s2"><label for="b-rm">Remarks</label><input id="b-rm"></div>
+        </div>
+        <div class="preview" id="b-prev">–</div>
+        <button class="btn btn-gold" type="button" id="btnBulk" style="justify-self:start">Add cameras</button>
+      </form>
+
+      <form class="card" id="pasteForm" onsubmit="return false">
+        <h3>Paste from Excel <small>or import the whole file</small></h3>
+        <textarea id="pasteBox" placeholder="Copy rows from your Excel camera list and paste here.&#10;Columns: N. | Camera name | Model | Coverage | Existing/New | NVR | Remarks | Floor"></textarea>
+        <p class="hint">Same column order as the camera list sheet. The N. column is optional, and a blank floor takes the floor from the row above (for merged cells).</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-gold" type="button" id="btnPaste">Add pasted rows</button>
+          <button class="btn btn-line" type="button" id="btnImport2">Import .xlsx file</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="cams" id="camTable">
+        <colgroup><col style="width:42px"><col class="c-name"><col class="c-model"><col class="c-lvl"><col class="c-st"><col class="c-nvr"><col class="c-fl"><col class="c-rm"><col style="width:40px"></colgroup>
+        <thead><tr><th>N.</th><th>Camera name</th><th>Camera model</th><th>Coverage level</th><th>Existing / new</th><th>NVR</th><th>Floor</th><th>Remarks</th><th><span class="sr" style="position:absolute;left:-9999px">Delete</span></th></tr></thead>
+        <tbody id="camBody"></tbody>
+      </table>
+      <div class="empty" id="camEmpty"><b>No cameras yet</b>Add a batch, paste rows from Excel, or import your existing file.</div>
+    </div>
+    <div class="sumbar" id="camSum"></div>
+  </section>
+
+  <!-- 03 STORAGE -->
+  <section class="sec" id="storage">
+    <div class="sec-head">
+      <div><span class="tag">Step 03</span><h2>Models &amp; storage</h2></div>
+      <button class="btn btn-gold btn-sm" type="button" id="btnStoreBoq">Add NVRs &amp; hard disks to BOQ</button>
+    </div>
+    <div class="opts">
+      <div class="field"><label for="s-days" class="lbl">Days to keep</label><input id="s-days" type="number" min="1" max="365" value="31" style="width:90px"></div>
+      <div class="field"><label for="s-hdd" class="lbl">Hard disk size</label><select id="s-hdd"></select></div>
+      <div class="field"><label for="s-hddm" class="lbl">HDD model</label><input id="s-hddm" placeholder="ST8000VX004" style="width:170px"></div>
+    </div>
+    <h3 style="margin-bottom:10px">Camera models</h3>
+    <p class="hint" style="margin-bottom:12px">Fill in each model once. The description and brand go into the BOQ, and the bitrate drives the storage calculation. Typical H.265 bitrates: 2MP about 2–4 Mbps, 4MP about 4–6, 4K about 8.</p>
+    <div class="tbl-wrap" style="margin-bottom:26px">
+      <table class="cat"><thead><tr><th>Model</th><th>Brand</th><th>Description (for BOQ)</th><th class="num">Bitrate Mbps</th><th class="num pcol">Unit price</th><th class="num">Qty</th></tr></thead><tbody id="catBody"></tbody></table>
+      <div class="empty" id="catEmpty"><b>No models yet</b>Models appear here as you add cameras.</div>
+    </div>
+    <h3 style="margin-bottom:10px">Storage per NVR</h3>
+    <div class="tbl-wrap">
+      <table class="stor"><thead><tr><th>NVR</th><th class="num">Cameras</th><th class="num">ID</th><th class="num">REC / DET</th><th class="num">ANPR / other</th><th class="num">Total Mbps</th><th class="num">Required</th><th class="num">HDDs</th><th class="num">Actual capacity</th><th>Suggested NVR</th></tr></thead><tbody id="storBody"></tbody></table>
+      <div class="empty" id="storEmpty"><b>Nothing to size</b>Give each camera an NVR to see the storage.</div>
+    </div>
+    <p class="hint" style="margin-top:10px">Required = bitrate × 24 h × days, continuous recording. Actual capacity is what the recorder shows: an 8 TB disk gives about 7,450 GB.</p>
+  </section>
+
+  <!-- 04 BOQ -->
+  <section class="sec" id="boq">
+    <div class="sec-head">
+      <div><span class="tag">Step 04</span><h2>Bill of quantities</h2></div>
+    </div>
+    <div class="opts">
+      <div class="field"><span class="lbl">Cameras to count</span>
+        <span class="seg"><label><input type="radio" name="cmode" value="all" checked><span>All</span></label><label><input type="radio" name="cmode" value="new"><span>New only</span></label><label><input type="radio" name="cmode" value="existing"><span>Existing only</span></label></span></div>
+      <label class="toggle"><input type="checkbox" id="o-prices"> Show prices</label>
+      <label class="toggle pcol-t"><input type="checkbox" id="o-vat" checked> Add 5% VAT</label>
+    </div>
+    <div class="tbl-wrap">
+      <table class="boq"><thead><tr><th>N</th><th style="width:13%">Device type</th><th>Description</th><th style="width:20%">Model number</th><th class="num" style="width:80px">QTY</th><th class="num pcol" style="width:110px">Unit price</th><th class="num pcol" style="width:110px">Total</th><th style="width:22%">Notes</th><th style="width:40px"></th></tr></thead><tbody id="boqBody"></tbody></table>
+      <div class="tot pcol" id="boqTot"></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center">
+      <span class="hint" style="margin-right:4px">Quick add:</span>
+      <span id="chips" style="display:contents"></span>
+      <button class="btn btn-line btn-sm" type="button" id="btnAddItem">+ Blank line</button>
+    </div>
+    <p class="hint" style="margin-top:10px">Camera lines <span class="auto-tag" style="font:500 .6rem var(--f-mono);color:var(--gold);border:1px solid var(--gold);border-radius:2px;padding:1px 5px">AUTO</span> come from the camera list; edit their description in Step 03.</p>
+  </section>
+
+  <!-- 05 EXPORT -->
+  <section class="sec" id="export" style="border-bottom:0">
+    <div class="sec-head"><div><span class="tag">Step 05</span><h2>Export</h2></div></div>
+    <div class="exp">
+      <div class="card"><h3>Excel file</h3><p class="muted">Four sheets, as in your usual file: Client Details, Camera list, BOQ and STORAGE.</p><button class="btn btn-gold" type="button" id="btnXlsx2">Download .xlsx</button></div>
+      <div class="card"><h3>PDF / print</h3><p class="muted">A clean A4 BOQ with the Queen Tech header and signature lines, ready to send to the client.</p>
+        <label class="toggle"><input type="checkbox" id="pr-cams"> Include camera list</label>
+        <button class="btn btn-line" type="button" id="btnPrint">Print / save PDF</button></div>
+      <div class="card"><h3>Project file</h3><p class="muted">Save the whole job to continue on another phone or laptop, then open it with <b>Open / import</b>.</p><button class="btn btn-line" type="button" id="btnJson">Save project file</button></div>
+    </div>
+  </section>
+</main>
+<footer class="wrap">Queen Tech Solutions · internal tool · data stays on this device</footer>
+
+<datalist id="dl-models"></datalist><datalist id="dl-nvr"></datalist><datalist id="dl-floor"></datalist><datalist id="dl-types"></datalist>
+<div class="toast" id="toast" role="status"></div>
+<div id="print"></div>
+
+<script>
+(function(){
+"use strict";
+var KEY="qt-boq-v1";
+var LEVELS=[["Detection Level","DET"],["Recognition Level","REC"],["Identification Level","ID"],["Observation Level","OBS"],["ANPR","ANPR"]];
+var ABBR={};LEVELS.forEach(function(l){ABBR[l[0]]=l[1]});
+var TYPES=["Camera","NVR","Hard disk","Switch","Rack","UPS","Screen","Cable","Accessories","Labour","Other"];
+var HDDS=[1,2,3,4,6,8,10,12,14,16,18,20,22,24];
+var GB_PER_TB=1e12/Math.pow(1024,3);   // what the NVR shows: 8 TB -> ~7,450 GB
+var CHIPS=[
+  {type:"NVR",desc:"32 Channel NVR with 8x HDD, H.265",model:""},
+  {type:"Hard disk",desc:"Surveillance HDD 8TB",model:""},
+  {type:"Switch",desc:"24 Port PoE+ Gigabit managed switch",model:""},
+  {type:"Switch",desc:"48 Port PoE+ Gigabit managed switch with fiber",model:""},
+  {type:"Rack",desc:"6U wall-mount cabinet 600x450",model:"6U"},
+  {type:"Rack",desc:"42U floor-standing cabinet",model:"42U"},
+  {type:"UPS",desc:"UPS 3KVA",model:""},
+  {type:"Screen",desc:"Monitor 24-inch",model:""},
+  {type:"Cable",desc:"Cat6 cable box 305m",model:""},
+  {type:"Accessories",desc:"Junction boxes, brackets, conduits & accessories",model:""},
+  {type:"Labour",desc:"Installation, testing & commissioning",model:""}
+];
+
+function blank(){return{project:{date:new Date().toISOString().slice(0,10)},settings:{days:31,hdd:8,hddModel:"",cmode:"all",prices:false,vat:true},catalog:{},cameras:[],items:[]}}
+var S=load()||blank();
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY));if(s&&s.cameras)return fix(s)}catch(e){}return null}
+function fix(s){var b=blank();s.project=s.project||{};s.settings=Object.assign(b.settings,s.settings||{});s.catalog=s.catalog||{};s.items=s.items||[];s.cameras=s.cameras||[];return s}
+var saveT;
+function save(){clearTimeout(saveT);saveT=setTimeout(function(){try{localStorage.setItem(KEY,JSON.stringify(S));$("saveState").style.opacity=1}catch(e){$("saveState").style.opacity=.3}},250)}
+
+function $(id){return document.getElementById(id)}
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function fmt(v,d){return isFinite(v)?Number(v).toLocaleString("en-US",{minimumFractionDigits:d||0,maximumFractionDigits:d||0}):"–"}
+function toast(t){var el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove("show")},2600)}
+function opts(list,sel){return list.map(function(o){var v=Array.isArray(o)?o[0]:o;return'<option'+(v===sel?" selected":"")+'>'+esc(v)+'</option>'}).join("")}
+
+/* ---------- normalising ---------- */
+function normLevel(v){v=String(v||"").toLowerCase();
+  if(v.indexOf("ident")>-1)return"Identification Level";if(v.indexOf("recog")>-1)return"Recognition Level";
+  if(v.indexOf("detec")>-1)return"Detection Level";if(v.indexOf("anpr")>-1||v.indexOf("lpr")>-1)return"ANPR";
+  if(v.indexOf("obs")>-1||v.indexOf("over")>-1)return"Observation Level";return v?"Detection Level":"Detection Level"}
+function normStatus(v){v=String(v||"").toLowerCase();return v.indexOf("new")>-1?"New":v?"Existing":"New"}
+function guessMbps(model,desc){var t=(model+" "+desc).toUpperCase();
+  if(/4K|8MP|8 MP|12MP/.test(t))return 8;var m=t.match(/(\d)\s?MP/);if(m)return {1:2,2:4,3:5,4:6,5:7,6:7}[m[1]]||4;return 4}
+function ensureModel(model){if(!model)return;if(!S.catalog[model])S.catalog[model]={brand:"",desc:"",mbps:guessMbps(model,""),price:""}}
+
+/* ---------- project ---------- */
+document.querySelectorAll("[data-p]").forEach(function(el){
+  el.value=S.project[el.getAttribute("data-p")]||"";
+  el.addEventListener("input",function(){S.project[el.getAttribute("data-p")]=el.value;save()});
+});
+$("btnGeo").addEventListener("click",function(){
+  if(!navigator.geolocation){toast("Location isn't available on this device");return}
+  navigator.geolocation.getCurrentPosition(function(p){var c=p.coords.latitude.toFixed(6)+","+p.coords.longitude.toFixed(6);$("p-coord").value=c;S.project.coords=c;
+    if(!S.project.location){S.project.location="https://maps.google.com/?q="+c;$("p-loc").value=S.project.location}save();toast("Location added")},
+    function(){toast("Couldn't get the location. Check location permission.")},{enableHighAccuracy:true,timeout:10000});
+});
+
+/* ---------- cameras ---------- */
+$("b-lvl").innerHTML=opts(LEVELS,"Recognition Level");
+function camRow(c,i){
+  return '<tr class="'+(c.status==="New"?"new":"")+'" data-i="'+i+'"><td class="n">'+(i+1)+'</td>'+
+  '<td><input data-k="name" value="'+esc(c.name)+'" aria-label="Camera name"></td>'+
+  '<td><input data-k="model" list="dl-models" value="'+esc(c.model)+'" aria-label="Model"></td>'+
+  '<td><select data-k="level" class="lvl-'+ABBR[c.level]+'" aria-label="Coverage">'+opts(LEVELS,c.level)+'</select></td>'+
+  '<td><select data-k="status" aria-label="Existing or new">'+opts(["Existing","New"],c.status)+'</select></td>'+
+  '<td><input data-k="nvr" list="dl-nvr" value="'+esc(c.nvr)+'" aria-label="NVR"></td>'+
+  '<td><input data-k="floor" list="dl-floor" value="'+esc(c.floor)+'" aria-label="Floor"></td>'+
+  '<td><input data-k="remarks" value="'+esc(c.remarks)+'" aria-label="Remarks"></td>'+
+  '<td><button class="btn-x" type="button" data-del="'+i+'" aria-label="Delete camera '+(i+1)+'">×</button></td></tr>';
+}
+function renderCams(){
+  $("camBody").innerHTML=S.cameras.map(camRow).join("");
+  $("camEmpty").hidden=S.cameras.length>0;
+  refresh();
+}
+$("camBody").addEventListener("input",onCamEdit);$("camBody").addEventListener("change",onCamEdit);
+function onCamEdit(e){
+  var el=e.target,k=el.getAttribute("data-k");if(!k)return;
+  var tr=el.closest("tr"),i=+tr.getAttribute("data-i");S.cameras[i][k]=el.value;
+  if(k==="model")ensureModel(el.value.trim());
+  if(k==="level")el.className="lvl-"+ABBR[el.value];
+  if(k==="status")tr.className=el.value==="New"?"new":"";
+  refresh();
+}
+$("camBody").addEventListener("click",function(e){var b=e.target.closest("[data-del]");if(!b)return;S.cameras.splice(+b.getAttribute("data-del"),1);renderCams()});
+$("btnAddCam").addEventListener("click",function(){
+  var last=S.cameras[S.cameras.length-1]||{};
+  S.cameras.push({name:nextName(last.name),model:last.model||"",level:last.level||"Recognition Level",status:last.status||"New",nvr:last.nvr||"NVR1",floor:last.floor||"",remarks:""});
+  renderCams();var rows=$("camBody").rows;rows[rows.length-1].querySelector("input").focus();
+});
+function nextName(n){if(!n)return"CAM/01";var m=String(n).match(/^(.*?)(\d+)(\D*)$/);if(!m)return n+"-2";var x=String(+m[2]+1);while(x.length<m[2].length)x="0"+x;return m[1]+x+m[3]}
+$("btnClearCams").addEventListener("click",function(){if(!S.cameras.length)return;if(confirm("Remove all "+S.cameras.length+" cameras from the list?")){S.cameras=[];renderCams()}});
+
+/* bulk */
+function bulkNames(){var n=Math.max(1,Math.min(500,+$("b-n").value||1)),st=+$("b-start").value||0,p=$("b-prefix").value,w=Math.max(2,String(st+n-1).length),out=[];
+  for(var i=0;i<n;i++){var x=String(st+i);while(x.length<w)x="0"+x;out.push(p+x)}return out}
+function bulkPrev(){var a=bulkNames();$("b-prev").textContent=a.length>3?a[0]+", "+a[1]+" … "+a[a.length-1]:a.join(", ")}
+["b-n","b-prefix","b-start"].forEach(function(id){$(id).addEventListener("input",bulkPrev)});
+$("btnBulk").addEventListener("click",function(){
+  var m=$("b-model").value.trim();ensureModel(m);
+  bulkNames().forEach(function(name){S.cameras.push({name:name,model:m,level:$("b-lvl").value,status:$("b-st").value,nvr:$("b-nvr").value.trim(),floor:$("b-floor").value.trim(),remarks:$("b-rm").value.trim()})});
+  var n=+$("b-n").value||1;$("b-start").value=(+$("b-start").value||0)+n;bulkPrev();
+  renderCams();toast(n+" camera"+(n>1?"s":"")+" added");
+});
+
+/* paste */
+function addRows(rows){
+  var floor="",added=0;
+  rows.forEach(function(r){
+    r=r.map(function(x){return String(x==null?"":x).trim()});
+    if(!r.join(""))return;
+    if(/camera\s*name/i.test(r.join(" "))||/^project/i.test(r[0]))return;   // header lines
+    if(/^\d+$/.test(r[0])&&r.length>1)r.shift();                              // drop N. column
+    var c={name:r[0]||"",model:r[1]||"",level:normLevel(r[2]),status:normStatus(r[3]),nvr:r[4]||"",remarks:r[5]||"",floor:(r[6]||"").replace(/\s+/g," ")};
+    if(c.floor)floor=c.floor;else c.floor=floor;
+    if(!c.name&&!c.model)return;
+    ensureModel(c.model);S.cameras.push(c);added++;
+  });
+  return added;
+}
+$("btnPaste").addEventListener("click",function(){
+  var t=$("pasteBox").value;if(!t.trim()){toast("Paste some rows first");return}
+  var rows=t.replace(/\r/g,"").split("\n").map(function(l){return l.split("\t")});
+  var n=addRows(rows);$("pasteBox").value="";renderCams();toast(n?n+" cameras added":"No camera rows found");
+});
+
+/* ---------- derived ---------- */
+function counted(){var m=S.settings.cmode;return S.cameras.filter(function(c){return m==="all"||(m==="new"?c.status==="New":c.status!=="New")})}
+function breakdown(list){var o={};list.forEach(function(c){var a=ABBR[c.level]||"DET";o[a]=(o[a]||0)+1});
+  return["ID","REC","DET","OBS","ANPR"].filter(function(k){return o[k]}).map(function(k){return o[k]+" "+k}).join(" + ")}
+function camLines(){
+  var g={},order=[];
+  counted().forEach(function(c){var m=c.model||"(no model)";if(!g[m]){g[m]=[];order.push(m)}g[m].push(c)});
+  return order.map(function(m){var cat=S.catalog[m]||{};return{auto:true,type:"Camera",desc:cat.desc||"IP camera",model:((cat.brand?cat.brand+" ":"")+(m==="(no model)"?"":m)).trim(),qty:g[m].length,price:cat.price,notes:breakdown(g[m]),key:m}});
+}
+function storage(){
+  var g={},order=[],days=+S.settings.days||31,tb=+S.settings.hdd||8,per=tb*GB_PER_TB;
+  S.cameras.forEach(function(c){var k=c.nvr||"(no NVR)";if(!g[k]){g[k]=[];order.push(k)}g[k].push(c)});
+  order.sort(function(a,b){return a.localeCompare(b,undefined,{numeric:true})});
+  return order.map(function(k){
+    var l=g[k],mb=0,id=0,rd=0,ot=0;
+    l.forEach(function(c){var cat=S.catalog[c.model];mb+=cat&&cat.mbps!==""?+cat.mbps:4;var a=ABBR[c.level];if(a==="ID")id++;else if(a==="REC"||a==="DET")rd++;else ot++});
+    var req=mb*86400*days/8/1e3*1e9/Math.pow(1024,3);   // GB as the NVR reports it
+    var n=Math.max(1,Math.ceil(req/per));
+    var ch=[4,8,16,32,64,128,256].filter(function(x){return x>=l.length})[0]||256;
+    var bays=[1,2,4,8,16].filter(function(x){return x>=n})[0];
+    return{nvr:k,cams:l.length,id:id,rd:rd,ot:ot,mbps:mb,req:req,hdd:n,cap:n*per,ch:ch,bays:bays};
+  });
+}
+
+function refresh(){
+  // datalists
+  var models=Object.keys(S.catalog).filter(function(m){return S.cameras.some(function(c){return c.model===m})});
+  Object.keys(S.catalog).forEach(function(m){if(models.indexOf(m)<0&&!S.catalog[m].desc)delete S.catalog[m]});
+  S.cameras.forEach(function(c){ensureModel(c.model)});
+  function uniq(k){var o=[];S.cameras.forEach(function(c){if(c[k]&&o.indexOf(c[k])<0)o.push(c[k])});return o}
+  $("dl-models").innerHTML=Object.keys(S.catalog).map(function(m){return'<option value="'+esc(m)+'">'}).join("");
+  $("dl-nvr").innerHTML=uniq("nvr").concat(["NVR1","NVR2","NVR3","NVR4"]).filter(function(v,i,a){return a.indexOf(v)===i}).map(function(m){return'<option value="'+esc(m)+'">'}).join("");
+  $("dl-floor").innerHTML=uniq("floor").concat(["Basement","GF","FF","SF","Roof"]).filter(function(v,i,a){return a.indexOf(v)===i}).map(function(m){return'<option value="'+esc(m)+'">'}).join("");
+  // summary
+  var n=S.cameras.length,nw=S.cameras.filter(function(c){return c.status==="New"}).length;
+  $("navCams").textContent=n;
+  $("camSum").innerHTML=n?['<span class="pill"><b>'+n+'</b> cameras</span>','<span class="pill"><b>'+nw+'</b> new · <b>'+(n-nw)+'</b> existing</span>','<span class="pill">'+esc(breakdown(S.cameras))+'</span>','<span class="pill"><b>'+uniq("nvr").length+'</b> NVR</span>','<span class="pill"><b>'+uniq("floor").length+'</b> floors</span>'].join(""):"";
+  renderCatalog();renderStorage();renderBoq();save();
+}
+
+/* ---------- catalog ---------- */
+var catKeys="";
+function renderCatalog(){
+  var used={};S.cameras.forEach(function(c){if(c.model)used[c.model]=(used[c.model]||0)+1});
+  var keys=Object.keys(used);
+  var sig=keys.join("|")+S.settings.prices;
+  if(sig!==catKeys){
+    catKeys=sig;
+    $("catBody").innerHTML=keys.map(function(m){var c=S.catalog[m];return'<tr data-m="'+esc(m)+'"><td class="static"><b>'+esc(m)+'</b></td>'+
+      '<td><input data-c="brand" value="'+esc(c.brand)+'" placeholder="Brand" aria-label="Brand for '+esc(m)+'"></td>'+
+      '<td><input data-c="desc" value="'+esc(c.desc)+'" placeholder="e.g. 2MP IR bullet camera" aria-label="Description for '+esc(m)+'"></td>'+
+      '<td class="num"><input data-c="mbps" type="number" min="0" step="0.5" value="'+esc(c.mbps)+'" style="text-align:right;width:90px" aria-label="Bitrate for '+esc(m)+'"></td>'+
+      '<td class="num pcol"><input data-c="price" type="number" min="0" step="any" value="'+esc(c.price)+'" style="text-align:right;width:100px" aria-label="Unit price for '+esc(m)+'"></td>'+
+      '<td class="num static" data-q></td></tr>'}).join("");
+    $("catEmpty").hidden=keys.length>0;
+  }
+  [].forEach.call($("catBody").rows,function(r){r.querySelector("[data-q]").textContent=used[r.getAttribute("data-m")]||0});
+  showPrices();
+}
+$("catBody").addEventListener("input",function(e){var k=e.target.getAttribute("data-c");if(!k)return;var m=e.target.closest("tr").getAttribute("data-m");S.catalog[m][k]=e.target.value;renderStorage();renderBoq();save()});
+
+/* ---------- storage ---------- */
+$("s-hdd").innerHTML=HDDS.map(function(t){return'<option value="'+t+'"'+(t==S.settings.hdd?" selected":"")+'>'+(t>=1?t+" TB":t*1000+" GB")+'</option>'}).join("");
+$("s-days").value=S.settings.days;$("s-hddm").value=S.settings.hddModel||"";
+$("s-days").addEventListener("input",function(){S.settings.days=+this.value||31;renderStorage();save()});
+$("s-hdd").addEventListener("change",function(){S.settings.hdd=+this.value;renderStorage();save()});
+$("s-hddm").addEventListener("input",function(){S.settings.hddModel=this.value;save()});
+function renderStorage(){
+  var st=storage();
+  $("storBody").innerHTML=st.map(function(r){return'<tr><td class="static"><b>'+esc(r.nvr)+'</b></td><td class="num static">'+r.cams+'</td><td class="num static">'+r.id+'</td><td class="num static">'+r.rd+'</td><td class="num static">'+r.ot+'</td><td class="num static">'+fmt(r.mbps,1)+'</td><td class="num static">'+fmt(r.req)+' GB</td><td class="num static"><b>'+r.hdd+' × '+S.settings.hdd+' TB</b></td><td class="num static ok">'+fmt(r.cap)+' GB</td><td class="static muted">'+r.ch+' ch · '+r.bays+'+ bays</td></tr>'}).join("");
+  $("storEmpty").hidden=st.length>0;
+}
+$("btnStoreBoq").addEventListener("click",function(){
+  var st=storage().filter(function(r){return r.nvr!=="(no NVR)"});if(!st.length){toast("Give the cameras an NVR first");return}
+  var manual=S.items.filter(function(it){return!it.fromStorage&&/^(nvr|hard ?disk|hdd)$/i.test(String(it.type).trim())});
+  var rep=manual.length&&confirm("The BOQ already has "+manual.length+" NVR / hard disk line"+(manual.length>1?"s":"")+".\n\nOK = replace them with the suggested lines\nCancel = keep them and add the suggestion too");
+  S.items=S.items.filter(function(it){return!it.fromStorage&&!(rep&&manual.indexOf(it)>-1)});
+  var groups={};
+  st.forEach(function(r){var d=r.ch+" Channel NVR with "+r.bays+"x HDD, H.265";groups[d]=groups[d]||{n:0,names:[]};groups[d].n++;groups[d].names.push(r.nvr)});
+  Object.keys(groups).forEach(function(d){S.items.push({type:"NVR",desc:d,model:"",qty:groups[d].n,price:"",notes:groups[d].names.join(", "),fromStorage:true})});
+  var hdd=st.reduce(function(a,r){return a+r.hdd},0);
+  S.items.push({type:"Hard disk",desc:"Surveillance HDD "+S.settings.hdd+"TB",model:S.settings.hddModel||"",qty:hdd,price:"",notes:st.map(function(r){return r.nvr+": "+r.hdd}).join(", "),fromStorage:true});
+  renderBoq();save();toast("NVR and hard disk lines added to the BOQ");location.hash="#boq";
+});
+
+/* ---------- BOQ ---------- */
+$("dl-types").innerHTML=TYPES.map(function(t){return'<option value="'+t+'">'}).join("");
+$("chips").innerHTML=CHIPS.map(function(c,i){return'<button class="chip" type="button" data-chip="'+i+'">+ '+esc(c.desc.replace(/,.*$/,""))+'</button>'}).join("");
+$("chips").addEventListener("click",function(e){var b=e.target.closest("[data-chip]");if(!b)return;var c=CHIPS[+b.getAttribute("data-chip")];S.items.push({type:c.type,desc:c.desc,model:c.model,qty:1,price:"",notes:""});renderBoq(true);save()});
+$("btnAddItem").addEventListener("click",function(){S.items.push({type:"",desc:"",model:"",qty:1,price:"",notes:""});renderBoq(true);save()});
+document.querySelectorAll('input[name=cmode]').forEach(function(r){r.checked=r.value===S.settings.cmode;r.addEventListener("change",function(){S.settings.cmode=this.value;renderBoq();save()})});
+$("o-prices").checked=!!S.settings.prices;$("o-vat").checked=S.settings.vat!==false;
+$("o-prices").addEventListener("change",function(){S.settings.prices=this.checked;catKeys="";renderCatalog();renderBoq();save()});
+$("o-vat").addEventListener("change",function(){S.settings.vat=this.checked;renderBoq();save()});
+function showPrices(){document.querySelectorAll(".pcol,.pcol-t").forEach(function(el){el.hidden=!S.settings.prices})}
+function allLines(){return camLines().concat(S.items.map(function(it,i){var o=Object.assign({},it);o.idx=i;return o}))}
+function totals(lines){var sub=0;lines.forEach(function(l){sub+=(+l.qty||0)*(+l.price||0)});var vat=S.settings.vat?sub*.05:0;return{sub:sub,vat:vat,total:sub+vat}}
+function renderBoq(focusLast){
+  var lines=allLines();
+  $("boqBody").innerHTML=lines.map(function(l,n){
+    var lt=(+l.qty||0)*(+l.price||0);
+    if(l.auto)return'<tr class="auto"><td class="n">'+(n+1)+'</td><td class="static">Camera<span class="auto-tag">AUTO</span></td><td class="static">'+esc(l.desc)+'</td><td class="static">'+esc(l.model)+'</td><td class="num static"><b>'+l.qty+'</b></td><td class="num static pcol">'+(l.price?fmt(+l.price,2):"–")+'</td><td class="num static pcol">'+(lt?fmt(lt,2):"–")+'</td><td class="static muted">'+esc(l.notes)+'</td><td></td></tr>';
+    return'<tr data-it="'+l.idx+'"><td class="n">'+(n+1)+'</td><td><input data-f="type" list="dl-types" value="'+esc(l.type)+'" aria-label="Device type"></td><td><input data-f="desc" value="'+esc(l.desc)+'" aria-label="Description"></td><td><input data-f="model" value="'+esc(l.model)+'" aria-label="Model number"></td><td class="num"><input data-f="qty" type="number" min="0" value="'+esc(l.qty)+'" style="text-align:right" aria-label="Quantity"></td><td class="num pcol"><input data-f="price" type="number" min="0" step="any" value="'+esc(l.price)+'" style="text-align:right" aria-label="Unit price"></td><td class="num static pcol" data-lt>'+(lt?fmt(lt,2):"–")+'</td><td><input data-f="notes" value="'+esc(l.notes)+'" aria-label="Notes"></td><td><button class="btn-x" type="button" data-rm="'+l.idx+'" aria-label="Delete line">×</button></td></tr>';
+  }).join("")||'<tr><td colspan="9" class="empty"><b>Empty BOQ</b>Add cameras in Step 02 or use the quick-add buttons.</td></tr>';
+  $("navBoq").textContent=lines.length;
+  renderTot(lines);showPrices();
+  if(focusLast){var r=$("boqBody").rows;var inp=r[r.length-1].querySelector("input[data-f=desc]");if(inp){inp.focus();inp.select()}}
+}
+function renderTot(lines){var t=totals(lines||allLines());
+  $("boqTot").innerHTML='<div><span>Subtotal</span><span>AED '+fmt(t.sub,2)+'</span></div>'+(S.settings.vat?'<div><span>VAT 5%</span><span>AED '+fmt(t.vat,2)+'</span></div>':"")+'<div class="g"><span>Total</span><span>AED '+fmt(t.total,2)+'</span></div>'}
+$("boqBody").addEventListener("input",function(e){var f=e.target.getAttribute("data-f");if(!f)return;var tr=e.target.closest("tr"),i=+tr.getAttribute("data-it");S.items[i][f]=e.target.value;delete S.items[i].fromStorage;
+  if(f==="qty"||f==="price"){var it=S.items[i],lt=(+it.qty||0)*(+it.price||0);tr.querySelector("[data-lt]").textContent=lt?fmt(lt,2):"–";renderTot()}save()});
+$("boqBody").addEventListener("click",function(e){var b=e.target.closest("[data-rm]");if(!b)return;S.items.splice(+b.getAttribute("data-rm"),1);renderBoq();save()});
+
+/* ---------- section highlight ---------- */
+var links=[].slice.call(document.querySelectorAll(".steps a"));
+if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)links.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id)})})},{rootMargin:"-45% 0px -50% 0px"});
+  document.querySelectorAll("main .sec").forEach(function(s){io.observe(s)})}
+
+/* ---------- files ---------- */
+function fname(ext){var b=(S.project.ref||S.project.name||"Project").replace(/[^\w\-. ]+/g,"").trim().replace(/\s+/g,"_")||"Project";return b+"_BOQ."+ext}
+function download(blob,name){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500)}
+var exLoad;
+function excel(){if(window.ExcelJS)return Promise.resolve(window.ExcelJS);if(exLoad)return exLoad;
+  exLoad=new Promise(function(res,rej){var s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js";s.onload=function(){res(window.ExcelJS)};s.onerror=function(){exLoad=null;rej(new Error("load"))};document.head.appendChild(s)});return exLoad}
+
+$("btnJson").addEventListener("click",function(){download(new Blob([JSON.stringify(S,null,1)],{type:"application/json"}),fname("json").replace("_BOQ.json",".qtboq.json"));toast("Project file saved")});
+$("btnNew").addEventListener("click",function(){if((S.cameras.length||S.items.length||S.project.name)&&!confirm("Start a new project? The current one will be cleared from this device. Download it first if you need it."))return;S=blank();reloadUI();toast("New project started")});
+function pick(){$("fileIn").value="";$("fileIn").click()}
+$("btnOpen").addEventListener("click",pick);$("btnImport2").addEventListener("click",pick);
+$("fileIn").addEventListener("change",function(){
+  var f=this.files[0];if(!f)return;
+  if(/\.json$/i.test(f.name)){f.text().then(function(t){try{var s=JSON.parse(t);if(!s.cameras)throw 0;
+      if((S.cameras.length||S.items.length)&&!confirm("Replace the current project with "+f.name+"?"))return;S=fix(s);reloadUI();toast("Project opened")}catch(e){toast("That file isn't a BOQ project file")}});return}
+  toast("Reading "+f.name+"…");
+  Promise.all([excel(),f.arrayBuffer()]).then(function(r){var wb=new r[0].Workbook();return wb.xlsx.load(r[1]).then(function(){importBook(wb)})})
+    .catch(function(){toast("Couldn't read that Excel file")});
+});
+function cv(cell){var v=cell.value;if(v==null&&cell.isMerged&&cell.master)v=cell.master.value;
+  if(v&&typeof v==="object"){if(v instanceof Date)return v.toISOString().slice(0,10);if(v.richText)return v.richText.map(function(t){return t.text}).join("");if("result" in v)return v.result;if(v.text)return v.text;if(v.hyperlink)return v.hyperlink}
+  return v==null?"":v}
+function rowsOf(ws){var out=[];ws.eachRow({includeEmpty:true},function(row){var a=[];for(var c=1;c<=Math.max(row.cellCount,10);c++)a.push(cv(row.getCell(c)));out.push(a)});return out}
+function importBook(wb){
+  var replace=!(S.cameras.length||S.items.length)||confirm("Replace the current project with this file?\n\nOK = replace, Cancel = add the cameras to the current list");
+  if(replace){S=blank()}
+  var cams=0,items=0;
+  wb.eachSheet(function(ws){
+    var rows=rowsOf(ws),name=ws.name.toLowerCase();
+    // camera list: find header with "camera name"
+    var h=-1;rows.some(function(r,i){if(r.some(function(x){return/camera\s*name/i.test(String(x))})){h=i;return true}});
+    if(h>-1){
+      var hd=rows[h].map(function(x){return String(x).toLowerCase()});
+      function col(re){for(var i=0;i<hd.length;i++)if(re.test(hd[i]))return i;return -1}
+      var ci={name:col(/camera\s*name/),model:col(/model/),level:col(/cove|level/),status:col(/exist|new/),nvr:col(/nvr/),remarks:col(/remark/),floor:col(/floor/)};
+      var mapped=rows.slice(h+1).map(function(r){return[ci.name,ci.model,ci.level,ci.status,ci.nvr,ci.remarks,ci.floor].map(function(i){return i>-1?r[i]:""})});
+      cams+=addRows(mapped);
+      if(!S.project.ref){var t=String(rows[0]&&rows[0][0]||"");var m=t.match(/project\s*name\s*:?\s*(.+)/i);if(m)S.project.ref=m[1].trim()}
+      return;
+    }
+    if(/client|detail/.test(name)){
+      var map={project:"name",client:"client","client id":"clientId",location:"location",cordinate:"coords",coordinate:"coords",number:"phone",phone:"phone",email:"email","amc expiry":"amc",technician:"tech",date:"date",notes:"notes",value:"value"};
+      rows.forEach(function(r){var k=String(r[0]).trim().toLowerCase(),v=String(r[1]==null?"":r[1]).trim();if(map[k]&&v)S.project[map[k]]=v;else if(!k&&v&&/aed|\d{4,}/i.test(v)&&!S.project.value)S.project.value=v});
+      return;
+    }
+    if(/boq/.test(name)){
+      var bh=rows.findIndex(function(r){return r.some(function(x){return/^q(ty|yt)/i.test(String(x).trim())})});if(bh<0)return;
+      var bd=rows[bh].map(function(x){return String(x).toLowerCase()});
+      function bc(re){for(var i=0;i<bd.length;i++)if(re.test(bd[i]))return i;return -1}
+      var t=bc(/type|tybe/),d=bc(/desc|disc/),m=bc(/model/),q=bc(/^q/),p=bc(/price|rate/);
+      rows.slice(bh+1).forEach(function(r){var type=String(r[t]||"").trim(),desc=String(r[d]||"").trim(),model=String(r[m]||"").trim();if(!type&&!desc)return;
+        if(/camera/i.test(type)){var mm=Object.keys(S.catalog).filter(function(k){return model.indexOf(k)>-1})[0];
+          if(mm){S.catalog[mm].desc=desc;var br=model.replace(mm,"").trim();if(br)S.catalog[mm].brand=br;if(p>-1&&r[p])S.catalog[mm].price=r[p]}return}
+        S.items.push({type:type,desc:desc.replace(/\s*\n\s*/g," "),model:model,qty:+r[q]||1,price:p>-1?r[p]:"",notes:""});items++});
+    }
+  });
+  if(!S.project.date)S.project.date=new Date().toISOString().slice(0,10);
+  reloadUI();
+  toast(cams+" cameras"+(items?" and "+items+" BOQ lines":"")+" imported");
+}
+function reloadUI(){
+  document.querySelectorAll("[data-p]").forEach(function(el){el.value=S.project[el.getAttribute("data-p")]||""});
+  $("s-days").value=S.settings.days;$("s-hdd").value=S.settings.hdd;$("s-hddm").value=S.settings.hddModel||"";
+  document.querySelectorAll('input[name=cmode]').forEach(function(r){r.checked=r.value===S.settings.cmode});
+  $("o-prices").checked=!!S.settings.prices;$("o-vat").checked=S.settings.vat!==false;
+  catKeys="";renderCams();
+}
+
+/* ---------- Excel export ---------- */
+function doXlsx(){
+  toast("Preparing Excel file…");
+  excel().then(function(X){
+    var wb=new X.Workbook();wb.creator="Queen Tech Solutions";wb.created=new Date();
+    var GOLD="FFE2A63F",DARK="FF131210",thin={style:"thin",color:{argb:"FF999999"}},B={top:thin,left:thin,bottom:thin,right:thin};
+    function head(row){row.eachCell(function(c){c.font={bold:true,color:{argb:DARK}};c.fill={type:"pattern",pattern:"solid",fgColor:{argb:GOLD}};c.alignment={vertical:"middle",horizontal:"center",wrapText:true};c.border=B});row.height=30}
+    function body(ws,from){ws.eachRow(function(r,i){if(i>=from)r.eachCell({includeEmpty:false},function(c){c.border=B;c.alignment=Object.assign({vertical:"middle",wrapText:true},c.alignment||{})})})}
+    var P=S.project;
+    // Client Details
+    var cd=wb.addWorksheet("Client Details");cd.columns=[{width:16},{width:52}];
+    [["project",P.name],["Project ref",P.ref],["Client",P.client],["Client ID",P.clientId],["location",P.location],[" Cordinate",P.coords],["number",P.phone],["email",P.email],["AMC expiry",P.amc],["Contract value",P.value],["Technician",P.tech],["Survey date",P.date],["Notes",P.notes]]
+      .forEach(function(r){var row=cd.addRow([r[0],r[1]||""]);row.getCell(1).font={bold:true}});body(cd,1);
+    if(P.location&&/^https?:/i.test(P.location))cd.getCell("B5").value={text:P.location,hyperlink:P.location};
+    // Camera list
+    var cl=wb.addWorksheet("Camera list",{views:[{state:"frozen",ySplit:2}]});
+    cl.columns=[{width:6},{width:32},{width:18},{width:22},{width:14},{width:16},{width:20},{width:12}];
+    cl.mergeCells("A1:H1");cl.getCell("A1").value="Project Name:"+(P.ref||P.name||"");cl.getCell("A1").font={bold:true,size:13};cl.getRow(1).height=24;
+    head(cl.addRow(["N.","Camera Name","Camera Model","Coveage Level","Existing/New","Camera Location in\nAny NVR","Remarks","Floor"]));
+    var start=3,prev=null;
+    S.cameras.forEach(function(c,i){cl.addRow([i+1,c.name,c.model,c.level,c.status==="New"?"New":"Existing",c.nvr,c.remarks,c.floor]);
+      var r=i+3;if(c.floor!==prev){if(prev!==null&&r-1>start)cl.mergeCells("H"+start+":H"+(r-1));start=r;prev=c.floor}});
+    var last=S.cameras.length+2;if(S.cameras.length&&last>start)cl.mergeCells("H"+start+":H"+last);
+    body(cl,3);cl.getColumn(1).alignment={horizontal:"center",vertical:"middle"};cl.getColumn(8).alignment={horizontal:"center",vertical:"middle",wrapText:true};
+    // BOQ
+    var bq=wb.addWorksheet("BOQ",{views:[{state:"frozen",ySplit:1}]}),pr=!!S.settings.prices,lines=allLines();
+    bq.columns=[{width:5},{width:14},{width:48},{width:30},{width:8}].concat(pr?[{width:13},{width:15}]:[]).concat([{width:30}]);
+    head(bq.addRow(["N","Device Tybe","Discription","Model number","QYT"].concat(pr?["Unit price (AED)","Total (AED)"]:[]).concat(["Notes"])));
+    lines.forEach(function(l,i){var row=bq.addRow([i+1,l.type,l.desc,l.model,+l.qty||0].concat(pr?[+l.price||0,null]:[]).concat([l.notes||""]));
+      if(pr){var n=row.number;row.getCell(7).value={formula:"E"+n+"*F"+n};row.getCell(6).numFmt=row.getCell(7).numFmt="#,##0.00"}});
+    body(bq,2);bq.getColumn(1).alignment={horizontal:"center",vertical:"middle"};bq.getColumn(5).alignment={horizontal:"center",vertical:"middle"};
+    if(pr&&lines.length){var L=lines.length+1,r1=bq.addRow([]);r1.getCell(6).value="Subtotal";r1.getCell(7).value={formula:"SUM(G2:G"+L+")"};
+      var r2=bq.addRow([]);r2.getCell(6).value="VAT 5%";r2.getCell(7).value=S.settings.vat?{formula:"G"+r1.number+"*0.05"}:0;
+      var r3=bq.addRow([]);r3.getCell(6).value="Total";r3.getCell(7).value={formula:"G"+r1.number+"+G"+r2.number};
+      [r1,r2,r3].forEach(function(r){r.getCell(6).font={bold:true};r.getCell(7).numFmt="#,##0.00";r.getCell(7).font={bold:r===r3};r.getCell(7).border=B;r.getCell(6).border=B})}
+    // STORAGE
+    var sg=wb.addWorksheet("STORAGE"),st=storage();
+    sg.columns=[{width:10},{width:22},{width:10},{width:8},{width:20},{width:14},{width:12},{width:10},{width:12}];
+    head(sg.addRow(["NVR","HARD MODEL","SIZE","QYT","Total actual capacity","Required","Cameras","Total Mbps","Days kept"]));
+    st.forEach(function(r){sg.addRow([r.nvr,S.settings.hddModel||"Surveillance HDD",S.settings.hdd+"TB",r.hdd,Math.round(r.cap)+" GB",Math.round(r.req)+"GB",r.cams,+r.mbps.toFixed(1),+S.settings.days])});
+    body(sg,2);
+    sg.addRow([]);var sh=sg.addRow(["","ID","REC/DET","ANPR/other"]);sh.eachCell(function(c){if(c.value){c.font={bold:true};c.border=B}});
+    st.forEach(function(r){var row=sg.addRow([r.nvr,r.id,r.rd,r.ot]);row.eachCell(function(c){c.border=B})});
+    return wb.xlsx.writeBuffer();
+  }).then(function(buf){download(new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),fname("xlsx"));toast("Excel file downloaded")})
+  .catch(function(e){console.error(e);toast("Couldn't build the Excel file. Check your internet connection and try again.")});
+}
+$("btnXlsx").addEventListener("click",doXlsx);$("btnXlsx2").addEventListener("click",doXlsx);
+
+/* ---------- print ---------- */
+function buildPrint(){
+  var P=S.project,pr=!!S.settings.prices,lines=allLines(),t=totals(lines);
+  var info=[["Project",P.name],["Ref",P.ref],["Client",P.client],["Phone",P.phone],["Email",P.email],["Location",P.coords||P.location],["Survey date",P.date],["Technician",P.tech]].filter(function(r){return r[1]});
+  var h='<div class="ph"><div><h1>Bill of Quantities</h1><small>Queen Tech Solutions · CCTV · Access control · IT</small></div><div class="r"><b>Queen Tech Solutions</b><br>Silver Tower, Business Bay, Dubai<br>+971 55 797 1520 · noah@queentechsolution.info<br>queentechsolution.info</div></div>';
+  h+='<div class="info">'+info.map(function(r){return'<div><b>'+esc(r[0])+'</b> '+esc(r[1])+'</div>'}).join("")+'</div>';
+  h+='<h2>Items</h2><table><thead><tr><th>N</th><th>Device type</th><th>Description</th><th>Model number</th><th>Qty</th>'+(pr?'<th>Unit price</th><th>Total</th>':'')+'<th>Notes</th></tr></thead><tbody>'+
+    lines.map(function(l,i){var lt=(+l.qty||0)*(+l.price||0);return'<tr><td>'+(i+1)+'</td><td>'+esc(l.type)+'</td><td>'+esc(l.desc)+'</td><td>'+esc(l.model)+'</td><td class="num">'+esc(l.qty)+'</td>'+(pr?'<td class="num">'+(l.price?fmt(+l.price,2):"")+'</td><td class="num">'+(lt?fmt(lt,2):"")+'</td>':'')+'<td>'+esc(l.notes)+'</td></tr>'}).join("")+'</tbody></table>';
+  if(pr)h+='<div class="tot"><div><span>Subtotal</span><span>AED '+fmt(t.sub,2)+'</span></div>'+(S.settings.vat?'<div><span>VAT 5%</span><span>AED '+fmt(t.vat,2)+'</span></div>':'')+'<div class="g"><span>Total</span><span>AED '+fmt(t.total,2)+'</span></div></div>';
+  var st=storage();
+  if(st.length)h+='<h2>Storage ('+esc(S.settings.days)+' days)</h2><table><thead><tr><th>NVR</th><th>Cameras</th><th>ID</th><th>REC/DET</th><th>ANPR/other</th><th>Required</th><th>Hard disks</th><th>Actual capacity</th></tr></thead><tbody>'+
+    st.map(function(r){return'<tr><td>'+esc(r.nvr)+'</td><td class="num">'+r.cams+'</td><td class="num">'+r.id+'</td><td class="num">'+r.rd+'</td><td class="num">'+r.ot+'</td><td class="num">'+fmt(r.req)+' GB</td><td class="num">'+r.hdd+' × '+S.settings.hdd+' TB</td><td class="num">'+fmt(r.cap)+' GB</td></tr>'}).join("")+'</tbody></table>';
+  if($("pr-cams").checked&&S.cameras.length)h+='<h2>Camera list</h2><table><thead><tr><th>N.</th><th>Camera name</th><th>Model</th><th>Coverage</th><th>Existing/New</th><th>NVR</th><th>Floor</th><th>Remarks</th></tr></thead><tbody>'+
+    S.cameras.map(function(c,i){return'<tr><td>'+(i+1)+'</td><td>'+esc(c.name)+'</td><td>'+esc(c.model)+'</td><td>'+esc(c.level)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.nvr)+'</td><td>'+esc(c.floor)+'</td><td>'+esc(c.remarks)+'</td></tr>'}).join("")+'</tbody></table>';
+  h+='<div class="sig"><div>Prepared by: '+esc(P.tech||"")+'</div><div>Client approval</div></div><p class="foot">Quantities based on site survey'+(P.date?" of "+esc(P.date):"")+'. Final quantities may change after detailed design.</p>';
+  $("print").innerHTML=h;
+}
+window.addEventListener("beforeprint",buildPrint);
+$("btnPrint").addEventListener("click",function(){buildPrint();window.print()});
+
+bulkPrev();renderCams();
+})();
+</script>
+</body>
+</html>
