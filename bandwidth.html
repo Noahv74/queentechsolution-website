@@ -127,6 +127,31 @@ input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 
 .step:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
 .step input::-webkit-outer-spin-button,.step input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 
+/* camera groups */
+.groups{display:grid;gap:12px}
+.grp{border:1px solid var(--line-2);border-radius:4px;background:var(--bg);padding:14px;display:grid;gap:12px;position:relative}
+.grp::before{content:"";position:absolute;left:-1px;top:12px;bottom:12px;width:2px;background:var(--gold);border-radius:2px}
+.grp-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.grp-h b{font:800 1.15rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.grp-h b span{color:var(--gold)}
+.grp-h .info{font:500 .7rem var(--f-mono);color:var(--muted);letter-spacing:.04em}
+.grp-a{display:flex;gap:6px}
+.mini{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:transparent;border:1px solid var(--line-2);color:var(--muted);border-radius:3px;padding:6px 9px;cursor:pointer}
+.mini:hover{border-color:var(--gold);color:var(--gold-2)}
+.mini.del:hover{border-color:var(--live);color:#F08A78}
+.grp-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.grp-g .s2{grid-column:span 2}
+.grp-g .s3{grid-column:1/-1}
+.br-input{justify-content:start}
+.grp-g .field>label{font-size:.62rem}
+.grp-g select,.grp-g input{font-size:.9rem;padding:10px 11px}
+.grp-g select{padding-right:30px}
+.grp-g .step input{padding:9px 4px}
+.grp-g .step{grid-template-columns:38px minmax(0,1fr) 38px}
+@media (max-width:1100px) and (min-width:921px){.grp-g{grid-template-columns:1fr 1fr}.grp-g .s2{grid-column:span 2}}
+@media (max-width:520px){.grp-g{grid-template-columns:1fr 1fr}.grp-g .s2{grid-column:span 2}}
+.br-input{display:flex;gap:10px;align-items:center}
+
 /* office usage rows */
 .urows{display:grid;border-top:1px solid var(--line)}
 .urow{display:grid;grid-template-columns:minmax(0,1fr) 148px;gap:14px;align-items:center;padding:12px 0;border-bottom:1px dashed var(--line)}
@@ -226,41 +251,15 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
 
   <!-- CCTV -->
   <div class="panel calc" role="tabpanel" id="p-cctv" aria-labelledby="t-cctv">
-    <form class="inputs" data-label="Camera system" onsubmit="return false">
-      <div class="two">
-        <div class="field"><label for="c-n">Number of cameras</label>
-          <div class="step"><button type="button" data-step="-1" aria-label="Fewer cameras">−</button><input id="c-n" type="number" min="1" max="512" value="8" inputmode="numeric"><button type="button" data-step="1" aria-label="More cameras">+</button></div></div>
-        <div class="field"><label for="c-days">Days of footage to keep</label>
-          <div class="step"><button type="button" data-step="-1" aria-label="Fewer days">−</button><input id="c-days" type="number" min="1" max="365" value="30" inputmode="numeric"><button type="button" data-step="1" aria-label="More days">+</button></div></div>
+    <form class="inputs" data-label="Camera groups" onsubmit="return false">
+      <div class="field"><label for="c-days">Days of footage to keep</label>
+        <div class="step" style="max-width:240px"><button type="button" data-step="-1" aria-label="Fewer days">−</button><input id="c-days" type="number" min="1" max="365" value="30" inputmode="numeric"><button type="button" data-step="1" aria-label="More days">+</button></div></div>
+      <div id="groups" class="groups"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button type="button" class="btn btn-gold" id="addGroup">+ Add camera group</button>
+        <span class="hint">One group per camera type, e.g. 10 × Full HD on H.265 and 20 × 4MP on H.265+.</span>
       </div>
-      <div class="field"><span class="lbl" id="l-res">Camera resolution</span>
-        <div class="seg" role="radiogroup" aria-labelledby="l-res">
-          <label><input type="radio" name="res" value="2"><span>2MP · 1080p</span></label>
-          <label><input type="radio" name="res" value="4" checked><span>4MP · 2K</span></label>
-          <label><input type="radio" name="res" value="5"><span>5MP</span></label>
-          <label><input type="radio" name="res" value="8"><span>8MP · 4K</span></label>
-        </div></div>
-      <div class="field"><span class="lbl" id="l-codec">Video compression</span>
-        <div class="seg" role="radiogroup" aria-labelledby="l-codec">
-          <label><input type="radio" name="codec" value="h264"><span>H.264</span></label>
-          <label><input type="radio" name="codec" value="h265" checked><span>H.265</span></label>
-          <label><input type="radio" name="codec" value="smart"><span>H.265+ / smart codec</span></label>
-        </div>
-        <span class="hint">Most new cameras support H.265, which uses about half the space of H.264.</span></div>
-      <div class="two">
-        <div class="field"><label for="c-fps">Frame rate</label>
-          <select id="c-fps"><option value="10">10 fps</option><option value="12">12 fps</option><option value="15" selected>15 fps (typical)</option><option value="20">20 fps</option><option value="25">25 fps (full)</option><option value="30">30 fps</option></select></div>
-        <div class="field"><label for="c-rec">Recording</label>
-          <select id="c-rec"><option value="1" selected>Continuous 24/7</option><option value="0.5">Motion only, busy site</option><option value="0.25">Motion only, quiet site</option></select></div>
-      </div>
-      <div class="field"><span class="lbl" id="l-scene">How much movement in view?</span>
-        <div class="seg" role="radiogroup" aria-labelledby="l-scene">
-          <label><input type="radio" name="scene" value="0.7"><span>Low · stock room, corridor</span></label>
-          <label><input type="radio" name="scene" value="1" checked><span>Normal · office, shop</span></label>
-          <label><input type="radio" name="scene" value="1.4"><span>High · entrance, road, trees</span></label>
-        </div></div>
     </form>
-
     <aside class="readout" aria-live="polite">
       <div class="r-bar"><span>NVR sizing · <span id="c-tag">8 ch</span></span><span class="r-live"><i></i>Live</span></div>
       <div class="r-main">
@@ -270,10 +269,11 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
       </div>
       <div class="r-grid">
         <div class="stat"><div class="k">Recording bandwidth</div><div class="v"><span id="c-total">–</span><small>Mbps</small></div><div class="meter" title="Share of a 100 Mbps link"><i id="c-meter"></i></div></div>
-        <div class="stat"><div class="k">Per camera</div><div class="v"><span id="c-per">–</span><small>Mbps</small></div></div>
+        <div class="stat"><div class="k">Cameras</div><div class="v"><span id="c-count">–</span><small id="c-groups">groups</small></div></div>
         <div class="stat"><div class="k">Per day</div><div class="v"><span id="c-day">–</span><small>GB</small></div></div>
         <div class="stat"><div class="k">Phone viewing, upload</div><div class="v"><span id="c-remote">–</span><small>Mbps</small></div></div>
       </div>
+      <div class="stat wide" style="margin-top:8px"><div class="k">By group</div><table class="ttable"><tbody id="c-break"></tbody></table></div>
       <div class="r-note" id="c-notes"></div>
       <div class="r-cta">
         <a class="btn btn-wa" id="c-wa" href="https://wa.me/971557971520" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg>Get a quote for this</a>
@@ -345,7 +345,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
     <span class="tag">How we calculate</span>
     <h2 style="margin-top:18px">Estimates, not guesses.</h2>
     <div class="m-grid">
-      <div class="m-card"><span class="k">CCTV</span><h3>Typical bitrates</h3><p>We start from common recorder defaults at 25 fps on H.264 (about 4 Mbps for 2MP, 6 for 4MP, 7 for 5MP, 10 for 8MP), then adjust for compression, frame rate and movement. Storage adds about 10% for the recorder's file system.</p></div>
+      <div class="m-card"><span class="k">CCTV</span><h3>Typical bitrates</h3><p>We start from about 4 Mbps for Full HD at 25 fps on H.264 High, scale it by the real pixel count of each resolution, then adjust for compression, frame rate, image quality and movement. If you know the actual bitrate from the NVR, type it in and we use that instead. Storage adds about 10% for the recorder's file system.</p></div>
       <div class="m-card"><span class="k">Office</span><h3>Per-activity usage</h3><p>Each activity uses a typical amount of speed, for example around 4 Mbps down and 3 Mbps up for an HD video call. We add them up for the busiest hour and add spare capacity so things don't slow down at peak time.</p></div>
       <div class="m-card"><span class="k">Transfers</span><h3>Bits, not bytes</h3><p>Internet speed is sold in megabits; files are measured in megabytes. One byte is 8 bits, so a 100 Mbps line moves about 12 MB a second at best, and a little less in practice.</p></div>
     </div>
@@ -417,49 +417,88 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
   });
 
   /* ---------- CCTV ---------- */
-  var BASE={2:4,4:6,5:7,8:10};                 // Mbps at 25 fps, H.264, normal scene
-  var CODEC={h264:1,h265:.55,smart:.35};
-  var CODEC_N={h264:"H.264",h265:"H.265",smart:"H.265+"};
-  var DRIVES=[1,2,3,4,6,8,10,12,14,16,18,20,22,24];
-  function drives(tb){                          // tb = formatted space needed
-    var raw=tb/0.93;                            // nominal vs usable
-    for(var n=1;n<=16;n++){
-      var per=raw/n;
-      for(var i=0;i<DRIVES.length;i++)if(DRIVES[i]>=per)return{n:n,size:DRIVES[i]};
-    }
-    return null;
+  var RES=[
+    ["640x360","0.2 MP · 640×360"],["640x480","0.3 MP · 640×480"],["720x576","PAL D1 · 720×576"],["960x576","960H · 960×576"],
+    ["1024x768","0.8 MP · 1024×768"],["1280x720","1 MP · 720p · 1280×720"],["1280x960","1.2 MP · 1280×960"],["1600x1200","1.9 MP · 1600×1200"],
+    ["1920x1080","2 MP · 1080p · 1920×1080"],["2048x1152","2.4 MP · 2048×1152"],["2048x1536","3 MP · 2048×1536"],["2304x1296","3 MP · 2304×1296"],
+    ["2560x1440","4 MP · 2K · 2560×1440"],["2592x1520","3.9 MP · 2592×1520"],["2688x1520","4 MP · 2688×1520"],["2560x1600","4.1 MP · 2560×1600"],
+    ["2592x1944","5 MP · 2592×1944"],["2560x2048","5.2 MP · 2560×2048"],["3072x2048","6 MP · 3072×2048"],["3840x2160","8 MP · 4K · 3840×2160"]];
+  var CODECS=[["h265p","H.265+ / smart codec",.35],["h265","H.265",.55],["h264p","H.264+ / smart codec",.6],["h264h","H.264 High",1],["h264m","H.264 Main",1.15],["h264b","H.264 Base",1.3],["mpeg4","MPEG4",1.7],["mjpeg","JPEG / MJPEG",10]];
+  var CF={},CN={};CODECS.forEach(function(c){CF[c[0]]=c[2];CN[c[0]]=c[1].replace(" / smart codec","")});
+  var RN={};RES.forEach(function(r){RN[r[0]]=r[1]});
+  var FPS=[1,2,4,5,6,8,10,12,15,20,25,30];
+  var QUAL=[["0.7","Low"],["1","Medium"],["1.4","High"]];
+  var SCENE=[["0.6","Low · stock room, corridor"],["1","Normal · office, shop"],["1.5","High · entrance, road, trees"]];
+  var RECM=[["1","24/7"],["0.5","Motion ~50%"],["0.25","Motion ~25%"],["0.1","Motion ~10%"]];
+  var groups=[
+    {n:10,res:"1920x1080",codec:"h265",fps:"15",q:"1",scene:"1",rec:"1",br:""},
+    {n:20,res:"2560x1440",codec:"h265",fps:"15",q:"1",scene:"1",rec:"1",br:""}];
+  function o(list,sel){return list.map(function(x){var v=Array.isArray(x)?x[0]:String(x),t=Array.isArray(x)?x[1]:x+" fps";return'<option value="'+v+'"'+(String(sel)===v?" selected":"")+'>'+t+'</option>'}).join("")}
+  function autoRate(g){var r=g.res.split("x"),px=r[0]*r[1];return 4*Math.pow(px/2073600,.85)*Math.pow(g.fps/25,.8)*CF[g.codec]*(+g.q)*(+g.scene)}
+  function rate(g){var b=parseFloat(g.br);return b>0?b:autoRate(g)}
+  function renderGroups(){
+    $("groups").innerHTML=groups.map(function(g,i){var id="g"+i+"-";return'<div class="grp" data-g="'+i+'">'+
+      '<div class="grp-h"><div><b>Group <span>'+(i+1)+'</span></b> <span class="info" data-info></span></div><div class="grp-a"><button type="button" class="mini" data-dup="'+i+'">Duplicate</button>'+(groups.length>1?'<button type="button" class="mini del" data-del="'+i+'">Remove</button>':'')+'</div></div>'+
+      '<div class="grp-g">'+
+        '<div class="field"><label for="'+id+'n">Cameras</label><div class="step"><button type="button" data-step="-1" aria-label="Fewer cameras">−</button><input id="'+id+'n" data-k="n" type="number" min="1" max="999" value="'+g.n+'" inputmode="numeric"><button type="button" data-step="1" aria-label="More cameras">+</button></div></div>'+
+        '<div class="field s2"><label for="'+id+'res">Resolution</label><select id="'+id+'res" data-k="res">'+o(RES,g.res)+'</select></div>'+
+        '<div class="field"><label for="'+id+'codec">Compression</label><select id="'+id+'codec" data-k="codec">'+o(CODECS,g.codec)+'</select></div>'+
+        '<div class="field"><label for="'+id+'fps">Frame rate</label><select id="'+id+'fps" data-k="fps">'+o(FPS,g.fps)+'</select></div>'+
+        '<div class="field"><label for="'+id+'q">Image quality</label><select id="'+id+'q" data-k="q">'+o(QUAL,g.q)+'</select></div>'+
+        '<div class="field s2"><label for="'+id+'scene">Movement in view</label><select id="'+id+'scene" data-k="scene">'+o(SCENE,g.scene)+'</select></div>'+
+        '<div class="field"><label for="'+id+'rec">Recording</label><select id="'+id+'rec" data-k="rec">'+o(RECM,g.rec)+'</select></div>'+
+        '<div class="field s3"><label for="'+id+'br">Bitrate per camera (Mbps) · optional</label><div class="br-input"><input id="'+id+'br" data-k="br" type="number" min="0" step="0.1" inputmode="decimal" value="'+g.br+'" style="max-width:160px"><span class="hint" data-auto></span></div><span class="hint">Leave empty to use the estimate, or type the real bitrate from your NVR for an exact result.</span></div>'+
+      '</div></div>'}).join("");
+    cctv();
   }
+  $("groups").addEventListener("input",onG);$("groups").addEventListener("change",onG);
+  function onG(e){var k=e.target.getAttribute("data-k");if(!k)return;var i=+e.target.closest(".grp").getAttribute("data-g");groups[i][k]=k==="n"?Math.max(1,Math.round(+e.target.value||1)):e.target.value;cctv()}
+  $("groups").addEventListener("click",function(e){var d=e.target.closest("[data-dup]"),r=e.target.closest("[data-del]");
+    if(d){var i=+d.getAttribute("data-dup");groups.splice(i+1,0,Object.assign({},groups[i]));renderGroups()}
+    if(r){groups.splice(+r.getAttribute("data-del"),1);renderGroups()}});
+  $("addGroup").addEventListener("click",function(){var l=groups[groups.length-1]||{};groups.push({n:4,res:"1920x1080",codec:l.codec||"h265",fps:l.fps||"15",q:"1",scene:"1",rec:"1",br:""});renderGroups();
+    var all=document.querySelectorAll(".grp");all[all.length-1].querySelector("select").focus()});
+  function stor(total,days){return total*86400/8/1000*days/1000*1.1}
+  var DRIVES=[1,2,3,4,6,8,10,12,14,16,18,20,22,24];
+  function drives(tb){var raw=tb/0.93;for(var n=1;n<=16;n++){var per=raw/n;for(var i=0;i<DRIVES.length;i++)if(DRIVES[i]>=per)return{n:n,size:DRIVES[i]}}return null}
+  function tbTxt(tb){return tb<1?fmt(tb*1000,0)+" GB":fmt(tb,tb>=10?1:2)+" TB"}
   function cctv(){
-    var n=Math.round(num($("c-n"),1,512)),days=num($("c-days"),1,365);
-    var res=radio("res"),codec=radio("codec"),scene=parseFloat(radio("scene"));
-    var fps=parseFloat($("c-fps").value),rec=parseFloat($("c-rec").value);
-    var per=BASE[res]*CODEC[codec]*Math.pow(fps/25,.85)*scene;
-    var total=per*n;
-    var gbDay=total*86400/8/1000*rec;           // Mbps -> GB/day (decimal)
+    var days=num($("c-days"),1,365),cams=0,total=0,gbDay=0,h265=0,lines=[],brk="";
+    var cards=document.querySelectorAll(".grp");
+    groups.forEach(function(g,i){
+      var r=rate(g),t=r*g.n,gd=t*86400/8/1000*(+g.rec);
+      cams+=g.n;total+=t;gbDay+=gd;
+      var alt=g.codec.indexOf("h265")<0;h265+=alt?(parseFloat(g.br)>0?gd*.55:gd*CF.h265/CF[g.codec]):gd;
+      var c=cards[i];if(c){c.querySelector("[data-info]").textContent="· "+g.n+" cam · "+smart(r)+" Mbps each";c.querySelector("[data-auto]").textContent=parseFloat(g.br)>0?"manual":"auto ≈ "+smart(autoRate(g));
+        c.querySelector("[data-k=br]").placeholder=smart(autoRate(g))}
+      var res=RN[g.res].replace(/\s*·\s*\d+×\d+$/,"");
+      brk+="<tr><td>"+g.n+" × "+res+" · "+CN[g.codec]+" · "+g.fps+" fps</td><td>"+smart(t)+" Mbps · "+tbTxt(gd*days/1000*1.1)+"</td></tr>";
+      lines.push(g.n+" × "+res+", "+CN[g.codec]+", "+g.fps+" fps, "+(+g.rec===1?"24/7":"motion")+(parseFloat(g.br)>0?", "+g.br+" Mbps (NVR)":""));
+    });
     var tb=gbDay*days/1000*1.1;
-    $("c-tag").textContent=n+" ch";
-    $("c-per").textContent=smart(per);
+    $("c-tag").textContent=cams+" ch";
+    $("c-count").textContent=fmt(cams);$("c-groups").textContent=groups.length+" group"+(groups.length>1?"s":"");
     $("c-total").textContent=smart(total);
     $("c-day").textContent=gbDay>=100?fmt(gbDay,0):fmt(gbDay,1);
-    $("c-remote").textContent=smart(n*0.75);
+    $("c-remote").textContent=smart(cams*0.75);
     $("c-meter").style.width=Math.min(100,total)+"%";
+    $("c-break").innerHTML=brk;
     if(tb<1){$("c-store").textContent=fmt(tb*1000,0);$("c-store-u").textContent="GB"}
     else{$("c-store").textContent=tb>=10?fmt(tb,1):fmt(tb,2);$("c-store-u").textContent="TB"}
     var d=drives(tb),dtxt=d?(d.n>1?d.n+" × "+d.size+" TB":d.size+" TB")+" surveillance drive"+(d.n>1?"s":""):"a storage server";
     $("c-store-sub").textContent="For "+fmt(days)+" days. Suggested: "+dtxt+".";
     var ns=[];
-    if(total>80)ns.push("Over 80 Mbps of camera traffic: use a gigabit PoE switch and recorder, not a 100 Mbps model.");
-    else ns.push("A standard PoE switch handles this comfortably; keep cameras on their own network or VLAN.");
-    if(d&&d.n>1)ns.push("Needs a recorder with at least "+d.n+" drive bays.");
-    ns.push("Watching all cameras on your phone at once uses about "+smart(n*.75)+" Mbps of your internet upload speed (low-quality sub-stream).");
-    if(codec==="h264")ns.push("Switching to H.265 would cut storage to about "+fmt(tb*.55,tb*.55>=10?1:2)+" TB.");
+    if(total>80)ns.push("Over 80 Mbps of camera traffic: use gigabit PoE switches and a recorder rated for at least "+Math.ceil(total*1.25/40)*40+" Mbps incoming bandwidth.");
+    else ns.push("A standard PoE switch handles this comfortably; keep cameras on their own network or VLAN. Check the NVR is rated for at least "+Math.max(40,Math.ceil(total*1.25/40)*40)+" Mbps incoming.");
+    if(d&&d.n>1)ns.push("Needs a recorder (or recorders) with at least "+d.n+" drive bays in total.");
+    ns.push("Watching all cameras on your phone at once uses about "+smart(cams*.75)+" Mbps of your internet upload speed (sub-stream).");
+    var t265=h265*days/1000*1.1;if(t265<tb*.9)ns.push("Moving the H.264 / MPEG4 / MJPEG groups to H.265 would cut storage to about "+tbTxt(t265)+".");
     note($("c-notes"),ns);
-    wa($("c-wa"),["Hello Queen Tech, I'd like a CCTV quote.",
-      "Cameras: "+n+" × "+res+"MP, "+CODEC_N[codec]+", "+fps+" fps",
-      "Recording: "+$("c-rec").selectedOptions[0].text+", keep "+fmt(days)+" days",
-      "Calculator says: "+smart(total)+" Mbps, about "+(tb<1?fmt(tb*1000,0)+" GB":fmt(tb,1)+" TB")+" storage ("+dtxt+")"]);
+    wa($("c-wa"),["Hello Queen Tech, I'd like a CCTV quote.","Cameras:"].concat(lines.map(function(l){return"- "+l})).concat(["Keep "+fmt(days)+" days",
+      "Calculator says: "+smart(total)+" Mbps, about "+tbTxt(tb)+" storage ("+dtxt+")"]));
   }
-  $("p-cctv").addEventListener("input",cctv);$("p-cctv").addEventListener("change",cctv);
+  $("c-days").addEventListener("input",cctv);
+  renderGroups();
 
   /* ---------- OFFICE ---------- */
   var USES=[
@@ -534,7 +573,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
   }
   $("p-xfer").addEventListener("input",xfer);$("p-xfer").addEventListener("change",xfer);
 
-  cctv();office();xfer();
+  office();xfer();
 })();
 </script>
 </body>
