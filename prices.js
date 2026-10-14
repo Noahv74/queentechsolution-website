@@ -4,7 +4,7 @@
    To update a price: change "price" (AED) and "url", then update "checked". */
 window.QT_PRICES = {
   checked: "14 Oct 2026",
-  offer: { label: "Limited offer · 50% off camera installation" },
+  offer: { label: "Limited offer · 50% off all installation" },
   items: {
     cam2_dome:   { name: "Hikvision 2MP IP dome camera", model: "DS-2CD1121G0-I", price: 95, shop: "Terrabyt", url: "https://www.terrabyt.com/hikvision-ds-2cd1121g0-i-2-8mm-dubai" },
     cam2_bullet: { name: "Hikvision 2MP IP bullet camera", model: "DS-2CD1021G0-I", price: 84, shop: "Terrabyt", url: "https://www.terrabyt.com/hikvision-ds-2cd1021g0-i-4mm-dubai" },
@@ -51,12 +51,12 @@ window.QT_PRICES = {
   /* Queen Tech labour (AED). "was" shows crossed out when the offer applies. */
   labour: {
     cam:      { name: "Camera installation (cabling, mounting, testing)", per: "camera", was: 150, price: 75 },
-    nvr:      { name: "Recorder setup + phone app + handover", per: "system", price: 150 },
-    wificam:  { name: "Wi-Fi camera mounting + app setup", per: "camera", price: 75 },
-    door:     { name: "Access control door installation (reader, lock, button, cabling)", per: "door", price: 350 },
-    intercom: { name: "Video intercom / doorbell installation", per: "unit", price: 200 },
-    point:    { name: "Network point (Cat6 cabling + termination)", per: "point", price: 100 },
-    ap:       { name: "Wi-Fi access point installation + setup", per: "access point", price: 150 },
-    rack:     { name: "Network cabinet, switch & router setup", per: "system", price: 300 }
+    nvr:      { name: "Recorder setup + phone app + handover", per: "system", was: 150, price: 75 },
+    wificam:  { name: "Wi-Fi camera mounting + app setup", per: "camera", was: 75, price: 37.5 },
+    door:     { name: "Access control door installation (reader, lock, button, cabling)", per: "door", was: 350, price: 175 },
+    intercom: { name: "Video intercom / doorbell installation", per: "unit", was: 200, price: 100 },
+    point:    { name: "Network point (Cat6 cabling + termination)", per: "point", was: 100, price: 50 },
+    ap:       { name: "Wi-Fi access point installation + setup", per: "access point", was: 150, price: 75 },
+    rack:     { name: "Network cabinet, switch & router setup", per: "system", was: 300, price: 150 }
   }
 };
