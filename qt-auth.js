@@ -47,7 +47,10 @@ export function message(err) {
     "auth/too-many-requests": "Too many attempts. Please wait a few minutes and try again.",
     "auth/network-request-failed": "No connection. Check your internet and try again.",
     "auth/unauthorized-domain": "This website isn't allowed in the Firebase settings yet (Authentication → Settings → Authorized domains).",
-    "auth/operation-not-allowed": "Email sign-in isn't switched on in Firebase yet (Authentication → Sign-in method → Email/Password)."
+    "auth/operation-not-allowed": "This sign-in method isn't switched on in Firebase yet (Authentication → Sign-in method).",
+    "auth/account-exists-with-different-credential": "You already have an account with this email. Sign in with your email and password instead.",
+    "auth/popup-blocked": "Your browser blocked the Google window. Allow pop-ups for this site and try again.",
+    "auth/internal-error": "Google sign-in couldn't start. Please try again."
   })[c] || "Something went wrong. Please try again." + (c ? " (" + c + ")" : "");
 }
 
@@ -89,6 +92,8 @@ async function gate() {
   }
   fb.onAuthStateChanged(fb.auth, async (user) => {
     if (user && !user.emailVerified && C.requireVerifiedEmail !== false) { try { await user.reload(); user = fb.auth.currentUser; } catch (e) {} }
+    let pending = false; try { pending = !!user && localStorage.getItem("qt-profile-needed") === user.uid; } catch (e) {}
+    if (pending) { location.replace("/account.html?next=" + next); return; }
     if (canUse(user)) { unlock(); chip(fb, user); return; }
     document.documentElement.classList.add("qt-locked");
     if (user) {
@@ -101,7 +106,7 @@ async function gate() {
       });
       return;
     }
-    gateBox('<span class="k">Limited free service</span><h2>Free with a Queen Tech account</h2><p>' + esc(tool) + ' is free for registered customers. Create your account once and use it any time, on any device.</p><ul><li>Free, takes about a minute</li><li>Use all Queen Tech free tools</li><li>We never share your details</li></ul><div class="row"><a class="b g" href="/account.html?mode=signup&next=' + next + '">Create free account</a><a class="b" href="/account.html?next=' + next + '">Sign in</a></div><p style="margin-top:14px;font-size:.85rem"><a href="/" style="color:#A79E8F">Back to home page</a></p>');
+    gateBox('<span class="k">Limited free service</span><h2>Free with a Queen Tech account</h2><p>' + esc(tool) + ' is free for registered customers. Create your account once and use it any time, on any device.</p><ul><li>Free, takes about a minute</li><li>Use all Queen Tech free tools</li><li>We never share your details</li></ul><div class="row"><a class="b g" href="/account.html?mode=signup&next=' + next + '">Create free account</a><a class="b" href="/account.html?next=' + next + '">Sign in</a></div><p style="margin-top:12px;font-size:.88rem">Have a Google account? <a href="/account.html?next=' + next + '" style="color:#E2A63F">Continue with Google</a>, no email to verify.</p><p style="margin-top:14px;font-size:.85rem"><a href="/" style="color:#A79E8F">Back to home page</a></p>');
   });
 }
 

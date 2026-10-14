@@ -97,6 +97,11 @@ input::placeholder{color:var(--dim)}
 .badge.y{background:rgba(47,168,102,.15);color:#9EE0BA}
 .badge.n{background:rgba(226,91,69,.15);color:#F4B3A7}
 .actions{display:flex;gap:10px;flex-wrap:wrap}
+.gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:13px 18px;border-radius:4px;background:#fff;color:#1f1f1f;border:1px solid #fff;font:600 .98rem/1 var(--f-body);cursor:pointer;transition:opacity .2s}
+.gbtn:hover{opacity:.92}.gbtn[disabled]{opacity:.6;cursor:wait}
+.gbtn svg{width:20px;height:20px;flex:none}
+.or{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--dim);font:500 .68rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line-2)}
 .off{text-align:center;padding:12px 0}
 .spin{width:30px;height:30px;border:2px solid var(--line-2);border-top-color:var(--gold);border-radius:50%;animation:s .8s linear infinite;margin:30px auto}
 @keyframes s{to{transform:rotate(360deg)}}
@@ -140,6 +145,9 @@ footer{border-top:1px solid var(--line);padding-block:22px;color:var(--dim);font
         <button role="tab" id="tab-in" aria-selected="true" type="button">Sign in</button>
         <button role="tab" id="tab-up" aria-selected="false" type="button">Create account</button>
       </div>
+      <button class="gbtn" type="button" id="gbtn"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg><span>Continue with Google</span></button>
+      <div class="msg" id="g-msg" role="alert" style="margin-top:10px"></div>
+      <div class="or" id="orline">or with email</div>
 
       <form id="f-in" novalidate>
         <div class="field"><label for="in-email">Email</label><input id="in-email" type="email" autocomplete="email" required></div>
@@ -181,6 +189,22 @@ footer{border-top:1px solid var(--line);padding-block:22px;color:var(--dim);font
       <button class="link" type="button" data-out style="margin-top:16px">Use a different account</button>
     </div>
 
+
+    <div id="v-profile" hidden>
+      <span class="k">One last step</span>
+      <h2 style="margin-top:10px">Complete your profile</h2>
+      <p class="sub">So we can help you with your project. We never share your details.</p>
+      <form id="f-prof" novalidate>
+        <div class="two">
+          <div class="field"><label for="pf-name">Full name</label><input id="pf-name" autocomplete="name" required></div>
+          <div class="field"><label for="pf-company">Company <i>(optional)</i></label><input id="pf-company" autocomplete="organization"></div>
+        </div>
+        <div class="field"><label for="pf-phone">Mobile / WhatsApp</label><input id="pf-phone" type="tel" autocomplete="tel" placeholder="+971 5x xxx xxxx" required></div>
+        <label class="check"><input type="checkbox" id="pf-ok" required><span>I agree that Queen Tech Solutions may contact me about my account and its services.</span></label>
+        <div class="msg" id="pf-msg" role="alert"></div>
+        <button class="btn btn-gold" type="submit">Continue</button>
+      </form>
+    </div>
     <div id="v-me" hidden class="me">
       <div><span class="k">Your account</span><h2 style="margin-top:10px" id="me-name"></h2></div>
       <div>
@@ -201,7 +225,7 @@ const $ = id => document.getElementById(id);
 const q = new URLSearchParams(location.search);
 let next = q.get("next") || "";
 if (!/^\/[^/\\]/.test(next)) next = "";                 // only same-site paths
-const views = ["v-load","v-off","v-auth","v-verify","v-me"];
+const views = ["v-load","v-off","v-auth","v-verify","v-profile","v-me"];
 function view(v){ views.forEach(x => $(x).hidden = x !== v); }
 function msg(id, text, ok){ const m=$(id); m.textContent=text||""; m.className="msg"+(text?(ok?" ok":" err"):""); }
 function busy(form, on){ const b=form.querySelector("button[type=submit]"); b.disabled=on; if(on){b.dataset.t=b.textContent;b.textContent="Please wait…"} else if(b.dataset.t) b.textContent=b.dataset.t; }
@@ -209,6 +233,7 @@ function tab(which){
   $("tab-in").setAttribute("aria-selected", which==="in"); $("tab-up").setAttribute("aria-selected", which==="up");
   $("f-in").hidden = which!=="in"; $("f-up").hidden = which!=="up"; $("f-reset").hidden = which!=="reset";
   document.querySelector("#v-auth .tabs").hidden = which==="reset";
+  $("gbtn").hidden = $("orline").hidden = which==="reset"; msg("g-msg");
   const f = $({in:"f-in",up:"f-up",reset:"f-reset"}[which]).querySelector("input"); f && setTimeout(()=>f.focus(),30);
 }
 document.querySelectorAll("[data-show]").forEach(b => b.addEventListener("click", () => { const i=b.previousElementSibling; i.type = i.type==="password"?"text":"password"; b.textContent = i.type==="password"?"Show":"Hide"; }));
@@ -221,8 +246,12 @@ else {
   try { fb = await firebase(); } catch(e) { view("v-auth"); msg("in-msg","Couldn't connect. Check your internet and reload the page."); }
   if (fb) {
     const done = () => { if (next) location.replace(next); };
+    const PKEY = "qt-profile-needed";
+    function needsProfile(u){ try { return localStorage.getItem(PKEY) === u.uid; } catch(e){ return false; } }
+    function setNeeds(uid){ try { uid ? localStorage.setItem(PKEY, uid) : localStorage.removeItem(PKEY); } catch(e){} }
     function show(user){
       if (!user){ view("v-auth"); tab(q.get("mode")==="signup"?"up":"in"); return; }
+      if (needsProfile(user)){ $("pf-name").value = $("pf-name").value || user.displayName || ""; view("v-profile"); setTimeout(()=>$("pf-phone").focus(),30); return; }
       if (!canUse(user)){ $("vf-email").textContent=user.email; view("v-verify"); return; }
       if (next) { done(); return; }
       $("me-name").textContent = user.displayName || "Welcome"; $("me-email").textContent = user.email; view("v-me");
@@ -256,6 +285,36 @@ else {
         show(fb.auth.currentUser);
       } catch(err){ msg("up-msg", message(err)); }
       busy(e.target,false);
+    });
+
+    async function afterGoogle(cred){
+      if (!cred) return;
+      const info = fb.getAdditionalUserInfo(cred);
+      if (info && info.isNewUser) setNeeds(cred.user.uid);
+      show(fb.auth.currentUser);
+    }
+    try { await afterGoogle(await fb.getRedirectResult(fb.auth)); } catch(err){ msg("g-msg", message(err)); }
+    $("gbtn").addEventListener("click", async () => {
+      msg("g-msg"); const b=$("gbtn"); b.disabled=true;
+      const prov = new fb.GoogleAuthProvider(); prov.setCustomParameters({ prompt: "select_account" });
+      try { await afterGoogle(await fb.signInWithPopup(fb.auth, prov)); }
+      catch(err){
+        if (err.code==="auth/popup-blocked" || err.code==="auth/operation-not-supported-in-this-environment") { try { await fb.signInWithRedirect(fb.auth, prov); return; } catch(e2){ msg("g-msg", message(e2)); } }
+        else if (err.code!=="auth/popup-closed-by-user" && err.code!=="auth/cancelled-popup-request") msg("g-msg", message(err));
+      }
+      b.disabled=false;
+    });
+    $("f-prof").addEventListener("submit", async e => {
+      e.preventDefault(); msg("pf-msg");
+      const u=fb.auth.currentUser; if(!u) return;
+      const name=$("pf-name").value.trim(), company=$("pf-company").value.trim(), phone=$("pf-phone").value.trim();
+      if(!name){ msg("pf-msg","Please enter your name."); return; }
+      if(phone.replace(/\D/g,"").length<8){ msg("pf-msg","Please enter a valid mobile number."); $("pf-phone").focus(); return; }
+      if(!$("pf-ok").checked){ msg("pf-msg","Please tick the box to continue."); return; }
+      busy(e.target,true);
+      try { if (name!==u.displayName) await fb.updateProfile(u, { displayName: name }); } catch(err){}
+      saveLead({ name, company, phone, email: u.email, uid: u.uid, next, method: "google" });
+      setNeeds(null); busy(e.target,false); show(fb.auth.currentUser);
     });
 
     $("f-reset").addEventListener("submit", async e => {
