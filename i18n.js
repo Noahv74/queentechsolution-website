@@ -21,6 +21,14 @@
   }
   window.QT_LANG=lang;
   var ls=document.createElement("style");ls.textContent=".lang-tg{display:inline-flex;align-items:center;color:var(--gold,#E2A63F)!important;border:1px solid var(--line-2,#4A443A);border-radius:3px;padding:5px 10px;font:600 .82rem/1.2 'Noto Kufi Arabic','Figtree',system-ui,sans-serif;text-decoration:none;white-space:nowrap}.lang-tg:hover{border-color:var(--gold,#E2A63F)}@media (max-width:520px){.lang-tg{padding:4px 7px;font-size:.74rem}.brand small{display:none!important}.links{gap:10px!important}.nav{gap:10px!important}.brand b{font-size:1.1rem!important}.brand .crown{width:30px!important;height:30px!important}.links .btn{padding:10px 11px!important;font-size:.8rem!important}}@media (max-width:380px){.links .btn{display:none!important}}";document.head.appendChild(ls);
+  /* ---- Offers: everything ends 1 December 2026, 23:59 Dubai time. Change OFFER_END to extend. ---- */
+  var OFFER_END=Date.UTC(2026,11,1,19,59,59);
+  window.QT_OFFER={end:OFFER_END,on:Date.now()<=OFFER_END,days:Math.max(0,Math.ceil((OFFER_END-Date.now())/864e5))};
+  function offers(){
+    var O=window.QT_OFFER;
+    document.querySelectorAll(".offerbar,[data-offer-only]").forEach(function(e){if(!O.on)e.style.display="none"});
+    document.querySelectorAll("[data-offer-days]").forEach(function(e){e.textContent=O.days<=1?(lang==="ar"?"آخر يوم!":"Last day!"):(lang==="ar"?"باقي "+O.days+" يوم":O.days+" days left")});
+  }
   /* ---- Site-wide section bar (every page): one page per section, always visible under the header ---- */
   var STATIC=document.documentElement.hasAttribute("data-i18n-static");
   if(STATIC){var hl=document.documentElement.lang==="ar"?"ar":"en";lang=hl;window.QT_LANG=hl}
@@ -91,7 +99,7 @@
     document.addEventListener("keydown",key);
     bs.forEach(function(b){b.addEventListener("click",function(){var l=b.getAttribute("data-l");markChosen(l);var u=urlFor(l);if(u)location.href=u;else close()})});
   }
-  function boot(){secnav();picker()}
+  function boot(){secnav();offers();picker()}
   document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot):setTimeout(boot);
 
   var D=Object.create(null),RX=[];

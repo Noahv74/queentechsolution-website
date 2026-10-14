@@ -38,7 +38,7 @@ QT_AR.add({
   "Instant Price Check: CCTV, Access Control, Gate Barrier & WiFi | Queen Tech Dubai":"فحص السعر الفوري: كاميرات المراقبة، التحكم بالدخول، حواجز البوابات والواي فاي | كوين تك دبي",
   /* offer bar */
   "Limited offer:":"عرض لفترة محدودة:","50% off":"خصم 50%","all installation":"على جميع أعمال التركيب",
-  ". Cameras only":". تركيب الكاميرا بـ","each instead of AED 150.":"فقط بدلاً من 150 درهم.",
+  ". Cameras only":". تركيب الكاميرا بـ","each instead of AED 150.":"فقط بدلاً من 150 درهم.","Ends 1 December.":"ينتهي 1 ديسمبر.",
   /* head */
   "Instant price check · Dubai & Abu Dhabi":"فحص السعر الفوري · دبي وأبوظبي",
   "Your price,":"سعرك،","in 30":"خلال 30","seconds.":"ثانية.",

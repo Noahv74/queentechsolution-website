@@ -161,3 +161,6 @@ window.QT_PRICES = {
     network: ["Punch-down tool", "RJ45 crimper + Cat6 connectors", "Cable tester / certifier", "Label maker", "Patch cords 0.5 m / 1 m", "Cable management panel + velcro ties", "Console cable", "Controller software (Omada)"]
   }
 };
+/* After the offer ends (see QT_OFFER in i18n.js), installation goes back to the normal price. */
+(function(){var O=window.QT_OFFER,L=window.QT_PRICES&&window.QT_PRICES.labour;if(!O||O.on||!L)return;
+  for(var k in L){if(L[k]&&L[k].was){L[k].price=L[k].was;delete L[k].was}}})();
