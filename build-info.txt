@@ -1,0 +1,10 @@
+status=success
+commit=5c38cdfc9132c4f6aaf74e6322c010005547bd2f
+Wed Oct 14 20:02:22 UTC 2026
+total 2324
+drwxr-xr-x  2 runner runner    4096 Oct 14 20:02 .
+drwxrwxrwt 15 root   root      4096 Oct 14 20:02 ..
+-rw-r--r--  1 runner runner 1148479 Oct 14 20:02 app-release-unsigned.apk
+-rw-r--r--  1 runner runner 1211542 Oct 14 20:02 app-release.aab
+-rw-r--r--  1 runner runner      92 Oct 14 20:02 build-info.txt
+-rw-r--r--  1 runner runner    3620 Oct 14 20:02 build.log
