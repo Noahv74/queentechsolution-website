@@ -104,6 +104,9 @@ QT_AR.add({
   "Stay close for the first minutes to accept the connection and answer questions. After that you can watch or do something else.":"ابقَ قريباً في الدقائق الأولى لقبول الاتصال والإجابة على الأسئلة، وبعدها يمكنك المتابعة أو الانشغال بشيء آخر.",
   "AnyDesk is a trademark of AnyDesk Software GmbH. We are not affiliated with AnyDesk.":"AnyDesk علامة تجارية لشركة AnyDesk Software GmbH، ولا نتبع لها.",
   "Contact":"تواصل معنا",
+  "How to download and install AnyDesk":"طريقة تنزيل وتثبيت برنامج AnyDesk",
+  "Video in Arabic ·":"فيديو بالعربي ·",
+  "Open on YouTube":"افتحه على يوتيوب",
   /* WhatsApp message */
   "Hello Queen Tech, I need an online gaming / PC fix.":"مرحباً كوين تك، أحتاج حل مشكلة ألعاب / كمبيوتر أونلاين.",
   "Hello Queen Tech, I'd like to book a gaming PC hardware check.":"مرحباً كوين تك، أريد حجز فحص هاردوير لجهاز الجيمنج.",

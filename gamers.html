@@ -99,6 +99,8 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 @media (max-width:900px){.cols{grid-template-columns:1fr}}
 .card{background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:clamp(16px,2.6vw,24px)}
 .card h3{font-size:1.25rem;margin-bottom:14px}
+.vid{position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;border:1px solid var(--line-2);background:#000}.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vnote{font-size:.82rem;color:var(--dim);margin:8px 0 18px}
 .how{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:s}
 .how li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:start}
 .how li::before{counter-increment:s;content:counter(s);width:30px;height:30px;border-radius:50%;border:1px solid var(--net);color:var(--net);display:grid;place-items:center;font:800 1rem/1 var(--f-display)}
@@ -183,6 +185,8 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
       <div class="cols">
         <div class="card">
           <h3>Get AnyDesk in 1 minute</h3>
+          <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/Tz7RKw1nFkU?rel=0" title="How to download and install AnyDesk" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+          <p class="vnote">Video in Arabic · <a href="https://www.youtube.com/watch?v=Tz7RKw1nFkU" target="_blank" rel="noopener">Open on YouTube</a></p>
           <ol class="how">
             <li><div><b>Download AnyDesk</b><span>Only from the official website below. It's free for personal use.</span></div></li>
             <li><div><b>Open it and copy your address</b><span>The number under "Your Address" (usually 9 or 10 digits). No need to install, just run it.</span></div></li>
