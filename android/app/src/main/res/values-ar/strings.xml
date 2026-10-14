@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic labels for the long-press app shortcuts (Android picks these on Arabic phones). -->
+<resources>
+    <string name="shortcut_name_0">احسب السعر فوراً</string>
+    <string name="shortcut_short_name_0">الأسعار</string>
+    <string name="shortcut_name_1">الجيمرز والكمبيوتر</string>
+    <string name="shortcut_short_name_1">الجيمرز</string>
+    <string name="shortcut_name_2">مركز المساعدة</string>
+    <string name="shortcut_short_name_2">المساعدة</string>
+    <string name="shortcut_name_3">تواصل معنا</string>
+    <string name="shortcut_short_name_3">تواصل</string>
+</resources>

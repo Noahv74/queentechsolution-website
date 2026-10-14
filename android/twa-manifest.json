@@ -1,0 +1,69 @@
+{
+  "packageId": "info.queentechsolution.app",
+  "host": "queentechsolution.info",
+  "name": "Queen Tech Solutions",
+  "launcherName": "Queen Tech",
+  "display": "standalone",
+  "themeColor": "#131210",
+  "themeColorDark": "#131210",
+  "navigationColor": "#131210",
+  "navigationColorDark": "#131210",
+  "navigationDividerColor": "#131210",
+  "navigationDividerColorDark": "#131210",
+  "backgroundColor": "#131210",
+  "enableNotifications": false,
+  "startUrl": "/?source=app",
+  "iconUrl": "https://queentechsolution.info/icons/icon-512.png",
+  "maskableIconUrl": "https://queentechsolution.info/icons/maskable-512.png",
+  "monochromeIconUrl": "https://queentechsolution.info/icons/monochrome-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./queentech-upload.jks",
+    "alias": "queentech"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "Instant price check",
+      "shortName": "Prices",
+      "url": "https://queentechsolution.info/price.html?source=app",
+      "chosenIconUrl": "https://queentechsolution.info/icons/shortcut-price.png"
+    },
+    {
+      "name": "Gamers & PC help",
+      "shortName": "Gamers",
+      "url": "https://queentechsolution.info/gamers.html?source=app",
+      "chosenIconUrl": "https://queentechsolution.info/icons/shortcut-gamers.png"
+    },
+    {
+      "name": "Help centre",
+      "shortName": "Help",
+      "url": "https://queentechsolution.info/help.html?source=app",
+      "chosenIconUrl": "https://queentechsolution.info/icons/shortcut-help.png"
+    },
+    {
+      "name": "Contact us",
+      "shortName": "Contact",
+      "url": "https://queentechsolution.info/contact.html?source=app",
+      "chosenIconUrl": "https://queentechsolution.info/icons/shortcut-contact.png"
+    }
+  ],
+  "generatorApp": "bubblewrap-core (Queen Tech build)",
+  "webManifestUrl": "https://queentechsolution.info/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "minSdkVersion": 21,
+  "orientation": "default",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "displayOverride": [],
+  "appVersion": "1.0.0"
+}

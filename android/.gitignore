@@ -1,0 +1,13 @@
+# Build outputs and local files
+.gradle/
+build/
+app/build/
+local.properties
+*.iml
+.idea/
+# Signing keys must NEVER be committed (the repo is public)
+*.jks
+*.keystore
+*.p12
+*.pem
+signing*.txt
