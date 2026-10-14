@@ -1,11 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-gate="The CCTV BOQ builder">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>BOQ Builder | Queen Tech Solutions</title>
-<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Free CCTV BOQ builder from Queen Tech Solutions: list cameras, get the bill of quantities, NVR storage and hard disks, and export to Excel or PDF.">
+<link rel="canonical" href="https://queentechsolution.info/boq.html">
 <meta name="theme-color" content="#131210">
+<script src="/qt-auth-config.js"></script>
+<script src="/qt-gate.js"></script>
+<script type="module" src="/qt-auth.js"></script>
+
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -199,8 +204,9 @@ footer{padding-block:28px 40px;color:var(--dim);font:500 .72rem var(--f-mono);le
   <div class="wrap nav">
     <a class="brand" href="/" aria-label="Queen Tech Solutions home">
       <svg class="crown" viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" rx="5" fill="none" stroke="var(--gold)"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="var(--gold)"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="var(--gold)"/></svg>
-      <span><b>Queen Tech</b><small>BOQ builder · technician tool</small></span>
+      <span><b>Queen Tech</b><small>BOQ builder · free tool</small></span>
     </a>
+    <a class="btn btn-line btn-sm" href="/bandwidth.html" style="border:0;color:var(--muted)">Calculator</a>
     <div class="save-state" id="saveState" title="Saved on this device only"><i></i><span>Saved on this device</span></div>
     <div class="acts">
       <button class="btn btn-line btn-sm" id="btnNew" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg><span class="lbl">New</span></button>
@@ -221,7 +227,7 @@ footer{padding-block:28px 40px;color:var(--dim);font:500 .72rem var(--f-mono);le
 <main class="wrap">
   <section class="intro">
     <div>
-      <span class="tag">Internal · for site technicians</span>
+      <span class="tag">Limited free service · for installers &amp; site teams</span>
       <h1>Survey to <em>BOQ</em>, on site.</h1>
       <p class="muted">List the cameras as you walk the site. The BOQ, the camera breakdown per model and the hard-disk storage per NVR are worked out for you. Export to Excel or print to PDF when you're done.</p>
     </div>
@@ -359,7 +365,7 @@ footer{padding-block:28px 40px;color:var(--dim);font:500 .72rem var(--f-mono);le
     </div>
   </section>
 </main>
-<footer class="wrap">Queen Tech Solutions · internal tool · data stays on this device</footer>
+<footer class="wrap">Queen Tech Solutions · free tool · your project data stays on this device · <a href="/" style="color:inherit">Home</a></footer>
 
 <datalist id="dl-models"></datalist><datalist id="dl-nvr"></datalist><datalist id="dl-floor"></datalist><datalist id="dl-types"></datalist>
 <div class="toast" id="toast" role="status"></div>

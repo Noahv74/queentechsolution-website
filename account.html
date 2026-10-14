@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your Account | Queen Tech Solutions</title>
+<meta name="description" content="Create a free Queen Tech Solutions account to use our free CCTV bandwidth calculator and BOQ builder.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#131210">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<script src="/qt-auth-config.js"></script>
+<style>
+:root{
+  --bg:#131210; --bg-2:#1A1916; --surface:#201E1A; --surface-2:#2A2722;
+  --ink:#EFE8DB; --muted:#A79E8F; --dim:#6E675C; --line:#36322B; --line-2:#4A443A;
+  --gold:#E2A63F; --gold-2:#F3C877; --gold-soft:rgba(226,166,63,.12);
+  --live:#E25B45; --ok:#2FA866;
+  --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold-2);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(18px,4vw,40px);width:100%}
+h1,h2{margin:0;font-family:var(--f-display);line-height:.92;text-transform:uppercase}
+p{margin:0}
+[hidden]{display:none!important}
+header.top{border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:24px;min-height:70px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);margin-right:auto}
+.crown{width:36px;height:36px;flex:none}
+.brand b{display:block;font:900 1.35rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.brand small{display:block;font:500 .6rem/1.4 var(--f-mono);letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.nav a.back{color:var(--muted);text-decoration:none;font-size:.93rem}
+.nav a.back:hover{color:var(--ink)}
+main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);gap:clamp(32px,6vw,90px);align-items:center;padding-block:clamp(36px,6vw,80px)}
+@media (max-width:900px){main{grid-template-columns:1fr}}
+.side .tag{font:500 .72rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:inline-flex;gap:10px;align-items:center}
+.side .tag::before{content:"";width:22px;height:1px;background:currentColor}
+.side h1{font-size:clamp(3rem,7vw,5.6rem);font-weight:900;margin:18px 0}
+.side h1 em{font-style:normal;color:var(--gold)}
+.side .out{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+.side p{color:var(--muted);max-width:48ch;font-size:1.05rem}
+.tools{display:grid;gap:10px;margin-top:28px;max-width:520px}
+.tool{display:flex;gap:14px;align-items:flex-start;padding:16px;border:1px solid var(--line);border-radius:6px;background:var(--bg-2);text-decoration:none;color:var(--ink);transition:border-color .2s}
+.tool:hover{border-color:var(--gold)}
+.tool .ic{width:40px;height:40px;border:1px solid var(--line-2);border-radius:4px;display:grid;place-items:center;flex:none}
+.tool .ic svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.6}
+.tool b{display:block;font-weight:600}
+.tool small{color:var(--muted);font-size:.88rem}
+@media (max-width:900px){.side .tools{display:none}}
+
+.card{background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:clamp(22px,3.4vw,34px);box-shadow:0 40px 80px -30px rgba(0,0,0,.7);position:relative}
+.tabs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-2);border-radius:4px;overflow:hidden;margin-bottom:24px}
+.tabs button{font:500 .76rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--muted);border:0;padding:13px 10px;cursor:pointer}
+.tabs button+button{border-left:1px solid var(--line-2)}
+.tabs button[aria-selected=true]{background:var(--gold);color:var(--bg)}
+form{display:grid;gap:16px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:480px){.two{grid-template-columns:1fr}}
+.field{display:grid;gap:7px}
+.field label{font:500 .68rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.field label i{font-style:normal;color:var(--dim);text-transform:none;letter-spacing:0}
+input{font:inherit;font-size:1rem;padding:13px 14px;border:1px solid var(--line-2);border-radius:3px;background:var(--bg);color:var(--ink);width:100%;transition:border-color .2s,box-shadow .2s}
+input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+input::placeholder{color:var(--dim)}
+.pw{position:relative}
+.pw button{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--muted);font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:6px}
+.pw input{padding-right:64px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--muted)}
+.check input{width:auto;margin-top:4px;accent-color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 22px;border-radius:4px;font:600 .98rem/1 var(--f-body);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.btn-gold{background:var(--gold);color:var(--bg)}
+.btn-gold:hover{background:var(--gold-2)}
+.btn-gold[disabled]{opacity:.6;cursor:wait}
+.btn-line{border-color:var(--line-2);color:var(--ink);background:transparent}
+.btn-line:hover{border-color:var(--gold);color:var(--gold-2)}
+.link{background:none;border:0;color:var(--gold);font:inherit;font-size:.9rem;cursor:pointer;padding:0;text-decoration:underline;justify-self:start}
+.msg{font-size:.92rem;padding:12px 14px;border-radius:3px;display:none}
+.msg.err{display:block;background:rgba(226,91,69,.1);border:1px solid rgba(226,91,69,.45);color:#F4B3A7}
+.msg.ok{display:block;background:rgba(47,168,102,.1);border:1px solid rgba(47,168,102,.45);color:#9EE0BA}
+.card h2{font-size:2.2rem;font-weight:900;margin-bottom:8px}
+.card .k{font:500 .68rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.card .sub{color:var(--muted);margin-bottom:18px}
+.me{display:grid;gap:14px}
+.me .row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:.95rem;flex-wrap:wrap}
+.me .row span:first-child{font:500 .68rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding-top:3px}
+.badge{font:500 .66rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+.badge.y{background:rgba(47,168,102,.15);color:#9EE0BA}
+.badge.n{background:rgba(226,91,69,.15);color:#F4B3A7}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.off{text-align:center;padding:12px 0}
+.spin{width:30px;height:30px;border:2px solid var(--line-2);border-top-color:var(--gold);border-radius:50%;animation:s .8s linear infinite;margin:30px auto}
+@keyframes s{to{transform:rotate(360deg)}}
+footer{border-top:1px solid var(--line);padding-block:22px;color:var(--dim);font:500 .74rem var(--f-mono)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Queen Tech Solutions home">
+      <svg class="crown" viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" rx="5" fill="none" stroke="var(--gold)"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="var(--gold)"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="var(--gold)"/></svg>
+      <span><b>Queen Tech</b><small>Solutions · Dubai · Abu Dhabi</small></span>
+    </a>
+    <a class="back" href="/#free-tools">← Free tools</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="side">
+    <span class="tag">Limited free services</span>
+    <h1>Free tools, <span class="out">one</span> <em>account.</em></h1>
+    <p>Create a free Queen Tech account to use our professional CCTV and network tools. It takes about a minute, and works on your phone and computer.</p>
+    <div class="tools">
+      <a class="tool" href="/bandwidth.html"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg></span><span><b>Bandwidth &amp; CCTV storage calculator</b><small>Mbps, hard disks and internet plan for any camera mix.</small></span></a>
+      <a class="tool" href="/boq.html"><span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><span><b>CCTV BOQ builder</b><small>Camera list to bill of quantities, exported to Excel or PDF.</small></span></a>
+    </div>
+  </div>
+
+  <div class="card" id="card">
+    <div id="v-load"><div class="spin" aria-label="Loading"></div></div>
+
+    <div id="v-off" hidden class="off">
+      <span class="k">Free tools</span>
+      <h2 style="margin-top:10px">Open to everyone</h2>
+      <p class="sub">Accounts aren't switched on yet, so the free tools are open without signing in.</p>
+      <div class="actions" style="justify-content:center"><a class="btn btn-gold" href="/bandwidth.html">Calculator</a><a class="btn btn-line" href="/boq.html">BOQ builder</a></div>
+    </div>
+
+    <div id="v-auth" hidden>
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-in" aria-selected="true" type="button">Sign in</button>
+        <button role="tab" id="tab-up" aria-selected="false" type="button">Create account</button>
+      </div>
+
+      <form id="f-in" novalidate>
+        <div class="field"><label for="in-email">Email</label><input id="in-email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="in-pw">Password</label><div class="pw"><input id="in-pw" type="password" autocomplete="current-password" required><button type="button" data-show>Show</button></div></div>
+        <div class="msg" id="in-msg" role="alert"></div>
+        <button class="btn btn-gold" type="submit">Sign in</button>
+        <button class="link" type="button" id="go-reset">Forgot your password?</button>
+      </form>
+
+      <form id="f-up" novalidate hidden>
+        <div class="two">
+          <div class="field"><label for="up-name">Full name</label><input id="up-name" autocomplete="name" required></div>
+          <div class="field"><label for="up-company">Company <i>(optional)</i></label><input id="up-company" autocomplete="organization"></div>
+        </div>
+        <div class="field"><label for="up-phone">Mobile / WhatsApp</label><input id="up-phone" type="tel" autocomplete="tel" placeholder="+971 5x xxx xxxx" required></div>
+        <div class="field"><label for="up-email">Email</label><input id="up-email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="up-pw">Password <i>(8+ characters)</i></label><div class="pw"><input id="up-pw" type="password" autocomplete="new-password" minlength="8" required><button type="button" data-show>Show</button></div></div>
+        <label class="check"><input type="checkbox" id="up-ok" required><span>I agree that Queen Tech Solutions may contact me about my account and its services.</span></label>
+        <div class="msg" id="up-msg" role="alert"></div>
+        <button class="btn btn-gold" type="submit">Create free account</button>
+      </form>
+
+      <form id="f-reset" novalidate hidden>
+        <span class="k">Reset password</span>
+        <p class="sub" style="margin:0">Enter your email and we'll send you a link to choose a new password.</p>
+        <div class="field"><label for="re-email">Email</label><input id="re-email" type="email" autocomplete="email" required></div>
+        <div class="msg" id="re-msg" role="alert"></div>
+        <button class="btn btn-gold" type="submit">Send reset link</button>
+        <button class="link" type="button" id="back-in">← Back to sign in</button>
+      </form>
+    </div>
+
+    <div id="v-verify" hidden>
+      <span class="k">Almost done</span>
+      <h2 style="margin-top:10px">Check your email</h2>
+      <p class="sub">We sent a verification link to <b id="vf-email" style="color:var(--ink)"></b>. Click it to activate your account, then press continue. Check spam or junk if you can't see it.</p>
+      <div class="msg" id="vf-msg" role="status"></div>
+      <div class="actions"><button class="btn btn-gold" type="button" id="vf-go">I've verified, continue</button><button class="btn btn-line" type="button" id="vf-re">Send again</button></div>
+      <button class="link" type="button" data-out style="margin-top:16px">Use a different account</button>
+    </div>
+
+    <div id="v-me" hidden class="me">
+      <div><span class="k">Your account</span><h2 style="margin-top:10px" id="me-name"></h2></div>
+      <div>
+        <div class="row"><span>Email</span><span id="me-email"></span></div>
+        <div class="row"><span>Status</span><span class="badge y">Active</span></div>
+      </div>
+      <div class="actions"><a class="btn btn-gold" href="/bandwidth.html">Open calculator</a><a class="btn btn-line" href="/boq.html">Open BOQ builder</a></div>
+      <div class="actions"><button class="link" type="button" id="me-reset">Change password</button><button class="link" type="button" data-out>Sign out</button></div>
+      <div class="msg" id="me-msg" role="status"></div>
+    </div>
+  </div>
+</main>
+<footer><div class="wrap">© 2026 Queen Tech Solutions · <a href="/" style="color:inherit">Home</a> · +971 55 797 1520</div></footer>
+
+<script type="module">
+import { enabled, firebase, canUse, saveLead, message } from "/qt-auth.js";
+const $ = id => document.getElementById(id);
+const q = new URLSearchParams(location.search);
+let next = q.get("next") || "";
+if (!/^\/[^/\\]/.test(next)) next = "";                 // only same-site paths
+const views = ["v-load","v-off","v-auth","v-verify","v-me"];
+function view(v){ views.forEach(x => $(x).hidden = x !== v); }
+function msg(id, text, ok){ const m=$(id); m.textContent=text||""; m.className="msg"+(text?(ok?" ok":" err"):""); }
+function busy(form, on){ const b=form.querySelector("button[type=submit]"); b.disabled=on; if(on){b.dataset.t=b.textContent;b.textContent="Please wait…"} else if(b.dataset.t) b.textContent=b.dataset.t; }
+function tab(which){
+  $("tab-in").setAttribute("aria-selected", which==="in"); $("tab-up").setAttribute("aria-selected", which==="up");
+  $("f-in").hidden = which!=="in"; $("f-up").hidden = which!=="up"; $("f-reset").hidden = which!=="reset";
+  document.querySelector("#v-auth .tabs").hidden = which==="reset";
+  const f = $({in:"f-in",up:"f-up",reset:"f-reset"}[which]).querySelector("input"); f && setTimeout(()=>f.focus(),30);
+}
+document.querySelectorAll("[data-show]").forEach(b => b.addEventListener("click", () => { const i=b.previousElementSibling; i.type = i.type==="password"?"text":"password"; b.textContent = i.type==="password"?"Show":"Hide"; }));
+$("tab-in").onclick = () => tab("in"); $("tab-up").onclick = () => tab("up");
+$("go-reset").onclick = () => { $("re-email").value=$("in-email").value; tab("reset"); }; $("back-in").onclick = () => tab("in");
+
+if (!enabled) { view("v-off"); }
+else {
+  let fb;
+  try { fb = await firebase(); } catch(e) { view("v-auth"); msg("in-msg","Couldn't connect. Check your internet and reload the page."); }
+  if (fb) {
+    const done = () => { if (next) location.replace(next); };
+    function show(user){
+      if (!user){ view("v-auth"); tab(q.get("mode")==="signup"?"up":"in"); return; }
+      if (!canUse(user)){ $("vf-email").textContent=user.email; view("v-verify"); return; }
+      if (next) { done(); return; }
+      $("me-name").textContent = user.displayName || "Welcome"; $("me-email").textContent = user.email; view("v-me");
+    }
+    fb.onAuthStateChanged(fb.auth, show);
+    document.querySelectorAll("[data-out]").forEach(b => b.onclick = () => fb.signOut(fb.auth));
+
+    $("f-in").addEventListener("submit", async e => {
+      e.preventDefault(); msg("in-msg");
+      const em=$("in-email").value.trim(), pw=$("in-pw").value;
+      if(!em||!pw){ msg("in-msg","Please enter your email and password."); return; }
+      busy(e.target,true);
+      try { await fb.signInWithEmailAndPassword(fb.auth, em, pw); }
+      catch(err){ msg("in-msg", message(err)); }
+      busy(e.target,false);
+    });
+
+    $("f-up").addEventListener("submit", async e => {
+      e.preventDefault(); msg("up-msg");
+      const name=$("up-name").value.trim(), company=$("up-company").value.trim(), phone=$("up-phone").value.trim(), email=$("up-email").value.trim(), pw=$("up-pw").value;
+      if(!name){ msg("up-msg","Please enter your name."); $("up-name").focus(); return; }
+      if(phone.replace(/\D/g,"").length<8){ msg("up-msg","Please enter a valid mobile number."); $("up-phone").focus(); return; }
+      if(pw.length<8){ msg("up-msg","Please use a password of at least 8 characters."); $("up-pw").focus(); return; }
+      if(!$("up-ok").checked){ msg("up-msg","Please tick the box to continue."); return; }
+      busy(e.target,true);
+      try {
+        const cred = await fb.createUserWithEmailAndPassword(fb.auth, email, pw);
+        await fb.updateProfile(cred.user, { displayName: name });
+        saveLead({ name, company, phone, email, uid: cred.user.uid, next });
+        try { await fb.sendEmailVerification(cred.user, { url: location.origin + "/account.html" + (next ? "?next=" + encodeURIComponent(next) : "") }); } catch(err) {}
+        show(fb.auth.currentUser);
+      } catch(err){ msg("up-msg", message(err)); }
+      busy(e.target,false);
+    });
+
+    $("f-reset").addEventListener("submit", async e => {
+      e.preventDefault(); const em=$("re-email").value.trim();
+      if(!em){ msg("re-msg","Please enter your email."); return; }
+      busy(e.target,true);
+      try { await fb.sendPasswordResetEmail(fb.auth, em); msg("re-msg","If there's an account for this email, a reset link is on its way.",true); }
+      catch(err){ err.code==="auth/user-not-found" ? msg("re-msg","If there's an account for this email, a reset link is on its way.",true) : msg("re-msg", message(err)); }
+      busy(e.target,false);
+    });
+
+    $("vf-go").onclick = async () => { const u=fb.auth.currentUser; if(!u) return; await u.reload(); canUse(fb.auth.currentUser) ? show(fb.auth.currentUser) : msg("vf-msg","Not verified yet. Click the link in the email first."); };
+    $("vf-re").onclick = async () => { try{ await fb.sendEmailVerification(fb.auth.currentUser); msg("vf-msg","Sent again. Check your inbox.",true);}catch(err){ msg("vf-msg",message(err)); } };
+    $("me-reset").onclick = async () => { try{ await fb.sendPasswordResetEmail(fb.auth, fb.auth.currentUser.email); msg("me-msg","We emailed you a link to set a new password.",true);}catch(err){ msg("me-msg",message(err)); } };
+  }
+}
+</script>
+</body>
+</html>
