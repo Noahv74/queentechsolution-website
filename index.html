@@ -105,6 +105,8 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 @media (max-width:380px){.links .btn{display:none}.hero h1{font-size:2.9rem!important}}
 @media (max-width:1320px){.links a.hide-md{display:none}}
 
+.offerbar{display:block;background:var(--gold);color:var(--bg);text-align:center;font:600 .9rem/1.4 var(--f-body);padding:9px 16px;text-decoration:none}
+.offerbar b{font-weight:800}.offerbar u{text-underline-offset:3px}
 /* hero */
 .hero{padding-block:clamp(40px,6vw,72px) clamp(56px,8vw,96px);position:relative;isolation:isolate}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:
@@ -369,6 +371,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
 </style>
 </head>
 <body>
+<a class="offerbar" href="/price.html"><b>Limited offer:</b> 50% off camera installation, only AED 75 per camera. <u>Check your price</u> →</a>
 <script>document.documentElement.classList.add("js")</script>
 <header class="top">
   <div class="wrap nav">
@@ -378,8 +381,9 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
     </a>
     <nav class="links" aria-label="Main">
       <a class="hide-sm" href="#services">Services</a>
+      <a class="hide-sm" href="/price.html">Prices</a>
       <a class="hide-sm hide-md" href="#who">Who we serve</a>
-      <a class="hide-sm" href="#packages">Packages</a>
+      <a class="hide-sm hide-md" href="#packages">Packages</a>
       <a class="hide-sm" href="#free-tools">Free tools</a>
       <a class="hide-sm hide-md" href="#areas">Areas</a>
       <a class="hide-sm" href="#faq">FAQ</a>
@@ -409,6 +413,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
           WhatsApp us
         </a>
         <a class="btn btn-line" href="tel:+971557971520"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call +971 55 797 1520</a>
+        <a class="btn btn-line" href="/price.html">Check prices instantly <span class="arr" aria-hidden="true">→</span></a>
       </div>
       <ul class="promise fade" style="--d:.85s">
         <li><b>01</b>Free site survey</li>
