@@ -243,5 +243,17 @@ $("copy").addEventListener("click",function(){var txt=last.text.join("\n"),b=$("
   try{navigator.clipboard.writeText(txt).then(ok,function(){prompt("Copy the list:",txt)})}catch(e){prompt("Copy the list:",txt)}});
 var h=location.hash.slice(1);if(Q[h]){state.goal=h;document.querySelectorAll(".goal").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-goal")===h)})}
 if(/[?&]mode=hw/.test(location.search)){state.mode="hw";document.querySelectorAll("[data-mode]").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-mode")==="hw")})}
+var PRESETS={
+  apartment:{goal:"home",f:{sys:"wifi",hin:2,hout:0,door:"video"}},
+  villa:{goal:"home",f:{sys:"wired",hin:2,hout:4,door:"intercom",hdays:"30"}},
+  office:{goal:"office",f:{in:4,out:2,mp:"4",days:"30",size:"25",mon:"0"}},
+  shop:{goal:"office",f:{in:3,out:1,mp:"4",days:"30",size:"15",mon:"1"}},
+  warehouse:{goal:"office",f:{in:6,out:6,mp:"4c",days:"30",size:"40",mon:"1"}},
+  building:{goal:"barrier",f:{lanes:2,m_anpr:true,m_qr:true,m_uhf:true,m_remote:false,cars:60,autoexit:"1"}}
+};
+var pm=location.search.match(/[?&]preset=([a-z]+)/),pre=pm&&PRESETS[pm[1]];
+if(pre){state.goal=pre.goal;document.querySelectorAll(".goal").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-goal")===pre.goal)})}
 renderChips();renderQs();
+if(pre){Object.keys(pre.f).forEach(function(k){var val=pre.f[k],els=document.querySelectorAll('[name="'+k+'"]');
+  els.forEach(function(el){if(el.type==="radio")el.checked=el.value===String(val);else if(el.type==="checkbox")el.checked=!!val;else el.value=val})});calc()}
 })();

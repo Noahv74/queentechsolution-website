@@ -269,6 +269,31 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .ft-acc p b{color:var(--ink)}
 .ft-acc div{display:flex;gap:10px;flex-wrap:wrap}
 
+
+/* what do I need */
+.need-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.need-tabs label{cursor:pointer;font:600 .95rem var(--f-body);padding:11px 16px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);transition:border-color .2s,background .2s}
+.need-tabs label:hover{border-color:var(--gold)}
+.need input{position:absolute;opacity:0;pointer-events:none}
+.need-p{display:none;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:24px;align-items:center;background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:clamp(20px,3vw,32px)}
+@media (max-width:860px){.need-p{grid-template-columns:1fr}}
+.need-p h3{font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:12px}
+.need-p ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.need-p li{padding-left:22px;position:relative}
+.need-p li::before{content:"";position:absolute;left:0;top:.75em;width:12px;height:1px;background:var(--gold)}
+.need-p .box{background:var(--bg-2);border:1px dashed var(--line-2);border-radius:4px;padding:18px;display:grid;gap:10px}
+.need-p .box .k{font:500 .68rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.need-p .box p{color:var(--muted);font-size:.95rem}
+.need-p .box .btn{justify-self:start}
+#nd1:checked~.need-tabs label[for=nd1],#nd2:checked~.need-tabs label[for=nd2],#nd3:checked~.need-tabs label[for=nd3],#nd4:checked~.need-tabs label[for=nd4],#nd5:checked~.need-tabs label[for=nd5],#nd6:checked~.need-tabs label[for=nd6]{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+#nd1:checked~.need-ps .p1,#nd2:checked~.need-ps .p2,#nd3:checked~.need-ps .p3,#nd4:checked~.need-ps .p4,#nd5:checked~.need-ps .p5,#nd6:checked~.need-ps .p6{display:grid}
+.need input:focus-visible~.need-tabs label{outline:none}
+.techstrip{display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap;margin-top:14px;padding:16px 22px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg)}
+.techstrip p{color:var(--muted);font-size:.95rem}
+.techstrip p b{color:var(--ink)}
+.techstrip .acts{display:flex;gap:10px;flex-wrap:wrap}
+.coffee-btn{background:#FFDD00!important;color:#111!important}
+[data-coffee][hidden]{display:none!important}
 /* faq */
 .faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:48px;align-items:start}
 @media (max-width:860px){.faq-grid{grid-template-columns:1fr}}
@@ -415,7 +440,10 @@ form.lead::before{content:"طلب عرض سعر · عبر واتساب";left:aut
 .ft-scr{direction:ltr}
 input[type=tel],input[type=email]{direction:ltr;text-align:right}
 .wa-float{right:auto;left:18px}
+.need-p li{padding-left:0;padding-right:22px}.need-p li::before{left:auto;right:0}
+.need-p .box .k,.need-p .box{font-family:var(--f-body)}
 </style>
+<script src="/site-config.js" defer></script>
 </head>
 <body>
 <a class="offerbar" href="/price.html"><b>عرض محدود:</b> خصم 50% على جميع أعمال التركيب، الكاميرا فقط 75 درهم. <u>احسب سعرك</u> →</a>
@@ -603,7 +631,7 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
           <li>برامج المحاسبة ونقاط البيع والأعمال</li>
           <li>التعريفات والطابعات وإعداد البريد</li>
           <li>برامج أصلية وتفعيلها</li>
-          <li class="specs"><span class="spec">Windows</span><span class="spec">macOS</span><span class="spec">Office</span><span class="spec">POS</span></li>
+          <li class="specs"><span class="spec">Windows</span><span class="spec">macOS</span><span class="spec">مكتب</span><span class="spec">POS</span></li>
         </ul>
       </article>
       <article class="svc rv">
@@ -686,6 +714,17 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
       <li class="rv" style="--d:.24s"><h3>التركيب</h3><p>تمديدات وتركيب مرتب، حسب ساعات عملك.</p></li>
       <li class="rv" style="--d:.32s"><h3>التسليم والدعم</h3><p>نشرح لفريقك طريقة الاستخدام ونبقى متاحين بعد التسليم.</p></li>
     </ol>
+  </div>
+</section>
+
+<section class="sec" id="need" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag rv">لست متأكداً مما تحتاجه؟</span>
+      <h2 class="rv">اعرف احتياجك في دقيقة.</h2>
+      <p class="lede rv" style="--d:.1s">اختر نوع المكان وشاهد ما ننصح به. بضغطة واحدة يظهر السعر الكامل وتستطيع تعديله.</p>
+    </div>
+    <div class="need rv"><input type="radio" name="need" id="nd1"><input type="radio" name="need" id="nd2"><input type="radio" name="need" id="nd3" checked><input type="radio" name="need" id="nd4"><input type="radio" name="need" id="nd5"><input type="radio" name="need" id="nd6"><div class="need-tabs"><label for="nd1">شقة</label><label for="nd2">فيلا</label><label for="nd3">مكتب</label><label for="nd4">محل / مطعم</label><label for="nd5">مستودع</label><label for="nd6">مبنى / مجمّع</label></div><div class="need-ps"><div class="need-p p1"><div><h3>للشقق</h3><ul><li>كاميرتان واي فاي بالداخل، بدون تكسير أو تمديد كابلات</li><li>جرس فيديو: شاهد الزوار من هاتفك</li><li>التسجيل على كارت ذاكرة أو السحابة</li><li>التركيب في حوالي ساعة</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>كاميرتان واي فاي + جرس فيديو</p><a class="btn btn-gold" href="/price.html?preset=apartment">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p2"><div><h3>للفلل</h3><ul><li>كاميرات خارجية IP67 تتحمل حرارة وغبار الإمارات</li><li>كاميرات داخلية بزاوية عريضة</li><li>إنتركم فيديو مع شاشة داخل الفيلا</li><li>جهاز تسجيل سلكي يحفظ 30 يوماً</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>6 كاميرات سلكية + إنتركم فيديو</p><a class="btn btn-gold" href="/price.html?preset=villa">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p3"><div><h3>للمكاتب</h3><ul><li>كاميرات على المدخل والاستقبال ومناطق العمل</li><li>بصمة أو وجه على الباب الرئيسي مع الحضور والانصراف</li><li>واي فاي للشركات ونقاط شبكة لكل مكتب</li><li>تطبيق على الهاتف للمديرين</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>6 كاميرات، 4 ميجابكسل، 30 يوماً</p><a class="btn btn-gold" href="/price.html?preset=office">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p4"><div><h3>للمتاجر والمطاعم</h3><ul><li>كاميرات على الكاشير والمدخل والمطبخ والمخزن</li><li>تابع فرعك مباشرة من هاتفك</li><li>شاشة في الموقع للمدير</li><li>اتصال موثوق لنقاط البيع وتطبيقات التوصيل</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>4 كاميرات + شاشة في الموقع</p><a class="btn btn-gold" href="/price.html?preset=shop">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p5"><div><h3>للمستودعات</h3><ul><li>كاميرات ملونة ليلاً للساحات ومناطق التحميل</li><li>تخطيط صحيح للتمديدات الطويلة</li><li>تسجيل لمدة أطول (60 يوماً وأكثر)</li><li>بوابة مواقف لمدخل الشاحنات</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>12 كاميرا، ملونة ليلاً</p><a class="btn btn-gold" href="/price.html?preset=warehouse">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p6"><div><h3>للمباني والمجمّعات</h3><ul><li>بوابة مواقف مع قراءة لوحات السيارات (ANPR)</li><li>ملصقات UHF للسكان، وكود QR للزوار</li><li>لوب خروج تلقائي يفتح البوابة للسيارات الخارجة</li><li>لوب أمان وفوتوسيل على كل بوابة</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>بوابتان مع ANPR و QR و UHF</p><a class="btn btn-gold" href="/price.html?preset=building">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div></div></div>
   </div>
 </section>
 
@@ -777,6 +816,10 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
         </div>
       </a>
     </div>
+    <div class="techstrip rv">
+      <p><b>فني؟</b> حاسبة PoE ومخططات توصيل الأقفال (NO / NC / COM) والـ IP الافتراضي وألوان RJ45 وقائمة العدة، مجاناً في ركن الفنيين.</p>
+      <div class="acts"><a class="btn btn-line" href="/tech.html">افتح ركن الفنيين <span class="arr" aria-hidden="true">→</span></a><a class="btn coffee-btn" data-coffee hidden href="#" target="_blank" rel="noopener">☕ اعزمنا على قهوة</a></div>
+    </div>
     <div class="ft-acc rv">
       <p><b>مجاناً مع حساب كوين تك.</b> يستغرق دقيقة تقريباً، ولا نشارك بياناتك أبداً.</p>
       <div><a class="btn btn-gold" href="/account.html?mode=signup">إنشاء حساب مجاني</a><a class="btn btn-line" href="/account.html">تسجيل الدخول</a></div>
@@ -834,7 +877,7 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
       <div class="cbox rv">
         <div class="crow"><div><div class="k">الهاتف وواتساب</div><div class="v">+971 55 797 1520</div></div><button class="copy" type="button" data-copy="+971557971520">نسخ</button></div>
         <div class="crow"><div><div class="k">البريد الإلكتروني</div><div class="v">noah@queentechsolution.info</div></div><span class="crow-act"><a class="copy" href="mailto:noah@queentechsolution.info?subject=Quote%20request">راسلنا ↗</a><button class="copy" type="button" data-copy="noah@queentechsolution.info">نسخ</button></span></div>
-        <div class="crow"><div><div class="k">Office</div><div class="v">سيلفر تاور، الخليج التجاري</div><div class="sub">دبي، الإمارات · نخدم دبي وأبوظبي</div></div><a class="copy" href="https://www.google.com/maps/search/?api=1&amp;query=Silver+Tower+Business+Bay+Dubai" target="_blank" rel="noopener">افتح الخريطة ↗</a></div>
+        <div class="crow"><div><div class="k">مكتب</div><div class="v">سيلفر تاور، الخليج التجاري</div><div class="sub">دبي، الإمارات · نخدم دبي وأبوظبي</div></div><a class="copy" href="https://www.google.com/maps/search/?api=1&amp;query=Silver+Tower+Business+Bay+Dubai" target="_blank" rel="noopener">افتح الخريطة ↗</a></div>
       </div>
       <div class="socials rv">
         <a class="btn btn-gold" href="mailto:noah@queentechsolution.info?subject=Quote%20request"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>أرسل بريداً</a>

@@ -268,6 +268,31 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .ft-acc p b{color:var(--ink)}
 .ft-acc div{display:flex;gap:10px;flex-wrap:wrap}
 
+
+/* what do I need */
+.need-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.need-tabs label{cursor:pointer;font:600 .95rem var(--f-body);padding:11px 16px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);transition:border-color .2s,background .2s}
+.need-tabs label:hover{border-color:var(--gold)}
+.need input{position:absolute;opacity:0;pointer-events:none}
+.need-p{display:none;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:24px;align-items:center;background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:clamp(20px,3vw,32px)}
+@media (max-width:860px){.need-p{grid-template-columns:1fr}}
+.need-p h3{font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:12px}
+.need-p ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.need-p li{padding-left:22px;position:relative}
+.need-p li::before{content:"";position:absolute;left:0;top:.75em;width:12px;height:1px;background:var(--gold)}
+.need-p .box{background:var(--bg-2);border:1px dashed var(--line-2);border-radius:4px;padding:18px;display:grid;gap:10px}
+.need-p .box .k{font:500 .68rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.need-p .box p{color:var(--muted);font-size:.95rem}
+.need-p .box .btn{justify-self:start}
+#nd1:checked~.need-tabs label[for=nd1],#nd2:checked~.need-tabs label[for=nd2],#nd3:checked~.need-tabs label[for=nd3],#nd4:checked~.need-tabs label[for=nd4],#nd5:checked~.need-tabs label[for=nd5],#nd6:checked~.need-tabs label[for=nd6]{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+#nd1:checked~.need-ps .p1,#nd2:checked~.need-ps .p2,#nd3:checked~.need-ps .p3,#nd4:checked~.need-ps .p4,#nd5:checked~.need-ps .p5,#nd6:checked~.need-ps .p6{display:grid}
+.need input:focus-visible~.need-tabs label{outline:none}
+.techstrip{display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap;margin-top:14px;padding:16px 22px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg)}
+.techstrip p{color:var(--muted);font-size:.95rem}
+.techstrip p b{color:var(--ink)}
+.techstrip .acts{display:flex;gap:10px;flex-wrap:wrap}
+.coffee-btn{background:#FFDD00!important;color:#111!important}
+[data-coffee][hidden]{display:none!important}
 /* faq */
 .faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:48px;align-items:start}
 @media (max-width:860px){.faq-grid{grid-template-columns:1fr}}
@@ -369,6 +394,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
 @media (max-width:960px){@keyframes wallin{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
+<script src="/site-config.js" defer></script>
 </head>
 <body>
 <a class="offerbar" href="/price.html"><b>Limited offer:</b> 50% off all installation, cameras only AED 75 each. <u>Check your price</u> →</a>
@@ -642,6 +668,17 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
   </div>
 </section>
 
+<section class="sec" id="need" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag rv">Not sure what you need?</span>
+      <h2 class="rv">Find your setup in one minute.</h2>
+      <p class="lede rv" style="--d:.1s">Pick your place and see what we recommend. One tap opens the full price, ready to adjust.</p>
+    </div>
+    <div class="need rv"><input type="radio" name="need" id="nd1"><input type="radio" name="need" id="nd2"><input type="radio" name="need" id="nd3" checked><input type="radio" name="need" id="nd4"><input type="radio" name="need" id="nd5"><input type="radio" name="need" id="nd6"><div class="need-tabs"><label for="nd1">Apartment</label><label for="nd2">Villa</label><label for="nd3">Office</label><label for="nd4">Shop / restaurant</label><label for="nd5">Warehouse</label><label for="nd6">Building / compound</label></div><div class="need-ps"><div class="need-p p1"><div><h3>For apartments</h3><ul><li>2 Wi-Fi cameras inside, no cable drilling</li><li>Video doorbell: see visitors on your phone</li><li>Recording on a memory card or the cloud</li><li>Set up in about an hour</li></ul></div><div class="box"><span class="k">Typical setup</span><p>2 Wi-Fi cameras + video doorbell</p><a class="btn btn-gold" href="/price.html?preset=apartment">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p2"><div><h3>For villas</h3><ul><li>Outdoor IP67 cameras built for UAE heat and dust</li><li>Wide-angle cameras inside</li><li>Video intercom with a screen inside</li><li>Wired recorder keeping 30 days of footage</li></ul></div><div class="box"><span class="k">Typical setup</span><p>6 wired cameras + video intercom</p><a class="btn btn-gold" href="/price.html?preset=villa">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p3"><div><h3>For offices</h3><ul><li>Cameras at the entrance, reception and work areas</li><li>Fingerprint or face access on the main door, with attendance</li><li>Business Wi-Fi and network points for every desk</li><li>Phone app for managers</li></ul></div><div class="box"><span class="k">Typical setup</span><p>6 cameras, 4MP, 30 days</p><a class="btn btn-gold" href="/price.html?preset=office">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p4"><div><h3>For shops &amp; restaurants</h3><ul><li>Cameras over the till, entrance, kitchen and stock room</li><li>Watch your branch live from your phone</li><li>Screen on site for the manager</li><li>Reliable connection for POS and delivery apps</li></ul></div><div class="box"><span class="k">Typical setup</span><p>4 cameras + screen on site</p><a class="btn btn-gold" href="/price.html?preset=shop">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p5"><div><h3>For warehouses</h3><ul><li>Colour-at-night cameras for yards and loading bays</li><li>Long cable runs planned properly</li><li>Longer recording available (60 days and more)</li><li>Gate barrier for the truck entrance</li></ul></div><div class="box"><span class="k">Typical setup</span><p>12 cameras, colour at night</p><a class="btn btn-gold" href="/price.html?preset=warehouse">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p6"><div><h3>For buildings &amp; compounds</h3><ul><li>Gate barrier with number-plate recognition (ANPR)</li><li>UHF tags for residents, QR codes for visitors</li><li>Automatic exit loop so the gate opens for leaving cars</li><li>Safety loop and photocell on every barrier</li></ul></div><div class="box"><span class="k">Typical setup</span><p>2 barriers with ANPR, QR and UHF</p><a class="btn btn-gold" href="/price.html?preset=building">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div></div></div>
+  </div>
+</section>
+
 <section class="sec" id="packages" style="padding-top:0">
   <div class="wrap">
     <div class="head">
@@ -729,6 +766,10 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
           <span class="go">Open BOQ builder <span class="arr" aria-hidden="true">→</span></span>
         </div>
       </a>
+    </div>
+    <div class="techstrip rv">
+      <p><b>Technician?</b> PoE budget calculator, lock wiring (NO / NC / COM), default IPs, RJ45 colours and a tools checklist, free in the Tech corner.</p>
+      <div class="acts"><a class="btn btn-line" href="/tech.html">Open Tech corner <span class="arr" aria-hidden="true">→</span></a><a class="btn coffee-btn" data-coffee hidden href="#" target="_blank" rel="noopener">☕ Buy us a coffee</a></div>
     </div>
     <div class="ft-acc rv">
       <p><b>Free with a Queen Tech account.</b> It takes about a minute, and we never share your details.</p>
