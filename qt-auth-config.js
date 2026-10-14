@@ -9,7 +9,14 @@
       verification email before the tools open.
 */
 window.QT_AUTH = {
-  firebase: null,
+  firebase: {
+    apiKey: "AIzaSyArfCH7M6GJRGAmA6285onBv1ryqAvYWW0",
+    authDomain: "queen-tech.firebaseapp.com",
+    projectId: "queen-tech",
+    storageBucket: "queen-tech.firebasestorage.app",
+    messagingSenderId: "45845608234",
+    appId: "1:45845608234:web:e7ecb09de57a0ba3785053"
+  },
   sheetUrl: "",
   requireVerifiedEmail: true
 };
