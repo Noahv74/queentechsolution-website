@@ -99,7 +99,7 @@
     document.addEventListener("keydown",key);
     bs.forEach(function(b){b.addEventListener("click",function(){var l=b.getAttribute("data-l");markChosen(l);var u=urlFor(l);if(u)location.href=u;else close()})});
   }
-  function boot(){secnav();offers();picker()}
+  function boot(){secnav();offers();picker();if(!/\/(boq|account)\.html$/.test(location.pathname)){var as=document.createElement("script");as.src="/assistant.js";as.defer=true;document.body.appendChild(as)}}
   document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot):setTimeout(boot);
 
   var D=Object.create(null),RX=[];

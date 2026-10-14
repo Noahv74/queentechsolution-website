@@ -1,0 +1,11 @@
+# Queen Tech AI assistant backend (Cloudflare Worker)
+# Deploy:  npx wrangler deploy        (from this ai-worker folder)
+# Secret:  npx wrangler secret put ANTHROPIC_API_KEY
+name = "queentech-ai"
+main = "worker.js"
+compatibility_date = "2025-09-27"
+
+[vars]
+MODEL = "claude-haiku-5-5"
+ALLOWED_ORIGINS = "https://queentechsolution.info,https://www.queentechsolution.info"
+MAX_PER_HOUR = "30"

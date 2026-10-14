@@ -374,6 +374,7 @@ function pick(id,scroll){
 }
 box.addEventListener("click",function(e){var b=e.target.closest(".issue");if(b)pick(b.getAttribute("data-id"),true)});
 var h=location.hash.slice(1);if(h&&IC[h])pick(h,false);
+window.addEventListener("hashchange",function(){var k=location.hash.slice(1);if(IC[k])pick(k,true)});
 
 function open(lines){
   var url="https://wa.me/"+WA+"?text="+encodeURIComponent(lines.join("\n"));
