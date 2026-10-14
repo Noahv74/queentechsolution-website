@@ -193,3 +193,5 @@ QT_AR.rx([
   [/^Watts: (.+)$/, function(m,a){return "الواط: "+(DEV[a]||a)}]
 ]);
 })();
+
+QT_AR.add({"Help centre: guides & fixes":"مركز المساعدة: أدلة وحلول"});
