@@ -916,8 +916,9 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
   }else rv.forEach(function(el){el.classList.add("in")});
 
   document.querySelectorAll("[data-pick]").forEach(function(a){
-    a.addEventListener("click",function(){var s=document.getElementById("f-need");if(s)s.value=a.getAttribute("data-pick");});
+    a.addEventListener("click",function(){var s=document.getElementById("f-need");if(s)s.value=a.getAttribute("data-pick");else try{sessionStorage.setItem("qt-pick",a.getAttribute("data-pick"))}catch(e){}});
   });
+  try{var pk=sessionStorage.getItem("qt-pick"),fs=document.getElementById("f-need");if(pk&&fs){fs.value=pk;sessionStorage.removeItem("qt-pick")}}catch(e){}
   document.querySelectorAll("[data-copy]").forEach(function(b){
     b.addEventListener("click",function(){
       var t=b.getAttribute("data-copy");
@@ -928,6 +929,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--mute
   function sel(b){var v=b.parentElement.querySelector(".v");if(!v)return;var r=document.createRange();r.selectNodeContents(v);var s=getSelection();s.removeAllRanges();s.addRange(r);}
 
   var f=document.getElementById("leadForm"),fn=document.getElementById("fld-name");
+  if(!f)return;
   f.elements.name.addEventListener("input",function(){if(this.value.trim()){fn.classList.remove("err");this.removeAttribute("aria-invalid")}});
   document.getElementById("mailBtn").addEventListener("click",function(){
     var name=f.elements.name;
