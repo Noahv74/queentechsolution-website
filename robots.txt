@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /account.html
+Disallow: /elements.html
+Disallow: /left-sidebar.html
+Disallow: /right-sidebar.html
+Disallow: /no-sidebar.html
+Disallow: /testfile
+
+Sitemap: https://queentechsolution.info/sitemap.xml
