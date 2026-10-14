@@ -8,6 +8,7 @@
   s.textContent=
     ".qt-locked body>*:not(#qt-gate):not(header){visibility:hidden!important}"+
     ".qt-locked body{overflow:hidden}"+
+    ".qt-locked header.top{z-index:301!important}"+
     "#qt-gate{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:20px;background:rgba(19,18,16,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}"+
     "#qt-gate .box{max-width:460px;width:100%;background:#201E1A;border:1px solid #4A443A;border-radius:8px;padding:30px 28px;color:#EFE8DB;font-family:Figtree,'Segoe UI',system-ui,sans-serif;box-shadow:0 40px 80px -30px rgba(0,0,0,.8)}"+
     "#qt-gate .k{font:500 .68rem 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#E2A63F}"+

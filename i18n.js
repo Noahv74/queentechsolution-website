@@ -15,7 +15,7 @@
   var m=location.search.match(/[?&]lang=(ar|en)\b/);
   var saved=null;try{saved=localStorage.getItem(KEY)}catch(e){}
   var lang=m?m[1]:(/^\/ar(\/|$)/.test(location.pathname)?"ar":(saved||"en"));
-  if(m||/^\/ar(\/|$)/.test(location.pathname)||location.pathname==="/"||location.pathname==="/index.html"){
+  if(!document.documentElement.hasAttribute("data-i18n-static")&&(m||/^\/ar(\/|$)/.test(location.pathname))){
     if(location.pathname==="/"||location.pathname==="/index.html")lang=m?m[1]:"en";
     try{localStorage.setItem(KEY,lang)}catch(e){}
   }
@@ -23,9 +23,19 @@
   var ls=document.createElement("style");ls.textContent=".lang-tg{display:inline-flex;align-items:center;color:var(--gold,#E2A63F)!important;border:1px solid var(--line-2,#4A443A);border-radius:3px;padding:5px 10px;font:600 .82rem/1.2 'Noto Kufi Arabic','Figtree',system-ui,sans-serif;text-decoration:none;white-space:nowrap}.lang-tg:hover{border-color:var(--gold,#E2A63F)}@media (max-width:520px){.lang-tg{padding:4px 7px;font-size:.74rem}.brand small{display:none!important}.links{gap:10px!important}.nav{gap:10px!important}.brand b{font-size:1.1rem!important}.brand .crown{width:30px!important;height:30px!important}.links .btn{padding:10px 11px!important;font-size:.8rem!important}}@media (max-width:380px){.links .btn{display:none!important}}";document.head.appendChild(ls);
   /* ---- Site-wide section bar (every page): one page per section, always visible under the header ---- */
   var STATIC=document.documentElement.hasAttribute("data-i18n-static");
-  if(STATIC){var hl=document.documentElement.lang==="ar"?"ar":"en";lang=hl;window.QT_LANG=hl;try{localStorage.setItem(KEY,hl)}catch(e){}}
+  if(STATIC){var hl=document.documentElement.lang==="ar"?"ar":"en";lang=hl;window.QT_LANG=hl}
   var PAGES=[["/","Home","الرئيسية",1],["/services.html","Services","الخدمات",1],["/price.html","Prices","الأسعار"],["/tools.html","Free tools","أدوات مجانية",1],["/tech.html","Tech corner","ركن الفنيين"],["/help.html","Help centre","مركز المساعدة"],["/gamers.html","Gamers & PC","الجيمرز والكمبيوتر",0,1],["/contact.html","Contact","تواصل معنا",1]];
   window.QT_STATIC_AR={"/":"/ar/","/services.html":"/ar/services.html","/tools.html":"/ar/tools.html","/contact.html":"/ar/contact.html"};
+  /* A returning visitor who picked a language lands on that version of the static pages. */
+  if(STATIC){
+    var wasSet=false;try{wasSet=localStorage.getItem("qt-lang-set")==="1"}catch(e){}
+    if(!m&&wasSet&&saved&&saved!==lang&&!/bot|crawl|spider|slurp/i.test(navigator.userAgent)){
+      var pth=location.pathname.replace(/index\.html$/,"");
+      var to=saved==="ar"?window.QT_STATIC_AR[pth]:(pth.replace(/^\/ar/,"")||"/");
+      if(to&&to!==location.pathname){location.replace(to+location.hash);return}
+    }
+    try{localStorage.setItem(KEY,lang)}catch(e){}
+  }
   function secnav(){
     var hd=document.querySelector("header.top");if(!hd||hd.querySelector(".qt-sec"))return;
     var ar=lang==="ar",p=location.pathname.replace(/^\/ar(?=\/)/,"").replace(/index\.html$/,"");
@@ -44,7 +54,45 @@
     hd.querySelectorAll(".links a.hide-sm").forEach(function(a){a.remove()});
     var on=nav.querySelector(".on"),inr=nav.firstChild;if(on&&inr.scrollWidth>inr.clientWidth+2){try{var r=on.getBoundingClientRect(),q=inr.getBoundingClientRect();inr.scrollLeft+=(r.left+r.width/2)-(q.left+q.width/2)}catch(e){}}
   }
-  document.readyState==="loading"?document.addEventListener("DOMContentLoaded",secnav):setTimeout(secnav);
+  /* ---- First visit: ask which language (bilingual screen). Remembered in qt-lang-set. ---- */
+  var SET="qt-lang-set";
+  function chosen(){try{return localStorage.getItem(SET)==="1"}catch(e){return true}}
+  function markChosen(l){try{localStorage.setItem(SET,"1");if(l)localStorage.setItem(KEY,l)}catch(e){}}
+  if(m)markChosen(m[1]);
+  function urlFor(l){
+    var path=location.pathname,isAr=/^\/ar(\/|$)/.test(path);
+    if(STATIC){
+      if(l==="ar")return isAr?null:(window.QT_STATIC_AR[path.replace(/index\.html$/,"")]||"/ar/")+location.hash;
+      return isAr?(path.replace(/^\/ar/,"")||"/")+location.hash:null;
+    }
+    if(l===lang)return null;
+    var q=location.search.replace(/([?&])lang=(ar|en)&?/,"$1").replace(/[?&]$/,"");
+    return path+(q?q+"&":"?")+"lang="+l+location.hash;
+  }
+  function picker(){
+    document.querySelectorAll("a.lang").forEach(function(a){a.addEventListener("click",function(){markChosen(a.getAttribute("lang")==="ar"?"ar":"en")})});
+    if(chosen()||/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent))return;
+    var guess=(navigator.languages&&navigator.languages[0]||navigator.language||"").slice(0,2)==="ar"?"ar":lang;
+    var st=document.createElement("style");
+    st.textContent="#qt-lp{position:fixed;inset:0;z-index:400;display:grid;place-items:center;padding:20px;background:rgba(14,13,11,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:qtlp .25s ease}@keyframes qtlp{from{opacity:0}}#qt-lp .bx{width:100%;max-width:520px;background:#201E1A;border:1px solid #4A443A;border-radius:12px;padding:30px 26px 24px;color:#EFE8DB;text-align:center;box-shadow:0 40px 90px -30px rgba(0,0,0,.85)}#qt-lp svg{width:46px;height:46px}#qt-lp h2{margin:14px 0 4px;font:900 2rem/1.05 'Big Shoulders Display','Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.01em}#qt-lp h2+h2{font:800 1.6rem/1.3 'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;text-transform:none;margin-top:2px}#qt-lp p{margin:10px 0 22px;color:#A79E8F;font:400 .95rem/1.6 Figtree,system-ui,sans-serif}#qt-lp p span{display:block;font-family:'IBM Plex Sans Arabic','Noto Kufi Arabic',sans-serif}#qt-lp .ch{display:grid;grid-template-columns:1fr 1fr;gap:12px}#qt-lp button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:18px 10px;border:1px solid #4A443A;border-radius:8px;background:#1A1916;transition:border-color .15s,background .15s}#qt-lp button:hover,#qt-lp button:focus-visible{border-color:#E2A63F;background:rgba(226,166,63,.1)}#qt-lp button.sg{border-color:#E2A63F}#qt-lp button b{font:800 1.5rem/1.2 Figtree,system-ui,sans-serif;color:#EFE8DB}#qt-lp button[lang=ar] b{font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif}#qt-lp button small{font:500 .8rem/1.3 Figtree,system-ui,sans-serif;color:#A79E8F}#qt-lp button[lang=ar] small{font-family:'IBM Plex Sans Arabic',sans-serif}#qt-lp .qt-ft{margin-top:16px;font:400 .78rem/1.5 Figtree,system-ui,sans-serif;color:#6E675C}@media (max-width:380px){#qt-lp .bx{padding:24px 16px 18px}#qt-lp button b{font-size:1.25rem}}";
+    document.head.appendChild(st);
+    if(!document.querySelector('link[href*="Noto+Kufi"]')){var fl=document.createElement("link");fl.rel="stylesheet";fl.href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@700;800&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap";document.head.appendChild(fl)}
+    var d=document.createElement("div");d.id="qt-lp";d.setAttribute("role","dialog");d.setAttribute("aria-modal","true");d.setAttribute("aria-label","Choose your language / اختر لغتك");d.setAttribute("translate","no");d.dir="ltr";
+    d.innerHTML='<div class="bx"><svg viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" rx="5" fill="none" stroke="#E2A63F"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="#E2A63F"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="#E2A63F"/></svg>'+
+      '<h2>Choose your language</h2><h2 lang="ar" dir="rtl">اختر لغتك</h2>'+
+      '<p>Welcome to Queen Tech Solutions.<span lang="ar" dir="rtl">أهلاً بك في كوين تك للحلول التقنية.</span></p>'+
+      '<div class="ch"><button type="button" lang="en" data-l="en"'+(guess==="en"?' class="sg"':'')+'><b>English</b><small>Continue in English</small></button>'+
+      '<button type="button" lang="ar" dir="rtl" data-l="ar"'+(guess==="ar"?' class="sg"':'')+'><b>العربية</b><small>المتابعة بالعربية</small></button></div>'+
+      '<div class="qt-ft">You can change it any time from the top of the page.<br><span lang="ar" dir="rtl">يمكنك تغيير اللغة في أي وقت من أعلى الصفحة.</span></div></div>';
+    document.body.appendChild(d);
+    var bs=d.querySelectorAll("button");(d.querySelector(".sg")||bs[0]).focus();
+    function close(){d.remove();document.removeEventListener("keydown",key)}
+    function key(e){if(e.key==="Escape"){markChosen(lang);close()}if(e.key==="Tab"){e.preventDefault();(document.activeElement===bs[0]?bs[1]:bs[0]).focus()}}
+    document.addEventListener("keydown",key);
+    bs.forEach(function(b){b.addEventListener("click",function(){var l=b.getAttribute("data-l");markChosen(l);var u=urlFor(l);if(u)location.href=u;else close()})});
+  }
+  function boot(){secnav();picker()}
+  document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot):setTimeout(boot);
 
   var D=Object.create(null),RX=[];
   if(STATIC){window.QT_AR={add:function(){},rx:function(){}};window.t=function(s){return s};return}
@@ -115,7 +163,7 @@
       a.href=location.pathname+(q?q+"&":"?")+"lang="+to+location.hash;
       a.textContent=to==="ar"?"العربية":"English";
       a.setAttribute("lang",to);a.setAttribute("translate","no");
-      a.addEventListener("click",function(){try{localStorage.setItem(KEY,to)}catch(e){}});
+      a.addEventListener("click",function(){try{localStorage.setItem(KEY,to);localStorage.setItem("qt-lang-set","1")}catch(e){}});
     });
   }
 })();
