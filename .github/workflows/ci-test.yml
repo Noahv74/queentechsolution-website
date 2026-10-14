@@ -1,0 +1,9 @@
+name: ci-permission-test
+on:
+  push:
+    branches: [ci-permission-test]
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "java=$JAVA_HOME_17_X64 sdk=$ANDROID_HOME"; ls $ANDROID_HOME/build-tools $ANDROID_HOME/platforms
