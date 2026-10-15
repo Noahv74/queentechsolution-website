@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<script src="/i18n.js"></script>
+<script src="/i18n/ar-common.js"></script>
+<script src="/i18n/ar-games.js"></script>
+<title>Crown Heist – sneak past the cameras | Queen Tech Arcade</title>
+<meta name="description" content="Crown Heist: sneak up to the crown and freeze when the security camera looks your way. 10 levels, free, no download, works on phone and computer.">
+<link rel="canonical" href="https://queentechsolution.info/games/crown-heist.html">
+<meta property="og:title" content="Crown Heist – can you beat the cameras?">
+<meta property="og:description" content="A free stealth game from Queen Tech Arcade. 10 levels, up to 4 cameras.">
+<meta property="og:image" content="https://queentechsolution.info/og-image.png">
+<meta name="theme-color" content="#131210">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="/games/shell.css">
+<style>
+.h-status{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3;padding:7px 16px;border-radius:999px;font-weight:800;font-size:.95rem;letter-spacing:.02em;pointer-events:none;border:1px solid transparent;white-space:nowrap}
+.h-status.safe{background:rgba(95,200,160,.16);border-color:rgba(95,200,160,.6);color:#9be8c8}
+.h-status.warn{background:rgba(243,200,119,.2);border-color:#F3C877;color:#F3C877}
+.h-status.watch{background:rgba(226,91,69,.28);border-color:#E25B45;color:#ffb3a6;animation:pulse .5s infinite alternate}
+@keyframes pulse{to{transform:translateX(-50%) scale(1.07)}}
+.g-toast{top:58px}
+</style>
+</head>
+<body>
+<div class="g-app">
+  <div class="g-bar">
+    <a class="g-back" href="/games.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span>Arcade</span></a>
+    <div class="g-title" translate="no">Crown Heist</div>
+    <div class="g-hud"><span><span>Level</span> <b id="hLvl" translate="no">1/10</b></span><span>🚨 <b id="hCaught" translate="no">0</b></span><span>★ <b id="hStars" translate="no">0</b></span></div>
+    <button class="g-ib" id="pause" type="button" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg></button>
+    <button class="g-ib" id="mute" type="button" aria-label="Sound on"></button>
+    <a class="lang-tg" data-lang-toggle href="?lang=ar">العربية</a>
+  </div>
+  <div class="g-stage" id="stage">
+    <canvas id="game" aria-label="Crown Heist game"></canvas>
+    <div class="h-status" id="status" hidden translate="no"></div>
+    <div class="g-toast off" id="toast" translate="no"></div>
+    <div class="g-ov" id="ov" hidden translate="no"></div>
+  </div>
+</div>
+<script src="/games/shell.js"></script>
+<script src="/games/heist-engine.js"></script>
+<script src="/games/crown-heist.js"></script>
+</body>
+</html>

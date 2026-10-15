@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<script src="/i18n.js"></script>
+<script src="/i18n/ar-common.js"></script>
+<script src="/i18n/ar-games.js"></script>
+<title>Cable Swing – free one-tap swing game | Queen Tech Arcade</title>
+<meta name="description" content="Cable Swing: hold to grab a hook, let go to fly. A free one-tap swing game with crowns and bounce pads. No download, works on phone and computer.">
+<link rel="canonical" href="https://queentechsolution.info/games/cable-swing.html">
+<meta property="og:title" content="Cable Swing – how far can you go?">
+<meta property="og:description" content="A free one-tap swing game from Queen Tech Arcade.">
+<meta property="og:image" content="https://queentechsolution.info/og-image.png">
+<meta name="theme-color" content="#131210">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="/games/shell.css">
+</head>
+<body>
+<div class="g-app">
+  <div class="g-bar">
+    <a class="g-back" href="/games.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span>Arcade</span></a>
+    <div class="g-title" translate="no">Cable Swing</div>
+    <div class="g-hud"><span><b id="hDist" translate="no">0 m</b></span><span>👑 <b id="hCrowns" translate="no">0</b></span><span><span>Best</span> <b id="hBest" translate="no">0 m</b></span></div>
+    <button class="g-ib" id="pause" type="button" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg></button>
+    <button class="g-ib" id="mute" type="button" aria-label="Sound on"></button>
+    <a class="lang-tg" data-lang-toggle href="?lang=ar">العربية</a>
+  </div>
+  <div class="g-stage" id="stage">
+    <canvas id="game" aria-label="Cable Swing game"></canvas>
+    <div class="g-toast off" id="toast" translate="no"></div>
+    <div class="g-ov" id="ov" hidden translate="no"></div>
+  </div>
+</div>
+<script src="/games/shell.js"></script>
+<script src="/games/cable-engine.js"></script>
+<script src="/games/cable-swing.js"></script>
+</body>
+</html>

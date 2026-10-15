@@ -1,0 +1,320 @@
+/* Glitch Run – game engine (no drawing). Runs in the browser and in Node (for the level solver).
+   Map legend (32 x 18 tiles of 30 px):
+     #  wall / floor        ^  spikes           h  hidden spikes (pop up when you get close)
+     f  floor that falls when you stand on it  v  block that vanishes after you stand on it
+     i  invisible block (appears when touched) ~  fake block (looks solid, is not)
+     P  player start
+   Per level: doors = list of door spots [col,row]; the door jumps to the next spot when you get close.
+              crushers = [{c,r,w,trig}] blocks that drop from the ceiling (trig = column that sets them off).
+              saws = [{c,r,from,to,speed}] spinning blades moving left/right between two columns. */
+(function (root) {
+  "use strict";
+  var T = 30, COLS = 32, ROWS = 18, W = COLS * T, H = ROWS * T, DT = 1 / 60;
+  var MOVE = 200, ACC_G = 3200, ACC_A = 2200, GRAV = 1600, JUMP = 560, MAXF = 820,
+      COYOTE = 0.08, BUFFER = 0.1, PW = 18, PH = 26;
+
+  var LEVELS = [
+    { hint: "Walk to the door. Easy.", doors: [[28, 15]], map: [
+      "################################",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#.P............................#",
+      "##################ffff##########",
+      "##################....##########"] },
+
+    { hint: "Mind the gap.", doors: [[29, 15]], map: [
+      "################################",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#.P..........h............h....#",
+      "#########...##########...#######",
+      "#########...##########...#######"] },
+
+    { hint: "Look up.", doors: [[29, 15]], crushers: [{ c: 9, r: 1, w: 2 }, { c: 16, r: 1, w: 2, trig: 13 }, { c: 23, r: 1, w: 2 }], map: [
+      "################################",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#.P............................#",
+      "################################",
+      "################################"] },
+
+    { hint: "The door is shy.", doors: [[28, 15], [3, 7], [16, 15]], map: [
+      "################################",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#######........................#",
+      "#..............................#",
+      "#........####..................#",
+      "#..............................#",
+      "#..............####............#",
+      "#..............................#",
+      "#....................####......#",
+      "#.P............................#",
+      "################################",
+      "################################"] },
+
+    { hint: "Trust no floor.", doors: [[29, 15]], map: [
+      "################################",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..........##..........vv......#",
+      "#..............................#",
+      "#......##..~~..vv..##..~~......#",
+      "#.P............................#",
+      "######....................######",
+      "######....................######"] },
+
+    { hint: "Some blocks are shy.", doors: [[29, 15]], map: [
+      "################################",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#.P................h...........#",
+      "#######...i...i...######..i..###",
+      "#######...........######.....###"] },
+
+    { hint: "Everything at once.", doors: [[29, 15]], crushers: [{ c: 21, r: 1, w: 2, trig: 19 }],
+      saws: [{ c: 6, r: 15, from: 4, to: 12, speed: 110 }], map: [
+      "################################",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#.P.......................h....#",
+      "###############ffff#############",
+      "###############....#############"] },
+
+    { hint: "Last one. Promise.", doors: [[29, 15], [4, 15], [27, 9]], map: [
+      "################################",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#..............................#",
+      "#.........................~#####",
+      "#..............................#",
+      "#....................###.......#",
+      "#..............................#",
+      "#...............###............#",
+      "#.P.......^....................#",
+      "################################",
+      "################################"] }
+  ];
+
+  function rect(x, y, w, h) { return { x: x, y: y, w: w, h: h }; }
+  function hit(a, b) { return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
+
+  function create(index, deaths) {
+    var def = LEVELS[index], st = { index: index, t: 0, deaths: deaths || 0, dead: false, won: false, ev: [],
+      solid: [], ents: [], spikes: [], saws: [], doors: [], door: 0, p: null, sparkle: [] };
+    for (var r = 0; r < ROWS; r++) {
+      var row = def.map[r], line = [];
+      for (var c = 0; c < COLS; c++) {
+        var ch = row.charAt(c), x = c * T, y = r * T;
+        line.push(ch === "#" ? 1 : 0);
+        if (ch === "P") st.p = { x: x + (T - PW) / 2, y: (r + 1) * T - PH, vx: 0, vy: 0, ground: false, coyote: 0, buf: 0, held: false, face: 1 };
+        else if (ch === "^") st.spikes.push({ x: x, y: y, up: 1, hidden: false });
+        else if (ch === "h") st.spikes.push({ x: x, y: y, up: 0, hidden: true });
+        else if (ch === "v") st.ents.push({ k: "vanish", x: x, y: y, w: T, h: T, s: "idle", tm: 0 });
+        else if (ch === "i") st.ents.push({ k: "invis", x: x, y: y, w: T, h: T, s: "hidden" });
+        else if (ch === "~") st.ents.push({ k: "fake", x: x, y: y, w: T, h: T, s: "idle" });
+        else if (ch === "f") {
+          var last = st.ents[st.ents.length - 1];
+          if (last && last.k === "fall" && last.y === y && last.x + last.w === x) last.w += T;
+          else st.ents.push({ k: "fall", x: x, y: y, w: T, h: T, s: "idle", tm: 0, vy: 0 });
+        }
+      }
+      st.solid.push(line);
+    }
+    (def.crushers || []).forEach(function (k) {
+      st.ents.push({ k: "crush", x: k.c * T, y: k.r * T, w: k.w * T, h: T, s: "idle", vy: 0, trig: k.trig != null ? k.trig * T : null });
+    });
+    (def.saws || []).forEach(function (s) {
+      st.saws.push({ x: s.c * T + T / 2, y: s.r * T + T / 2, r: 13, x0: s.from * T + T / 2, x1: s.to * T + T / 2, v: s.speed });
+    });
+    st.doors = def.doors.map(function (d) { return { x: d[0] * T, y: (d[1] - 1) * T, w: T, h: 2 * T }; });
+    st.hint = def.hint;
+    return st;
+  }
+
+  function solids(st) {
+    var out = [];
+    for (var i = 0; i < st.ents.length; i++) {
+      var e = st.ents[i];
+      if ((e.k === "fall" && (e.s === "idle" || e.s === "shake")) || (e.k === "vanish" && e.s !== "gone") ||
+          e.k === "invis" || (e.k === "crush" && e.s === "landed")) out.push(e);
+    }
+    return out;
+  }
+  function tileHits(st, b) {
+    var out = [], c0 = Math.max(0, Math.floor(b.x / T)), c1 = Math.min(COLS - 1, Math.floor((b.x + b.w - 0.001) / T)),
+        r0 = Math.max(0, Math.floor(b.y / T)), r1 = Math.min(ROWS - 1, Math.floor((b.y + b.h - 0.001) / T));
+    for (var r = r0; r <= r1; r++) for (var c = c0; c <= c1; c++) if (st.solid[r][c]) out.push(rect(c * T, r * T, T, T));
+    return out;
+  }
+
+  function die(st, why) { if (st.dead || st.won) return; st.dead = true; st.deaths++; st.ev.push("die:" + why); }
+
+  function step(st, inp) {
+    if (st.dead || st.won) return st;
+    var p = st.p, dt = DT;
+    st.t += dt;
+    var dir = (inp.r ? 1 : 0) - (inp.l ? 1 : 0);
+    if (dir) p.face = dir;
+    var target = dir * MOVE, acc = (p.ground ? ACC_G : ACC_A) * dt;
+    p.vx = p.vx < target ? Math.min(target, p.vx + acc) : Math.max(target, p.vx - acc);
+    if (inp.j && !p.held) p.buf = BUFFER; else p.buf = Math.max(0, p.buf - dt);
+    p.coyote = p.ground ? COYOTE : Math.max(0, p.coyote - dt);
+    if (p.buf > 0 && p.coyote > 0) { p.vy = -JUMP; p.buf = 0; p.coyote = 0; p.ground = false; st.ev.push("jump"); }
+    if (!inp.j && p.vy < -JUMP * 0.45) p.vy = -JUMP * 0.45;     // short hop when the button is let go early
+    p.held = !!inp.j;
+    p.vy = Math.min(MAXF, p.vy + GRAV * dt);
+
+    var ents = solids(st), b, list, i, o;
+    // horizontal
+    p.x += p.vx * dt;
+    b = rect(p.x, p.y, PW, PH); list = tileHits(st, b);
+    for (i = 0; i < ents.length; i++) if (hit(b, ents[i])) list.push(ents[i]);
+    for (i = 0; i < list.length; i++) {
+      o = list[i]; if (!hit(rect(p.x, p.y, PW, PH), o)) continue;
+      if (o.k === "invis") o.s = "shown";
+      if (p.x + PW / 2 < o.x + o.w / 2) p.x = o.x - PW; else p.x = o.x + o.w;   // push out to the side we came from
+      p.vx = 0;
+    }
+    // vertical
+    p.y += p.vy * dt; p.ground = false; var under = null;
+    b = rect(p.x, p.y, PW, PH); list = tileHits(st, b);
+    for (i = 0; i < ents.length; i++) if (hit(b, ents[i])) list.push(ents[i]);
+    for (i = 0; i < list.length; i++) {
+      o = list[i]; if (!hit(rect(p.x, p.y, PW, PH), o)) continue;
+      if (o.k === "invis" && o.s !== "shown") { o.s = "shown"; st.ev.push("reveal"); }
+      if (p.y + PH / 2 < o.y + o.h / 2) { p.y = o.y - PH; if (p.vy > 0) p.vy = 0; p.ground = true; if (o.k) under = o; }
+      else { p.y = o.y + o.h; if (p.vy < 0) { p.vy = 0; st.ev.push("bonk"); } }
+    }
+    if (p.ground && !under) {               // standing on something: find the entity under the feet
+      b = rect(p.x + 1, p.y + PH, PW - 2, 2);
+      for (i = 0; i < ents.length; i++) if (hit(b, ents[i])) { under = ents[i]; break; }
+    }
+    if (p.x < 0) p.x = 0; if (p.x > W - PW) p.x = W - PW;
+
+    var cx = p.x + PW / 2, me = rect(p.x + 2, p.y + 2, PW - 4, PH - 3);
+    // traps
+    for (i = 0; i < st.ents.length; i++) {
+      var e = st.ents[i];
+      if (e.k === "fall") {
+        if (e.s === "idle" && under === e) { e.s = "shake"; e.tm = 0.14; st.ev.push("crack"); }
+        else if (e.s === "shake") { e.tm -= dt; if (e.tm <= 0) e.s = "fall"; }
+        else if (e.s === "fall") { e.vy += GRAV * dt; e.y += e.vy * dt; if (e.y > H + 80) e.s = "gone"; }
+      } else if (e.k === "vanish") {
+        if (e.s === "idle" && under === e) { e.s = "fade"; e.tm = 0.35; }
+        else if (e.s === "fade") { e.tm -= dt; if (e.tm <= 0) { e.s = "gone"; st.ev.push("poof"); } }
+      } else if (e.k === "crush") {
+        if (e.s === "idle") {
+          var go = e.trig != null ? cx >= e.trig : (cx > e.x - 4 && cx < e.x + e.w + 4);
+          if (go && p.y > e.y) { e.s = "fall"; e.vy = 0; st.ev.push("rumble"); }
+        } else if (e.s === "fall") {
+          e.vy += 2600 * dt; e.y += e.vy * dt;
+          var below = tileHits(st, rect(e.x + 1, e.y, e.w - 2, e.h));
+          if (below.length) { e.y = below[0].y - e.h; e.s = "landed"; st.ev.push("slam"); }
+          if (hit(me, e)) die(st, "crush");
+        }
+      }
+    }
+    for (i = 0; i < st.spikes.length; i++) {
+      var s = st.spikes[i];
+      if (!s.up && Math.abs(cx - (s.x + T / 2)) < 44 && p.y + PH > s.y - 50) { s.up = 0.001; st.ev.push("spike"); }
+      if (s.up && s.up < 1) s.up = Math.min(1, s.up + dt * 14);
+      if (s.up >= 0.6 && hit(me, rect(s.x + 5, s.y + 14, T - 10, T - 14))) die(st, "spike");
+    }
+    for (i = 0; i < st.saws.length; i++) {
+      var w = st.saws[i];
+      w.x += w.v * dt; if (w.x > w.x1) { w.x = w.x1; w.v = -Math.abs(w.v); } if (w.x < w.x0) { w.x = w.x0; w.v = Math.abs(w.v); }
+      var nx = Math.max(me.x, Math.min(w.x, me.x + me.w)), ny = Math.max(me.y, Math.min(w.y, me.y + me.h));
+      if ((nx - w.x) * (nx - w.x) + (ny - w.y) * (ny - w.y) < w.r * w.r) die(st, "saw");
+    }
+    if (p.y > H + 20) die(st, "fall");
+    // door
+    var d = st.doors[st.door], dcx = d.x + d.w / 2, dcy = d.y + d.h / 2;
+    if (st.door < st.doors.length - 1 && Math.abs(cx - dcx) < 70 && Math.abs(p.y + PH / 2 - dcy) < 60) { st.door++; st.ev.push("door"); }
+    else if (!st.dead && hit(me, rect(d.x + 6, d.y + 12, d.w - 12, d.h - 12))) { st.won = true; st.ev.push("win"); }
+    return st;
+  }
+
+  var api = { LEVELS: LEVELS, create: create, step: step, T: T, COLS: COLS, ROWS: ROWS, W: W, H: H, PW: PW, PH: PH, DT: DT };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.GlitchEngine = api;
+})(this);

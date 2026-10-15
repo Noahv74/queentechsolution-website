@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<script src="/i18n.js"></script>
+<script src="/i18n/ar-common.js"></script>
+<script src="/i18n/ar-games.js"></script>
+<title>Glitch Run – free trap platformer game | Queen Tech Arcade</title>
+<meta name="description" content="Glitch Run: a free trap platformer. Floors fall, spikes pop up and the exit door runs away. 8 levels, no download, works on phone and computer.">
+<link rel="canonical" href="https://queentechsolution.info/games/glitch-run.html">
+<meta property="og:title" content="Glitch Run – can you reach the exit?">
+<meta property="og:description" content="A free trap platformer from Queen Tech Arcade. 8 levels. Nothing is what it seems.">
+<meta property="og:image" content="https://queentechsolution.info/og-image.png">
+<meta name="theme-color" content="#131210">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="/games/shell.css">
+</head>
+<body>
+<div class="g-app">
+  <div class="g-bar">
+    <a class="g-back" href="/games.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span>Arcade</span></a>
+    <div class="g-title" translate="no">Glitch Run</div>
+    <div class="g-hud"><span><span>Level</span> <b id="hLvl" translate="no">1/8</b></span><span title="Deaths">☠ <b id="hDeaths" translate="no">0</b></span></div>
+    <button class="g-ib" id="restart" type="button" aria-label="Restart level"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+    <button class="g-ib" id="mute" type="button" aria-label="Sound on"></button>
+    <a class="lang-tg" data-lang-toggle href="?lang=ar">العربية</a>
+  </div>
+  <div class="g-stage" id="stage">
+    <canvas id="game" aria-label="Glitch Run game"></canvas>
+    <div class="g-toast off" id="toast" translate="no"></div>
+    <div class="g-hint" id="rotate" hidden>Turn your phone sideways to see the whole level</div>
+    <div class="g-ov" id="ov" hidden translate="no"></div>
+  </div>
+  <div class="g-pad" aria-hidden="true">
+    <div class="grp">
+      <button type="button" data-k="l"><svg viewBox="0 0 24 24"><path d="M16 4 6 12l10 8z"/></svg></button>
+      <button type="button" data-k="r"><svg viewBox="0 0 24 24"><path d="m8 4 10 8-10 8z"/></svg></button>
+    </div>
+    <button type="button" data-k="j"><svg viewBox="0 0 24 24"><path d="m12 5 8 11H4z"/></svg></button>
+  </div>
+</div>
+<script src="/games/shell.js"></script>
+<script src="/games/glitch-engine.js"></script>
+<script src="/games/glitch-run.js"></script>
+</body>
+</html>

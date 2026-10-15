@@ -44,7 +44,7 @@
   /* ---- Site-wide section bar (every page): one page per section, always visible under the header ---- */
   var STATIC=document.documentElement.hasAttribute("data-i18n-static");
   if(STATIC){var hl=document.documentElement.lang==="ar"?"ar":"en";lang=hl;window.QT_LANG=hl}
-  var PAGES=[["/","Home","الرئيسية",1],["/services.html","Services","الخدمات",1],["/price.html","Prices","الأسعار"],["/tools.html","Free tools","أدوات مجانية",1],["/tech.html","Tech corner","ركن الفنيين"],["/help.html","Help centre","مركز المساعدة"],["/gamers.html","Gamers & PC","الجيمرز والكمبيوتر",0,1],["/contact.html","Contact","تواصل معنا",1],["/app.html","📲 App","📲 التطبيق",0,0,1]];
+  var PAGES=[["/","Home","الرئيسية",1],["/services.html","Services","الخدمات",1],["/price.html","Prices","الأسعار"],["/tools.html","Free tools","أدوات مجانية",1],["/tech.html","Tech corner","ركن الفنيين"],["/help.html","Help centre","مركز المساعدة"],["/gamers.html","Gamers & PC","الجيمرز والكمبيوتر"],["/games.html","🎮 Arcade","🎮 الألعاب",0,1],["/contact.html","Contact","تواصل معنا",1],["/app.html","📲 App","📲 التطبيق",0,0,1]];
   window.QT_STATIC_AR={"/":"/ar/","/services.html":"/ar/services.html","/tools.html":"/ar/tools.html","/contact.html":"/ar/contact.html"};
   /* A returning visitor who picked a language lands on that version of the static pages. */
   if(STATIC){
@@ -114,7 +114,7 @@
   }
   function sw(){if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"))navigator.serviceWorker.register("/sw.js").catch(function(){})}
   if(document.readyState==="complete")setTimeout(sw,0);else window.addEventListener("load",sw);
-  function boot(){secnav();offers();picker();if(!/\/(boq|account)\.html$/.test(location.pathname)){var as=document.createElement("script");as.src="/assistant.js";as.defer=true;document.body.appendChild(as)}}
+  function boot(){secnav();offers();picker();if(!/\/(boq|account)\.html$/.test(location.pathname)&&!/^\/games\//.test(location.pathname)){var as=document.createElement("script");as.src="/assistant.js";as.defer=true;document.body.appendChild(as)}}
   document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot):setTimeout(boot);
 
   var D=Object.create(null),RX=[];

@@ -146,6 +146,11 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 @keyframes blink{50%{opacity:.25}}
 .hint-link{font-size:.85rem;color:var(--muted)}
 .small{font-size:.84rem;color:var(--dim);margin-top:14px;max-width:80ch}
+.arcade-cta{display:flex;align-items:center;gap:14px;margin:6px 0 34px;padding:16px 18px;border:1px solid var(--gold);border-radius:12px;background:var(--gold-soft);color:var(--ink);text-decoration:none;font-weight:700}
+.arcade-cta:hover{background:rgba(226,166,63,.2)}
+.arcade-cta .ic{font-size:1.6rem}
+.arcade-cta .go{margin-inline-start:auto;color:var(--gold);font-size:1.3rem}
+html[dir=rtl] .arcade-cta .go{transform:scaleX(-1)}
 .tips{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
 .tip{border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--surface)}
 .tip h3{font-size:1.15rem;margin-bottom:8px;color:var(--gold-2)}
@@ -302,6 +307,8 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
     </div>
     <p class="small">Offer prices include the game, the Steam account and installation on one PC. Offers end 1 December 2026. Steam and game names belong to their owners. We are not affiliated with Valve or the game publishers.</p>
   </section>
+
+  <a class="arcade-cta" href="/games.html"><span class="ic">🎮</span><span>Free games while you wait: Glitch Run, Cable Swing and Crown Heist</span><span class="go">→</span></a>
 
   <section class="sec" id="tips">
     <div class="sec-head">

@@ -25,6 +25,7 @@ QT_AR.add({
   "Quick answers any time, and one tap to reach our engineer.":"إجابات سريعة في أي وقت، وضغطة واحدة للوصول لمهندسنا.",
   "Free tools":"أدوات مجانية",
   "Bandwidth and storage calculator, BOQ builder and the Tech corner.":"حاسبة الباندويث والتخزين، ومنشئ جدول الكميات، وركن الفنيين.",
+  "Free games":"ألعاب مجانية","Glitch Run, Cable Swing and Crown Heist. They work offline after the first play.":"Glitch Run و Cable Swing و Crown Heist. تعمل بدون إنترنت بعد أول مرة.",
   "English & Arabic":"عربي وإنجليزي",
   "Choose your language on first launch. Change it any time.":"اختر لغتك عند أول فتح، وغيّرها في أي وقت.",
   "How to install":"طريقة التثبيت",

@@ -134,6 +134,7 @@ QT_AR.add({
   "Price: Steam price + AED 50 setup and installation.":"السعر: سعر Steam + 50 درهم للتجهيز والتنصيب.",
   "(game, Steam account and installation)":"(اللعبة وحساب Steam والتنصيب)",
   "Please send me the next steps.":"أرجو إرسال الخطوات التالية.",
+  "Free games while you wait: Glitch Run, Cable Swing and Crown Heist":"ألعاب مجانية وأنت منتظر: Glitch Run و Cable Swing و Crown Heist",
   /* WhatsApp message */
   "Hello Queen Tech, I need an online gaming / PC fix.":"مرحباً كوين تك، أحتاج حل مشكلة ألعاب / كمبيوتر أونلاين.",
   "Hello Queen Tech, I'd like to book a gaming PC hardware check.":"مرحباً كوين تك، أريد حجز فحص هاردوير لجهاز الجيمنج.",
