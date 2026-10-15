@@ -111,7 +111,7 @@ QT_AR.add({
   "Steam games · installed for you":"ألعاب Steam · نركّبها لك",
   "Get your games ready to play.":"ألعابك جاهزة للعب.",
   "We buy the game on Steam, set up your account and install everything, so you just press Play. Done online with AnyDesk or during a visit.":"نشتري اللعبة من Steam، ونجهّز حسابك، ونثبّت كل شيء، وأنت فقط تضغط Play. أونلاين عبر AnyDesk أو خلال زيارة.",
-  "Offers end 1 December":"العروض تنتهي 1 ديسمبر",
+  "Offers end 1 December 2026":"العروض تنتهي 1 ديسمبر 2026",
   "Offer":"عرض","all included":"شامل كل شيء",
   "Game bought on Steam":"شراء اللعبة من Steam",
   "Steam account set up for you":"تجهيز حساب Steam لك",

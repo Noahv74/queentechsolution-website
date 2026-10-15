@@ -203,6 +203,12 @@ function calc(){
   document.querySelector(".quote").classList.toggle("hwmode",hw);
   $("totk").textContent=hw?"Items in this list":"Estimated total";
   $("grand").textContent=hw?eqs.length:money(r2(eT+lT));
+  (function(){var n=$("totnote");if(!n)return;n.hidden=hw;if(hw)return;
+    var AR=window.QT_LANG==="ar",MON={Jan:"يناير",Feb:"فبراير",Mar:"مارس",Apr:"أبريل",May:"مايو",Jun:"يونيو",Jul:"يوليو",Aug:"أغسطس",Sep:"سبتمبر",Oct:"أكتوبر",Nov:"نوفمبر",Dec:"ديسمبر"};
+    var d=AR?String(P.checked).replace(/[A-Z][a-z]{2}/,function(m){return MON[m]||m}):P.checked;
+    var t=AR?["تقدير مبدئي","الأسعار راجعناها "+d,"قد تُضاف ضريبة القيمة المضافة","التوصيل قد يكون إضافي","السعر النهائي بعد زيارة مجانية"]
+            :["Estimate","Prices checked "+d,"VAT may apply","Delivery may be extra","Final quote after a free visit"];
+    n.innerHTML=t.map(function(x,i){return'<span'+(i===0||i===4?' class="g"':'')+'>'+esc(x)+'</span>'}).join("")})();
   $("save").hidden=hw||!saved;$("save").textContent="You save AED "+money(saved);
   $("copy").hidden=!hw;$("toolsopt").hidden=!hw;
   $("fine").textContent=hw?"Models follow the brand you chose. Check compatibility on site before ordering.":
