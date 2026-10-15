@@ -1,7 +1,7 @@
 /* Queen Tech service worker: lets the site work as an app and keeps visited pages
    available offline. Always tries the network first, so prices and offers stay fresh.
    Change VERSION when the list of core files changes. */
-const VERSION = "qt-2026-10-15";
+const VERSION = "qt-2026-10-15c";
 const FONTS = "qt-fonts";
 const CORE = [
   "/offline.html",
@@ -13,7 +13,11 @@ const CORE = [
   "/manifest.webmanifest",
   "/icons/icon-192.png",
   "/icons/maskable-192.png",
-  "/favicon.ico"
+  "/favicon.ico",
+  "/cursor.png",
+  "/cursor@2x.png",
+  "/cursor-link.png",
+  "/cursor-link@2x.png"
 ];
 
 self.addEventListener("install", (event) => {
@@ -58,6 +62,12 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;                 // Firebase, WhatsApp, YouTube… go straight to the network
   if (/\.(apk|aab|zip)$/i.test(url.pathname)) return;               // never cache app downloads
   if (/^\/(android|ai-worker)\//.test(url.pathname)) return;
+
+  // Brand cursor images: serve from the cache straight away so the cursor never flickers between pages.
+  if (/^\/cursor(-link)?(@2x)?\.png$/.test(url.pathname)) {
+    event.respondWith(caches.match(req, { ignoreSearch: true }).then((hit) => hit || fetch(req).then((res) => keep(req, res))));
+    return;
+  }
 
   if (req.mode === "navigate") {
     event.respondWith(
