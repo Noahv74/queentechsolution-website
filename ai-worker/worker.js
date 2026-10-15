@@ -24,7 +24,7 @@ const hits = new Map(); // simple per-IP hourly limit (per worker instance)
 export default {
   async fetch(req, env) {
     const origin = req.headers.get("Origin") || "";
-    const allowed = (env.ALLOWED_ORIGINS || "").split(",").map(s => s.trim());
+    const allowed = (env.ALLOWED_ORIGINS || "https://queentechsolution.info,https://www.queentechsolution.info").split(",").map(s => s.trim());
     const cors = {
       "Access-Control-Allow-Origin": allowed.includes(origin) ? origin : allowed[0] || "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
