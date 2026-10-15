@@ -1,14 +1,31 @@
 rules_version = '2';
-// Queen Tech – each signed-in customer can read and write only their own data.
+// Queen Tech – customer data + FixTrack repairs.
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() { return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+
+    // Each signed-in customer can read and write only their own data (game progress + history).
     match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if signedIn() && request.auth.uid == uid;
       match /history/{id} {
-        allow read, delete: if request.auth != null && request.auth.uid == uid;
-        allow create, update: if request.auth != null && request.auth.uid == uid
-                              && request.resource.data.size() < 20;
+        allow read, delete: if signedIn() && request.auth.uid == uid;
+        allow create, update: if signedIn() && request.auth.uid == uid && request.resource.data.size() < 20;
       }
+    }
+
+    // FixTrack: anyone with the (random) repair code can read that one repair; nobody can list them.
+    match /repairs/{code} {
+      allow get: if true;
+      allow list, create, update, delete: if isAdmin();
+    }
+    // Customer phone + full name: admins only.
+    match /repairs_private/{code} {
+      allow read, write: if isAdmin();
+    }
+    // Admin list: created by hand in the Firebase console (document ID = the admin's user ID).
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
     }
   }
 }

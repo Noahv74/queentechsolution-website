@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /account.html
+Disallow: /repairs-admin.html
 Disallow: /elements.html
 Disallow: /left-sidebar.html
 Disallow: /right-sidebar.html
