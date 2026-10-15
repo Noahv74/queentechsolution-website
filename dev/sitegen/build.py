@@ -175,10 +175,10 @@ def build(pg, lang):
 <meta property="og:locale" content="{"en_AE" if lang=="en" else "ar_AE"}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#131210">
-<link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" href="/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest?v=3">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" href="/icon.svg?v=3" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
 <script type="application/ld+json">
 {schema}
 </script>
