@@ -2,7 +2,7 @@
 QT_AR.add({
   "Queen Tech":"Queen Tech",
   "Solutions · Dubai · Abu Dhabi":"حلول تقنية · دبي · أبوظبي",
-  "Services":"الخدمات","Prices":"الأسعار","Free tools":"أدوات مجانية","FAQ":"الأسئلة الشائعة","Home":"الرئيسية","Account":"الحساب",
+  "Services":"الخدمات","Prices":"الأسعار","Free tools":"أدوات مجانية","Tools & Help":"الأدوات والمساعدة","FAQ":"الأسئلة الشائعة","Home":"الرئيسية","Account":"الحساب",
   "Free site visit":"زيارة مجانية للموقع","Calculator":"الحاسبة","BOQ builder":"منشئ جدول الكميات","Hardware list":"قائمة الأجهزة",
   "Tech corner":"ركن الفنيين","Help centre":"مركز المساعدة","Help":"المساعدة",
   "Chat on WhatsApp":"تحدث معنا على واتساب","WhatsApp us":"راسلنا على واتساب",

@@ -44,7 +44,9 @@
   /* ---- Site-wide section bar (every page): one page per section, always visible under the header ---- */
   var STATIC=document.documentElement.hasAttribute("data-i18n-static");
   if(STATIC){var hl=document.documentElement.lang==="ar"?"ar":"en";lang=hl;window.QT_LANG=hl}
-  var PAGES=[["/","Home","الرئيسية",1],["/services.html","Services","الخدمات",1],["/price.html","Prices","الأسعار"],["/tools.html","Free tools","أدوات مجانية",1],["/tech.html","Tech corner","ركن الفنيين"],["/help.html","Help centre","مركز المساعدة"],["/gamers.html","Gamers & PC","الجيمرز والكمبيوتر"],["/games.html","🎮 Arcade","🎮 الألعاب",0,1],["/contact.html","Contact","تواصل معنا",1],["/app.html","📲 App","📲 التطبيق",0,0,1]];
+  var PAGES=[["/","Home","الرئيسية",1],["/services.html","Services","الخدمات",1],["/price.html","Prices","الأسعار"],["/tools.html","Tools & Help","الأدوات والمساعدة",1],["/gamers.html","Gamers & PC","الجيمرز والكمبيوتر"],["/contact.html","Contact","تواصل معنا",1]];
+  /* Tools & Help hub: one menu item, tabs on every page inside it. [path, EN, AR, pages that light this tab] */
+  var HUB=[["/tools.html","Overview","نظرة عامة",["/tools.html"]],["/tools.html#free-tools","Free tools","الأدوات المجانية",["/bandwidth.html","/boq.html","/planner.html","/rescue.html"]],["/help.html","Help centre","مركز المساعدة",["/help.html","/boards.html"]],["/tech.html","Tech corner","ركن الفنيين",["/tech.html"]]];
   window.QT_STATIC_AR={"/":"/ar/","/services.html":"/ar/services.html","/tools.html":"/ar/tools.html","/contact.html":"/ar/contact.html","/cctv-installation-dubai.html":"/ar/cctv-installation-dubai.html","/cctv-installation-abu-dhabi.html":"/ar/cctv-installation-abu-dhabi.html","/access-control-dubai.html":"/ar/access-control-dubai.html","/gate-barrier-installation.html":"/ar/gate-barrier-installation.html","/network-wifi-installation-dubai.html":"/ar/network-wifi-installation-dubai.html","/laptop-repair-business-bay.html":"/ar/laptop-repair-business-bay.html","/phone-repair-dubai.html":"/ar/phone-repair-dubai.html","/it-support-dubai.html":"/ar/it-support-dubai.html"};
   /* A returning visitor who picked a language lands on that version of the static pages. */
   if(STATIC){
@@ -59,9 +61,12 @@
   function secnav(){
     var hd=document.querySelector("header.top");if(!hd||hd.querySelector(".qt-sec"))return;
     var ar=lang==="ar",p=location.pathname.replace(/^\/ar(?=\/)/,"").replace(/index\.html$/,"");
-    if(p==="/bandwidth.html"||p==="/boq.html")p="/tools.html";if(p==="/boards.html")p="/help.html";
+    var pg=p,hubTab=-1;HUB.forEach(function(t,i){if(t[3].indexOf(pg)>=0)hubTab=i});
+    if(hubTab>=0)p="/tools.html";
+    if(p==="/games.html"||/^\/games\//.test(p))p="/gamers.html";
+    if(/^\/(cctv-installation|access-control|gate-barrier|network-wifi|laptop-repair|phone-repair|it-support)/.test(p))p="/services.html";
     var css=document.createElement("style");
-    css.textContent=".qt-sec{border-top:1px solid var(--line,#2E2A24);position:relative}.qt-sec .qt-in{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.qt-sec .qt-in::-webkit-scrollbar{display:none}.qt-sec a{flex:none;display:inline-flex;align-items:center;gap:6px;padding:11px 13px 10px;color:var(--muted,#A69E8E);text-decoration:none;white-space:nowrap;font:600 .86rem/1.2 "+(ar?"'IBM Plex Sans Arabic','Noto Kufi Arabic'":"'Figtree'")+",system-ui,sans-serif;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}.qt-sec a:hover{color:var(--ink,#F2ECE0)}.qt-sec a.on{color:var(--gold,#E2A63F);border-bottom-color:var(--gold,#E2A63F)}.qt-sec a i{font:700 .6rem/1 'JetBrains Mono',monospace;font-style:normal;color:#131210;background:var(--gold,#E2A63F);padding:3px 5px;border-radius:2px;letter-spacing:"+(ar?"0":".06em")+"}.qt-sec a:first-child{padding-inline-start:0}@media (max-width:760px){.qt-sec::after{content:'';position:absolute;top:0;bottom:0;"+(ar?"left":"right")+":0;width:28px;pointer-events:none;background:linear-gradient(to "+(ar?"right":"left")+",var(--bg,#131210),transparent)}.qt-sec a{padding:10px 11px 9px;font-size:.82rem}}@media print{.qt-sec{display:none}}"+(ar?".qt-sec a i{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:.66rem;padding:3px 6px}":"");
+    css.textContent=".qt-sec{border-top:1px solid var(--line,#2E2A24);position:relative}.qt-sec .qt-in{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.qt-sec .qt-in::-webkit-scrollbar{display:none}.qt-sec a{flex:none;display:inline-flex;align-items:center;gap:6px;padding:11px 13px 10px;color:var(--muted,#A69E8E);text-decoration:none;white-space:nowrap;font:600 .86rem/1.2 "+(ar?"'IBM Plex Sans Arabic','Noto Kufi Arabic'":"'Figtree'")+",system-ui,sans-serif;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}.qt-sec a:hover{color:var(--ink,#F2ECE0)}.qt-sec a.on{color:var(--gold,#E2A63F);border-bottom-color:var(--gold,#E2A63F)}.qt-sec a i{font:700 .6rem/1 'JetBrains Mono',monospace;font-style:normal;color:#131210;background:var(--gold,#E2A63F);padding:3px 5px;border-radius:2px;letter-spacing:"+(ar?"0":".06em")+"}.qt-sec a:first-child{padding-inline-start:0}@media (max-width:760px){.qt-sec::after{content:'';position:absolute;top:0;bottom:0;"+(ar?"left":"right")+":0;width:28px;pointer-events:none;background:linear-gradient(to "+(ar?"right":"left")+",var(--bg,#131210),transparent)}.qt-sec a{padding:10px 11px 9px;font-size:.82rem}}@media print{.qt-sec{display:none}}.qt-sec a.qt-app{margin-inline-start:auto;opacity:.75;font-size:.8rem}.qt-hub{border-top:1px dashed var(--line,#2E2A24);background:color-mix(in srgb,var(--gold,#E2A63F) 5%,transparent)}.qt-hub .qt-in{display:flex;align-items:center;gap:4px;overflow-x:auto;scrollbar-width:none}.qt-hub .qt-in::-webkit-scrollbar{display:none}.qt-hub .qt-hub-t{flex:none;font:600 .7rem/1 "+(ar?"'IBM Plex Sans Arabic'":"'JetBrains Mono',monospace")+";letter-spacing:"+(ar?"0":".12em")+";text-transform:uppercase;color:var(--gold,#E2A63F);padding-inline-end:10px;margin-inline-end:4px;border-inline-end:1px solid var(--line-2,#4A443A)}.qt-hub a{flex:none;padding:7px 12px;margin:6px 0;border-radius:999px;color:var(--muted,#A69E8E);text-decoration:none;font:600 .82rem/1.2 "+(ar?"'IBM Plex Sans Arabic','Noto Kufi Arabic'":"'Figtree'")+",system-ui,sans-serif;border:1px solid transparent}.qt-hub a:hover{color:var(--ink,#EFE8DB);border-color:var(--line-2,#4A443A)}.qt-hub a.on{color:var(--bg,#131210);background:var(--gold,#E2A63F)}"+(ar?".qt-sec a i{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:.66rem;padding:3px 6px}":"");
     document.head.appendChild(css);
     var nav=document.createElement("nav");nav.className="qt-sec";nav.setAttribute("aria-label",ar?"أقسام الموقع":"Site sections");nav.setAttribute("translate","no");
     var h='<div class="wrap qt-in">';
@@ -70,7 +75,15 @@
       var href=ar&&g[3]?window.QT_STATIC_AR[g[0]]:g[0],on=p===g[0];
       h+='<a href="'+href+'"'+(on?' class="on" aria-current="page"':'')+'>'+(ar?g[2]:g[1].replace("&","&amp;"))+(g[4]?'<i>'+(ar?"جديد":"NEW")+'</i>':'')+'</a>';
     });
+    if(!APP)h+='<a class="qt-app" href="/app.html">📲 '+(ar?"التطبيق":"App")+'</a>';
     nav.innerHTML=h+'</div>';
+    if(hubTab>=0){
+      var sub=document.createElement("nav");sub.className="qt-hub";sub.setAttribute("aria-label",ar?"الأدوات والمساعدة":"Tools & Help");sub.setAttribute("translate","no");
+      var sh='<div class="wrap qt-in"><span class="qt-hub-t">'+(ar?"الأدوات والمساعدة":"Tools &amp; Help")+'</span>';
+      HUB.forEach(function(t,i){var href=t[0];if(ar&&href.indexOf("/tools.html")===0)href=href.replace("/tools.html","/ar/tools.html");
+        sh+='<a href="'+href+'"'+(i===hubTab?' class="on" aria-current="page"':'')+'>'+(ar?t[2]:t[1])+'</a>'});
+      sub.innerHTML=sh+'</div>';nav.appendChild(sub);
+    }
     var first=hd.querySelector(".nav");first&&first.nextSibling?hd.insertBefore(nav,first.nextSibling):hd.appendChild(nav);
     hd.querySelectorAll(".links a.hide-sm").forEach(function(a){a.remove()});
     var on=nav.querySelector(".on"),inr=nav.firstChild;if(on&&inr.scrollWidth>inr.clientWidth+2){try{var r=on.getBoundingClientRect(),q=inr.getBoundingClientRect();inr.scrollLeft+=(r.left+r.width/2)-(q.left+q.width/2)}catch(e){}}
