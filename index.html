@@ -411,6 +411,36 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
 @keyframes wallin{from{opacity:0;transform:translateY(30px) rotate(3deg)}to{opacity:1;transform:rotate(1.2deg)}}
 @media (max-width:960px){@keyframes wallin{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* slim home (15 Oct 2026): service cards link to their own pages */
+.svc-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:980px){.svc-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.svc-cards{grid-template-columns:1fr}}
+.svc-card{position:relative;display:flex;flex-direction:column;gap:10px;padding:22px;border:1px solid var(--line-2,#4A443A);border-radius:8px;background:var(--surface,#201E1A);color:var(--ink,#EFE8DB);text-decoration:none;transition:border-color .2s,transform .2s,box-shadow .2s}
+.svc-card:hover,.svc-card:focus-visible{border-color:var(--gold,#E2A63F);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 0 1px rgba(226,166,63,.15)}
+.svc-card .num{font:500 .7rem var(--f-mono,monospace);letter-spacing:.12em;color:var(--dim,#6E675C)}
+.svc-card .svc-t{display:flex;flex-direction:column;gap:8px}
+.svc-card h3{font-size:1.25rem;line-height:1.15}
+.svc-card p{color:var(--muted,#A79E8F);font-size:.95rem;line-height:1.55;margin:0}
+.svc-card .more{margin-top:auto;font-weight:600;font-size:.9rem;color:var(--gold,#E2A63F)}
+.svc-card .more span{display:inline-block;transition:transform .2s}
+.svc-card:hover .more span{transform:translateX(4px)}
+html[dir=rtl] .svc-card:hover .more span,html.rtl .svc-card:hover .more span{transform:translateX(-4px)}
+.svc-all{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+.explore{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:980px){.explore{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.explore{grid-template-columns:1fr}}
+.xcard{display:flex;flex-direction:column;gap:8px;padding:22px;border-radius:8px;border:1px solid var(--line-2,#4A443A);background:linear-gradient(160deg,rgba(226,166,63,.08),transparent 60%),var(--surface,#201E1A);color:var(--ink,#EFE8DB);text-decoration:none;transition:border-color .2s,transform .2s}
+.xcard:hover,.xcard:focus-visible{border-color:var(--gold,#E2A63F);transform:translateY(-3px)}
+.xcard .em{font-size:1.6rem;line-height:1}
+.xcard b{font-size:1.1rem}
+.xcard small{color:var(--muted,#A79E8F);font-size:.9rem;line-height:1.5}
+.xcard .more{margin-top:auto;color:var(--gold,#E2A63F);font-weight:600;font-size:.88rem}
+.cta-band{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:clamp(24px,4vw,40px);border:1px solid var(--gold,#E2A63F);border-radius:10px;background:radial-gradient(120% 140% at 0% 0%,rgba(226,166,63,.16),transparent 60%),var(--bg-2,#1A1916);box-shadow:0 0 40px rgba(226,166,63,.08)}
+.cta-band h2{font-size:clamp(1.9rem,4vw,3rem)}
+.cta-band h2 em{font-style:normal;color:var(--gold,#E2A63F)}
+.cta-band p{color:var(--muted,#A79E8F);margin-top:10px;max-width:52ch}
+.cta-band .cta-row{display:flex;flex-wrap:wrap;gap:10px}
 </style>
 <script src="/i18n.js"></script>
 <script src="/site-config.js" defer></script>
@@ -430,10 +460,10 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
       <a class="hide-sm" href="#services">Services</a>
       <a class="hide-sm" href="/price.html">Prices</a>
       <a class="hide-sm hide-md" href="#who">Who we serve</a>
-      <a class="hide-sm hide-md" href="#packages">Packages</a>
-      <a class="hide-sm" href="#free-tools">Free tools</a>
-      <a class="hide-sm hide-md" href="#areas">Areas</a>
-      <a class="hide-sm" href="#faq">FAQ</a>
+      <a class="hide-sm hide-md" href="/services.html#packages">Packages</a>
+      <a class="hide-sm" href="/tools.html#free-tools">Free tools</a>
+      <a class="hide-sm hide-md" href="/contact.html#areas">Areas</a>
+      <a class="hide-sm" href="/contact.html#faq">FAQ</a>
       <a class="lang" href="/ar/" hreflang="ar" lang="ar">العربية</a>
       <a class="btn btn-gold" href="#contact">Free site visit</a>
     </nav>
@@ -509,116 +539,18 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
       <h2 class="rv">Everything your business runs on, set up properly.</h2>
       <p class="lede rv" style="--d:.1s">Security systems, networks and repairs from one team. We plan each job around your space and budget, then do it neatly and show you how everything works.</p>
     </div>
-    <div class="svc-list">
-      <article class="svc rv">
-        <span class="num">01 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 8l12-4 2 6-12 4z"/><path d="M8 13l1 5h4"/><circle cx="12" cy="8" r="1.4"/><path d="M17 10l4 1"/></svg></span><h3>CCTV &amp; security cameras</h3><p>Cameras placed where they matter: entrances, tills, stock rooms and parking.</p></div>
-        <ul>
-          <li>Site survey and camera layout plan</li>
-          <li>HD and night-vision IP cameras</li>
-          <li>Recorder (NVR) with weeks of stored footage</li>
-          <li>Live view and playback on your phone</li>
-          <li>Upgrades and repairs for existing systems</li>
-          <li class="specs"><span class="spec">4MP / 8MP</span><span class="spec">Night vision</span><span class="spec">PoE</span><span class="spec">Mobile app</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">02 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><rect x="9" y="5.5" width="6" height="4" rx="1"/><path d="M9 13h.01M12 13h.01M15 13h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span><h3>Access control</h3><p>Control who enters your office, server room or staff areas, with a record of every entry.</p></div>
-        <ul>
-          <li>Card, PIN, fingerprint and face readers</li>
-          <li>Magnetic locks and door controllers</li>
-          <li>Staff attendance records</li>
-          <li>Installation of new systems</li>
-          <li>Repair and maintenance of existing systems</li>
-          <li class="specs"><span class="spec">RFID card</span><span class="spec">Biometric</span><span class="spec">Attendance</span><span class="spec">Maintenance</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">03 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="10" width="4" height="11" rx="1"/><path d="M7 13h14"/><path d="M10 11v4M13 11v4M16 11v4M19 11v4"/><path d="M2 21h20"/></svg></span><h3>Gate barriers</h3><p>Automatic barriers for parking areas, buildings and compounds, controlled the way that suits your site.</p></div>
-        <ul>
-          <li>Barrier supply and installation</li>
-          <li>Remote, card or number-plate control</li>
-          <li>Safety sensors and loop detectors</li>
-          <li>Regular servicing and maintenance</li>
-          <li>Repairs and spare parts</li>
-          <li class="specs"><span class="spec">Parking</span><span class="spec">Remote</span><span class="spec">ANPR</span><span class="spec">Maintenance</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">04 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg></span><h3>Networking &amp; WiFi</h3><p>Fast, stable internet in every corner of your office or shop, with a separate network for guests.</p></div>
-        <ul>
-          <li>Structured cabling and network cabinets</li>
-          <li>Business WiFi with full coverage</li>
-          <li>Guest WiFi kept apart from your systems</li>
-          <li>Firewall and secure remote access</li>
-          <li>Fixing slow or dropping connections</li>
-          <li class="specs"><span class="spec">Cat6</span><span class="spec">WiFi 6</span><span class="spec">VLAN</span><span class="spec">Firewall</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">05 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M14.5 8.5l-3 3-1.5-1.5"/></svg></span><h3>IT maintenance &amp; support</h3><p>Someone to call when a computer, printer or email stops working, plus regular checks so it happens less.</p></div>
-        <ul>
-          <li>Email and Microsoft 365 setup</li>
-          <li>Printer and device setup</li>
-          <li>Antivirus and security updates</li>
-          <li>On-site and remote support</li>
-          <li>Monthly support plans for small offices</li>
-          <li class="specs"><span class="spec">On-site</span><span class="spec">Remote</span><span class="spec">Monthly plans</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">06 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="11" rx="1.5"/><path d="M2 19h20"/><path d="M12 7.5v4M10 9.5h4"/></svg></span><h3>PC &amp; laptop repair</h3><p>Hardware and software repairs for desktops and laptops, for businesses and individuals.</p></div>
-        <ul>
-          <li>Slow, crashing or not turning on</li>
-          <li>Screen, keyboard, battery and charger</li>
-          <li>SSD and RAM upgrades</li>
-          <li>Virus removal and Windows reinstall</li>
-          <li>Overheating, fan and cleaning service</li>
-          <li class="specs"><span class="spec">Hardware</span><span class="spec">Software</span><span class="spec">Upgrades</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">07 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg></span><h3>Mobile phone repair</h3><p>Software and hardware fixes for iPhone and Android phones.</p></div>
-        <ul>
-          <li>Screen and battery replacement</li>
-          <li>Charging port, speaker and mic problems</li>
-          <li>Software updates and system restore</li>
-          <li>Phone stuck, slow or not starting</li>
-          <li>Data transfer to a new phone</li>
-          <li class="specs"><span class="spec">iPhone</span><span class="spec">Android</span><span class="spec">Hardware</span><span class="spec">Software</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">08 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/><path d="M12 11v6M9 14l3 3 3-3"/></svg></span><h3>Software installation</h3><p>The programs your work depends on, installed, activated and set up correctly.</p></div>
-        <ul>
-          <li>Windows and macOS installation</li>
-          <li>Microsoft Office and Microsoft 365</li>
-          <li>Accounting, POS and business software</li>
-          <li>Drivers, printers and email setup</li>
-          <li>Licensed software and activation</li>
-          <li class="specs"><span class="spec">Windows</span><span class="spec">macOS</span><span class="spec">Office</span><span class="spec">POS</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">09 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span><h3>Laptop &amp; data backup</h3><p>Copies of your files and photos, so a broken or stolen laptop does not mean losing everything.</p></div>
-        <ul>
-          <li>Laptop and PC backup</li>
-          <li>Automatic daily backups for offices</li>
-          <li>External drive, NAS or cloud copies</li>
-          <li>Backups for accounts, POS and shared folders</li>
-          <li>Restore testing so you know it works</li>
-          <li class="specs"><span class="spec">Laptop</span><span class="spec">NAS</span><span class="spec">Cloud</span><span class="spec">Daily</span></li>
-        </ul>
-      </article>
+    <div class="svc-cards">
+      <a class="svc-card rv" href="/cctv-installation-dubai.html"><span class="num">01 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 8l12-4 2 6-12 4z"/><path d="M8 13l1 5h4"/><circle cx="12" cy="8" r="1.4"/><path d="M17 10l4 1"/></svg></span><h3>CCTV &amp; security cameras</h3><p>Cameras placed where they matter: entrances, tills, stock rooms and parking.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
+      <a class="svc-card rv" href="/access-control-dubai.html"><span class="num">02 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><rect x="9" y="5.5" width="6" height="4" rx="1"/><path d="M9 13h.01M12 13h.01M15 13h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span><h3>Access control</h3><p>Control who enters your office, server room or staff areas, with a record of every entry.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
+      <a class="svc-card rv" href="/gate-barrier-installation.html"><span class="num">03 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="10" width="4" height="11" rx="1"/><path d="M7 13h14"/><path d="M10 11v4M13 11v4M16 11v4M19 11v4"/><path d="M2 21h20"/></svg></span><h3>Gate barriers</h3><p>Automatic barriers for parking areas, buildings and compounds, controlled the way that suits your site.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
+      <a class="svc-card rv" href="/network-wifi-installation-dubai.html"><span class="num">04 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg></span><h3>Networking &amp; WiFi</h3><p>Fast, stable internet in every corner of your office or shop, with a separate network for guests.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
+      <a class="svc-card rv" href="/it-support-dubai.html"><span class="num">05 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M14.5 8.5l-3 3-1.5-1.5"/></svg></span><h3>IT maintenance &amp; support</h3><p>Someone to call when a computer, printer or email stops working, plus regular checks so it happens less.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
+      <a class="svc-card rv" href="/laptop-repair-business-bay.html"><span class="num">06 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="11" rx="1.5"/><path d="M2 19h20"/><path d="M12 7.5v4M10 9.5h4"/></svg></span><h3>PC &amp; laptop repair</h3><p>Hardware and software repairs for desktops and laptops, for businesses and individuals.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
+      <a class="svc-card rv" href="/phone-repair-dubai.html"><span class="num">07 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg></span><h3>Mobile phone repair</h3><p>Software and hardware fixes for iPhone and Android phones.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
+      <a class="svc-card rv" href="/services.html"><span class="num">08 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/><path d="M12 11v6M9 14l3 3 3-3"/></svg></span><h3>Software installation</h3><p>The programs your work depends on, installed, activated and set up correctly.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
+      <a class="svc-card rv" href="/services.html"><span class="num">09 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span><h3>Laptop &amp; data backup</h3><p>Copies of your files and photos, so a broken or stolen laptop does not mean losing everything.</p></div><span class="more">See details <span aria-hidden="true">→</span></span></a>
     </div>
+    <div class="svc-all"><a class="btn btn-line" href="/services.html">All services & packages</a><a class="btn btn-line" href="/price.html">Check prices instantly</a></div>
   </div>
 </section>
 
@@ -680,7 +612,7 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
       <h2 class="rv">From first message to finished job.</h2>
     </div>
     <ol class="steps">
-      <li class="rv"><h3>Message us</h3><p>Tell us what you need on WhatsApp, phone or the form below.</p></li>
+      <li class="rv"><h3>Message us</h3><p>Tell us what you need on WhatsApp, by phone or on the <a href="/contact.html">contact page</a>.</p></li>
       <li class="rv" style="--d:.08s"><h3>Site visit</h3><p>We come to your location, check the space and listen to what matters to you.</p></li>
       <li class="rv" style="--d:.16s"><h3>Clear quote</h3><p>You get a written quote with equipment and price. No surprises.</p></li>
       <li class="rv" style="--d:.24s"><h3>Installation</h3><p>Neat cabling and setup, planned around your opening hours.</p></li>
@@ -689,211 +621,18 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
   </div>
 </section>
 
-<section class="sec" id="need" style="padding-top:0">
+<section class="sec" id="explore" style="padding-top:0">
   <div class="wrap">
-    <div class="head">
-      <span class="tag rv">Not sure what you need?</span>
-      <h2 class="rv">Find your setup in one minute.</h2>
-      <p class="lede rv" style="--d:.1s">Pick your place and see what we recommend. One tap opens the full price, ready to adjust.</p>
-    </div>
-    <div class="need rv"><input type="radio" name="need" id="nd1"><input type="radio" name="need" id="nd2"><input type="radio" name="need" id="nd3" checked><input type="radio" name="need" id="nd4"><input type="radio" name="need" id="nd5"><input type="radio" name="need" id="nd6"><div class="need-tabs"><label for="nd1">Apartment</label><label for="nd2">Villa</label><label for="nd3">Office</label><label for="nd4">Shop / restaurant</label><label for="nd5">Warehouse</label><label for="nd6">Building / compound</label></div><div class="need-ps"><div class="need-p p1"><div><h3>For apartments</h3><ul><li>2 Wi-Fi cameras inside, no cable drilling</li><li>Video doorbell: see visitors on your phone</li><li>Recording on a memory card or the cloud</li><li>Set up in about an hour</li></ul></div><div class="box"><span class="k">Typical setup</span><p>2 Wi-Fi cameras + video doorbell</p><a class="btn btn-gold" href="/price.html?preset=apartment">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p2"><div><h3>For villas</h3><ul><li>Outdoor IP67 cameras built for UAE heat and dust</li><li>Wide-angle cameras inside</li><li>Video intercom with a screen inside</li><li>Wired recorder keeping 30 days of footage</li></ul></div><div class="box"><span class="k">Typical setup</span><p>6 wired cameras + video intercom</p><a class="btn btn-gold" href="/price.html?preset=villa">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p3"><div><h3>For offices</h3><ul><li>Cameras at the entrance, reception and work areas</li><li>Fingerprint or face access on the main door, with attendance</li><li>Business Wi-Fi and network points for every desk</li><li>Phone app for managers</li></ul></div><div class="box"><span class="k">Typical setup</span><p>6 cameras, 4MP, 30 days</p><a class="btn btn-gold" href="/price.html?preset=office">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p4"><div><h3>For shops &amp; restaurants</h3><ul><li>Cameras over the till, entrance, kitchen and stock room</li><li>Watch your branch live from your phone</li><li>Screen on site for the manager</li><li>Reliable connection for POS and delivery apps</li></ul></div><div class="box"><span class="k">Typical setup</span><p>4 cameras + screen on site</p><a class="btn btn-gold" href="/price.html?preset=shop">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p5"><div><h3>For warehouses</h3><ul><li>Colour-at-night cameras for yards and loading bays</li><li>Long cable runs planned properly</li><li>Longer recording available (60 days and more)</li><li>Gate barrier for the truck entrance</li></ul></div><div class="box"><span class="k">Typical setup</span><p>12 cameras, colour at night</p><a class="btn btn-gold" href="/price.html?preset=warehouse">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p6"><div><h3>For buildings &amp; compounds</h3><ul><li>Gate barrier with number-plate recognition (ANPR)</li><li>UHF tags for residents, QR codes for visitors</li><li>Automatic exit loop so the gate opens for leaving cars</li><li>Safety loop and photocell on every barrier</li></ul></div><div class="box"><span class="k">Typical setup</span><p>2 barriers with ANPR, QR and UHF</p><a class="btn btn-gold" href="/price.html?preset=building">See the price for this <span class="arr" aria-hidden="true">→</span></a></div></div></div></div>
+    <div class="head"><span class="tag rv">Explore</span><h2 class="rv">Find what you need, fast.</h2></div>
+    <div class="explore"><a class="xcard rv" href="/price.html"><span class="em" aria-hidden="true">💰</span><b>Instant prices</b><small>Get a price for cameras, access control, Wi-Fi or a barrier in 30 seconds.</small><span class="more">Check prices →</span></a><a class="xcard rv" href="/tools.html"><span class="em" aria-hidden="true">🧰</span><b>Tools & Help</b><small>Free calculators, camera planner, help guides and barrier error codes.</small><span class="more">Open tools →</span></a><a class="xcard rv" href="/gamers.html"><span class="em" aria-hidden="true">🎮</span><b>Gamers & PC</b><small>Online fixes with AnyDesk, PC repairs and Steam games installed for you.</small><span class="more">Get help →</span></a><a class="xcard rv" href="/games.html"><span class="em" aria-hidden="true">🕹️</span><b>Free games</b><small>Three original games, 60 levels and missions. No download.</small><span class="more">Play now →</span></a></div>
   </div>
 </section>
 
-<section class="sec" id="packages" style="padding-top:0">
+<section class="sec" id="contact" style="padding-top:0">
   <div class="wrap">
-    <div class="head">
-      <span class="tag rv">Popular packages</span>
-      <h2 class="rv">A starting point for most jobs.</h2>
-      <p class="lede rv" style="--d:.1s">Every site is different, so we confirm the final price after a free visit.</p>
-    </div>
-    <div class="pk-grid rv">
-      <div class="pk">
-        <span class="for">For shops &amp; restaurants</span>
-        <h3>Shop CCTV kit</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>4 HD night-vision cameras</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Recorder with stored footage</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Phone app setup</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Installation and cabling</li>
-        </ul>
-        <p class="price">Price on request<small>Free site survey included</small></p>
-        <a class="btn btn-line" href="#contact" data-pick="Shop CCTV kit">Get a price <span class="arr" aria-hidden="true">→</span></a>
-      </div>
-      <div class="pk feat">
-        <span class="ribbon">Most requested</span>
-        <span class="for">For offices</span>
-        <h3>Office network setup</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Network cabinet and cabling</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Business WiFi across the office</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Firewall and guest network</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Printers and devices connected</li>
-        </ul>
-        <p class="price">Price on request<small>Based on office size</small></p>
-        <a class="btn btn-gold" href="#contact" data-pick="Office network setup">Get a price <span class="arr" aria-hidden="true">→</span></a>
-      </div>
-      <div class="pk">
-        <span class="for">For offices &amp; shops</span>
-        <h3>Monthly IT support</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Remote help when you need it</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Regular on-site checks</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Updates, antivirus and backups</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>One fixed monthly fee</li>
-        </ul>
-        <p class="price">Price on request<small>Based on number of users</small></p>
-        <a class="btn btn-line" href="#contact" data-pick="Monthly IT support">Get a price <span class="arr" aria-hidden="true">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec ft" id="free-tools">
-  <div class="wrap">
-    <div class="head">
-      <span class="tag rv">Limited free services</span>
-      <h2 class="rv">Professional tools, free for our customers.</h2>
-      <p class="lede rv" style="--d:.1s">The same tools our engineers use to plan CCTV and network jobs. Create a free account once and use them any time, on your phone or computer.</p>
-    </div>
-    <div class="ft-grid">
-      <a class="ft-card rv" href="/bandwidth.html">
-        <div class="ft-scr" aria-hidden="true">
-          <div class="bar"><span>NVR sizing · 30 ch</span><span>30 days</span></div>
-          <div class="big">22.2<small>TB storage</small></div>
-          <div class="ln"><span>10 × 1080p · H.265</span><b>14.6 Mbps</b></div>
-          <div class="ln"><span>20 × 2K · H.265</span><b>47.7 Mbps</b></div>
-        </div>
-        <div class="ft-body">
-          <span class="k">Free tool 01</span>
-          <h3>Bandwidth &amp; storage calculator</h3>
-          <p>Work out the network speed and hard disks your cameras need, the internet plan for your office, and how long a backup will take.</p>
-          <ul><li>Mix camera groups: 0.2 MP to 4K, H.264 to H.265+</li><li>Use the real bitrate from your NVR</li><li>Office internet and download time</li></ul>
-          <span class="go">Open calculator <span class="arr" aria-hidden="true">→</span></span>
-        </div>
-      </a>
-      <a class="ft-card rv" href="/boq.html" style="--d:.12s">
-        <div class="ft-scr" aria-hidden="true">
-          <div class="bar"><span>BOQ · 74 cameras</span><span>Excel · PDF</span></div>
-          <div class="big">4<small>NVRs · 15 HDD</small></div>
-          <div class="ln"><span>2MP bullet camera</span><b>52</b></div>
-          <div class="ln"><span>2MP IR VF dome camera</span><b>15</b></div>
-        </div>
-        <div class="ft-body">
-          <span class="k">Free tool 02</span>
-          <h3>CCTV BOQ builder</h3>
-          <p>List the cameras as you survey a site and get the bill of quantities, storage per NVR and hard disks, ready to send.</p>
-          <ul><li>Add cameras in batches or paste from Excel</li><li>Automatic ID / REC / DET / ANPR breakdown</li><li>Export to Excel or print to PDF</li></ul>
-          <span class="go">Open BOQ builder <span class="arr" aria-hidden="true">→</span></span>
-        </div>
-      </a>
-    </div>
-    <div class="techstrip rv">
-      <p><b>Technician?</b> Installation guides and fixes for common problems in the Help centre, plus a PoE calculator, lock wiring, default IPs and a tools checklist in the Tech corner. Free.</p>
-      <div class="acts"><a class="btn btn-line" href="/help.html">Help centre <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-line" href="/tech.html">Open Tech corner <span class="arr" aria-hidden="true">→</span></a><a class="btn coffee-btn" data-coffee hidden href="#" target="_blank" rel="noopener">☕ Buy us a coffee</a></div>
-    </div>
-    <div class="ft-acc rv">
-      <p><b>Free with a Queen Tech account.</b> It takes about a minute, and we never share your details.</p>
-      <div><a class="btn btn-gold" href="/account.html?mode=signup">Create free account</a><a class="btn btn-line" href="/account.html">Sign in</a></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="faq" style="padding-top:0">
-  <div class="wrap faq-grid">
-    <div class="head">
-      <span class="tag rv">Questions</span>
-      <h2 class="rv">Common questions.</h2>
-    </div>
-    <div class="faq rv">
-      <details><summary><span class="n">Q.01</span>Do you visit the site before giving a price?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We visit for free, check the space, and then send a written quote. You only pay if you decide to go ahead.</p></details>
-      <details><summary><span class="n">Q.02</span>Can I watch my cameras from my phone?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We set up the app on your phone and show you how to watch live and play back recordings from anywhere.</p></details>
-      <details><summary><span class="n">Q.03</span>How long is the footage kept?<span class="pm" aria-hidden="true"></span></summary><p>It depends on the number of cameras and the recorder's storage. We size the storage to match how many days of footage you need.</p></details>
-      <details><summary><span class="n">Q.04</span>Can you fix or upgrade a system someone else installed?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We regularly repair, extend and upgrade existing cameras, networks and computers.</p></details>
-      <details><summary><span class="n">Q.05</span>Do you repair laptops and phones for individuals?<span class="pm" aria-hidden="true"></span></summary><p>Yes. Send us the device model and the problem on WhatsApp, and we will tell you the likely fix and cost before you bring it in.</p></details>
-      <details><summary><span class="n">Q.06</span>Do you service gate barriers and access control installed by others?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We repair and maintain most common barrier and access control brands, and can set up regular maintenance visits so problems are caught early.</p></details>
-      <details><summary><span class="n">Q.07</span>Do you work in Abu Dhabi as well as Dubai?<span class="pm" aria-hidden="true"></span></summary><p>Yes. We cover both Dubai and Abu Dhabi for installations, maintenance and on-site repairs.</p></details>
-      <details><summary><span class="n">Q.08</span>Can you work outside business hours?<span class="pm" aria-hidden="true"></span></summary><p>For shops and restaurants we can plan installation around opening hours so your customers are not disturbed.</p></details>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="areas" style="padding-top:0">
-  <div class="wrap">
-    <div class="head">
-      <span class="tag rv">Where we work</span>
-      <h2 class="rv">Dubai &amp; Abu Dhabi.</h2>
-      <p class="lede rv" style="--d:.1s">We come to you for installations, site surveys and on-site repairs across both emirates. Not sure if we cover your area? Send us a message.</p>
-    </div>
-    <div class="areas-grid">
-      <div class="area rv">
-        <div class="area-top"><h3>Dubai</h3><span class="ar-n" lang="ar">دبي</span></div>
-        <div class="chips"><span class="chip">Business Bay</span><span class="chip">Downtown</span><span class="chip">Deira</span><span class="chip">Bur Dubai</span><span class="chip">Al Quoz</span><span class="chip">Al Barsha</span><span class="chip">JLT</span><span class="chip">Dubai Marina</span><span class="chip">Silicon Oasis</span><span class="chip">Jebel Ali</span></div>
-        <p class="area-note">Our office is in Silver Tower, Business Bay. We also cover other areas across Dubai.</p>
-      </div>
-      <div class="area rv" style="--d:.12s">
-        <div class="area-top"><h3>Abu Dhabi</h3><span class="ar-n" lang="ar">أبوظبي</span></div>
-        <div class="chips"><span class="chip">Abu Dhabi City</span><span class="chip">Al Reem Island</span><span class="chip">Mussafah</span><span class="chip">Khalifa City</span><span class="chip">Mohammed Bin Zayed City</span><span class="chip">Al Raha</span><span class="chip">Yas Island</span></div>
-        <p class="area-note">And other areas across Abu Dhabi.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec contact" id="contact">
-  <div class="wrap contact-grid">
-    <div>
-      <span class="tag rv">Contact</span>
-      <h2 class="rv">Book your <em>free</em> site visit.</h2>
-      <p class="lede rv">Message us with what you need. We usually reply on WhatsApp the same day.</p>
-      <div class="cbox rv">
-        <div class="crow"><div><div class="k">Phone &amp; WhatsApp</div><div class="v">+971 55 797 1520</div></div><button class="copy" type="button" data-copy="+971557971520">Copy</button></div>
-        <div class="crow"><div><div class="k">Email</div><div class="v">noah@queentechsolution.info</div></div><span class="crow-act"><a class="copy" href="mailto:noah@queentechsolution.info?subject=Quote%20request">Email ↗</a><button class="copy" type="button" data-copy="noah@queentechsolution.info">Copy</button></span></div>
-        <div class="crow"><div><div class="k">Office</div><div class="v">Silver Tower, Business Bay</div><div class="sub">Dubai, UAE · Serving Dubai &amp; Abu Dhabi</div></div><a class="copy" href="https://maps.app.goo.gl/cSnLAqS8K9FapcgEA" target="_blank" rel="noopener">Open map ↗</a></div>
-      </div>
-      <div class="socials rv">
-        <a class="btn btn-gold" href="mailto:noah@queentechsolution.info?subject=Quote%20request"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Mail us</a>
-        <a class="btn btn-line" href="https://www.facebook.com/AQTS74" target="_blank" rel="noopener">Facebook</a>
-        <a class="btn btn-line" href="https://www.instagram.com/qts_74" target="_blank" rel="noopener">Instagram</a>
-        <a class="btn btn-line" href="https://g.page/r/CXPWAzSYn864ECE/review" target="_blank" rel="noopener">⭐ Review us on Google</a>
-      </div>
-    </div>
-
-    <form class="lead rv" id="leadForm" novalidate style="--d:.1s">
-      <div class="two">
-        <div class="field" id="fld-name"><label for="f-name">Your name</label><input id="f-name" name="name" required autocomplete="name" aria-describedby="err-name"><span class="msg" id="err-name">Please enter your name so we know who to reply to.</span></div>
-        <div class="field"><label for="f-company">Business name</label><input id="f-company" name="company" autocomplete="organization"></div>
-      </div>
-      <div class="two">
-        <div class="field"><label for="f-type">Type of business</label>
-          <select id="f-type" name="type"><option>Office / company</option><option>Shop</option><option>Restaurant / cafe</option><option>End user / home</option><option>Other</option></select></div>
-        <div class="field"><label for="f-need">What do you need?</label>
-          <select id="f-need" name="need"><option>CCTV cameras</option><option>Network / WiFi</option><option>IT support</option><option>Access control</option><option>Gate barrier</option><option>PC / laptop repair</option><option>Mobile phone repair</option><option>Software installation</option><option>Laptop / data backup</option><option>Shop CCTV kit</option><option>Office network setup</option><option>Monthly IT support</option><option>Not sure yet</option></select></div>
-      </div>
-      <div class="two">
-        <div class="field"><label for="f-city">Emirate</label><select id="f-city" name="city"><option>Dubai</option><option>Abu Dhabi</option><option>Other</option></select></div>
-        <div class="field"><label for="f-area">Area</label><input id="f-area" name="area" placeholder="e.g. Business Bay, Mussafah"></div>
-      </div>
-      <div class="field"><label for="f-msg">Tell us a little more</label><textarea id="f-msg" name="msg" placeholder="Number of cameras, office size, current problem…"></textarea></div>
-      <div class="form-end">
-        <button class="btn btn-wa" type="submit">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg>
-          Send on WhatsApp</button>
-        <button class="btn btn-line" type="button" id="mailBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Send by email</button>
-        <p class="form-note">Your message opens in WhatsApp or your email app, ready to send to us.</p>
-      </div>
-      <div class="sent" id="sent" hidden role="status">WhatsApp should open with your message. If it didn't, <a id="sentLink" href="https://wa.me/971557971520" target="_blank" rel="noopener">tap here</a> or call +971 55 797 1520.</div>
-    </form>
-  </div>
-  <div class="wrap">
-    <div class="map rv" id="map">
-      <iframe title="Map showing Queen Tech Solutions at Silver Tower, Business Bay, Dubai" src="https://www.google.com/maps?q=Silver+Tower,+Business+Bay,+Dubai&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-      <div class="map-card">
-        <span class="k">Find us</span>
-        <b>Silver Tower</b>
-        <span>Business Bay, Dubai, UAE</span>
-        <a class="btn btn-gold" href="https://maps.app.goo.gl/cSnLAqS8K9FapcgEA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Get directions</a>
-      </div>
+    <div class="cta-band rv">
+      <div><h2>Book your <em>free</em> site visit.</h2><p>Tell us what you need. We visit, check the place and send a written quote. You only pay if you go ahead.</p></div>
+      <div class="cta-row"><a class="btn btn-gold" href="/contact.html">Book a free visit</a><a class="btn btn-wa" href="https://wa.me/971557971520?text=Hello%20Queen%20Tech%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener">WhatsApp us</a><a class="btn btn-line" href="tel:+971557971520">Call +971 55 797 1520</a></div>
     </div>
   </div>
 </section>
@@ -904,7 +643,7 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
     <div class="big-mark" aria-hidden="true"><svg viewBox="0 0 1000 160" role="presentation"><defs><filter id="neon" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="a"/><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="a"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><text class="tube" x="500" y="134" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs"><tspan class="l0">Q</tspan><tspan class="l1">U</tspan><tspan class="l2">E</tspan><tspan class="l3">E</tspan><tspan class="l4">N</tspan><tspan class="l5"> </tspan><tspan class="l6">T</tspan><tspan class="l7">E</tspan><tspan class="l8">C</tspan><tspan class="l9">H</tspan></text><text class="chase" x="500" y="134" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">QUEEN TECH</text></svg></div>
     <nav class="svc-foot" aria-label="Services"><a href="/cctv-installation-dubai.html">CCTV installation in Dubai</a><a href="/cctv-installation-abu-dhabi.html">CCTV installation in Abu Dhabi</a><a href="/access-control-dubai.html">Access control</a><a href="/gate-barrier-installation.html">Gate and parking barriers</a><a href="/network-wifi-installation-dubai.html">Network and WiFi</a><a href="/laptop-repair-business-bay.html">Laptop and PC repair</a><a href="/phone-repair-dubai.html">Mobile phone repair</a><a href="/it-support-dubai.html">IT support for businesses</a><a href="/planner.html">Camera planner</a><a href="/rescue.html">Game error rescue</a></nav>
     <div class="foot">
-      <span>© 2026 Queen Tech Solutions · CCTV, access control, networking &amp; IT repair in Dubai &amp; Abu Dhabi, UAE · <a href="#free-tools" style="color:inherit">Free tools</a> · <a href="/help.html" style="color:inherit">Help centre</a> · <a href="/account.html" style="color:inherit">Account</a> · <a href="/app.html" style="color:inherit">Android app</a> · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="https://g.page/r/CXPWAzSYn864ECE/review" style="color:inherit" target="_blank" rel="noopener">⭐ Google reviews</a></span>
+      <span>© 2026 Queen Tech Solutions · CCTV, access control, networking &amp; IT repair in Dubai &amp; Abu Dhabi, UAE · <a href="/tools.html#free-tools" style="color:inherit">Free tools</a> · <a href="/help.html" style="color:inherit">Help centre</a> · <a href="/account.html" style="color:inherit">Account</a> · <a href="/app.html" style="color:inherit">Android app</a> · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="https://g.page/r/CXPWAzSYn864ECE/review" style="color:inherit" target="_blank" rel="noopener">⭐ Google reviews</a></span>
       <span>Silver Tower, Business Bay, Dubai · +971 55 797 1520 · noah@queentechsolution.info</span>
     </div>
   </div>

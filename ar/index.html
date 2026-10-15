@@ -460,6 +460,36 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
 .wa-float{right:auto;left:18px}
 .need-p li{padding-left:0;padding-right:22px}.need-p li::before{left:auto;right:0}
 .need-p .box .k,.need-p .box{font-family:var(--f-body)}
+
+/* slim home (15 Oct 2026): service cards link to their own pages */
+.svc-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:980px){.svc-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.svc-cards{grid-template-columns:1fr}}
+.svc-card{position:relative;display:flex;flex-direction:column;gap:10px;padding:22px;border:1px solid var(--line-2,#4A443A);border-radius:8px;background:var(--surface,#201E1A);color:var(--ink,#EFE8DB);text-decoration:none;transition:border-color .2s,transform .2s,box-shadow .2s}
+.svc-card:hover,.svc-card:focus-visible{border-color:var(--gold,#E2A63F);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 0 1px rgba(226,166,63,.15)}
+.svc-card .num{font:500 .7rem var(--f-mono,monospace);letter-spacing:.12em;color:var(--dim,#6E675C)}
+.svc-card .svc-t{display:flex;flex-direction:column;gap:8px}
+.svc-card h3{font-size:1.25rem;line-height:1.15}
+.svc-card p{color:var(--muted,#A79E8F);font-size:.95rem;line-height:1.55;margin:0}
+.svc-card .more{margin-top:auto;font-weight:600;font-size:.9rem;color:var(--gold,#E2A63F)}
+.svc-card .more span{display:inline-block;transition:transform .2s}
+.svc-card:hover .more span{transform:translateX(4px)}
+html[dir=rtl] .svc-card:hover .more span,html.rtl .svc-card:hover .more span{transform:translateX(-4px)}
+.svc-all{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+.explore{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:980px){.explore{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.explore{grid-template-columns:1fr}}
+.xcard{display:flex;flex-direction:column;gap:8px;padding:22px;border-radius:8px;border:1px solid var(--line-2,#4A443A);background:linear-gradient(160deg,rgba(226,166,63,.08),transparent 60%),var(--surface,#201E1A);color:var(--ink,#EFE8DB);text-decoration:none;transition:border-color .2s,transform .2s}
+.xcard:hover,.xcard:focus-visible{border-color:var(--gold,#E2A63F);transform:translateY(-3px)}
+.xcard .em{font-size:1.6rem;line-height:1}
+.xcard b{font-size:1.1rem}
+.xcard small{color:var(--muted,#A79E8F);font-size:.9rem;line-height:1.5}
+.xcard .more{margin-top:auto;color:var(--gold,#E2A63F);font-weight:600;font-size:.88rem}
+.cta-band{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:clamp(24px,4vw,40px);border:1px solid var(--gold,#E2A63F);border-radius:10px;background:radial-gradient(120% 140% at 0% 0%,rgba(226,166,63,.16),transparent 60%),var(--bg-2,#1A1916);box-shadow:0 0 40px rgba(226,166,63,.08)}
+.cta-band h2{font-size:clamp(1.9rem,4vw,3rem)}
+.cta-band h2 em{font-style:normal;color:var(--gold,#E2A63F)}
+.cta-band p{color:var(--muted,#A79E8F);margin-top:10px;max-width:52ch}
+.cta-band .cta-row{display:flex;flex-wrap:wrap;gap:10px}
 </style>
 <script src="/i18n.js"></script>
 <script src="/site-config.js" defer></script>
@@ -479,10 +509,10 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
       <a class="hide-sm" href="#services">الخدمات</a>
       <a class="hide-sm" href="/price.html">الأسعار</a>
       <a class="hide-sm hide-md" href="#who">عملاؤنا</a>
-      <a class="hide-sm hide-md" href="#packages">الباقات</a>
-      <a class="hide-sm" href="#free-tools">أدوات مجانية</a>
-      <a class="hide-sm hide-md" href="#areas">المناطق</a>
-      <a class="hide-sm" href="#faq">الأسئلة الشائعة</a>
+      <a class="hide-sm hide-md" href="/ar/services.html#packages">الباقات</a>
+      <a class="hide-sm" href="/ar/tools.html#free-tools">أدوات مجانية</a>
+      <a class="hide-sm hide-md" href="/ar/contact.html#areas">المناطق</a>
+      <a class="hide-sm" href="/ar/contact.html#faq">الأسئلة الشائعة</a>
       <a class="lang" href="/" hreflang="en" lang="en">English</a>
       <a class="btn btn-gold" href="#contact">زيارة مجانية للموقع</a>
     </nav>
@@ -558,116 +588,18 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
       <h2 class="rv">كل ما يعتمد عليه عملك، مركّب بالشكل الصحيح.</h2>
       <p class="lede rv" style="--d:.1s">أنظمة أمنية وشبكات وصيانة من فريق واحد. نخطط لكل مشروع حسب مساحتك وميزانيتك، وننفّذه بإتقان، ثم نشرح لك طريقة استخدام كل شيء.</p>
     </div>
-    <div class="svc-list">
-      <article class="svc rv">
-        <span class="num">01 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 8l12-4 2 6-12 4z"/><path d="M8 13l1 5h4"/><circle cx="12" cy="8" r="1.4"/><path d="M17 10l4 1"/></svg></span><h3>كاميرات المراقبة والأمن</h3><p>كاميرات في الأماكن المهمة فعلاً: المداخل، الكاشير، المخازن والمواقف.</p></div>
-        <ul>
-          <li>معاينة الموقع ومخطط توزيع الكاميرات</li>
-          <li>كاميرات IP عالية الدقة مع رؤية ليلية</li>
-          <li>جهاز تسجيل NVR يحفظ التسجيلات لأسابيع</li>
-          <li>بث مباشر واسترجاع التسجيلات من هاتفك</li>
-          <li>ترقية وصيانة الأنظمة القائمة</li>
-          <li class="specs"><span class="spec">4MP / 8MP</span><span class="spec">رؤية ليلية</span><span class="spec">PoE</span><span class="spec">تطبيق الجوال</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">02 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><rect x="9" y="5.5" width="6" height="4" rx="1"/><path d="M9 13h.01M12 13h.01M15 13h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span><h3>أنظمة التحكم بالدخول</h3><p>تحكّم بمن يدخل مكتبك أو غرفة الخوادم أو مناطق الموظفين، مع سجل لكل عملية دخول.</p></div>
-        <ul>
-          <li>قارئات بطاقة ورقم سري وبصمة وتعرّف على الوجه</li>
-          <li>أقفال مغناطيسية ووحدات تحكم بالأبواب</li>
-          <li>سجلات حضور وانصراف الموظفين</li>
-          <li>تركيب أنظمة جديدة</li>
-          <li>صيانة وإصلاح الأنظمة القائمة</li>
-          <li class="specs"><span class="spec">بطاقة RFID</span><span class="spec">بصمة</span><span class="spec">الحضور</span><span class="spec">صيانة</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">03 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="10" width="4" height="11" rx="1"/><path d="M7 13h14"/><path d="M10 11v4M13 11v4M16 11v4M19 11v4"/><path d="M2 21h20"/></svg></span><h3>بوابات المواقف</h3><p>بوابات أوتوماتيكية للمواقف والمباني والمجمّعات، بطريقة التحكم التي تناسب موقعك.</p></div>
-        <ul>
-          <li>توريد وتركيب البوابات</li>
-          <li>تحكم بالريموت أو البطاقة أو لوحة السيارة</li>
-          <li>حساسات أمان وكواشف أرضية</li>
-          <li>خدمة وصيانة دورية</li>
-          <li>إصلاح وقطع غيار</li>
-          <li class="specs"><span class="spec">مواقف</span><span class="spec">ريموت</span><span class="spec">ANPR</span><span class="spec">صيانة</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">04 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg></span><h3>الشبكات والواي فاي</h3><p>إنترنت سريع ومستقر في كل زاوية من مكتبك أو متجرك، مع شبكة منفصلة للزوار.</p></div>
-        <ul>
-          <li>تمديدات شبكة منظمة وكبائن شبكات</li>
-          <li>واي فاي للشركات بتغطية كاملة</li>
-          <li>واي فاي للزوار معزول عن أنظمتك</li>
-          <li>جدار حماية ووصول آمن عن بُعد</li>
-          <li>حل مشاكل بطء الإنترنت وانقطاعه</li>
-          <li class="specs"><span class="spec">Cat6</span><span class="spec">WiFi 6</span><span class="spec">VLAN</span><span class="spec">جدار حماية</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">05 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M14.5 8.5l-3 3-1.5-1.5"/></svg></span><h3>صيانة ودعم تقنية المعلومات</h3><p>جهة تتصل بها عندما يتوقف الكمبيوتر أو الطابعة أو البريد، مع فحوصات دورية لتقليل الأعطال.</p></div>
-        <ul>
-          <li>إعداد البريد الإلكتروني و Microsoft 365</li>
-          <li>إعداد الطابعات والأجهزة</li>
-          <li>مكافحة الفيروسات والتحديثات الأمنية</li>
-          <li>دعم في الموقع وعن بُعد</li>
-          <li>باقات دعم شهرية للمكاتب الصغيرة</li>
-          <li class="specs"><span class="spec">في الموقع</span><span class="spec">ريموت</span><span class="spec">باقات شهرية</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">06 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="11" rx="1.5"/><path d="M2 19h20"/><path d="M12 7.5v4M10 9.5h4"/></svg></span><h3>صيانة الكمبيوتر واللابتوب</h3><p>صيانة القطع والبرامج لأجهزة الكمبيوتر واللابتوب، للشركات والأفراد.</p></div>
-        <ul>
-          <li>بطيء أو يتوقف أو لا يعمل</li>
-          <li>الشاشة ولوحة المفاتيح والبطارية والشاحن</li>
-          <li>ترقية SSD والذاكرة RAM</li>
-          <li>إزالة الفيروسات وإعادة تثبيت ويندوز</li>
-          <li>معالجة السخونة وتنظيف المروحة</li>
-          <li class="specs"><span class="spec">قطع</span><span class="spec">برامج</span><span class="spec">ترقيات</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">07 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg></span><h3>صيانة الهواتف</h3><p>إصلاح القطع والبرامج لهواتف آيفون وأندرويد.</p></div>
-        <ul>
-          <li>تغيير الشاشة والبطارية</li>
-          <li>مشاكل منفذ الشحن والسماعة والمايك</li>
-          <li>تحديث البرامج واستعادة النظام</li>
-          <li>هاتف عالق أو بطيء أو لا يعمل</li>
-          <li>نقل البيانات إلى هاتف جديد</li>
-          <li class="specs"><span class="spec">iPhone</span><span class="spec">Android</span><span class="spec">قطع</span><span class="spec">برامج</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">08 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/><path d="M12 11v6M9 14l3 3 3-3"/></svg></span><h3>تثبيت البرامج</h3><p>البرامج التي يعتمد عليها عملك، مثبّتة ومفعّلة ومضبوطة بالشكل الصحيح.</p></div>
-        <ul>
-          <li>تثبيت ويندوز و macOS</li>
-          <li>مايكروسوفت أوفيس و Microsoft 365</li>
-          <li>برامج المحاسبة ونقاط البيع والأعمال</li>
-          <li>التعريفات والطابعات وإعداد البريد</li>
-          <li>برامج أصلية وتفعيلها</li>
-          <li class="specs"><span class="spec">Windows</span><span class="spec">macOS</span><span class="spec">مكتب</span><span class="spec">POS</span></li>
-        </ul>
-      </article>
-      <article class="svc rv">
-        <span class="num">09 /</span>
-        <div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span><h3>النسخ الاحتياطي للابتوب والبيانات</h3><p>نسخ من ملفاتك وصورك، حتى لا يعني تعطّل اللابتوب أو سرقته خسارة كل شيء.</p></div>
-        <ul>
-          <li>نسخ احتياطي للابتوب والكمبيوتر</li>
-          <li>نسخ احتياطي يومي تلقائي للمكاتب</li>
-          <li>نسخ على هارد خارجي أو NAS أو السحابة</li>
-          <li>نسخ احتياطي للحسابات ونقاط البيع والمجلدات المشتركة</li>
-          <li>اختبار الاستعادة لتتأكد أنها تعمل</li>
-          <li class="specs"><span class="spec">لابتوب</span><span class="spec">NAS</span><span class="spec">سحابة</span><span class="spec">يومي</span></li>
-        </ul>
-      </article>
+    <div class="svc-cards">
+      <a class="svc-card rv" href="/ar/cctv-installation-dubai.html"><span class="num">01 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 8l12-4 2 6-12 4z"/><path d="M8 13l1 5h4"/><circle cx="12" cy="8" r="1.4"/><path d="M17 10l4 1"/></svg></span><h3>كاميرات المراقبة والأمن</h3><p>كاميرات في الأماكن المهمة فعلاً: المداخل، الكاشير، المخازن والمواقف.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
+      <a class="svc-card rv" href="/ar/access-control-dubai.html"><span class="num">02 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2"/><rect x="9" y="5.5" width="6" height="4" rx="1"/><path d="M9 13h.01M12 13h.01M15 13h.01M9 16h.01M12 16h.01M15 16h.01"/></svg></span><h3>أنظمة التحكم بالدخول</h3><p>تحكّم بمن يدخل مكتبك أو غرفة الخوادم أو مناطق الموظفين، مع سجل لكل عملية دخول.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
+      <a class="svc-card rv" href="/ar/gate-barrier-installation.html"><span class="num">03 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="10" width="4" height="11" rx="1"/><path d="M7 13h14"/><path d="M10 11v4M13 11v4M16 11v4M19 11v4"/><path d="M2 21h20"/></svg></span><h3>بوابات المواقف</h3><p>بوابات أوتوماتيكية للمواقف والمباني والمجمّعات، بطريقة التحكم التي تناسب موقعك.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
+      <a class="svc-card rv" href="/ar/network-wifi-installation-dubai.html"><span class="num">04 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg></span><h3>الشبكات والواي فاي</h3><p>إنترنت سريع ومستقر في كل زاوية من مكتبك أو متجرك، مع شبكة منفصلة للزوار.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
+      <a class="svc-card rv" href="/ar/it-support-dubai.html"><span class="num">05 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M14.5 8.5l-3 3-1.5-1.5"/></svg></span><h3>صيانة ودعم تقنية المعلومات</h3><p>جهة تتصل بها عندما يتوقف الكمبيوتر أو الطابعة أو البريد، مع فحوصات دورية لتقليل الأعطال.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
+      <a class="svc-card rv" href="/ar/laptop-repair-business-bay.html"><span class="num">06 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="11" rx="1.5"/><path d="M2 19h20"/><path d="M12 7.5v4M10 9.5h4"/></svg></span><h3>صيانة الكمبيوتر واللابتوب</h3><p>صيانة القطع والبرامج لأجهزة الكمبيوتر واللابتوب، للشركات والأفراد.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
+      <a class="svc-card rv" href="/ar/phone-repair-dubai.html"><span class="num">07 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg></span><h3>صيانة الهواتف</h3><p>إصلاح القطع والبرامج لهواتف آيفون وأندرويد.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
+      <a class="svc-card rv" href="/ar/services.html"><span class="num">08 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/><path d="M12 11v6M9 14l3 3 3-3"/></svg></span><h3>تثبيت البرامج</h3><p>البرامج التي يعتمد عليها عملك، مثبّتة ومفعّلة ومضبوطة بالشكل الصحيح.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
+      <a class="svc-card rv" href="/ar/services.html"><span class="num">09 /</span><div class="svc-t"><span class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span><h3>النسخ الاحتياطي للابتوب والبيانات</h3><p>نسخ من ملفاتك وصورك، حتى لا يعني تعطّل اللابتوب أو سرقته خسارة كل شيء.</p></div><span class="more">التفاصيل <span aria-hidden="true">←</span></span></a>
     </div>
+    <div class="svc-all"><a class="btn btn-line" href="/ar/services.html">كل الخدمات والباقات</a><a class="btn btn-line" href="/price.html">اعرف السعر فوراً</a></div>
   </div>
 </section>
 
@@ -729,7 +661,7 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
       <h2 class="rv">من أول رسالة حتى إنجاز العمل.</h2>
     </div>
     <ol class="steps">
-      <li class="rv"><h3>راسلنا</h3><p>أخبرنا بما تحتاجه عبر واتساب أو الهاتف أو النموذج أدناه.</p></li>
+      <li class="rv"><h3>راسلنا</h3><p>أخبرنا بما تحتاجه عبر واتساب أو الهاتف أو <a href="/ar/contact.html">صفحة التواصل</a>.</p></li>
       <li class="rv" style="--d:.08s"><h3>زيارة الموقع</h3><p>نأتي إلى موقعك، نعاين المكان ونستمع لما يهمّك.</p></li>
       <li class="rv" style="--d:.16s"><h3>عرض سعر واضح</h3><p>تحصل على عرض سعر مكتوب بالأجهزة والسعر. بلا مفاجآت.</p></li>
       <li class="rv" style="--d:.24s"><h3>التركيب</h3><p>تمديدات وتركيب مرتب، حسب ساعات عملك.</p></li>
@@ -738,211 +670,18 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
   </div>
 </section>
 
-<section class="sec" id="need" style="padding-top:0">
+<section class="sec" id="explore" style="padding-top:0">
   <div class="wrap">
-    <div class="head">
-      <span class="tag rv">لست متأكداً مما تحتاجه؟</span>
-      <h2 class="rv">اعرف احتياجك في دقيقة.</h2>
-      <p class="lede rv" style="--d:.1s">اختر نوع المكان وشاهد ما ننصح به. بضغطة واحدة يظهر السعر الكامل وتستطيع تعديله.</p>
-    </div>
-    <div class="need rv"><input type="radio" name="need" id="nd1"><input type="radio" name="need" id="nd2"><input type="radio" name="need" id="nd3" checked><input type="radio" name="need" id="nd4"><input type="radio" name="need" id="nd5"><input type="radio" name="need" id="nd6"><div class="need-tabs"><label for="nd1">شقة</label><label for="nd2">فيلا</label><label for="nd3">مكتب</label><label for="nd4">محل / مطعم</label><label for="nd5">مستودع</label><label for="nd6">مبنى / مجمّع</label></div><div class="need-ps"><div class="need-p p1"><div><h3>للشقق</h3><ul><li>كاميرتان واي فاي بالداخل، بدون تكسير أو تمديد كابلات</li><li>جرس فيديو: شاهد الزوار من هاتفك</li><li>التسجيل على كارت ذاكرة أو السحابة</li><li>التركيب في حوالي ساعة</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>كاميرتان واي فاي + جرس فيديو</p><a class="btn btn-gold" href="/price.html?preset=apartment">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p2"><div><h3>للفلل</h3><ul><li>كاميرات خارجية IP67 تتحمل حرارة وغبار الإمارات</li><li>كاميرات داخلية بزاوية عريضة</li><li>إنتركم فيديو مع شاشة داخل الفيلا</li><li>جهاز تسجيل سلكي يحفظ 30 يوماً</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>6 كاميرات سلكية + إنتركم فيديو</p><a class="btn btn-gold" href="/price.html?preset=villa">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p3"><div><h3>للمكاتب</h3><ul><li>كاميرات على المدخل والاستقبال ومناطق العمل</li><li>بصمة أو وجه على الباب الرئيسي مع الحضور والانصراف</li><li>واي فاي للشركات ونقاط شبكة لكل مكتب</li><li>تطبيق على الهاتف للمديرين</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>6 كاميرات، 4 ميجابكسل، 30 يوماً</p><a class="btn btn-gold" href="/price.html?preset=office">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p4"><div><h3>للمتاجر والمطاعم</h3><ul><li>كاميرات على الكاشير والمدخل والمطبخ والمخزن</li><li>تابع فرعك مباشرة من هاتفك</li><li>شاشة في الموقع للمدير</li><li>اتصال موثوق لنقاط البيع وتطبيقات التوصيل</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>4 كاميرات + شاشة في الموقع</p><a class="btn btn-gold" href="/price.html?preset=shop">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p5"><div><h3>للمستودعات</h3><ul><li>كاميرات ملونة ليلاً للساحات ومناطق التحميل</li><li>تخطيط صحيح للتمديدات الطويلة</li><li>تسجيل لمدة أطول (60 يوماً وأكثر)</li><li>بوابة مواقف لمدخل الشاحنات</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>12 كاميرا، ملونة ليلاً</p><a class="btn btn-gold" href="/price.html?preset=warehouse">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div><div class="need-p p6"><div><h3>للمباني والمجمّعات</h3><ul><li>بوابة مواقف مع قراءة لوحات السيارات (ANPR)</li><li>ملصقات UHF للسكان، وكود QR للزوار</li><li>لوب خروج تلقائي يفتح البوابة للسيارات الخارجة</li><li>لوب أمان وفوتوسيل على كل بوابة</li></ul></div><div class="box"><span class="k">التجهيز المقترح</span><p>بوابتان مع ANPR و QR و UHF</p><a class="btn btn-gold" href="/price.html?preset=building">شاهد السعر <span class="arr" aria-hidden="true">→</span></a></div></div></div></div>
+    <div class="head"><span class="tag rv">اكتشف</span><h2 class="rv">لاقي اللي محتاجه بسرعة.</h2></div>
+    <div class="explore"><a class="xcard rv" href="/price.html"><span class="em" aria-hidden="true">💰</span><b>الأسعار فوراً</b><small>سعر الكاميرات أو أنظمة الدخول أو الواي فاي أو البوابة في 30 ثانية.</small><span class="more">احسب السعر ←</span></a><a class="xcard rv" href="/ar/tools.html"><span class="em" aria-hidden="true">🧰</span><b>الأدوات والمساعدة</b><small>حاسبات مجانية، مخطط الكاميرات، أدلة الإصلاح وأكواد أعطال البوابات.</small><span class="more">افتح الأدوات ←</span></a><a class="xcard rv" href="/gamers.html"><span class="em" aria-hidden="true">🎮</span><b>الجيمرز والكمبيوتر</b><small>حل أونلاين عبر AnyDesk، صيانة الكمبيوتر، وتنصيب ألعاب Steam.</small><span class="more">اطلب المساعدة ←</span></a><a class="xcard rv" href="/games.html"><span class="em" aria-hidden="true">🕹️</span><b>ألعاب مجانية</b><small>3 ألعاب أصلية، 60 مرحلة ومهمة. من غير تحميل.</small><span class="more">العب الآن ←</span></a></div>
   </div>
 </section>
 
-<section class="sec" id="packages" style="padding-top:0">
+<section class="sec" id="contact" style="padding-top:0">
   <div class="wrap">
-    <div class="head">
-      <span class="tag rv">الباقات الأكثر طلباً</span>
-      <h2 class="rv">نقطة بداية لمعظم المشاريع.</h2>
-      <p class="lede rv" style="--d:.1s">كل موقع مختلف، لذلك نؤكد السعر النهائي بعد زيارة مجانية.</p>
-    </div>
-    <div class="pk-grid rv">
-      <div class="pk">
-        <span class="for">للمتاجر والمطاعم</span>
-        <h3>باقة كاميرات للمتاجر</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>4 كاميرات عالية الدقة برؤية ليلية</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>جهاز تسجيل يحفظ التسجيلات</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>إعداد التطبيق على الهاتف</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>التركيب والتمديدات</li>
-        </ul>
-        <p class="price">السعر عند الطلب<small>تشمل معاينة مجانية للموقع</small></p>
-        <a class="btn btn-line" href="#contact" data-pick="باقة كاميرات للمتاجر">اطلب السعر <span class="arr" aria-hidden="true">→</span></a>
-      </div>
-      <div class="pk feat">
-        <span class="ribbon">الأكثر طلباً</span>
-        <span class="for">للمكاتب</span>
-        <h3>تجهيز شبكة المكتب</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>كابينة شبكة وتمديدات</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>واي فاي للشركات في كامل المكتب</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>جدار حماية وشبكة للزوار</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>توصيل الطابعات والأجهزة</li>
-        </ul>
-        <p class="price">السعر عند الطلب<small>حسب مساحة المكتب</small></p>
-        <a class="btn btn-gold" href="#contact" data-pick="تجهيز شبكة المكتب">اطلب السعر <span class="arr" aria-hidden="true">→</span></a>
-      </div>
-      <div class="pk">
-        <span class="for">للمكاتب والمتاجر</span>
-        <h3>دعم تقني شهري</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>مساعدة عن بُعد عند الحاجة</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>زيارات فحص دورية</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>تحديثات ومكافحة فيروسات ونسخ احتياطي</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>رسوم شهرية ثابتة</li>
-        </ul>
-        <p class="price">السعر عند الطلب<small>حسب عدد المستخدمين</small></p>
-        <a class="btn btn-line" href="#contact" data-pick="دعم تقني شهري">اطلب السعر <span class="arr" aria-hidden="true">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec ft" id="free-tools">
-  <div class="wrap">
-    <div class="head">
-      <span class="tag rv">خدمات مجانية محدودة</span>
-      <h2 class="rv">أدوات احترافية، مجانية لعملائنا.</h2>
-      <p class="lede rv" style="--d:.1s">نفس الأدوات التي يستخدمها مهندسونا لتخطيط مشاريع الكاميرات والشبكات. أنشئ حساباً مجانياً مرة واحدة واستخدمها في أي وقت من هاتفك أو الكمبيوتر.</p>
-    </div>
-    <div class="ft-grid">
-      <a class="ft-card rv" href="/bandwidth.html">
-        <div class="ft-scr" aria-hidden="true">
-          <div class="bar"><span>NVR sizing · 30 ch</span><span>30 يوماً</span></div>
-          <div class="big">22.2<small>تيرابايت تخزين</small></div>
-          <div class="ln"><span>10 × 1080p · H.265</span><b>14.6 Mbps</b></div>
-          <div class="ln"><span>20 × 2K · H.265</span><b>47.7 Mbps</b></div>
-        </div>
-        <div class="ft-body">
-          <span class="k">أداة مجانية 01</span>
-          <h3>حاسبة سرعة الشبكة والتخزين</h3>
-          <p>احسب سرعة الشبكة والهاردسكات التي تحتاجها كاميراتك، وباقة الإنترنت المناسبة لمكتبك، والمدة التي يستغرقها النسخ الاحتياطي.</p>
-          <ul><li>مجموعات كاميرات متعددة: من 0.2 ميجابكسل حتى 4K، ومن H.264 حتى H.265+</li><li>استخدم معدل البت الفعلي من جهاز التسجيل</li><li>إنترنت المكتب ومدة التحميل</li></ul>
-          <span class="go">افتح الحاسبة <span class="arr" aria-hidden="true">→</span></span>
-        </div>
-      </a>
-      <a class="ft-card rv" href="/boq.html" style="--d:.12s">
-        <div class="ft-scr" aria-hidden="true">
-          <div class="bar"><span>BOQ · 74 cameras</span><span>Excel · PDF</span></div>
-          <div class="big">4<small>NVRs · 15 HDD</small></div>
-          <div class="ln"><span>2MP bullet camera</span><b>52</b></div>
-          <div class="ln"><span>2MP IR VF dome camera</span><b>15</b></div>
-        </div>
-        <div class="ft-body">
-          <span class="k">أداة مجانية 02</span>
-          <h3>منشئ جدول الكميات للكاميرات</h3>
-          <p>سجّل الكاميرات أثناء معاينة الموقع واحصل على جدول الكميات والتخزين لكل جهاز تسجيل والهاردسكات، جاهزاً للإرسال.</p>
-          <ul><li>أضف الكاميرات دفعة واحدة أو الصقها من Excel</li><li>تصنيف تلقائي ID / REC / DET / ANPR</li><li>تصدير إلى Excel أو طباعة PDF</li></ul>
-          <span class="go">افتح منشئ جدول الكميات <span class="arr" aria-hidden="true">→</span></span>
-        </div>
-      </a>
-    </div>
-    <div class="techstrip rv">
-      <p><b>فني؟</b> أدلة التركيب وحلول المشاكل الشائعة في مركز المساعدة، وحاسبة PoE ومخططات توصيل الأقفال والـ IP الافتراضي وقائمة العدة في ركن الفنيين. مجاناً.</p>
-      <div class="acts"><a class="btn btn-line" href="/help.html">مركز المساعدة <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-line" href="/tech.html">افتح ركن الفنيين <span class="arr" aria-hidden="true">→</span></a><a class="btn coffee-btn" data-coffee hidden href="#" target="_blank" rel="noopener">☕ اعزمنا على قهوة</a></div>
-    </div>
-    <div class="ft-acc rv">
-      <p><b>مجاناً مع حساب كوين تك.</b> يستغرق دقيقة تقريباً، ولا نشارك بياناتك أبداً.</p>
-      <div><a class="btn btn-gold" href="/account.html?mode=signup">إنشاء حساب مجاني</a><a class="btn btn-line" href="/account.html">تسجيل الدخول</a></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="faq" style="padding-top:0">
-  <div class="wrap faq-grid">
-    <div class="head">
-      <span class="tag rv">أسئلة</span>
-      <h2 class="rv">أسئلة شائعة.</h2>
-    </div>
-    <div class="faq rv">
-      <details><summary><span class="n">Q.01</span>هل تزورون الموقع قبل إعطاء السعر؟<span class="pm" aria-hidden="true"></span></summary><p>نعم. نزورك مجاناً ونعاين المكان، ثم نرسل عرض سعر مكتوب. لا تدفع إلا إذا قررت المتابعة.</p></details>
-      <details><summary><span class="n">Q.02</span>هل أستطيع مشاهدة الكاميرات من هاتفي؟<span class="pm" aria-hidden="true"></span></summary><p>نعم. نثبّت التطبيق على هاتفك ونشرح لك المشاهدة المباشرة واسترجاع التسجيلات من أي مكان.</p></details>
-      <details><summary><span class="n">Q.03</span>كم مدة حفظ التسجيلات؟<span class="pm" aria-hidden="true"></span></summary><p>تعتمد على عدد الكاميرات وسعة جهاز التسجيل. نحدد سعة التخزين حسب عدد الأيام التي تحتاجها.</p></details>
-      <details><summary><span class="n">Q.04</span>هل تصلحون أو تطوّرون نظاماً ركّبته شركة أخرى؟<span class="pm" aria-hidden="true"></span></summary><p>نعم. نصلح ونوسّع ونطوّر الكاميرات والشبكات والأجهزة القائمة بشكل مستمر.</p></details>
-      <details><summary><span class="n">Q.05</span>هل تصلحون اللابتوب والهواتف للأفراد؟<span class="pm" aria-hidden="true"></span></summary><p>نعم. أرسل لنا موديل الجهاز والمشكلة على واتساب، ونخبرك بالحل المتوقع والتكلفة قبل أن تحضره.</p></details>
-      <details><summary><span class="n">Q.06</span>هل تقدمون صيانة لبوابات وأنظمة دخول ركّبتها جهات أخرى؟<span class="pm" aria-hidden="true"></span></summary><p>نعم. نصلح ونصون معظم ماركات البوابات وأنظمة الدخول الشائعة، ويمكننا ترتيب زيارات صيانة دورية لاكتشاف المشاكل مبكراً.</p></details>
-      <details><summary><span class="n">Q.07</span>هل تعملون في أبوظبي أيضاً إلى جانب دبي؟<span class="pm" aria-hidden="true"></span></summary><p>نعم. نغطي دبي وأبوظبي للتركيب والصيانة والإصلاح في الموقع.</p></details>
-      <details><summary><span class="n">Q.08</span>هل تعملون خارج ساعات الدوام؟<span class="pm" aria-hidden="true"></span></summary><p>للمتاجر والمطاعم نرتّب التركيب حسب ساعات العمل حتى لا نُزعج عملاءك.</p></details>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="areas" style="padding-top:0">
-  <div class="wrap">
-    <div class="head">
-      <span class="tag rv">مناطق عملنا</span>
-      <h2 class="rv">دبي وأبوظبي.</h2>
-      <p class="lede rv" style="--d:.1s">نأتي إليك للتركيب ومعاينة المواقع والإصلاح في الموقع في الإمارتين. غير متأكد إن كنا نغطي منطقتك؟ راسلنا.</p>
-    </div>
-    <div class="areas-grid">
-      <div class="area rv">
-        <div class="area-top"><h3>دبي</h3><span class="ar-n" lang="ar">Dubai</span></div>
-        <div class="chips"><span class="chip">الخليج التجاري</span><span class="chip">داون تاون</span><span class="chip">ديرة</span><span class="chip">بر دبي</span><span class="chip">القوز</span><span class="chip">البرشاء</span><span class="chip">أبراج بحيرات جميرا</span><span class="chip">دبي مارينا</span><span class="chip">واحة السيليكون</span><span class="chip">جبل علي</span></div>
-        <p class="area-note">مكتبنا في سيلفر تاور، الخليج التجاري. ونغطي أيضاً باقي مناطق دبي.</p>
-      </div>
-      <div class="area rv" style="--d:.12s">
-        <div class="area-top"><h3>أبوظبي</h3><span class="ar-n" lang="ar">Abu Dhabi</span></div>
-        <div class="chips"><span class="chip">مدينة أبوظبي</span><span class="chip">جزيرة الريم</span><span class="chip">مصفح</span><span class="chip">مدينة خليفة</span><span class="chip">مدينة محمد بن زايد</span><span class="chip">الراحة</span><span class="chip">جزيرة ياس</span></div>
-        <p class="area-note">وباقي مناطق أبوظبي.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec contact" id="contact">
-  <div class="wrap contact-grid">
-    <div>
-      <span class="tag rv">تواصل معنا</span>
-      <h2 class="rv">احجز <em>زيارتك المجانية</em> للموقع.</h2>
-      <p class="lede rv">راسلنا بما تحتاجه. عادةً نرد على واتساب في نفس اليوم.</p>
-      <div class="cbox rv">
-        <div class="crow"><div><div class="k">الهاتف وواتساب</div><div class="v">+971 55 797 1520</div></div><button class="copy" type="button" data-copy="+971557971520">نسخ</button></div>
-        <div class="crow"><div><div class="k">البريد الإلكتروني</div><div class="v">noah@queentechsolution.info</div></div><span class="crow-act"><a class="copy" href="mailto:noah@queentechsolution.info?subject=Quote%20request">راسلنا ↗</a><button class="copy" type="button" data-copy="noah@queentechsolution.info">نسخ</button></span></div>
-        <div class="crow"><div><div class="k">مكتب</div><div class="v">سيلفر تاور، الخليج التجاري</div><div class="sub">دبي، الإمارات · نخدم دبي وأبوظبي</div></div><a class="copy" href="https://maps.app.goo.gl/cSnLAqS8K9FapcgEA" target="_blank" rel="noopener">افتح الخريطة ↗</a></div>
-      </div>
-      <div class="socials rv">
-        <a class="btn btn-gold" href="mailto:noah@queentechsolution.info?subject=Quote%20request"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>أرسل بريداً</a>
-        <a class="btn btn-line" href="https://www.facebook.com/AQTS74" target="_blank" rel="noopener">فيسبوك</a>
-        <a class="btn btn-line" href="https://www.instagram.com/qts_74" target="_blank" rel="noopener">إنستغرام</a>
-        <a class="btn btn-line" href="https://g.page/r/CXPWAzSYn864ECE/review" target="_blank" rel="noopener">⭐ قيّمنا على جوجل</a>
-      </div>
-    </div>
-
-    <form class="lead rv" id="leadForm" novalidate style="--d:.1s">
-      <div class="two">
-        <div class="field" id="fld-name"><label for="f-name">اسمك</label><input id="f-name" name="name" required autocomplete="name" aria-describedby="err-name"><span class="msg" id="err-name">يرجى كتابة اسمك لنعرف لمن نرد.</span></div>
-        <div class="field"><label for="f-company">اسم النشاط التجاري</label><input id="f-company" name="company" autocomplete="organization"></div>
-      </div>
-      <div class="two">
-        <div class="field"><label for="f-type">نوع النشاط</label>
-          <select id="f-type" name="type"><option>مكتب / شركة</option><option>متجر</option><option>مطعم / مقهى</option><option>فرد / منزل</option><option>أخرى</option></select></div>
-        <div class="field"><label for="f-need">ماذا تحتاج؟</label>
-          <select id="f-need" name="need"><option>كاميرات مراقبة</option><option>شبكة / واي فاي</option><option>الدعم الفني</option><option>أنظمة التحكم بالدخول</option><option>بوابة مواقف</option><option>صيانة كمبيوتر / لابتوب</option><option>صيانة الهواتف</option><option>تثبيت البرامج</option><option>نسخ احتياطي للابتوب / البيانات</option><option>باقة كاميرات للمتاجر</option><option>تجهيز شبكة المكتب</option><option>دعم تقني شهري</option><option>لست متأكداً بعد</option></select></div>
-      </div>
-      <div class="two">
-        <div class="field"><label for="f-city">الإمارة</label><select id="f-city" name="city"><option>دبي</option><option>أبوظبي</option><option>أخرى</option></select></div>
-        <div class="field"><label for="f-area">المنطقة</label><input id="f-area" name="area" placeholder="مثال: الخليج التجاري، مصفح"></div>
-      </div>
-      <div class="field"><label for="f-msg">أخبرنا بالمزيد</label><textarea id="f-msg" name="msg" placeholder="عدد الكاميرات، مساحة المكتب، المشكلة الحالية…"></textarea></div>
-      <div class="form-end">
-        <button class="btn btn-wa" type="submit">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg>
-          أرسل عبر واتساب</button>
-        <button class="btn btn-line" type="button" id="mailBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>أرسل بالبريد</button>
-        <p class="form-note">تُفتح رسالتك في واتساب أو تطبيق البريد، جاهزة للإرسال إلينا.</p>
-      </div>
-      <div class="sent" id="sent" hidden role="status">من المفترض أن يُفتح واتساب برسالتك. إن لم يُفتح، <a id="sentLink" href="https://wa.me/971557971520" target="_blank" rel="noopener">اضغط هنا</a> أو اتصل على <bdi>+971 55 797 1520</bdi>.</div>
-    </form>
-  </div>
-  <div class="wrap">
-    <div class="map rv" id="map">
-      <iframe title="خريطة موقع كوين تك في سيلفر تاور، الخليج التجاري، دبي" src="https://www.google.com/maps?q=Silver+Tower,+Business+Bay,+Dubai&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-      <div class="map-card">
-        <span class="k">موقعنا</span>
-        <b>سيلفر تاور</b>
-        <span>الخليج التجاري، دبي، الإمارات</span>
-        <a class="btn btn-gold" href="https://maps.app.goo.gl/cSnLAqS8K9FapcgEA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>احصل على الاتجاهات</a>
-      </div>
+    <div class="cta-band rv">
+      <div><h2>احجز <em>زيارة مجانية</em> للموقع.</h2><p>قولنا محتاج إيه. هنزورك ونعاين المكان ونبعتلك عرض سعر مكتوب، ومش هتدفع إلا لو وافقت.</p></div>
+      <div class="cta-row"><a class="btn btn-gold" href="/ar/contact.html">احجز زيارة مجانية</a><a class="btn btn-wa" href="https://wa.me/971557971520?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%83%D9%88%D9%8A%D9%86%20%D8%AA%D9%83%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%B9%D8%B1%D8%B6%20%D8%B3%D8%B9%D8%B1." target="_blank" rel="noopener">كلمنا واتساب</a><a class="btn btn-line" href="tel:+971557971520">اتصل +971 55 797 1520</a></div>
     </div>
   </div>
 </section>
@@ -953,7 +692,7 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
     <div class="big-mark" aria-hidden="true"><svg viewBox="0 0 1000 160" role="presentation"><defs><filter id="neon" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="a"/><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="a"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><text class="tube" x="500" y="134" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs"><tspan class="l0">Q</tspan><tspan class="l1">U</tspan><tspan class="l2">E</tspan><tspan class="l3">E</tspan><tspan class="l4">N</tspan><tspan class="l5"> </tspan><tspan class="l6">T</tspan><tspan class="l7">E</tspan><tspan class="l8">C</tspan><tspan class="l9">H</tspan></text><text class="chase" x="500" y="134" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">QUEEN TECH</text></svg></div>
     <nav class="svc-foot" aria-label="الخدمات"><a href="/ar/cctv-installation-dubai.html">تركيب كاميرات المراقبة في دبي</a><a href="/ar/cctv-installation-abu-dhabi.html">تركيب كاميرات المراقبة في أبوظبي</a><a href="/ar/access-control-dubai.html">التحكم بالدخول</a><a href="/ar/gate-barrier-installation.html">بوابات المواقف</a><a href="/ar/network-wifi-installation-dubai.html">الشبكات والواي فاي</a><a href="/ar/laptop-repair-business-bay.html">صيانة اللابتوب والكمبيوتر</a><a href="/ar/phone-repair-dubai.html">صيانة الجوال</a><a href="/ar/it-support-dubai.html">الدعم الفني للشركات</a><a href="/planner.html?lang=ar">مخطط الكاميرات</a><a href="/rescue.html?lang=ar">إنقاذ أخطاء الألعاب</a></nav>
     <div class="foot">
-      <span>© 2026 كوين تك للحلول التقنية · كاميرات مراقبة وأنظمة دخول وشبكات وصيانة تقنية في دبي وأبوظبي · <a href="#free-tools" style="color:inherit">أدوات مجانية</a> · <a href="/help.html" style="color:inherit">مركز المساعدة</a> · <a href="/account.html" style="color:inherit">الحساب</a> · <a href="/app.html" style="color:inherit">تطبيق أندرويد</a> · <a href="/privacy.html" style="color:inherit">الخصوصية</a> · <a href="https://g.page/r/CXPWAzSYn864ECE/review" style="color:inherit" target="_blank" rel="noopener">⭐ تقييماتنا على جوجل</a></span>
+      <span>© 2026 كوين تك للحلول التقنية · كاميرات مراقبة وأنظمة دخول وشبكات وصيانة تقنية في دبي وأبوظبي · <a href="/ar/tools.html#free-tools" style="color:inherit">أدوات مجانية</a> · <a href="/help.html" style="color:inherit">مركز المساعدة</a> · <a href="/account.html" style="color:inherit">الحساب</a> · <a href="/app.html" style="color:inherit">تطبيق أندرويد</a> · <a href="/privacy.html" style="color:inherit">الخصوصية</a> · <a href="https://g.page/r/CXPWAzSYn864ECE/review" style="color:inherit" target="_blank" rel="noopener">⭐ تقييماتنا على جوجل</a></span>
       <span>سيلفر تاور، الخليج التجاري، دبي · <bdi>+971 55 797 1520</bdi> · noah@queentechsolution.info</span>
     </div>
   </div>
