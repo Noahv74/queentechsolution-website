@@ -22,7 +22,7 @@
   }
   /* Arabic: drop the article "ال" (and "وال", "بال") from each word so "الكاميرا" finds "كاميرا". */
   function words(s) {
-    return norm(s).split(" ").filter(Boolean).map(function (w) { return w.replace(/^(و|ب|ف|ك|ل)?ال(?=\S{2,})/, ""); });
+    return norm(s).split(" ").filter(Boolean).map(function (w) { w = w.replace(/^(و|ب|ف|ك|ل)?ال(?=\S{2,})/, ""); return /[\u0600-\u06FF]/.test(w) && w.length >= 5 ? w.replace(/(ات|ين|ون|ه|ي|ا)$/, "") : w; });
   }
 
   /* ---------- the index ---------- */
@@ -35,13 +35,13 @@
   var BASE = [
     ["page", "Home", "الرئيسية", "/", "Queen Tech Solutions, Dubai & Abu Dhabi", "كوين تك للحلول التقنية، دبي وأبوظبي", "start main queen tech home page الرئيسيه"],
     ["page", "Services", "الخدمات", "/services.html", "Everything we install and maintain", "كل اللي بنركّبه ونصونه", "what we do خدمات"],
-    ["svc", "CCTV & security cameras", "كاميرات المراقبة", "/services.html#services", "Install, upgrade and repair", "تركيب وترقية وصيانة", "cctv camera cameras nvr dvr hikvision dahua surveillance كاميرا كاميرات مراقبه تسجيل"],
-    ["svc", "Access control", "أنظمة الدخول (أكسس كنترول)", "/services.html#services", "Fingerprint, face, card, maglocks", "بصمة، وجه، كارت، أقفال مغناطيسية", "access control fingerprint face card door maglock zkteco بصمه باب قفل اكسس"],
-    ["svc", "Gate barriers", "بوابات المواقف", "/services.html#services", "Parking barriers, ANPR, loops", "بوابات المواقف، قراءة اللوحات، اللوب", "barrier gate parking boom anpr loop came bft titan بوابه باريير مواقف"],
-    ["svc", "Networking & Wi-Fi", "الشبكات والواي فاي", "/services.html#services", "Cabling, switches, Wi-Fi coverage", "تمديد، سويتشات، تغطية واي فاي", "network wifi wi-fi cabling cat6 switch router access point شبكه واي فاي انترنت راوتر"],
-    ["svc", "IT maintenance & support", "صيانة ودعم IT", "/services.html#packages", "Monthly support for offices and shops", "دعم شهري للمكاتب والمحلات", "it support maintenance monthly contract amc صيانه دعم عقد"],
-    ["svc", "PC & laptop repair", "صيانة الكمبيوتر واللابتوب", "/services.html#services", "Hardware and software fixes", "إصلاح الهاردوير والسوفتوير", "pc laptop computer repair screen keyboard كمبيوتر لابتوب صيانه"],
-    ["svc", "Mobile phone repair", "صيانة الموبايل", "/services.html#services", "Screens, batteries, software", "شاشات، بطاريات، سوفتوير", "mobile phone iphone samsung screen battery موبايل جوال تلفون شاشه بطاريه"],
+    ["svc", "CCTV & security cameras", "كاميرات المراقبة", "/cctv-installation-dubai.html", "Install, upgrade and repair", "تركيب وترقية وصيانة", "cctv camera cameras nvr dvr hikvision dahua surveillance كاميرا كاميرات مراقبه تسجيل"],
+    ["svc", "Access control", "أنظمة الدخول (أكسس كنترول)", "/access-control-dubai.html", "Fingerprint, face, card, maglocks", "بصمة، وجه، كارت، أقفال مغناطيسية", "access control fingerprint face card door maglock zkteco بصمه باب قفل اكسس"],
+    ["svc", "Gate barriers", "بوابات المواقف", "/gate-barrier-installation.html", "Parking barriers, ANPR, loops", "بوابات المواقف، قراءة اللوحات، اللوب", "barrier gate parking boom anpr loop came bft titan بوابه باريير مواقف"],
+    ["svc", "Networking & Wi-Fi", "الشبكات والواي فاي", "/network-wifi-installation-dubai.html", "Cabling, switches, Wi-Fi coverage", "تمديد، سويتشات، تغطية واي فاي", "network wifi wi-fi cabling cat6 switch router access point شبكه واي فاي انترنت راوتر"],
+    ["svc", "IT maintenance & support", "صيانة ودعم IT", "/it-support-dubai.html", "Monthly support for offices and shops", "دعم شهري للمكاتب والمحلات", "it support maintenance monthly contract amc صيانه دعم عقد"],
+    ["svc", "PC & laptop repair", "صيانة الكمبيوتر واللابتوب", "/laptop-repair-business-bay.html", "Hardware and software fixes", "إصلاح الهاردوير والسوفتوير", "pc laptop computer repair screen keyboard كمبيوتر لابتوب صيانه"],
+    ["svc", "Mobile phone repair", "صيانة الموبايل", "/phone-repair-dubai.html", "Screens, batteries, software", "شاشات، بطاريات، سوفتوير", "mobile phone iphone samsung screen battery موبايل جوال تلفون شاشه بطاريه"],
     ["svc", "Software installation", "تسطيب البرامج", "/services.html#services", "Windows, Office, drivers", "ويندوز، أوفيس، تعريفات", "software windows office install drivers برامج ويندوز تسطيب تنصيب"],
     ["svc", "Laptop & data backup", "النسخ الاحتياطي للبيانات", "/services.html#services", "Backups and data recovery", "نسخ احتياطي واسترجاع بيانات", "backup data recovery cloud نسخ احتياطي بيانات استرجاع"],
     ["svc", "Service packages", "الباقات", "/services.html#packages", "Starting points for most jobs", "نقطة بداية لمعظم الشغل", "packages bundles plans باقات عروض"],
@@ -87,6 +87,30 @@
     ["contact", "Our location on Google Maps", "موقعنا على خرائط جوجل", "https://maps.app.goo.gl/cSnLAqS8K9FapcgEA", "Silver Tower, Business Bay, Dubai", "سيلفر تاور، الخليج التجاري، دبي", "map location address office where directions موقع موقعكم مكانكم عنوان عنوانكم خريطه مكتب فين وين لوكيشن"],
     ["contact", "Review us on Google", "قيّمنا على جوجل", "https://g.page/r/CXPWAzSYn864ECE/review", "Tell others about your experience", "قول رأيك للناس", "review rating stars google تقييم"],
     ["contact", "WhatsApp us", "كلمنا واتساب", "https://wa.me/" + WA, "+971 55 797 1520", "+971 55 797 1520", "whatsapp phone call number واتساب رقم تلفون"],
+    ["tool", "CCTV Camera Planner for Villas, Shops, Offices & Warehouses", "مخطط كاميرات المراقبة للفلل والمحلات والمكاتب والمستودعات", "/planner.html", "How many cameras, which NVR, how many TB", "كام كاميرا، أنهي NVR، وكام تيرا", "planner plan cameras how many nvr storage tb villa shop office warehouse مخطط تخطيط كام كاميرا هارد تيرا"],
+    ["gamer", "Game Error Rescue: Vanguard, EasyAntiCheat, DirectX, FPS & Controller Fixes", "إنقاذ أخطاء الألعاب: حلول Vanguard وEasyAntiCheat وDirectX والـFPS ويد التحكم", "/rescue.html", "Fix game errors yourself, step by step", "حل أخطاء الألعاب بنفسك خطوة بخطوة", "game error rescue crash fix vanguard eac anticheat directx dll fps ping controller خطا لعبه بتقفل"],
+    ["svc", "CCTV Installation in Dubai", "تركيب كاميرات المراقبة في دبي", "/cctv-installation-dubai.html", "Villas, shops, offices, warehouses", "فلل ومحلات ومكاتب ومستودعات", "cctv camera installation dubai تركيب كاميرات دبي"],
+    ["svc", "CCTV Installation in Abu Dhabi", "تركيب كاميرات المراقبة في أبوظبي", "/cctv-installation-abu-dhabi.html", "Mussafah, Al Reem, Khalifa City, MBZ, Yas", "مصفح، الريم، مدينة خليفة، MBZ، ياس", "cctv camera installation abu dhabi mussafah reem khalifa mbz yas تركيب كاميرات ابوظبي مصفح"],
+    ["svc", "Access Control Systems in Dubai & Abu Dhabi", "أنظمة التحكم بالدخول في دبي وأبوظبي", "/access-control-dubai.html", "Fingerprint, face, card, maglocks, attendance", "بصمة ووجه وكارت وأقفال وحضور وانصراف", "access control fingerprint face card attendance intercom بصمه حضور انصراف"],
+    ["svc", "Gate Barrier & Parking Barrier Installation in Dubai and Abu Dhabi", "تركيب بوابات وحواجز المواقف في دبي وأبوظبي", "/gate-barrier-installation.html", "Remote, card, UHF, ANPR, loops", "ريموت، كارت، UHF، قراءة لوحات، لوب", "gate barrier parking boom anpr uhf installation بوابه مواقف حاجز"],
+    ["svc", "Office Network & WiFi Installation in Dubai and Abu Dhabi", "تركيب الشبكات والواي فاي للمكاتب والفلل في دبي وأبوظبي", "/network-wifi-installation-dubai.html", "Cabling, business Wi-Fi, mesh for villas", "تمديد، واي فاي للشركات، ميش للفلل", "network wifi mesh cabling firewall شبكه واي فاي ميش"],
+    ["svc", "IT Support & Maintenance for Small Businesses in Dubai and Abu Dhabi", "الدعم الفني وصيانة تقنية المعلومات للشركات الصغيرة في دبي وأبوظبي", "/it-support-dubai.html", "Offices, shops, clinics: Microsoft 365, backups", "مكاتب ومحلات وعيادات: مايكروسوفت 365 ونسخ احتياطي", "it support microsoft 365 email backup antivirus printer دعم فني ايميل طابعه"],
+    ["svc", "Laptop & PC Repair in Business Bay, Dubai", "صيانة اللابتوب والكمبيوتر في الخليج التجاري دبي", "/laptop-repair-business-bay.html", "Screen, battery, SSD, Windows, overheating", "شاشة، بطارية، SSD، ويندوز، سخونة", "laptop pc repair business bay screen battery ssd ram صيانه لابتوب"],
+    ["svc", "Mobile Phone Repair in Dubai", "صيانة الجوال في دبي", "/phone-repair-dubai.html", "iPhone & Android screen, battery, software", "آيفون وأندرويد: شاشة، بطارية، سوفتوير", "phone mobile repair iphone android screen battery charging صيانه جوال موبايل ايفون"],
+    ["gamer", "Vanguard error (Valorant, League of Legends)", "خطأ Vanguard (فالورانت، ليغ أوف ليجندز)", "/rescue.html#vanguard", "Vanguard not initialized, or a VAN error when the game starts.", "Vanguard لم يبدأ، أو يظهر خطأ VAN عند تشغيل اللعبة.", "VAN 9001 · VAN 9003 · VAN -81 · VAN 152 · VAN 68 game error fix"],
+    ["gamer", "EasyAntiCheat error", "خطأ EasyAntiCheat", "/rescue.html#eac", "EasyAntiCheat is not installed, launch error, or untrusted system file.", "EasyAntiCheat غير مثبت، أو خطأ في التشغيل، أو ملف نظام غير موثوق.", "EAC · EOS · 30005 · Untrusted system file game error fix"],
+    ["gamer", "BattlEye error", "خطأ BattlEye", "/rescue.html#battleye", "BattlEye failed to initialize, BEService errors or kicks.", "فشل تشغيل BattlEye، أو أخطاء BEService، أو الطرد من اللعب.", "BEService · Failed to initialize game error fix"],
+    ["gamer", "DirectX error (DXGI, D3D device lost)", "خطأ DirectX (DXGI أو D3D device lost)", "/rescue.html#dxgi", "The game freezes or closes with a graphics error.", "اللعبة تتجمد أو تغلق مع خطأ في الرسوميات.", "DXGI_ERROR_DEVICE_HUNG · DXGI_ERROR_DEVICE_REMOVED · D3D device lost game error fix"],
+    ["gamer", "Missing DLL file", "ملف DLL ناقص", "/rescue.html#dll", "The game won't open because a file is missing.", "اللعبة لا تفتح بسبب ملف ناقص.", "MSVCP140.dll · VCRUNTIME140.dll · d3dx9_43.dll · xinput1_3.dll game error fix"],
+    ["gamer", "Game crashes on start or to desktop", "اللعبة تنهار عند التشغيل أو تخرج لسطح المكتب", "/rescue.html#crash", "No error message, the game just closes.", "بدون رسالة خطأ، اللعبة تغلق فقط.", "Crash to desktop · Not responding game error fix"],
+    ["gamer", "Low FPS and stutter", "FPS منخفض وتقطيع", "/rescue.html#fps", "The game runs slower than it should or freezes for a moment.", "اللعبة أبطأ مما يجب أو تتوقف لحظات.", "Low FPS · Stutter · Frame drops game error fix"],
+    ["gamer", "High ping, lag and disconnects", "بنق عالٍ وتأخير وانقطاع", "/rescue.html#ping", "Rubber-banding, packet loss or getting kicked from matches.", "رجوع اللاعب للخلف، أو فقدان الحزم، أو الطرد من المباريات.", "High ping · Packet loss · Connection lost game error fix"],
+    ["gamer", "Controller not detected", "يد التحكم غير معرّفة", "/rescue.html#controller", "Xbox, PlayStation or other gamepad not working in games.", "يد Xbox أو PlayStation أو غيرها لا تعمل في الألعاب.", "Gamepad · DualSense · Xbox controller game error fix"],
+    ["gamer", "Steering wheel, pedals or force feedback", "المقود أو الدواسات أو الاهتزاز (Force Feedback)", "/rescue.html#wheel", "Wheel not detected, wrong rotation, pedals not working, no force feedback.", "المقود غير معرّف، أو الدوران خاطئ، أو الدواسات لا تعمل، أو لا يوجد اهتزاز.", "Logitech · Thrustmaster · Fanatec · Moza game error fix"],
+    ["gamer", "Steam, Epic or Battle.net not working", "Steam أو Epic أو Battle.net لا يعمل", "/rescue.html#launcher", "The launcher won't open, log in or download.", "المنصة لا تفتح أو لا تسجّل الدخول أو لا تحمّل.", "Steam · Epic Games · Battle.net game error fix"],
+    ["gamer", "Blue screen while gaming", "شاشة زرقاء أثناء اللعب", "/rescue.html#bsod", "The PC shows a blue screen and restarts.", "يظهر في الجهاز شاشة زرقاء ثم يعيد التشغيل.", "VIDEO_TDR_FAILURE · WHEA_UNCORRECTABLE_ERROR · IRQL_NOT_LESS_OR_EQUAL game error fix"],
+    ["gamer", "PC shuts down or fans are very loud", "الجهاز ينطفئ أو المراوح عالية جداً", "/rescue.html#heat", "The PC turns off during games or sounds like a jet engine.", "الجهاز ينطفئ أثناء اللعب أو صوته مثل محرك طائرة.", "Overheating · Thermal throttling game error fix"],
+    ["gamer", "No power or no display", "لا يعمل أو لا توجد صورة", "/rescue.html#nodisplay", "PC won't turn on, or it turns on with a black screen.", "الجهاز لا يعمل، أو يعمل مع شاشة سوداء.", "No POST · Black screen game error fix"],
     ["page", "Android app", "تطبيق الأندرويد", "/app.html", "Download the free app", "حمّل التطبيق المجاني", "app android apk download install تطبيق تحميل"],
     ["page", "My account", "حسابي", "/account.html", "Sign in for the BOQ builder", "سجّل دخول لمنشئ جدول الكميات", "account login sign in register حساب دخول تسجيل"],
     ["page", "Privacy policy", "سياسة الخصوصية", "/privacy.html", "", "", "privacy data delete خصوصيه"]
@@ -98,7 +122,7 @@
     item.w = words([en, ar, den, dar, kw || ""].join(" "));
     IDX.push(item);
   }
-  BASE.forEach(function (r) { add(r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[0] === "page" ? 1 : 0); });
+  BASE.forEach(function (r) { add(r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[0] === "svc" ? 6 : r[0] === "page" ? 1 : 0); });
 
   function loadScript(src, test, cb) {
     if (test()) return cb();
@@ -186,7 +210,7 @@
     });
     res.sort(function (a, b) { return b.s - a.s; });
     var seen = {}, out = [];
-    for (var i = 0; i < res.length && out.length < 12; i++) { var u = res[i].it.u + "|" + res[i].it.en; if (seen[u]) continue; seen[u] = 1; out.push(res[i].it); }
+    for (var i = 0; i < res.length && out.length < 12; i++) { var u = res[i].it.u; if (seen[u]) continue; seen[u] = 1; out.push(res[i].it); }
     return out;
   }
   function hl(text, q) {
