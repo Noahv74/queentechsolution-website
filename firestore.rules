@@ -18,10 +18,26 @@ service cloud.firestore {
     match /repairs/{code} {
       allow get: if true;
       allow list, create, update, delete: if isAdmin();
+      // ExpressFix online booking (express.html): a customer can open a new ticket at the first stage only.
+      allow create: if code.matches('QT-[A-Z0-9]{4}-[A-Z0-9]{4}')
+        && request.resource.data.keys().hasOnly(['first','device','issue','note','quote','eta','lang','stage','collected','times','created','updated'])
+        && request.resource.data.stage == 0 && request.resource.data.collected == false
+        && request.resource.data.quote == null && request.resource.data.eta == ''
+        && request.resource.data.lang in ['en','ar']
+        && request.resource.data.first is string && request.resource.data.first.size() <= 40
+        && request.resource.data.device is string && request.resource.data.device.size() <= 80
+        && request.resource.data.issue is string && request.resource.data.issue.size() <= 160
+        && request.resource.data.note is string && request.resource.data.note.size() <= 200;
     }
     // Customer phone + full name: admins only.
     match /repairs_private/{code} {
       allow read, write: if isAdmin();
+      // ExpressFix online booking: written once together with the ticket, never readable by the customer.
+      allow create: if exists(/databases/$(database)/documents/repairs/$(code))
+        && request.resource.data.keys().hasOnly(['name','phone','notes','created'])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 80
+        && request.resource.data.phone is string && request.resource.data.phone.size() <= 30
+        && request.resource.data.notes is string && request.resource.data.notes.size() <= 800;
     }
     // Admin list: created by hand in the Firebase console (document ID = the admin's user ID).
     match /admins/{uid} {
