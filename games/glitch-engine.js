@@ -6,7 +6,9 @@
      P  player start
    Per level: doors = list of door spots [col,row]; the door jumps to the next spot when you get close.
               crushers = [{c,r,w,trig}] blocks that drop from the ceiling (trig = column that sets them off).
-              saws = [{c,r,from,to,speed}] spinning blades moving left/right between two columns. */
+              saws = [{c,r,from,to,speed}] spinning blades moving left/right between two columns.
+     d  spike hanging from the ceiling that drops when you walk under it
+   Level flags (levels 21+): rev = left/right swapped, moon = low gravity, rise = {delay, speed, to}: live cables rise from the floor. */
 (function (root) {
   "use strict";
   var T = 30, COLS = 32, ROWS = 18, W = COLS * T, H = ROWS * T, DT = 1 / 60;
@@ -434,6 +436,7 @@
         else if (ch === "v") st.ents.push({ k: "vanish", x: x, y: y, w: T, h: T, s: "idle", tm: 0 });
         else if (ch === "i") st.ents.push({ k: "invis", x: x, y: y, w: T, h: T, s: "hidden" });
         else if (ch === "~") st.ents.push({ k: "fake", x: x, y: y, w: T, h: T, s: "idle" });
+        else if (ch === "d") st.ents.push({ k: "drop", x: x, y: y, w: T, h: T, s: "idle", vy: 0 });
         else if (ch === "f") {
           var last = st.ents[st.ents.length - 1];
           if (last && last.k === "fall" && last.y === y && last.x + last.w === x) last.w += T;
@@ -450,6 +453,8 @@
     });
     st.doors = def.doors.map(function (d) { return { x: d[0] * T, y: (d[1] - 1) * T, w: T, h: 2 * T }; });
     st.hint = def.hint;
+    st.rev = !!def.rev; st.moon = !!def.moon;
+    if (def.rise) st.rise = { y: H + 10, t: def.rise.delay || 1.5, v: def.rise.speed || 30, min: (def.rise.to || 8) * T };
     return st;
   }
 
@@ -476,15 +481,17 @@
     var p = st.p, dt = DT;
     st.t += dt;
     var dir = (inp.r ? 1 : 0) - (inp.l ? 1 : 0);
+    if (st.rev) dir = -dir;
+    var grav = st.moon ? GRAV * 0.55 : GRAV, jumpV = st.moon ? JUMP * 0.8 : JUMP, maxF = st.moon ? MAXF * 0.6 : MAXF;
     if (dir) p.face = dir;
     var target = dir * MOVE, acc = (p.ground ? ACC_G : ACC_A) * dt;
     p.vx = p.vx < target ? Math.min(target, p.vx + acc) : Math.max(target, p.vx - acc);
     if (inp.j && !p.held) p.buf = BUFFER; else p.buf = Math.max(0, p.buf - dt);
     p.coyote = p.ground ? COYOTE : Math.max(0, p.coyote - dt);
-    if (p.buf > 0 && p.coyote > 0) { p.vy = -JUMP; p.buf = 0; p.coyote = 0; p.ground = false; st.ev.push("jump"); }
-    if (!inp.j && p.vy < -JUMP * 0.45) p.vy = -JUMP * 0.45;     // short hop when the button is let go early
+    if (p.buf > 0 && p.coyote > 0) { p.vy = -jumpV; p.buf = 0; p.coyote = 0; p.ground = false; st.ev.push("jump"); }
+    if (!inp.j && p.vy < -jumpV * 0.45) p.vy = -jumpV * 0.45;   // short hop when the button is let go early
     p.held = !!inp.j;
-    p.vy = Math.min(MAXF, p.vy + GRAV * dt);
+    p.vy = Math.min(maxF, p.vy + grav * dt);
 
     var ents = solids(st), b, list, i, o;
     // horizontal
@@ -524,6 +531,14 @@
       } else if (e.k === "vanish") {
         if (e.s === "idle" && under === e) { e.s = "fade"; e.tm = 0.35; }
         else if (e.s === "fade") { e.tm -= dt; if (e.tm <= 0) { e.s = "gone"; st.ev.push("poof"); } }
+      } else if (e.k === "drop") {
+        if (e.s === "idle") { if (Math.abs(cx - (e.x + T / 2)) < 34 && p.y > e.y) { e.s = "fall"; st.ev.push("spike"); } }
+        else if (e.s === "fall") {
+          e.vy += 2400 * dt; e.y += e.vy * dt;
+          if (hit(me, rect(e.x + 7, e.y + 4, e.w - 14, e.h - 8))) die(st, "spike");
+          var hitT = tileHits(st, rect(e.x + 4, e.y + 8, e.w - 8, e.h - 8));
+          if (hitT.length || e.y > H) { e.s = "gone"; st.ev.push("poof"); }
+        }
       } else if (e.k === "crush") {
         if (e.s === "idle") {
           var go = e.trig != null ? cx >= e.trig : (cx > e.x - 4 && cx < e.x + e.w + 4);
@@ -549,6 +564,10 @@
       if ((nx - w.x) * (nx - w.x) + (ny - w.y) * (ny - w.y) < w.r * w.r) die(st, "saw");
     }
     if (p.y > H + 20) die(st, "fall");
+    if (st.rise) {
+      var R = st.rise; if (R.t > 0) R.t -= dt; else R.y = Math.max(R.min, R.y - R.v * dt);
+      if (p.y + PH > R.y + 6) die(st, "zap");
+    }
     // door
     var d = st.doors[st.door], dcx = d.x + d.w / 2, dcy = d.y + d.h / 2;
     if (st.door < st.doors.length - 1 && Math.abs(cx - dcx) < 70 && Math.abs(p.y + PH / 2 - dcy) < 60) { st.door++; st.ev.push("door"); }

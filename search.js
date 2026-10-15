@@ -78,7 +78,7 @@
     ["gamer", "Any other Steam game: Steam price + AED 50", "أي لعبة Steam: سعرها + 50 درهم", "/gamers.html#games", "Account set-up and install included", "شامل تجهيز الأكاونت والتنصيب", "steam other game price ستيم لعبه"],
     ["gamer", "Gamer quick checks", "فحوصات سريعة للجيمرز", "/gamers.html#tips", "Try these before you message us", "جرّبها قبل ما تراسلنا", "tips checks crash fps نصايح"],
     ["game", "Queen Tech Arcade", "ألعاب كوين تك", "/games.html", "Free games, no download", "ألعاب مجانية من غير تحميل", "games arcade play free fun bored العاب العب مجاني زهقان"],
-    ["game", "Glitch Run", "Glitch Run", "/games/glitch-run.html", "Trap platformer, 8 levels", "لعبة فخاخ، 8 مراحل", "glitch run platformer jump traps level"],
+    ["game", "Glitch Run", "Glitch Run", "/games/glitch-run.html", "Trap platformer, 100 levels", "لعبة فخاخ، 100 مرحلة", "glitch run platformer jump traps level"],
     ["game", "Cable Swing", "Cable Swing", "/games/cable-swing.html", "Swing on hooks, go far", "اتمرجح على الخطاطيف وروح لأبعد مسافة", "cable swing rope hook stickman"],
     ["game", "Crown Heist", "Crown Heist", "/games/crown-heist.html", "Sneak past the cameras", "اتسلل من غير ما الكاميرات تشوفك", "crown heist sneak stealth cameras"],
     ["contact", "Contact & free site visit", "تواصل واحجز زيارة مجانية", "/contact.html", "Book a free survey and written quote", "احجز معاينة مجانية وعرض سعر مكتوب", "contact visit survey quote book appointment تواصل زياره معاينه حجز"],

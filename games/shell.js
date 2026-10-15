@@ -91,6 +91,44 @@
     b.addEventListener("pointerdown", on); b.addEventListener("pointerup", off); b.addEventListener("pointercancel", off); b.addEventListener("lostpointercapture", off);
     b.addEventListener("contextmenu", function (e) { e.preventDefault(); });
   });
+  /* ---------- jump control on phones: "button" (default) or "swipe" (swipe up anywhere, even from the arrow buttons) ---------- */
+  G.jumpMode = G.load("jumpmode", "button");
+  function applyJumpMode() {
+    document.documentElement.classList.toggle("swipe-jump", G.jumpMode === "swipe");
+  }
+  applyJumpMode();
+  var sw = {};                                   /* pointerId -> {y, top, on} */
+  function swipeOn() { return G.jumpMode === "swipe" && G.touch && !G.overlayOpen(); }
+  document.addEventListener("pointerdown", function (e) {
+    if (!swipeOn() || e.pointerType === "mouse") return;
+    if (!e.target.closest || !e.target.closest(".g-stage,.g-pad")) return;
+    sw[e.pointerId] = { y: e.clientY, top: e.clientY, on: false };
+  }, true);
+  document.addEventListener("pointermove", function (e) {
+    var p = sw[e.pointerId]; if (!p) return;
+    if (!p.on) {
+      if (p.y - e.clientY > 26) { p.on = true; p.top = e.clientY; K.j = 1; }
+      else if (e.clientY > p.y) p.y = e.clientY;            /* follow the finger down so the next upward flick counts */
+    } else {
+      if (e.clientY < p.top) p.top = e.clientY;
+      if (e.clientY - p.top > 22) { p.on = false; p.y = e.clientY; K.j = anyJump(e.pointerId) ? 1 : 0; }   /* finger went back down: ready for another jump */
+    }
+  }, true);
+  function anyJump(except) { for (var id in sw) if (+id !== except && sw[id].on) return true; return false; }
+  function swEnd(e) { var p = sw[e.pointerId]; if (!p) return; delete sw[e.pointerId]; if (p.on) K.j = anyJump() ? 1 : 0; }
+  document.addEventListener("pointerup", swEnd, true);
+  document.addEventListener("pointercancel", swEnd, true);
+  G.jumpSetting = function () {
+    if (!G.touch) return "";
+    return '<div class="jset"><span>' + t("Jump control") + '</span><div class="seg"><button type="button" data-jm="button" aria-pressed="' + (G.jumpMode === "button") + '">▲ ' + t("Button") + '</button><button type="button" data-jm="swipe" aria-pressed="' + (G.jumpMode === "swipe") + '">👆 ' + t("Swipe up") + '</button></div></div>';
+  };
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest("[data-jm]"); if (!b) return;
+    G.jumpMode = b.getAttribute("data-jm"); G.save("jumpmode", G.jumpMode); applyJumpMode();
+    document.querySelectorAll("[data-jm]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    G.toast(G.jumpMode === "swipe" ? t("Swipe up anywhere to jump") : t("Use the ▲ button to jump"), 1600);
+  });
+
   /* hold anywhere on an element (one-button games) */
   G.holdArea = function (el) {
     var down = 0;
