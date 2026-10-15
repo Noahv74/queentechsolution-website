@@ -16,6 +16,7 @@
 <script src="/qt-auth-config.js"></script>
 <script src="/qt-gate.js"></script>
 <script type="module" src="/qt-auth.js"></script>
+<script src="/qt-cloud-bridge.js" async></script>
 
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -627,13 +628,15 @@ if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es
   document.querySelectorAll("main .sec").forEach(function(s){io.observe(s)})}
 
 /* ---------- files ---------- */
+function hist(type){try{if(!window.QT_CLOUD)return;var P=S.project,lines=allLines(),t=totals(lines);
+  QT_CLOUD.add({type:type,title:P.name||P.ref||P.client||"BOQ project",summary:S.cameras.length+" cameras · "+lines.length+" BOQ lines"+(P.client?" · "+P.client:""),total:S.settings.prices?Math.round(t.total*100)/100:null,data:S})}catch(e){}}
 function fname(ext){var b=(S.project.ref||S.project.name||"Project").replace(/[^\w\-. ]+/g,"").trim().replace(/\s+/g,"_")||"Project";return b+"_BOQ."+ext}
 function download(blob,name){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500)}
 var exLoad;
 function excel(){if(window.ExcelJS)return Promise.resolve(window.ExcelJS);if(exLoad)return exLoad;
   exLoad=new Promise(function(res,rej){var s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js";s.onload=function(){res(window.ExcelJS)};s.onerror=function(){exLoad=null;rej(new Error("load"))};document.head.appendChild(s)});return exLoad}
 
-$("btnJson").addEventListener("click",function(){download(new Blob([JSON.stringify(S,null,1)],{type:"application/json"}),fname("json").replace("_BOQ.json",".qtboq.json"));toast("Project file saved")});
+$("btnJson").addEventListener("click",function(){hist("boq-file");download(new Blob([JSON.stringify(S,null,1)],{type:"application/json"}),fname("json").replace("_BOQ.json",".qtboq.json"));toast("Project file saved")});
 $("btnNew").addEventListener("click",function(){if((S.cameras.length||S.items.length||S.project.name)&&!confirm(T("Start a new project? The current one will be cleared from this device. Download it first if you need it.")))return;S=blank();reloadUI();toast("New project started")});
 function pick(){$("fileIn").value="";$("fileIn").click()}
 $("btnOpen").addEventListener("click",pick);$("btnImport2").addEventListener("click",pick);
@@ -738,7 +741,7 @@ function doXlsx(){
     sg.addRow([]);var sh=sg.addRow(["","ID","REC/DET","ANPR/other"]);sh.eachCell(function(c){if(c.value){c.font={bold:true};c.border=B}});
     st.forEach(function(r){var row=sg.addRow([r.nvr,r.id,r.rd,r.ot]);row.eachCell(function(c){c.border=B})});
     return wb.xlsx.writeBuffer();
-  }).then(function(buf){download(new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),fname("xlsx"));toast("Excel file downloaded")})
+  }).then(function(buf){download(new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),fname("xlsx"));toast("Excel file downloaded");hist("boq-excel")})
   .catch(function(e){console.error(e);toast("Couldn't build the Excel file. Check your internet connection and try again.")});
 }
 $("btnXlsx").addEventListener("click",doXlsx);$("btnXlsx2").addEventListener("click",doXlsx);
@@ -761,7 +764,9 @@ function buildPrint(){
   $("print").innerHTML=h;
 }
 window.addEventListener("beforeprint",buildPrint);
-$("btnPrint").addEventListener("click",function(){buildPrint();window.print()});
+$("btnPrint").addEventListener("click",function(){buildPrint();hist("boq-pdf");window.print()});
+/* reopen a project from the account history (account.html puts it in sessionStorage) */
+try{var rs=sessionStorage.getItem("qt-restore-boq");if(rs){sessionStorage.removeItem("qt-restore-boq");var rj=JSON.parse(rs);if(rj&&rj.cameras){S=fix(rj);save();setTimeout(function(){reloadUI();toast("Project opened from your history")},0)}}}catch(e){}
 
 bulkPrev();renderCams();
 })();

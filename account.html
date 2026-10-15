@@ -2,7 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<style id="qt-cursor">@media (pointer:fine){html,body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
+<style id="qt-cursor">@media (pointer:fine){html,body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}.dash{display:grid;gap:12px;margin-top:6px;border-top:1px solid var(--line);padding-top:18px}
+.dash h3{margin:6px 0 0;font:700 1.05rem var(--f-body,system-ui);text-transform:none;letter-spacing:0}
+.dash h3 small{display:block;font-weight:500;font-size:.8rem;color:var(--muted);margin-top:2px}
+.gstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.gstats{grid-template-columns:1fr}}
+.gstat{display:block;border:1px solid var(--line-2);border-radius:8px;padding:10px 12px;background:var(--bg-2,#1A1916);text-decoration:none;color:var(--ink)}
+.gstat:hover{border-color:var(--gold)}
+.gstat b{display:block;font-size:1.25rem;color:var(--gold-2,#F3C877)}
+.gstat span{font-size:.8rem;color:var(--muted)}
+.hrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center;border:1px solid var(--line-2);border-radius:8px;padding:10px 12px;background:var(--bg-2,#1A1916)}
+.hrow .ic{font-size:1.3rem;grid-row:span 2;align-self:start}
+.hrow b{display:block;font-size:.95rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hrow small{display:block;color:var(--muted);font-size:.78rem}
+.hrow .acts{grid-column:2;display:flex;gap:6px;flex-wrap:wrap}
+.hrow .acts button,.hrow .acts a{all:unset;cursor:pointer;font-size:.8rem;font-weight:600;color:var(--gold);border:1px solid var(--line-2);border-radius:999px;padding:4px 10px}
+.hrow .acts button:hover,.hrow .acts a:hover{border-color:var(--gold)}
+.hrow pre{grid-column:1/-1;white-space:pre-wrap;font:12px/1.5 var(--f-mono,monospace);color:var(--muted);margin:4px 0 0;max-height:240px;overflow:auto}
+#hist{display:grid;gap:8px}
+.muted{color:var(--muted)}
+</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script src="/i18n.js"></script>
 <script src="/i18n/ar-common.js"></script>
@@ -219,6 +238,13 @@ footer{border-top:1px solid var(--line);padding-block:22px;color:var(--dim);font
         <div class="row"><span>Status</span><span class="badge y">Active</span></div>
       </div>
       <div class="actions"><a class="btn btn-gold" href="/bandwidth.html">Open calculator</a><a class="btn btn-line" href="/boq.html">Open BOQ builder</a></div>
+      <div class="dash" id="dash">
+        <h3>🎮 My games</h3>
+        <div class="gstats" id="gstats" translate="no"><span class="muted">Loading…</span></div>
+        <h3>🗂 My history <small>BOQs, PDFs and price checks you made while signed in</small></h3>
+        <div id="hist" translate="no"><span class="muted">Loading…</span></div>
+        <p class="muted" id="cloudnote" hidden></p>
+      </div>
       <div class="actions"><button class="link" type="button" id="me-reset">Change password</button><button class="link" type="button" data-out>Sign out</button></div>
       <div class="msg" id="me-msg" role="status"></div>
     </div>
@@ -228,6 +254,7 @@ footer{border-top:1px solid var(--line);padding-block:22px;color:var(--dim);font
 
 <script type="module">
 import { enabled, firebase, canUse, saveLead, message } from "/qt-auth.js";
+import * as cloud from "/qt-cloud.js";
 const $ = id => document.getElementById(id);
 const q = new URLSearchParams(location.search);
 let next = q.get("next") || "";
@@ -261,7 +288,49 @@ else {
       if (needsProfile(user)){ $("pf-name").value = $("pf-name").value || user.displayName || ""; view("v-profile"); setTimeout(()=>$("pf-phone").focus(),30); return; }
       if (!canUse(user)){ $("vf-email").textContent=user.email; view("v-verify"); return; }
       if (next) { done(); return; }
-      $("me-name").textContent = user.displayName || "Welcome"; $("me-email").textContent = user.email; view("v-me");
+      $("me-name").textContent = user.displayName || "Welcome"; $("me-email").textContent = user.email; view("v-me"); dash(user);
+    }
+    const AR = document.documentElement.lang === "ar" || window.QT_LANG === "ar";
+    const tt = (en, ar) => AR ? ar : en;
+    const escH = v => String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+    const ICON = { "boq-pdf": "📄", "boq-excel": "📊", "boq-file": "💾", "price-pdf": "🧾", "price-list": "📋" };
+    const KIND = { "boq-pdf": ["BOQ · PDF", "جدول كميات · PDF"], "boq-excel": ["BOQ · Excel", "جدول كميات · Excel"], "boq-file": ["BOQ · project file", "جدول كميات · ملف مشروع"], "price-pdf": ["Price check · PDF", "حساب السعر · PDF"], "price-list": ["Hardware list", "قائمة الأجهزة"] };
+    function localGames() { const o = {}; ["glitch", "heist", "cable", "cablemis"].forEach(k => { try { const v = JSON.parse(localStorage.getItem("qtg-" + k)); if (v) o[k] = v; } catch (e) {} }); return o; }
+    function gameTiles(g) {
+      const gl = g.glitch || {}, he = g.heist || {}, ca = g.cable || {}, mi = g.cablemis || {};
+      $("gstats").innerHTML =
+        '<a class="gstat" href="/games/glitch-run.html"><b>' + (Math.max(gl.unlocked || 0, gl.level || 0) + 1) + ' / 100</b><span>Glitch Run · ' + tt("level", "المرحلة") + '</span></a>' +
+        '<a class="gstat" href="/games/crown-heist.html"><b>' + Math.min(20, (he.level || 0) + 1) + ' / 20</b><span>Crown Heist · ' + tt("level", "المرحلة") + '</span></a>' +
+        '<a class="gstat" href="/games/cable-swing.html"><b>' + (ca.best || 0) + ' m</b><span>Cable Swing · ' + tt("best", "أفضل") + ' · 🎯 ' + Math.min(20, (mi.i || 0)) + '/20</span></a>';
+    }
+    let histItems = [];
+    function renderHist(uid) {
+      if (!histItems.length) { $("hist").innerHTML = '<span class="muted">' + tt("Nothing yet. When you download a BOQ or save a price check as PDF while signed in, it shows up here.", "لسه مفيش. لما تنزّل جدول كميات أو تحفظ حساب سعر PDF وأنت مسجّل، هيظهر هنا.") + '</span>'; return; }
+      $("hist").innerHTML = histItems.map(h => {
+        const d = new Date(h.at), when = d.toLocaleDateString(AR ? "ar-AE" : "en-GB", { day: "numeric", month: "short", year: "numeric" }) + " " + d.toLocaleTimeString(AR ? "ar-AE" : "en-GB", { hour: "2-digit", minute: "2-digit" });
+        const k = KIND[h.type] || ["Saved", "محفوظ"], boq = /^boq/.test(h.type);
+        return '<div class="hrow" data-id="' + escH(h.id) + '"><span class="ic">' + (ICON[h.type] || "📁") + '</span><div><b>' + escH(h.title || k[0]) + '</b><small>' + escH(tt(k[0], k[1])) + ' · ' + escH(when) + (h.total != null ? ' · AED ' + Number(h.total).toLocaleString("en-US") : '') + '</small><small>' + escH(h.summary || "") + '</small></div>' +
+          '<div class="acts">' + (boq && h.data ? '<button type="button" data-open>' + tt("Open", "افتح") + '</button>' : '') + (!boq && h.data ? '<button type="button" data-view>' + tt("View", "عرض") + '</button><a href="/price.html">' + tt("Price page", "صفحة الأسعار") + '</a>' : '') + '<button type="button" data-del aria-label="' + tt("Delete", "حذف") + '">🗑</button></div></div>';
+      }).join("");
+    }
+    $("hist").addEventListener("click", async e => {
+      const row = e.target.closest(".hrow"); if (!row) return; const id = row.getAttribute("data-id"), h = histItems.find(x => x.id === id), u = fb.auth.currentUser; if (!h || !u) return;
+      if (e.target.closest("[data-open]")) { try { sessionStorage.setItem("qt-restore-boq", h.data); } catch (x) {} location.href = "/boq.html"; }
+      else if (e.target.closest("[data-view]")) { const pre = row.querySelector("pre"); if (pre) { pre.remove(); return; } let txt = ""; try { txt = JSON.parse(h.data).text || ""; } catch (x) {} row.insertAdjacentHTML("beforeend", "<pre>" + escH(txt) + "</pre>"); }
+      else if (e.target.closest("[data-del]")) { if (!confirm(tt("Delete this from your history?", "تمسح ده من السجل؟"))) return; try { await cloud.deleteHistory(u.uid, id); histItems = histItems.filter(x => x.id !== id); renderHist(); } catch (x) {} }
+    });
+    async function dash(user) {
+      gameTiles(localGames());
+      try {
+        const prof = await cloud.getProfile(user.uid);
+        gameTiles(Object.assign({}, localGames(), (prof && prof.games) || {}));
+        histItems = await cloud.listHistory(user.uid, 50); renderHist();
+        $("cloudnote").hidden = true;
+      } catch (e) {
+        $("hist").innerHTML = "";
+        $("cloudnote").hidden = false;
+        $("cloudnote").textContent = tt("Cloud history isn't switched on yet, so your games are saved on this device only for now. We're setting it up.", "السجل السحابي لسه ما اتفعّلش، فألعابك محفوظة على الجهاز ده بس دلوقتي. بنجهّزه حالياً.");
+      }
     }
     fb.onAuthStateChanged(fb.auth, show);
     document.querySelectorAll("[data-out]").forEach(b => b.onclick = () => fb.signOut(fb.auth));

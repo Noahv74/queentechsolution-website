@@ -8,8 +8,81 @@
   if (G.touch) document.documentElement.classList.add("touch");
 
   /* ---------- saved data ---------- */
-  G.load = function (k, d) { try { var v = localStorage.getItem("qtg-" + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
-  G.save = function (k, v) { try { localStorage.setItem("qtg-" + k, JSON.stringify(v)); } catch (e) {} };
+  var SYNC = ["glitch", "heist", "cable", "cablemis"], live = {};
+  G.load = function (k, d) { var v = d; try { var r = localStorage.getItem("qtg-" + k); if (r != null) v = JSON.parse(r); } catch (e) {} if (SYNC.indexOf(k) > -1 && v && typeof v === "object") live[k] = v; return v; };
+  G.save = function (k, v) { try { localStorage.setItem("qtg-" + k, JSON.stringify(v)); } catch (e) {} if (SYNC.indexOf(k) > -1) { live[k] = v; push(); } };
+
+  /* ---------- cloud save (signed-in customers): progress follows the account to any device ---------- */
+  function num(x) { return typeof x === "number" && isFinite(x) ? x : 0; }
+  var MERGE = {
+    glitch: function (a, b) { var o = num(b.unlocked) > num(a.unlocked) ? Object.assign({}, a, b) : Object.assign({}, b, a);
+      o.unlocked = Math.max(num(a.unlocked), num(b.unlocked));
+      var bests = [a, b].filter(function (x) { return x.best != null; }).sort(function (x, y) { return x.best - y.best; });
+      if (bests.length) { o.best = bests[0].best; o.bestTime = bests[0].bestTime; } return o; },
+    heist: function (a, b) { var o = num(b.level) > num(a.level) ? Object.assign({}, a, b) : Object.assign({}, b, a);
+      var sa = a.stars || [], sb = b.stars || [], st = []; for (var i = 0; i < Math.max(sa.length, sb.length); i++) st[i] = Math.max(num(sa[i]), num(sb[i])); o.stars = st;
+      var bs = [a.best, b.best].filter(Boolean).sort(function (x, y) { return y.stars - x.stars || x.caught - y.caught; }); o.best = bs[0] || null; return o; },
+    cable: function (a, b) { return { best: Math.max(num(a.best), num(b.best)), crowns: Math.max(num(a.crowns), num(b.crowns)) }; },
+    cablemis: function (a, b) { return { i: Math.max(num(a.i), num(b.i)), total: Math.max(num(a.total), num(b.total)) }; }
+  };
+  function localAll() { var o = {}; SYNC.forEach(function (k) { var v = live[k]; if (!v) { try { v = JSON.parse(localStorage.getItem("qtg-" + k)); } catch (e) {} } if (v) o[k] = v; }); return o; }
+  var pushT = 0, cloudReady = false;
+  function push() {
+    var C = window.QT_CLOUD; if (!cloudReady || !C || !C.user || C.status === "off") return;
+    clearTimeout(pushT); pushT = setTimeout(function () { C.mod.saveGames(C.user, localAll()).then(function () { cloudChip(); }, function (e) { C.off(e); cloudChip(); }); }, 1500);
+  }
+  function apply(k, v) {
+    try { localStorage.setItem("qtg-" + k, JSON.stringify(v)); } catch (e) {}
+    if (live[k]) { Object.keys(live[k]).forEach(function (x) { if (!(x in v)) delete live[k][x]; }); Object.assign(live[k], v); }
+  }
+  function cloudChip() {
+    var bar = document.querySelector(".g-bar"); if (!bar) return;
+    var el = document.getElementById("cloudchip");
+    if (!el) { el = document.createElement("a"); el.id = "cloudchip"; el.className = "g-cloud"; bar.appendChild(el); }
+    var C = window.QT_CLOUD || {}, ar = G.ar;
+    if (C.user && C.status === "on") { el.textContent = "☁ " + (ar ? "محفوظ" : "Saved"); el.href = "/account.html"; el.title = ar ? "تقدمك محفوظ في حسابك" : "Your progress is saved to your account"; }
+    else if (C.user) { el.textContent = "☁ " + (ar ? "على الجهاز" : "This device"); el.href = "/account.html"; el.title = ar ? "الحفظ السحابي غير مفعّل حالياً" : "Cloud save isn't available right now"; }
+    else { el.textContent = "☁ " + (ar ? "سجّل واحفظ تقدّمك" : "Sign in to save"); el.href = "/account.html?next=" + encodeURIComponent(location.pathname); el.title = ""; }
+  }
+  G.oncloud = null;
+  (function () {
+    var b = document.createElement("script"); b.src = "/qt-cloud-bridge.js"; b.async = true;
+    b.onload = function () {
+      var C = window.QT_CLOUD; cloudChip();
+      C.onUser(function (u) {
+        cloudChip(); if (!u) return;
+        var changed = false, extra = null;
+        /* test-account gift (works even before the cloud database is switched on) */
+        var giftP = C.mod.sha256(u.email || "").then(function (h) {
+          var gift = ((window.QT_AUTH || {}).testers || {})[h]; if (!gift || !gift.glitch) return;
+          var want = gift.glitch - 1, g = Object.assign({ level: 0, deaths: 0, time: 0, best: null, bestTime: null, unlocked: 0 }, localAll().glitch || {});
+          if (num(g.unlocked) < want) { g.unlocked = want; changed = true; }
+          var flag = "qtg-gift-glitch-" + u.uid, once = false; try { once = localStorage.getItem(flag) === "1"; } catch (e) {}
+          if (!once) {                                   /* first time only: jump straight to that level */
+            g.level = Math.max(num(g.level), want); g.full = false; changed = true;
+            try { localStorage.setItem(flag, "1"); } catch (e) {}
+            G.toast((G.ar ? "🎁 اتفتح لحد المرحلة " : "🎁 Unlocked up to level ") + gift.glitch, 2600);
+          }
+          apply("glitch", g);
+        }).catch(function () {});
+        giftP.then(function () { return C.mod.getProfile(u.uid); }).then(function (prof) {
+          var cloud = (prof && prof.games) || {}, local = localAll();
+          SYNC.forEach(function (k) {
+            if (!cloud[k] && !local[k]) return;
+            var m = cloud[k] && local[k] ? MERGE[k](local[k], cloud[k]) : (cloud[k] || local[k]);
+            if (JSON.stringify(m) !== JSON.stringify(local[k])) { apply(k, m); changed = true; }
+          });
+          cloudReady = true;
+          return C.mod.saveGames(u, localAll(), extra);
+        }).catch(function (e) { C.off(e); cloudReady = false; }).then(function () {
+          cloudChip();
+          if (changed) { if (C.status === "on") G.toast(G.ar ? "☁ تقدمك اتحمّل من حسابك" : "☁ Progress loaded from your account", 2200); if (G.oncloud) G.oncloud(); }
+        });
+      });
+    };
+    document.head.appendChild(b);
+  })();
+
 
   /* ---------- sound (tiny synth, no files) ---------- */
   var ac = null;

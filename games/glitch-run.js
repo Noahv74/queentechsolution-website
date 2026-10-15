@@ -100,6 +100,7 @@
   G.onrestart = function () { if (playing && !G.overlayOpen()) start(data.level); };
   G.onpause = function () { if (G.overlayOpen() && playing) G.hideOverlay(); else pauseMenu(); };
   G.onhide = pauseMenu;
+  G.oncloud = function () { hud(); if (!playing) menu(); };
 
   /* ---------- update ---------- */
   function update() {

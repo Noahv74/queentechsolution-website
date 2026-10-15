@@ -221,6 +221,7 @@ function calc(){
   last.text.push("","Made with queentechsolution.info/price.html");
   var waTxt=hw?last.text:["Hello Queen Tech, I used your price check.",info.title+": "+info.summary,"Brand: "+brandTxt,"Estimated total: AED "+money(r2(eT+lT))+" (equipment AED "+money(eT)+(pend?" + "+pend+" on request":"")+" + installation AED "+money(lT)+")",""].concat(hwLines).concat(["","Please contact me to book a site visit."]);
   $("wa").href=(hw?"https://wa.me/?text=":"https://wa.me/"+WA+"?text=")+encodeURIComponent(waTxt.join("\n"));
+  window.QT_LAST_QUOTE={type:hw?"price-list":"price-pdf",title:info.title+(hw?" · hardware list":""),summary:info.summary+" · "+brandTxt,total:hw?null:r2(eT+lT),data:{text:(hw?last.text:waTxt).join("\n"),goal:state.goal,brand:state.brand}};
   $("wa").lastChild.textContent=hw?"Send list on WhatsApp":"Book this on WhatsApp";
 }
 

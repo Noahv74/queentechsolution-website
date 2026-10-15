@@ -1,6 +1,7 @@
 /* Arabic for account.html (sign in, create account, reset, verify, profile, my account).
    Firebase error messages and the tool-page gate are in /i18n/ar-auth.js. */
 QT_AR.add({
+  "🎮 My games":"🎮 ألعابي","🗂 My history":"🗂 سجلّي","BOQs, PDFs and price checks you made while signed in":"جداول الكميات وملفات PDF وحسابات الأسعار اللي عملتها وأنت مسجّل","Loading…":"جاري التحميل…",
   "Your Account | Queen Tech Solutions":"حسابك | كوين تك للحلول التقنية",
   "← Free tools":"→ الأدوات المجانية",
   "Loading":"جارٍ التحميل",

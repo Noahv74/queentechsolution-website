@@ -62,6 +62,7 @@
   });
   G.onenter = function () { if (G.overlayOpen()) { var b = document.querySelector("#ov button.go"); if (b) b.click(); } };
   G.onrestart = function () { if (playing && !G.overlayOpen()) start(data.level); };
+  G.oncloud = function () { hud(); if (!playing) menu(); };
   G.onpause = function () {
     if (!playing) return;
     if (G.overlayOpen()) { G.hideOverlay(); return; }

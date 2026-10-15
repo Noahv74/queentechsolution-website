@@ -18,5 +18,10 @@ window.QT_AUTH = {
     appId: "1:45845608234:web:e7ecb09de57a0ba3785053"
   },
   sheetUrl: "",
-  requireVerifiedEmail: true
+  requireVerifiedEmail: true,
+  /* Test accounts: SHA-256 of the lower-case email (never the email itself – this file is public).
+     glitch: N = Glitch Run levels unlocked up to N for that account. */
+  testers: {
+    "3401acb9f1e5bb326f67f89da814279c1dd555ae0195513ff8ef98ce93d0fafe": { glitch: 50 }
+  }
 };

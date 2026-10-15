@@ -85,3 +85,8 @@ html[dir=rtl] .g-card h2{font-family:"Noto Kufi Arabic",var(--f-display);font-si
 .g-card .lvls button.cur{background:var(--w,#E2A63F);color:#131210;border-color:var(--w,#E2A63F)}
 .g-card .lvls button[disabled]{opacity:.35;cursor:default;font-size:.6rem}
 @media (max-width:420px){.g-card .lvls{grid-template-columns:repeat(6,1fr)}}
+
+/* cloud save status in the top bar */
+.g-cloud{font:600 .74rem/1 var(--f-body,system-ui);color:var(--muted,#A79E8F);text-decoration:none;border:1px solid var(--line-2,#4A443A);border-radius:999px;padding:6px 10px;white-space:nowrap}
+.g-cloud:hover{color:var(--ink,#EFE8DB);border-color:var(--gold,#E2A63F)}
+@media (max-width:560px){.g-cloud{font-size:.68rem;padding:5px 8px}}
