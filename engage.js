@@ -126,7 +126,7 @@
   window.QTReview = { ask: ask };
 
   /* free tools: ask after real use (1 minute and a few interactions) */
-  if (/^\/(bandwidth|boq|price|tech)\.html$/.test(path)) {
+  if (/^\/(bandwidth|boq|price|tech|boards)\.html$/.test(path)) {
     var acts = 0, t0 = Date.now();
     var onAct = function (e) {
       if (e.target.closest && e.target.closest("header,#qa,#qt-rv,#qt-bored,#qt-lp")) return;

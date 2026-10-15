@@ -1,0 +1,3 @@
+/* Arabic layout tweaks for boards.html */
+html.rtl .codein input{direction:ltr}
+html.rtl .board .bn,html.rtl .bcard b{direction:ltr;text-align:right}

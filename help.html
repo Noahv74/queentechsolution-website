@@ -90,6 +90,12 @@ tr:last-child td{border-bottom:0}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 
 /* help */
+.bfix{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;max-width:860px;padding:18px 20px;border:1px solid var(--gold);border-radius:8px;background:linear-gradient(135deg,rgba(226,166,63,.16),rgba(226,166,63,.04));text-decoration:none;color:var(--ink);box-shadow:0 0 22px rgba(226,166,63,.12)}
+.bfix:hover{box-shadow:0 0 30px rgba(226,166,63,.25)}
+.bfix b{display:block;font-size:1.12rem}
+.bfix small{display:block;color:var(--muted);font-size:.9rem;margin-top:2px}
+.bfix .k{font:700 .9rem var(--f-mono);background:var(--gold);color:var(--bg);padding:8px 10px;border-radius:4px;margin-inline-end:12px}
+.bfix .row{display:flex;align-items:center}
 .search{display:flex;gap:10px;margin-top:22px;max-width:720px}
 .search input{flex:1;font:inherit;font-size:1.05rem;padding:14px 16px;border:1px solid var(--line-2);border-radius:4px;background:var(--surface);color:var(--ink)}
 .search input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
@@ -159,6 +165,7 @@ footer a{color:var(--muted)}
     <span class="tag">Free · Help centre</span>
     <h1>Stuck on site? <em>Fix it here.</em></h1>
     <p>Step-by-step installation guides and fixes for the most common problems with CCTV, access control, networks, gate barriers and intercoms.</p>
+    <a class="bfix" href="/boards.html"><span class="row"><span class="k">Er7</span><span><b>🚧 Barrier board error codes: CAME · BFT · Titan</b><small>Choose the board, type the code, get the fix step by step with videos.</small></span></span><span class="btn btn-gold">Open the board fixer</span></a>
     <div class="search"><input id="q" type="search" placeholder="Search: maglock, offline, exit button, loop…" aria-label="Search the help centre" autocomplete="off"></div>
     <div class="filters" id="filters" role="group" aria-label="Filter"></div>
   </section>

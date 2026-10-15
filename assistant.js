@@ -34,6 +34,7 @@ var GAMER=[
 ];
 var B="(^|[\\s،,.؟?!:])";          /* Arabic has no \\b: match short Arabic words only as whole words */
 var INTENTS=[
+  {k:/\b(came|bft|titan|zl3\d\w*|zlb30|gard ?(gt|pt|px|ls)?\d*|giotto|moovi|michelangelo|merak|libra|leo mv)\b|\berr? ?\d{1,2}[a-f]?\b|\berf\w?\b|error code|fault code|board (error|code)|كود (خطأ|عطل|الخطأ|العطل|ايرور)|ايرور|إيرور|كارت (البوابه|البوابة|الباريير)|كامي|بي اف تي|تيتان/i,a:"boards"},
   {k:/\b(steam|assetto|beam ?ng|gta|grand theft)\b|buy (a )?game|game offers?|ستيم|اسيتو|عروض الالعاب|عروض الألعاب|اشتري لعب|شراء لعب|تنصيب لعب|تسطيب لعب/i,a:"games"},
   {k:new RegExp("\\b(price|prices|pricing|cost|costs|how much|quote|rates?)\\b|سعر|أسعار|اسعار|بكام|تكلف|"+B+"كام($|[\\s؟?])","i"),a:"price"},
   {k:/\b(offers?|discounts?|promo|sale|deals?)\b|عروض|خصم|تخفيض|العرض/i,a:"offer"},
@@ -190,6 +191,7 @@ function reply(a){
   case"where":bot(L("Our office is in <b>Silver Tower, Business Bay, Dubai</b>. We work all over <b>Dubai and Abu Dhabi</b>, and the site survey is free.","مكتبنا في <b>سيلفر تاور، الخليج التجاري، دبي</b>. نشتغل في كل <b>دبي وأبوظبي</b>، والمعاينة مجانية."),[{t:L("Open in Google Maps","افتح في خرائط جوجل"),href:"https://maps.app.goo.gl/cSnLAqS8K9FapcgEA",ext:1},{t:L("Book a free visit","احجز زيارة مجانية"),href:P("/contact.html")},waChip()]);break;
   case"visit":bot(L("We visit for free, check the place and send you a written quote. You only pay if you go ahead.","نزورك مجاناً، نعاين المكان ونبعتلك عرض سعر مكتوب، ولا تدفع إلا لو وافقت."),[{t:L("Book a free visit","احجز زيارة مجانية"),href:P("/contact.html")},waChip(L("I'd like a free site visit.","أريد زيارة مجانية للموقع."))]);break;
   case"tools":bot(L("Free tools for planning jobs: CCTV bandwidth and storage calculator, BOQ builder with Excel export, and the Tech corner.","أدوات مجانية لتخطيط الشغل: حاسبة الباندويث والتخزين، منشئ جدول الكميات مع تصدير Excel، وركن الفنيين."),[{t:L("Bandwidth calculator","حاسبة الباندويث"),href:"/bandwidth.html"},{t:L("BOQ builder","جدول الكميات"),href:"/boq.html"},{t:L("Tech corner","ركن الفنيين"),href:"/tech.html"}]);break;
+  case"boards":bot(L("For CAME, BFT and Titan barriers: choose the board, type the code on the display (for example E7 or ER31) and you get the cause and the fix step by step, with videos.","لبوابات CAME و BFT و Titan: اختار الكارت، واكتب الكود اللي على الشاشة (مثلاً E7 أو ER31)، وهتلاقي السبب والحل خطوة بخطوة مع فيديوهات."),[{t:L("🚧 Open the board fixer","🚧 افتح أعطال الكروت"),href:"/boards.html"},{t:"CAME",href:"/boards.html#came"},{t:"BFT",href:"/boards.html#bft"},{t:"Titan",href:"/boards.html#titan"},waChip(L("I have a barrier error code.","عندي كود عطل في بوابة."))]);break;
   case"hours":bot(L("Message us on WhatsApp any time and we'll reply as soon as we can.","راسلنا على واتساب في أي وقت وهنرد عليك في أقرب وقت."),[waChip()]);break;
   case"hi":bot(L("Hello! How can I help?","أهلاً بيك! أقدر أساعدك إزاي؟"),menu());break;
   case"thanks":bot(L("You're welcome! 😊","العفو! 😊"),menu());break;
