@@ -45,7 +45,7 @@
       (isBest && m > 0 ? '<p>⭐ ' + t("New personal best!") + '</p>' : '') +
       '<div class="btns"><button class="go" data-a="play">' + t("Play again") + '</button>' +
       '<a class="b wa" href="' + G.shareLink(msg) + '" target="_blank" rel="noopener">' + t("Challenge a friend on WhatsApp") + '</a>' +
-      '<a class="b" href="/games.html">' + t("More games") + '</a></div>' +
+      '<a class="b" href="/games.html">' + t("More games") + '</a>' + G.reviewBtn() + '</div>' +
       '<p class="promo">' + t("Need cables done properly? We install networks and Wi-Fi.") + ' <a href="/services.html">' + t("Our services") + ' →</a></p>');
   }
   document.getElementById("ov").addEventListener("click", function (e) {

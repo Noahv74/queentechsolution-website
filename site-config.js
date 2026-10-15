@@ -2,7 +2,8 @@
    coffeeUrl: paste your Buy Me a Coffee page (e.g. "https://buymeacoffee.com/queentech").
    While it is empty, the coffee buttons stay hidden. */
 window.QT_SITE = {
-  coffeeUrl: ""
+  coffeeUrl: "",
+  reviewUrl: "https://g.page/r/CXPWAzSYn864ECE/review"   /* Google Business "write a review" link */
 };
 (function(){
   function apply(){

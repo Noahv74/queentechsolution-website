@@ -53,3 +53,4 @@ QT_AR.add({
   "Our real cameras never blink.":"كاميراتنا الحقيقية لا تغمض أبداً.","Protect your shop: get a CCTV price":"احمِ محلك: اعرف سعر الكاميرات",
   "FREEZE!":"تجمّد!","Careful…":"انتبه…","Clear: move!":"آمن: تحرّك!","Caught! Back to the start.":"اتمسكت! ارجع للبداية."
 });
+QT_AR.add({"Enjoyed it? Review us on Google":"عجبتك؟ قيّمنا على جوجل"});

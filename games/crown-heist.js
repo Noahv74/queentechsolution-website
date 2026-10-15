@@ -45,7 +45,7 @@
       '<div class="stats"><div><b>' + total + '/30</b><small>' + t("Stars") + '</small></div><div><b>' + caught + '</b><small>' + t("Times caught") + '</small></div><div><b>' + G.fmtTime(time) + '</b><small>' + t("Time") + '</small></div></div>' +
       (isBest ? '<p>⭐ ' + t("New personal best!") + '</p>' : '') +
       '<div class="btns"><a class="b wa" href="' + G.shareLink(msg) + '" target="_blank" rel="noopener">' + t("Challenge a friend on WhatsApp") + '</a>' +
-      '<button class="go" data-a="new">' + t("Play again") + '</button><a class="b" href="/games.html">' + t("More games") + '</a></div>' +
+      '<button class="go" data-a="new">' + t("Play again") + '</button><a class="b" href="/games.html">' + t("More games") + '</a>' + G.reviewBtn() + '</div>' +
       '<p class="promo">' + t("Our real cameras never blink.") + ' <a href="/price.html">' + t("Protect your shop: get a CCTV price") + ' →</a></p>');
     G.sfx("win");
   }

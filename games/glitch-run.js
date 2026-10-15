@@ -60,7 +60,7 @@
       '<div class="stats"><div><b>' + deaths + '</b><small>' + t("Deaths") + '</small></div><div><b>' + G.fmtTime(time) + '</b><small>' + t("Time") + '</small></div></div>' +
       (newBest ? '<p>⭐ ' + t("New personal best!") + '</p>' : '<p>' + t("Best: deaths") + ': ' + data.best + '</p>') +
       '<div class="btns"><a class="b wa" href="' + G.shareLink(msg) + '" target="_blank" rel="noopener">' + t("Challenge a friend on WhatsApp") + '</a>' +
-      '<button class="go" data-a="new">' + t("Play again") + '</button><a class="b" href="/games.html">' + t("More games") + '</a></div>' +
+      '<button class="go" data-a="new">' + t("Play again") + '</button><a class="b" href="/games.html">' + t("More games") + '</a>' + G.reviewBtn() + '</div>' +
       '<p class="promo">' + t("Real buildings need security that never glitches.") + ' <a href="/price.html">' + t("Get a CCTV price") + ' →</a></p>');
     G.sfx("win");
   }

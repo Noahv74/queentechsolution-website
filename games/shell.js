@@ -119,6 +119,8 @@
   G.fmtTime = function (s) { s = Math.max(0, s); var m = Math.floor(s / 60), r = Math.floor(s % 60); return m + ":" + (r < 10 ? "0" : "") + r; };
 
   /* ---------- WhatsApp challenge ---------- */
+  G.reviewUrl = "https://g.page/r/CXPWAzSYn864ECE/review";
+  G.reviewBtn = function () { return '<a class="b" href="' + G.reviewUrl + '" target="_blank" rel="noopener">⭐ ' + t("Enjoyed it? Review us on Google") + "</a>"; };
   G.shareLink = function (text) {
     var url = location.origin + location.pathname;
     return "https://wa.me/?text=" + encodeURIComponent(text + "\n" + url);

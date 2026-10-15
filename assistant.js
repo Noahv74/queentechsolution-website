@@ -7,6 +7,7 @@
 if(window.QT_ASSIST)return;window.QT_ASSIST=true;
 var AI_ENDPOINT=window.QT_AI_ENDPOINT||"";                     /* e.g. "https://queentech-ai.<your-account>.workers.dev/chat" */
 var WA="971557971520";
+var REVIEW=(window.QT_SITE&&window.QT_SITE.reviewUrl)||"https://g.page/r/CXPWAzSYn864ECE/review";
 var AR=(window.QT_LANG||document.documentElement.lang)==="ar";
 function L(en,ar){return AR?ar:en}
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
@@ -168,7 +169,7 @@ function act(a,v){
     if(hw)bot(L("<b>"+esc(g[1])+"</b> needs a hands-on check. We do home visits or pick-up and return in Dubai and Abu Dhabi, and confirm the price before any work.","<b>"+esc(g[2])+"</b> يحتاج فحص الجهاز نفسه. نوفر زيارة منزلية أو استلام وتوصيل في دبي وأبوظبي، ونؤكد السعر قبل أي عمل."),[{t:L("Book a hardware check","احجز فحص هاردوير"),href:"/gamers.html#"+v},waChip()]);
     else bot(L("Good news: <b>"+esc(g[1])+"</b> can usually be fixed <b>online with AnyDesk</b> while you watch your screen. Install AnyDesk, send us the number, and an engineer connects.","خبر جيد: <b>"+esc(g[2])+"</b> غالباً تتحل <b>أونلاين عبر AnyDesk</b> وأنت تشاهد شاشتك. حمّل AnyDesk وابعت لنا الرقم ومهندسنا يتصل."),[{t:L("Start the online fix","ابدأ الحل أونلاين"),href:"/gamers.html#"+v},{t:L("Download AnyDesk (official)","تحميل AnyDesk (الرسمي)"),href:"https://anydesk.com/en/downloads",ext:1},waChip()]);
     break;
-  case"yes":bot(L("Great, glad it's sorted! 🎉 Anything else?","ممتاز، سعيد إنها اتحلت! 🎉 في حاجة تانية؟"),menu());break;
+  case"yes":bot(L("Great, glad it's sorted! 🎉 If we helped, a quick Google review means a lot to us.","ممتاز، سعيد إنها اتحلت! 🎉 لو ساعدناك، تقييم سريع على جوجل يفرق معانا كتير."),[{t:L("⭐ Review us on Google","⭐ قيّمنا على جوجل"),href:REVIEW,ext:1}].concat(menu()));break;
   case"no":bot(L("No problem, let's get an engineer on it. Tap below and your details go straight to our WhatsApp.","ولا يهمك، خلّي المهندس يتابعها معاك. اضغط تحت وتفاصيلك هتوصل على واتساب مباشرة."),[waChip(L("The quick steps didn't fix it.","الخطوات السريعة لم تحل المشكلة.")),{t:L("Book a site visit","احجز زيارة"),href:P("/contact.html")}]);break;
   case"other":bot(L("Tell me in a few words what's happening, for example \"camera offline at night\" or \"door won't lock\".","اكتب لي في كلمتين إيه اللي بيحصل، مثلاً \"الكاميرا أوفلاين بالليل\" أو \"الباب مش بيقفل\"."));inp.focus();break;
   default:reply(a);
