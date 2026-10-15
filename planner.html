@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="/i18n.js"></script>
+<script src="/i18n/ar-common.js"></script>
+<script src="/i18n/ar-planner.js"></script>
+<title>CCTV Camera Planner for Villas, Shops, Offices &amp; Warehouses | Queen Tech Dubai</title>
+<meta name="description" content="Plan your CCTV system in one minute: pick your property, entrances and how many days to keep recordings. See how many cameras, which NVR, how many terabytes of storage and an estimated price in Dubai and Abu Dhabi.">
+<link rel="canonical" href="https://queentechsolution.info/planner.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CCTV Camera Planner | Queen Tech Solutions">
+<meta property="og:description" content="Cameras, recorder, storage and an estimated price for your villa, shop, office or warehouse in Dubai and Abu Dhabi.">
+<meta property="og:url" content="https://queentechsolution.info/planner.html">
+<meta property="og:image" content="https://queentechsolution.info/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#131210">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"CCTV Camera Planner","url":"https://queentechsolution.info/planner.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"AED"},"provider":{"@type":"LocalBusiness","name":"Queen Tech Solutions","telephone":"+971557971520","address":{"@type":"PostalAddress","streetAddress":"Silver Tower, Business Bay","addressLocality":"Dubai","addressCountry":"AE"}}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/pages.css">
+<script src="/prices.js"></script>
+<style>
+.plan{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:960px){.plan{grid-template-columns:1fr}}
+.block{background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:clamp(16px,2.6vw,24px);margin-bottom:16px}
+.block h2{font-size:clamp(1.4rem,2.6vw,1.8rem);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.block h2 .n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--bg);font:800 .95rem/1 var(--f-display);flex:none}
+.block > p{color:var(--muted);font-size:.92rem;margin-bottom:14px}
+.props{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
+.prop{all:unset;box-sizing:border-box;display:grid;gap:8px;justify-items:start;padding:14px;border:1px solid var(--line-2);border-radius:8px;background:var(--bg-2);cursor:pointer;transition:border-color .15s,background .15s}
+.prop:hover{border-color:var(--gold)}
+.prop:focus-visible{outline:2px solid var(--gold-2);outline-offset:3px}
+.prop[aria-pressed=true]{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--bg-2));box-shadow:0 0 0 1px var(--gold) inset}
+.prop svg{width:28px;height:28px;fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.prop b{font-weight:700;font-size:.95rem;line-height:1.25}
+.zones{display:grid;gap:8px}
+.zone{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg-2)}
+.zone b{display:block;font-weight:600}
+.zone small{display:block;color:var(--dim);font-size:.82rem}
+.zone .where{font:500 .62rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:3px 6px;border-radius:3px;border:1px solid var(--line-2);color:var(--muted);margin-inline-start:6px;vertical-align:2px}
+html[lang=ar] .zone .where{font-family:var(--f-body);letter-spacing:0;font-size:.72rem}
+.step{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:4px;overflow:hidden;direction:ltr}
+.step button{all:unset;width:36px;height:36px;display:grid;place-items:center;cursor:pointer;color:var(--gold);font:700 1.2rem/1 var(--f-mono);background:var(--surface)}
+.step button:hover{background:var(--surface-2)}
+.step button:focus-visible{outline:2px solid var(--gold-2);outline-offset:-2px}
+.step output{min-width:34px;text-align:center;font:700 1rem var(--f-mono);font-variant-numeric:tabular-nums}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{all:unset;box-sizing:border-box;padding:10px 14px;border:1px solid var(--line-2);border-radius:4px;cursor:pointer;font-weight:600;font-size:.92rem;background:var(--bg-2)}
+.seg button small{display:block;font-weight:400;color:var(--dim);font-size:.78rem}
+.seg button[aria-pressed=true]{border-color:var(--gold);color:var(--gold-2);background:color-mix(in srgb,var(--gold) 10%,var(--bg-2))}
+.seg button:focus-visible{outline:2px solid var(--gold-2);outline-offset:3px}
+.opt-row{display:grid;gap:16px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;cursor:pointer}
+.chk input{width:18px;height:18px;accent-color:var(--gold);margin-top:3px;flex:none}
+.chk small{display:block;color:var(--dim)}
+
+.result{position:sticky;top:120px;background:var(--bg-2);border:1px solid var(--gold);border-radius:10px;padding:clamp(16px,2.6vw,24px)}
+@media (max-width:960px){.result{position:static}}
+.result h2{font-size:clamp(1.5rem,2.8vw,2rem)}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+.kpi{border:1px solid var(--line-2);border-radius:6px;padding:12px;background:var(--surface)}
+.kpi .k{font:500 .64rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+html[lang=ar] .kpi .k{font-family:var(--f-body);letter-spacing:0;font-size:.8rem}
+.kpi .v{font:900 1.9rem/1.05 var(--f-display);font-variant-numeric:tabular-nums;color:var(--ink);margin-top:4px;unicode-bidi:plaintext}
+.kpi .v small{font:500 .74rem var(--f-mono);color:var(--muted);margin-inline-start:4px}
+html[lang=ar] .kpi .v small{font-family:var(--f-body)}
+.kpi .s{font-size:.8rem;color:var(--dim);margin-top:2px}
+.lines{width:100%;border-collapse:collapse;font-size:.88rem}
+.lines td{padding:8px 0;border-bottom:1px dashed var(--line);vertical-align:top}
+.lines td:last-child{text-align:end;white-space:nowrap;font-variant-numeric:tabular-nums;padding-inline-start:10px}
+.lines .m{display:block;color:var(--dim);font-size:.78rem}
+.lines s{color:var(--dim);margin-inline-end:6px}
+.total{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line-2)}
+.total b{font:900 2.2rem/1 var(--f-display);color:var(--gold);font-variant-numeric:tabular-nums;unicode-bidi:plaintext}
+.total span{color:var(--muted);font-size:.86rem}
+.warnbox{margin-top:12px;border-inline-start:2px solid var(--warn);padding-inline-start:12px;font-size:.88rem;color:var(--muted)}
+.res-acts{display:grid;gap:10px;margin-top:16px}
+.res-acts .btn{width:100%;padding:14px 16px;font-size:1rem}
+.how-note{font-size:.82rem;color:var(--dim);margin-top:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Queen Tech Solutions home">
+      <svg class="crown" viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" rx="5" fill="none" stroke="var(--gold)"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="var(--gold)"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="var(--gold)"/></svg>
+      <span><b>Queen Tech</b><small>Camera planner</small></span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a class="lang-tg" data-lang-toggle href="?lang=ar">العربية</a>
+      <a class="btn btn-gold" href="#result">My plan</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="phead">
+    <div class="crumbs"><a href="/">Home</a><span>/</span><a href="/tools.html">Free tools</a><span>/</span><span>Camera planner</span></div>
+    <span class="tag">Free tool · Dubai · Abu Dhabi</span>
+    <h1>Plan your CCTV <em>in one minute.</em></h1>
+    <p class="lede">Choose your property, adjust the areas you want to cover and how long to keep recordings. You'll see how many cameras you need, which recorder, how much storage, and an estimated price with installation.</p>
+  </section>
+
+  <section class="sec" id="tool" style="border-bottom:0">
+    <div class="plan">
+      <div>
+        <div class="block">
+          <h2><span class="n">1</span>Your property</h2>
+          <p>Pick the closest one. We fill in a typical layout that you can change below.</p>
+          <div class="props" id="props" role="group" aria-label="Property type"></div>
+        </div>
+
+        <div class="block">
+          <h2><span class="n">2</span>What to cover</h2>
+          <p>One camera per area is a good start. Wide areas like a large car park may need two.</p>
+          <div class="zones" id="zones"></div>
+        </div>
+
+        <div class="block">
+          <h2><span class="n">3</span>Recording</h2>
+          <div class="opt-row">
+            <div>
+              <div class="lbl" id="l-q" style="margin-bottom:8px">Camera quality</div>
+              <div class="seg" id="quality" role="group" aria-labelledby="l-q">
+                <button type="button" data-v="2" aria-pressed="false">2MP Full HD<small>Budget, clear faces up close</small></button>
+                <button type="button" data-v="4" aria-pressed="true">4MP<small>Sharper, our usual choice</small></button>
+              </div>
+            </div>
+            <label class="chk"><input type="checkbox" id="colour" checked><span>Colour at night for outside cameras<small>Keeps cars and clothes in colour after dark. Costs a little more.</small></span></label>
+            <div>
+              <div class="lbl" id="l-d" style="margin-bottom:8px">Keep recordings for</div>
+              <div class="seg" id="days" role="group" aria-labelledby="l-d">
+                <button type="button" data-v="7" aria-pressed="false">7 days</button>
+                <button type="button" data-v="14" aria-pressed="false">14 days</button>
+                <button type="button" data-v="30" aria-pressed="true">30 days</button>
+                <button type="button" data-v="60" aria-pressed="false">60 days</button>
+                <button type="button" data-v="90" aria-pressed="false">90 days</button>
+              </div>
+            </div>
+            <div>
+              <div class="lbl" id="l-m" style="margin-bottom:8px">Record</div>
+              <div class="seg" id="mode" role="group" aria-labelledby="l-m">
+                <button type="button" data-v="cont" aria-pressed="true">24/7<small>Nothing is missed</small></button>
+                <button type="button" data-v="motion" aria-pressed="false">On motion only<small>Uses less storage</small></button>
+              </div>
+            </div>
+            <div>
+              <div class="lbl" id="l-b" style="margin-bottom:8px">Brand</div>
+              <div class="seg" id="brand" role="group" aria-labelledby="l-b">
+                <button type="button" data-v="dahua" aria-pressed="true">Dahua</button>
+                <button type="button" data-v="hikvision" aria-pressed="false">Hikvision</button>
+              </div>
+            </div>
+            <label class="chk"><input type="checkbox" id="monitor"><span>Add a screen to watch the cameras on site<small>A 22" monitor connected to the recorder.</small></span></label>
+          </div>
+        </div>
+      </div>
+
+      <aside class="result" id="result" aria-live="polite">
+        <span class="tag">Your plan</span>
+        <h2 style="margin-top:10px" id="r-title">Villa</h2>
+        <div class="kpis">
+          <div class="kpi"><div class="k">Cameras</div><div class="v" id="k-cams">–</div><div class="s" id="k-cams-s"></div></div>
+          <div class="kpi"><div class="k">Recorder (NVR)</div><div class="v" id="k-nvr">–</div><div class="s" id="k-nvr-s"></div></div>
+          <div class="kpi"><div class="k">Storage</div><div class="v" id="k-hdd">–</div><div class="s" id="k-hdd-s"></div></div>
+          <div class="kpi"><div class="k">Recording</div><div class="v" id="k-days">–</div><div class="s" id="k-days-s"></div></div>
+        </div>
+        <table class="lines"><tbody id="lines"></tbody></table>
+        <div class="total"><span id="t-label">Estimated total</span><b id="t-sum">–</b></div>
+        <p class="how-note" id="t-note"></p>
+        <div class="warnbox" id="warn" hidden></div>
+        <div class="res-acts">
+          <a class="btn btn-wa" id="send" href="https://wa.me/971557971520" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg><span>Send this plan on WhatsApp</span></a>
+          <a class="btn btn-line" href="/price.html#cctv">Compare brands and exact prices →</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <span class="tag">How we work it out</span>
+      <h2>Simple rules, real prices.</h2>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>Cameras</h3><p>Areas outside use bullet cameras built for sun and dust. Areas inside use small dome cameras. Colour-at-night cameras are used outside when you tick that option.</p></div>
+      <div class="card"><h3>Recorder</h3><p>We pick the smallest recorder with enough channels: 4, 8 or 16, and move up to the 16-channel model when you need room for a second disk. These recorders power the cameras through the network cable (PoE), so no extra power points are needed at each camera.</p></div>
+      <div class="card"><h3>Storage</h3><p>About 2.2 Mbps for a 2MP camera and 3.9 Mbps for 4MP on H.265, recording 24/7. Motion-only recording is counted at about 40% of that. We add 10% for the recorder's file system. Busy scenes use more.</p></div>
+      <div class="card"><h3>Prices</h3><p>Equipment prices are the lowest we found at UAE shops on <span id="checked">–</span>. Installation is our own price list, including cabling, mounting, testing and phone app setup. The final price is confirmed after a free site visit.</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="cta-box">
+      <div>
+        <span class="tag">Free site visit</span>
+        <h2 style="margin-top:10px">Want us to check the plan on site?</h2>
+        <p>We visit your villa, shop, office or warehouse in Dubai or Abu Dhabi, mark the best camera positions and confirm the price in writing before any work starts.</p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-gold" href="/contact.html">Book a free site visit</a>
+        <a class="btn btn-line" href="/cctv-installation-dubai.html">CCTV installation in Dubai</a>
+        <a class="btn btn-line" href="/cctv-installation-abu-dhabi.html">CCTV installation in Abu Dhabi</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pfoot wrap">Queen Tech Solutions · Silver Tower, Business Bay, Dubai · <a href="/">Home</a> · <a href="/services.html">Services</a> · <a href="/tools.html">Free tools</a> · <a href="/bandwidth.html">Storage calculator</a> · <a href="/contact.html">Contact</a> · <span>Brand names belong to their owners.</span></footer>
+
+<a class="wa-float" href="https://wa.me/971557971520" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg></a>
+
+<script>
+(function(){
+"use strict";
+var WA="971557971520";
+var t=window.t||function(s){return s};
+var P=window.QT_PRICES||{items:{},labour:{}};
+var I=P.items||{},L=P.labour||{};
+
+/* zones: out = outside (bullet), in = inside (dome) */
+var ZONES=[
+  {id:"ent",t:"Entrances and doors",d:"Main door, gates, back door",w:"out"},
+  {id:"per",t:"Outside walls and garden",d:"Perimeter, yard, sides of the building",w:"out"},
+  {id:"park",t:"Parking and driveway",d:"Cars, loading area",w:"out"},
+  {id:"in",t:"Inside rooms and halls",d:"Living area, corridors, shop floor, office space",w:"in"},
+  {id:"till",t:"Cash counter and reception",d:"Till, safe, front desk",w:"in"},
+  {id:"stock",t:"Stock room and storage",d:"Store, server room, kitchen",w:"in"}
+];
+var IC={
+  apt:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M11 21v-3h2v3"/>',
+  villa:'<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+  shop:'<path d="M4 9 5.5 4h13L20 9"/><path d="M4 9v11h16V9"/><path d="M4 9h16"/><path d="M9 20v-6h6v6"/>',
+  rest:'<path d="M7 3v8M5 3v4a2 2 0 0 0 4 0V3M7 11v10"/><path d="M17 3c-2 1-3 3-3 6v3h3v9"/>',
+  office:'<rect x="3" y="7" width="18" height="13" rx="1"/><path d="M8 7V4h8v3M3 12h18"/>',
+  wh:'<path d="M3 21V9l9-5 9 5v12"/><path d="M7 21v-8h10v8M7 16h10"/>'
+};
+var PROPS=[
+  {id:"apt",t:"Apartment",z:{ent:1,per:0,park:0,in:2,till:0,stock:0}},
+  {id:"villa",t:"Villa",z:{ent:2,per:3,park:1,in:2,till:0,stock:0}},
+  {id:"shop",t:"Shop",z:{ent:1,per:0,park:0,in:2,till:1,stock:1}},
+  {id:"rest",t:"Restaurant or café",z:{ent:1,per:0,park:0,in:2,till:1,stock:1}},
+  {id:"office",t:"Office",z:{ent:1,per:0,park:0,in:3,till:1,stock:1}},
+  {id:"wh",t:"Warehouse",z:{ent:2,per:4,park:2,in:3,till:0,stock:1}}
+];
+var state={prop:"villa",z:{},q:4,colour:true,days:30,mode:"cont",brand:"dahua",monitor:false};
+
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function aed(n){var v=Math.round(n);return t("AED")==="درهم"?v.toLocaleString("en-US")+" درهم":"AED "+v.toLocaleString("en-US")}
+
+/* cheapest price for an item in the chosen brand, else the cheapest brand with a price */
+function price(key){
+  var it=I[key];if(!it||!it.v)return null;
+  var pick=it.v[state.brand];
+  if(pick&&pick.price!=null)return {p:pick.price,m:pick.model,b:state.brand,shop:pick.shop};
+  var best=null;
+  Object.keys(it.v).forEach(function(b){var x=it.v[b];if(x.price!=null&&(!best||x.price<best.p))best={p:x.price,m:x.model,b:b,shop:x.shop}});
+  return best;
+}
+function brandName(b){return (P.brands&&P.brands[b])||b}
+
+/* build UI */
+var propsEl=document.getElementById("props");
+propsEl.innerHTML=PROPS.map(function(p){return '<button type="button" class="prop" data-id="'+p.id+'" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">'+IC[p.id]+'</svg><b>'+esc(t(p.t))+'</b></button>'}).join("");
+var zonesEl=document.getElementById("zones");
+zonesEl.innerHTML=ZONES.map(function(z){
+  return '<div class="zone"><div><b>'+esc(t(z.t))+'<span class="where">'+esc(t(z.w==="out"?"Outside":"Inside"))+'</span></b><small>'+esc(t(z.d))+'</small></div>'+
+  '<div class="step"><button type="button" data-z="'+z.id+'" data-d="-1" aria-label="'+esc(t("Fewer cameras: "+z.t))+'">−</button><output id="o-'+z.id+'">0</output><button type="button" data-z="'+z.id+'" data-d="1" aria-label="'+esc(t("More cameras: "+z.t))+'">+</button></div></div>';
+}).join("");
+
+function setProp(id){
+  state.prop=id;var p=PROPS.filter(function(x){return x.id===id})[0];
+  state.z=JSON.parse(JSON.stringify(p.z));
+  propsEl.querySelectorAll(".prop").forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-id")===id)});
+  calc();
+}
+propsEl.addEventListener("click",function(e){var b=e.target.closest(".prop");if(b)setProp(b.getAttribute("data-id"))});
+zonesEl.addEventListener("click",function(e){
+  var b=e.target.closest("button[data-z]");if(!b)return;
+  var k=b.getAttribute("data-z");state.z[k]=Math.max(0,Math.min(16,(state.z[k]||0)+(+b.getAttribute("data-d"))));calc();
+});
+function seg(id,key,num){
+  var el=document.getElementById(id);
+  el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
+    el.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});
+    var v=b.getAttribute("data-v");state[key]=num?+v:v;calc();});
+}
+seg("quality","q",1);seg("days","days",1);seg("mode","mode",0);seg("brand","brand",0);
+document.getElementById("colour").addEventListener("change",function(){state.colour=this.checked;calc()});
+document.getElementById("monitor").addEventListener("change",function(){state.monitor=this.checked;calc()});
+
+var last={};
+function calc(){
+  ZONES.forEach(function(z){document.getElementById("o-"+z.id).textContent=state.z[z.id]||0});
+  var out=0,inn=0;ZONES.forEach(function(z){var n=state.z[z.id]||0;if(z.w==="out")out+=n;else inn+=n});
+  var n=out+inn;
+  var prop=PROPS.filter(function(x){return x.id===state.prop})[0];
+  document.getElementById("r-title").textContent=t(prop.t);
+
+  /* cameras */
+  var camOutKey=state.colour?"cam4_colorvu":(state.q===4?"cam4_bullet":"cam2_bullet");
+  var camInKey=state.q===4?"cam4_dome":"cam2_dome";
+  var rows=[],total=0,miss=[];
+  function add(label,model,qty,unit,was){
+    if(qty<=0)return;
+    if(unit==null){miss.push(label);rows.push({l:label,m:model,q:qty,v:null});return}
+    var s=qty*unit;total+=s;rows.push({l:label,m:model,q:qty,v:s,w:was!=null?qty*was:null});
+  }
+  var po=price(camOutKey),pi=price(camInKey);
+  if(out)add(t(I[camOutKey].label),po?po.m+(po.b!==state.brand?" · "+brandName(po.b):""):"",out,po&&po.p);
+  if(inn)add(t(I[camInKey].label),pi?pi.m+(pi.b!==state.brand?" · "+brandName(pi.b):""):"",inn,pi&&pi.p);
+
+  /* recorder: 4/8/16, several 16s for bigger sites */
+  var nvrKey=null,nvrQty=0,ch=0;
+  if(n>0){if(n<=4){nvrKey="nvr4";ch=4}else if(n<=8){nvrKey="nvr8";ch=8}else{nvrKey="nvr16";ch=16}nvrQty=Math.ceil(n/ch)}
+  /* storage */
+  var mb=(state.q===4?3.9:2.2)*inn+((state.colour||state.q===4)?3.9:2.2)*out;
+  if(state.mode==="motion")mb*=0.4;
+  var needTB=mb*86400*state.days/8/1e6*1.1;
+  var bays=nvrKey?(I[nvrKey].bays||1):0,bumped=false;
+  /* not enough disk bays for the days asked: move up to the 16-channel recorder (2 bays) */
+  if(nvrKey&&nvrKey!=="nvr16"&&I.nvr16&&needTB/nvrQty>bays*8){nvrKey="nvr16";ch=16;nvrQty=Math.ceil(n/16);bays=I.nvr16.bays||2;bumped=true}
+  if(nvrKey){var pn=price(nvrKey);add(t(I[nvrKey].label),pn?pn.m+(pn.b!==state.brand?" · "+brandName(pn.b):""):"",nvrQty,pn&&pn.p)}
+  var perNvr=nvrQty?needTB/nvrQty:0;
+  var disks=pickDisks(perNvr,bays);
+  var gotTB=0;disks.forEach(function(d){var pd=price(d.key);add(t(I[d.key].label),pd?pd.m:"",d.q*nvrQty,pd&&pd.p);gotTB+=I[d.key].tb*d.q*nvrQty});
+  var daysGot=mb>0?Math.floor(gotTB*1e6*8/(mb*86400*1.1)):0;
+
+  if(state.monitor&&n){var pm=price("monitor");add(t(I.monitor?I.monitor.label:"Monitor"),pm?pm.m:"",1,pm&&pm.p)}
+
+  /* labour */
+  if(n){
+    if(L.cam)add(t(L.cam.name),"",n,L.cam.price,L.cam.was);
+    if(L.nvr)add(t(L.nvr.name),"",nvrQty,L.nvr.price,L.nvr.was);
+  }
+
+  /* KPIs */
+  document.getElementById("k-cams").textContent=n;
+  document.getElementById("k-cams-s").textContent=n?(out+" "+t("outside")+" · "+inn+" "+t("inside")):t("Add at least one area");
+  document.getElementById("k-nvr").innerHTML=nvrKey?(nvrQty>1?nvrQty+" × ":"")+ch+'<small>'+esc(t("ch"))+'</small>':"–";
+  document.getElementById("k-nvr-s").textContent=nvrKey?(bumped?t("Bigger recorder: room for 2 disks"):t("Built-in PoE, powers the cameras")):"";
+  document.getElementById("k-hdd").innerHTML=n?fmtTB(gotTB)+'<small>TB</small>':"–";
+  document.getElementById("k-hdd-s").textContent=n?t("Needed")+": "+fmtTB(needTB)+" TB":"";
+  document.getElementById("k-days").innerHTML=n?Math.min(daysGot,999)+'<small>'+esc(t("days"))+'</small>':"–";
+  document.getElementById("k-days-s").textContent=n?(state.mode==="motion"?t("Motion recording, estimate"):t("24/7 recording")):"";
+
+  var warn=document.getElementById("warn");
+  if(n&&daysGot<state.days){warn.hidden=false;warn.textContent=t("This recorder can't hold that many days with these cameras. We'll suggest a bigger recorder or more disks at the site visit.")}
+  else if(n>16){warn.hidden=false;warn.textContent=t("For more than 16 cameras we usually use a larger recorder. Your plan uses several 16-channel recorders; we'll confirm the best setup on site.")}
+  else warn.hidden=true;
+
+  document.getElementById("lines").innerHTML=rows.map(function(r){
+    return '<tr><td>'+(r.q>1?r.q+" × ":"")+esc(r.l)+(r.m?'<span class="m" dir="ltr">'+esc(r.m)+'</span>':'')+'</td><td>'+(r.v==null?esc(t("On request")):(r.w&&r.w>r.v?'<s>'+aed(r.w)+'</s>':'')+aed(r.v))+'</td></tr>';
+  }).join("")||'<tr><td>'+esc(t("Add at least one area to see your plan."))+'</td><td></td></tr>';
+  document.getElementById("t-sum").textContent=n?aed(total):"–";
+  var off=window.QT_OFFER&&window.QT_OFFER.on;
+  document.getElementById("t-note").textContent=n?(t("Estimate including installation and cabling. Final price after a free site visit.")+(off?" "+t("Installation shown at the current 50% offer price."):"")+(miss.length?" "+t("Some items are priced on request."):"")):"";
+  last={prop:prop,n:n,out:out,inn:inn,nvr:nvrKey?(nvrQty>1?nvrQty+" × ":"")+ch+" ch":"",tb:fmtTB(gotTB),need:fmtTB(needTB),days:daysGot,total:total};
+  updateLink();
+}
+function fmtTB(x){return x>=10?Math.round(x).toString():(Math.round(x*10)/10).toString()}
+/* fewest/cheapest disks that fit in the bays and cover the need */
+function pickDisks(need,bays){
+  if(!bays||need<=0)return [];
+  var sizes=["hdd1","hdd2","hdd4","hdd8"].filter(function(k){return I[k]});
+  var best=null;
+  function cost(k){var p=price(k);return p?p.p:1e9}
+  (function rec(i,left,cur){
+    var tb=cur.reduce(function(a,c){return a+I[c].tb},0),c=cur.reduce(function(a,c){return a+cost(c)},0);
+    if(tb>=need){if(!best||c<best.c||(c===best.c&&tb>best.tb))best={c:c,tb:tb,l:cur.slice()};return}
+    if(!left)return;
+    for(var j=i;j<sizes.length;j++){cur.push(sizes[j]);rec(j,left-1,cur);cur.pop()}
+  })(0,bays,[]);
+  if(!best){best={l:[]};for(var b=0;b<bays;b++)best.l.push(sizes[sizes.length-1])}
+  var cnt={};best.l.forEach(function(k){cnt[k]=(cnt[k]||0)+1});
+  return Object.keys(cnt).map(function(k){return {key:k,q:cnt[k]}});
+}
+function updateLink(){
+  var a=document.getElementById("send");
+  var L2=[t("Hello Queen Tech, I made a CCTV plan on your website."),t("Property:")+" "+t(last.prop.t)];
+  ZONES.forEach(function(z){var v=state.z[z.id]||0;if(v)L2.push("• "+t(z.t)+": "+v)});
+  L2.push(t("Cameras:")+" "+last.n+" ("+(state.q===4?"4MP":"2MP")+(state.colour&&last.out?", "+t("colour at night outside"):"")+")");
+  if(last.nvr)L2.push(t("Recorder:")+" "+last.nvr);
+  L2.push(t("Storage:")+" "+last.tb+" TB · "+t("about")+" "+last.days+" "+t("days")+" ("+(state.mode==="motion"?t("motion"):"24/7")+")");
+  L2.push(t("Brand:")+" "+brandName(state.brand));
+  if(last.n)L2.push(t("Estimate on the website:")+" "+aed(last.total));
+  L2.push(t("Please contact me for a site visit."));
+  a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(L2.join("\n"));
+}
+document.getElementById("checked").textContent=P.checked||"–";
+
+/* ?p=shop presets the property */
+var pm=location.search.match(/[?&]p=([a-z]+)/);
+setProp(pm&&PROPS.some(function(x){return x.id===pm[1]})?pm[1]:"villa");
+})();
+</script>
+</body>
+</html>

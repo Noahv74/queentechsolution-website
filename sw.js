@@ -1,13 +1,14 @@
 /* Queen Tech service worker: lets the site work as an app and keeps visited pages
    available offline. Always tries the network first, so prices and offers stay fresh.
    Change VERSION when the list of core files changes. */
-const VERSION = "qt-2026-10-14";
+const VERSION = "qt-2026-10-15";
 const FONTS = "qt-fonts";
 const CORE = [
   "/offline.html",
   "/i18n.js",
   "/i18n/ar-common.js",
   "/rtl.css",
+  "/pages.css",
   "/assistant.js",
   "/manifest.webmanifest",
   "/icons/icon-192.png",

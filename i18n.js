@@ -45,7 +45,7 @@
   var STATIC=document.documentElement.hasAttribute("data-i18n-static");
   if(STATIC){var hl=document.documentElement.lang==="ar"?"ar":"en";lang=hl;window.QT_LANG=hl}
   var PAGES=[["/","Home","الرئيسية",1],["/services.html","Services","الخدمات",1],["/price.html","Prices","الأسعار"],["/tools.html","Free tools","أدوات مجانية",1],["/tech.html","Tech corner","ركن الفنيين"],["/help.html","Help centre","مركز المساعدة"],["/gamers.html","Gamers & PC","الجيمرز والكمبيوتر"],["/games.html","🎮 Arcade","🎮 الألعاب",0,1],["/contact.html","Contact","تواصل معنا",1],["/app.html","📲 App","📲 التطبيق",0,0,1]];
-  window.QT_STATIC_AR={"/":"/ar/","/services.html":"/ar/services.html","/tools.html":"/ar/tools.html","/contact.html":"/ar/contact.html"};
+  window.QT_STATIC_AR={"/":"/ar/","/services.html":"/ar/services.html","/tools.html":"/ar/tools.html","/contact.html":"/ar/contact.html","/cctv-installation-dubai.html":"/ar/cctv-installation-dubai.html","/cctv-installation-abu-dhabi.html":"/ar/cctv-installation-abu-dhabi.html","/access-control-dubai.html":"/ar/access-control-dubai.html","/gate-barrier-installation.html":"/ar/gate-barrier-installation.html","/network-wifi-installation-dubai.html":"/ar/network-wifi-installation-dubai.html","/laptop-repair-business-bay.html":"/ar/laptop-repair-business-bay.html","/phone-repair-dubai.html":"/ar/phone-repair-dubai.html","/it-support-dubai.html":"/ar/it-support-dubai.html"};
   /* A returning visitor who picked a language lands on that version of the static pages. */
   if(STATIC){
     var wasSet=false;try{wasSet=localStorage.getItem("qt-lang-set")==="1"}catch(e){}
@@ -145,7 +145,7 @@
   function el(e){
     if(e.closest&&e.closest('[translate="no"]'))return;
     for(var i=0;i<ATTRS.length;i++){var a=e.getAttribute&&e.getAttribute(ATTRS[i]);if(a){var x=tr(a);if(x!=null&&x!==a)e.setAttribute(ATTRS[i],x)}}
-    if(e.tagName==="A"){var h=e.getAttribute("href"),m2=h&&h.match(/^(\/[a-z]*(?:\.html)?)(#.*)?$/);if(m2&&window.QT_STATIC_AR[m2[1]])e.setAttribute("href",window.QT_STATIC_AR[m2[1]]+(m2[2]||""))}
+    if(e.tagName==="A"){var h=e.getAttribute("href"),m2=h&&h.match(/^(\/[a-z0-9-]*(?:\.html)?)(#.*)?$/);if(m2&&window.QT_STATIC_AR[m2[1]])e.setAttribute("href",window.QT_STATIC_AR[m2[1]]+(m2[2]||""))}
   }
   function text(n){
     var p=n.parentNode;if(!p||SKIP[p.nodeName])return;

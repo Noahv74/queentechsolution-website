@@ -142,3 +142,4 @@ QT_AR.add({
   "AnyDesk address:":"رقم AnyDesk:",
   "AnyDesk address: I will send it when you are ready.":"رقم AnyDesk: سأرسله عندما تكونون جاهزين."
 });
+QT_AR.add({"Got an error code like VAN 9003 or DXGI? Try the free game error rescue first.":"عندك كود خطأ مثل VAN 9003 أو DXGI؟ جرّب أولاً صفحة إنقاذ أخطاء الألعاب المجانية."});
