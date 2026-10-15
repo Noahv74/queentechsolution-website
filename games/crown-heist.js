@@ -7,6 +7,7 @@
   G.holdArea(document.getElementById("stage"));
   var statusEl = document.getElementById("status");
 
+  var caughtHere = 0, caughtLvl = -1, skipOffered = {};
   var data = G.load("heist", { level: 0, caught: 0, time: 0, stars: [], best: null });
   var st = null, playing = false, frame = 0, endT = 0, flash = 0, parts = [], attempt = 0, cam = { s: 1, y: 0, vh: 900, ox: 0 };
 
@@ -89,7 +90,14 @@
     if (!st || !playing) return;
     if (st.caught || st.won) {
       endT -= E.DT;
-      if (endT <= 0) { if (st.won) { if (data.level >= N) finish(); else start(data.level); } else start(data.level); }
+      if (endT <= 0 && !st.adWait) { st.adWait = 1;
+        if (st.won) { if (data.level >= N) finish(); else G.adBreak("heist_level", function () { start(data.level); }); }
+        else {
+          caughtHere = st.index === caughtLvl ? caughtHere + 1 : 1; caughtLvl = st.index;
+          if (caughtHere >= 5 && !skipOffered[st.index] && data.level < N - 1) { skipOffered[st.index] = 1;
+            G.rewarded("heist_skip", t("This level is tough. Watch a short ad to skip to the next one."), function () { data.level++; persist(); hud(); start(data.level); }); }
+          start(data.level);
+        } }
       return;
     }
     E.step(st, !!K.hold);

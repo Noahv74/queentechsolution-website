@@ -22,7 +22,7 @@
     o.connect(g); g.connect(ac.destination); o.start(n); o.stop(n + d + 0.02);
   }
   G.sfx = function (name) {
-    if (G.muted) return;
+    if (G.muted || G.adMute) return;
     try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === "suspended") ac.resume(); } catch (e) { return; }
     switch (name) {
       case "jump": tone(420, 0.1, "square", 0.04, 720); break;
@@ -121,10 +121,47 @@
   /* ---------- WhatsApp challenge ---------- */
   G.reviewUrl = "https://g.page/r/CXPWAzSYn864ECE/review";
   G.reviewBtn = function () { return '<a class="b" href="' + G.reviewUrl + '" target="_blank" rel="noopener">⭐ ' + t("Enjoyed it? Review us on Google") + "</a>"; };
+  /* ---------- ads (Google Ad Placement API, see /ads.js; does nothing while ads are off) ---------- */
+  function adsOn() { return !!(window.QT_ADS && window.QT_ADS.on && window.adBreak); }
+  /* An ad MAY show at a natural break (between levels / before a replay). done() always runs exactly once. */
+  G.adBreak = function (name, done) {
+    var fired = false, showing = false, wasPaused = G.paused;
+    function fin() { if (fired) return; fired = true; G.adMute = false; G.paused = wasPaused; if (done) done(); }
+    if (!adsOn()) return fin();
+    try {
+      window.adBreak({ type: "next", name: name,
+        beforeAd: function () { showing = true; G.paused = true; G.adMute = true; },
+        afterAd: function () { G.adMute = false; },
+        adBreakDone: fin });
+    } catch (e) { return fin(); }
+    setTimeout(function () { if (!showing) fin(); }, 1500);      /* blocked or slow ad script: never hold the player up */
+  };
+  /* Opt-in rewarded ad. Shows our own offer card only when Google has an ad ready. */
+  G.rewarded = function (name, offer, onReward) {
+    if (!adsOn()) return false;
+    try {
+      window.adBreak({ type: "reward", name: name,
+        beforeReward: function (showAdFn) {
+          G.overlay('<span class="k">' + t("Stuck?") + '</span><h2>🎬</h2><p>' + offer + '</p><div class="btns"><button class="go" data-rw="yes">' + t("Watch a short ad") + '</button><button data-rw="no">' + t("No thanks") + '</button></div>');
+          var ov = document.getElementById("ov");
+          function h(e) { var b = e.target.closest("[data-rw]"); if (!b) return; ov.removeEventListener("click", h, true); e.stopPropagation(); G.hideOverlay(); if (b.getAttribute("data-rw") === "yes") showAdFn(); }
+          ov.addEventListener("click", h, true);
+        },
+        beforeAd: function () { G.paused = true; G.adMute = true; },
+        afterAd: function () { G.adMute = false; G.paused = false; },
+        adDismissed: function () { G.toast(t("Ad closed early, no reward this time."), 1800); },
+        adViewed: function () { if (onReward) onReward(); },
+        adBreakDone: function () { G.adMute = false; } });
+      return true;
+    } catch (e) { return false; }
+  };
+
   G.shareLink = function (text) {
     var url = location.origin + location.pathname;
     return "https://wa.me/?text=" + encodeURIComponent(text + "\n" + url);
   };
+
+  (function () { var a = document.createElement("script"); a.src = "/ads.js"; a.async = true; document.head.appendChild(a); })();
 
   /* ---------- top bar buttons ---------- */
   var mute = document.getElementById("mute");

@@ -9,11 +9,13 @@ QT_AR.add({
   "Restart":"إعادة","Best":"الأفضل","Score":"النقاط","Get a CCTV price":"اعرف سعر الكاميرات",
   /* Glitch Run */
   "Glitch Run – free trap platformer game | Queen Tech Arcade":"Glitch Run – لعبة أفخاخ مجانية | ألعاب كوين تك",
-  "The building's floor is glitching. Reach the exit door in 8 levels. Nothing is what it seems.":"أرضية المبنى فيها خلل. وصّل لباب الخروج في 8 مراحل. ولا شيء كما يبدو.",
+  "The building's floor is glitching. Reach the exit door in 20 levels. Nothing is what it seems.":"أرضية المبنى فيها خلل. وصّل لباب الخروج في 20 مرحلة. ولا شيء كما يبدو.",
   "You escaped!":"نجوت!","Building cleared":"خرجت من المبنى","The door moved!":"الباب هرب!",
   "Real buildings need security that never glitches.":"المباني الحقيقية تحتاج حماية بدون أي خلل.",
   "Walk to the door. Easy.":"امشِ للباب. سهلة.","Mind the gap.":"انتبه للفجوة.","Look up.":"انظر لفوق.","The door is shy.":"الباب خجول.",
   "Trust no floor.":"لا تثق بأي أرضية.","Some blocks are shy.":"بعض الطوب مختبئ.","Everything at once.":"كل شيء مرة واحدة.","Last one. Promise.":"الأخيرة. أوعدك.",
+  "I lied.":"كدبت عليك.",
+  "Stuck?":"واقف؟","Watch a short ad":"شوف إعلان قصير","No thanks":"لا شكراً","Ad closed early, no reward this time.":"الإعلان اتقفل بدري، مفيش مكافأة المرة دي.","This level is tough. Watch a short ad to skip to the next one.":"المرحلة دي صعبة. شوف إعلان قصير وانقل للمرحلة اللي بعدها.","One-tap swing · 20 missions":"اتمرجح بلمسة · 20 مهمة","Advertisement":"إعلان","Stairway.":"سلّم.","Saw season.":"موسم المناشير.","Don't look down.":"ما تبصّش لتحت.","Ceiling party.":"حفلة السقف.","The door is shy. Again.":"الباب مكسوف. تاني.","Spike garden.":"جنينة الشوك.","Find the gap.":"دوّر على الفتحة.","Saws and doors.":"مناشير وأبواب.","Vanishing tower.":"البرج اللي بيختفي.","Almost.":"قرّبت.","The real last one.":"الأخيرة بجد.",
   "Glitch Run game":"لعبة Glitch Run"
 });
 
@@ -24,11 +26,11 @@ QT_AR.add({
   "Arcade.":"للألعاب.",
   "Three original games made for Queen Tech. Play in your browser or in our app, beat your best score and challenge your friends on WhatsApp.":"ثلاث ألعاب أصلية صُممت لكوين تك. العبها في المتصفح أو في تطبيقنا، واكسر رقمك القياسي وتحدَّ أصدقاءك على واتساب.",
   "🎮 Works with touch, keyboard and mouse":"🎮 تعمل باللمس ولوحة المفاتيح والماوس","💾 Your progress is saved":"💾 تقدّمك محفوظ","📶 Works offline after the first play":"📶 تعمل بدون إنترنت بعد أول مرة",
-  "Games":"الألعاب","Trap platformer · 8 levels":"منصات وأفخاخ · 8 مراحل",
+  "Games":"الألعاب","Trap platformer · 20 levels":"منصات وأفخاخ · 20 مرحلة",
   "Floors fall, spikes pop up and the exit door runs away. Reach the door anyway.":"الأرضية تسقط، والأشواك تطلع فجأة، وباب الخروج يهرب. ومع ذلك لازم توصل للباب.",
   "New":"جديدة","One-tap swing · endless":"تأرجح بلمسة · بلا نهاية",
   "Hold to grab a hook, let go to fly. Collect crowns, bounce on gold pads, never touch the live cables.":"اضغط باستمرار لتمسك الخطاف، واترك لتطير. اجمع التيجان، وانطّ على الوسائد الذهبية، ولا تلمس الكابلات المكهربة.",
-  "Stealth · 10 levels":"تسلّل · 10 مراحل",
+  "Stealth · 20 levels":"تسلّل · 20 مرحلة",
   "Sneak up to the crown and freeze when the camera looks your way. Faster runs earn more stars.":"تسلّل للتاج وتجمّد مكانك لما الكاميرا تبص عليك. كل ما كنت أسرع تاخد نجوم أكثر.",
   "Gaming PC acting up?":"جهاز الجيمنج تاعبك؟",
   "Game crashes, low FPS or a PC that runs hot: we fix it online with AnyDesk or with a visit in Dubai and Abu Dhabi. Steam games installed for you.":"اللعبة تقفل، أو فريمات قليلة، أو الجهاز يسخن: نحلها أونلاين عبر AnyDesk أو بزيارة في دبي وأبوظبي. ونثبّت لك ألعاب Steam.",

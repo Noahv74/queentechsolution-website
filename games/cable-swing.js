@@ -7,6 +7,31 @@
   G.holdArea(document.getElementById("stage"));
 
   var best = G.load("cable", { best: 0, crowns: 0 });
+  /* Missions: a ladder of 20 goals so the endless game has "levels". Progress saved in qtg-cablemis. */
+  var MIS = [["m", 50], ["c", 1], ["m", 100], ["c", 3], ["b", 1], ["m", 150], ["g", 20], ["c", 5], ["m", 200], ["b", 2],
+             ["m", 300], ["c", 8], ["g", 50], ["m", 400], ["c", 12], ["m", 500], ["t", 50], ["m", 700], ["c", 20], ["m", 1000]];
+  var mis = G.load("cablemis", { i: 0, total: 0 }), run = { g: 0, b: 0 };
+  function misText(i) {
+    var m = MIS[i]; if (!m) return G.ar ? "خلّصت كل المهمات! 🏆" : "All missions done! 🏆";
+    var n = m[1];
+    if (m[0] === "m") return G.ar ? "وصّل " + n + " متر" : "Reach " + n + " m";
+    if (m[0] === "c") return n === 1 ? (G.ar ? "اجمع تاج واحد" : "Collect 1 crown") : (G.ar ? "اجمع " + n + " تيجان في محاولة واحدة" : "Collect " + n + " crowns in one run");
+    if (m[0] === "b") return n === 1 ? (G.ar ? "انط على لوح ذهبي" : "Bounce on a gold pad") : (G.ar ? "انط " + n + " مرات على الألواح في محاولة واحدة" : "Bounce " + n + " times in one run");
+    if (m[0] === "g") return G.ar ? "امسك " + n + " خطاف في محاولة واحدة" : "Grab " + n + " hooks in one run";
+    return G.ar ? "اجمع " + n + " تاج في كل المحاولات" : "Collect " + n + " crowns in total";
+  }
+  function misLabel() { return (G.ar ? "مهمة " : "Mission ") + Math.min(MIS.length, mis.i + 1) + "/" + MIS.length; }
+  function misValue(m) {
+    if (m[0] === "m") return C.meters(st); if (m[0] === "c") return st.crownsGot; if (m[0] === "b") return run.b;
+    if (m[0] === "g") return run.g; return mis.total + st.crownsGot;
+  }
+  function misCheck() {
+    var done = 0;
+    while (st && MIS[mis.i] && misValue(MIS[mis.i]) >= MIS[mis.i][1]) {
+      done++; G.toast("🎯 " + misLabel() + " ✓ " + misText(mis.i), 1800); mis.i++;
+    }
+    if (done) { G.sfx("win"); G.save("cablemis", mis); hud(); }
+  }
   var st = null, playing = false, parts = [], trail = [], frame = 0, deadT = 0, shake = 0, cam = { s: 1, x: 0, y: 0, vw: 800, vh: 600 };
   var stars = [], city1 = [], city2 = [];
   (function scenery() {
@@ -20,10 +45,12 @@
     G.hud("hDist", st ? C.meters(st) + " m" : "0 m");
     G.hud("hCrowns", st ? st.crownsGot : 0);
     G.hud("hBest", best.best + " m");
+    G.hud("hMis", Math.min(MIS.length, mis.i + 1) + "/" + MIS.length);
   }
   function newRun() {
     st = C.create((Math.random() * 1e9) | 0 || 7); playing = true; parts = []; trail = []; deadT = 0; hud();
-    G.hideOverlay(); G.toast(G.touch ? t("Tap and hold to launch") : t("Hold Space or the mouse to launch"), 2200);
+    run = { g: 0, b: 0 };
+    G.hideOverlay(); G.toast((MIS[mis.i] ? "🎯 " + misText(mis.i) + " · " : "") + (G.touch ? t("Tap and hold to launch") : t("Hold Space or the mouse to launch")), 2600);
   }
   function menu() {
     playing = false;
@@ -32,6 +59,7 @@
       '<div class="how">' + (G.touch ? '<div><kbd>👆</kbd><span>' + t("Hold anywhere: grab a hook") + '</span></div><div><kbd>✋</kbd><span>' + t("Let go: fly") + '</span></div>'
         : '<div><kbd>Space</kbd><kbd>🖱</kbd><span>' + t("Hold: grab a hook") + '</span></div><div><kbd>↑</kbd><span>' + t("Let go: fly") + '</span></div>') +
       '<div><kbd>👑</kbd><span>' + t("Collect crowns, bounce on the gold pads") + '</span></div></div>' +
+      '<p class="mis">🎯 <b>' + misLabel() + '</b> · ' + misText(mis.i) + '</p>' +
       (best.best ? '<div class="stats"><div><b>' + best.best + '</b><small>' + t("Best distance (m)") + '</small></div></div>' : '') +
       '<div class="btns"><button class="go" data-a="play">' + t("Play") + '</button><a class="b" href="/games.html">' + t("More games") + '</a></div>');
   }
@@ -40,11 +68,13 @@
     playing = false; plays++;
     if (plays >= 2 && window.QTReview) setTimeout(function () { window.QTReview.ask("game"); }, 1600);
     var m = C.meters(st), isBest = m > best.best;
+    misCheck(); mis.total += st.crownsGot; G.save("cablemis", mis);
     if (isBest) best.best = m; best.crowns = Math.max(best.crowns, st.crownsGot); G.save("cable", best); hud();
     var msg = G.ar ? "وصلت " + m + " متر في Cable Swing على كوين تك! تقدر تكسر رقمي؟" : "I swung " + m + " m in Cable Swing on Queen Tech! Can you beat it?";
     G.overlay('<span class="k">' + t("Zapped!") + '</span><h2>' + m + ' m</h2>' +
       '<div class="stats"><div><b>' + st.crownsGot + '</b><small>' + t("Crowns") + '</small></div><div><b>' + best.best + '</b><small>' + t("Best distance (m)") + '</small></div></div>' +
       (isBest && m > 0 ? '<p>⭐ ' + t("New personal best!") + '</p>' : '') +
+      '<p class="mis">🎯 <b>' + misLabel() + '</b> · ' + misText(mis.i) + '</p>' +
       '<div class="btns"><button class="go" data-a="play">' + t("Play again") + '</button>' +
       '<a class="b wa" href="' + G.shareLink(msg) + '" target="_blank" rel="noopener">' + t("Challenge a friend on WhatsApp") + '</a>' +
       '<a class="b" href="/games.html">' + t("More games") + '</a>' + G.reviewBtn() + '</div>' +
@@ -52,7 +82,7 @@
   }
   document.getElementById("ov").addEventListener("click", function (e) {
     var b = e.target.closest("[data-a]"); if (!b) return;
-    if (b.getAttribute("data-a") === "play") newRun();
+    if (b.getAttribute("data-a") === "play") { if (st && st.dead) { G.hideOverlay(); G.adBreak("cable_replay", newRun); } else newRun(); }
     else if (b.getAttribute("data-a") === "resume") G.hideOverlay();
     else if (b.getAttribute("data-a") === "menu") menu();
   });
@@ -78,14 +108,14 @@
     var p = st.p;
     if (st.started && frame % 2 === 0) { trail.push({ x: p.x, y: p.y }); if (trail.length > 18) trail.shift(); }
     st.ev.forEach(function (e) {
-      if (e === "grab") G.sfx("grab");
+      if (e === "grab") { G.sfx("grab"); run.g++; }
       else if (e === "launch") G.sfx("jump");
       else if (e === "crown") { G.sfx("coin"); burst(p.x, p.y, 10, ["#E2A63F", "#F3C877"], 160); }
-      else if (e === "bounce") { G.sfx("bounce"); shake = 5; burst(p.x, C.FLOOR, 12, ["#E2A63F", "#EFE8DB"], 180); }
+      else if (e === "bounce") { run.b++; G.sfx("bounce"); shake = 5; burst(p.x, C.FLOOR, 12, ["#E2A63F", "#EFE8DB"], 180); }
       else if (e === "die") { G.sfx("die"); G.buzz(80); shake = 12; deadT = 0.9; burst(p.x, p.y, 34, ["#5FC8E8", "#EFE8DB", "#E2A63F"], 260); }
     });
     st.ev.length = 0;
-    if (frame % 6 === 0) hud();
+    if (frame % 6 === 0) { hud(); if (!st.dead) misCheck(); }
   }
 
   function layout() {
@@ -188,5 +218,5 @@
 
   hud(); menu();
   G.run(update, render);
-  window.__cable = { state: function () { return st; }, best: best };
+  window.__cable = { state: function () { return st; }, best: best, mis: mis, MIS: MIS };
 })();

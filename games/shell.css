@@ -67,3 +67,6 @@ html[dir=rtl] .g-card h2{font-family:"Noto Kufi Arabic",var(--f-display);font-si
 @media (max-width:480px){.g-title{display:none}}
 @media (max-width:420px){.g-back span{display:none}.g-hud span{padding:3px 7px}.g-hud{gap:5px}}
 .g-card .how kbd,.g-hud b{direction:ltr;unicode-bidi:isolate}
+
+.g-card .mis{margin-top:10px;font-size:.9rem;color:var(--ink,#EFE8DB);background:rgba(226,166,63,.1);border:1px solid rgba(226,166,63,.35);border-radius:6px;padding:8px 10px}
+.g-card .mis b{color:var(--gold-2,#F3C877)}

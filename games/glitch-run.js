@@ -6,6 +6,7 @@
   var cv = document.getElementById("game"); G.setup(cv);
   var ctx = G.cx;
 
+  var lvlDeaths = { l: -1, n: 0, offered: false };
   var data = G.load("glitch", { level: 0, deaths: 0, time: 0, best: null, bestTime: null, unlocked: 0 });
   var st = null, deadT = 0, winT = 0, parts = [], shakeA = 0, flash = 0, frame = 0, playing = false, landSquash = 0, wasGround = true;
   var cam = { s: 1, x: 0, ox: 0, oy: 0 };
@@ -16,6 +17,7 @@
     G.hud("hDeaths", st ? st.deaths : data.deaths);
   }
   function start(level) {
+    if (level !== lvlDeaths.l) lvlDeaths = { l: level, n: 0, offered: false };
     st = E.create(level, data.deaths); deadT = 0; winT = 0; parts = []; wasGround = true;
     playing = true; hud();
     G.toast(t("Level") + " " + (level + 1) + " · " + t(E.LEVELS[level].hint), 2200);
@@ -38,7 +40,7 @@
     playing = false;
     var cont = data.level > 0 && data.level < N;
     var html = '<span class="k">' + t("Queen Tech Arcade") + '</span><h2>Glitch Run</h2>' +
-      '<p>' + t("The building's floor is glitching. Reach the exit door in 8 levels. Nothing is what it seems.") + '</p>' + how() +
+      '<p>' + t("The building's floor is glitching. Reach the exit door in 20 levels. Nothing is what it seems.") + '</p>' + how() +
       (data.best != null ? '<div class="stats"><div><b>' + data.best + '</b><small>' + t("Best: deaths") + '</small></div><div><b>' + G.fmtTime(data.bestTime || 0) + '</b><small>' + t("Best time") + '</small></div></div>' : '') +
       '<div class="btns">' +
       (cont ? '<button class="go" data-a="cont">' + t("Continue") + " · " + t("Level") + " " + (data.level + 1) + '</button><button data-a="new">' + t("New game") + '</button>'
@@ -84,8 +86,14 @@
     for (var i = parts.length - 1; i >= 0; i--) { var q = parts[i]; q.life -= E.DT; q.vy += 500 * E.DT; q.x += q.vx * E.DT; q.y += q.vy * E.DT; if (q.life <= 0) parts.splice(i, 1); }
     shakeA *= 0.86; flash = Math.max(0, flash - E.DT * 3); landSquash = Math.max(0, landSquash - E.DT * 6);
     if (!st || !playing) return;
-    if (st.dead) { deadT -= E.DT; if (deadT <= 0) start(data.level); return; }
-    if (st.won) { winT -= E.DT; if (winT <= 0) { if (data.level >= N) finish(); else start(data.level); } return; }
+    if (st.dead) { deadT -= E.DT; if (deadT <= 0) {
+      lvlDeaths.n++;
+      if (lvlDeaths.n >= 6 && !lvlDeaths.offered && data.level < N - 1) {
+        lvlDeaths.offered = true;
+        if (G.rewarded("glitch_skip", t("This level is tough. Watch a short ad to skip to the next one."), function () { data.level++; data.unlocked = Math.max(data.unlocked, data.level); persist(); start(data.level); })) { start(data.level); return; }
+      }
+      start(data.level); } return; }
+    if (st.won) { winT -= E.DT; if (winT <= 0 && !st.adWait) { st.adWait = 1; if (data.level >= N) finish(); else G.adBreak("glitch_level", function () { start(data.level); }); } return; }
     E.step(st, { l: K.l, r: K.r, j: K.j });
     data.time += E.DT;
     var p = st.p;

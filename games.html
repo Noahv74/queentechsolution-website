@@ -79,6 +79,8 @@ footer a{color:var(--muted)}
 .wa-float{position:fixed;right:18px;bottom:18px;z-index:60;width:54px;height:54px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.4)}
 .wa-float svg{width:28px;height:28px;fill:#fff}
 html[dir=rtl] .wa-float{right:auto;left:18px}
+.ad-slot.on{margin:8px 0 4px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);min-height:110px}
+.ad-lbl{display:block;font:500 .62rem var(--f-mono,monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5383296169254857" crossorigin="anonymous"></script>
 </head>
@@ -119,7 +121,7 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
         <path d="M70 40l14 0M78 30l0 22" stroke="rgba(243,200,119,.25)" stroke-width="2"/>
       </svg>
       <div class="body">
-        <span class="type">Trap platformer · 8 levels</span>
+        <span class="type">Trap platformer · 20 levels</span>
         <h2 translate="no">Glitch Run</h2>
         <p>Floors fall, spikes pop up and the exit door runs away. Reach the door anyway.</p>
         <div class="meta"><span class="best" data-best="glitch">New</span><span class="play">Play <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></div>
@@ -138,7 +140,7 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
         <path d="M262 100l2-8 4 4 3-6 3 6 4-4 2 8z" fill="#E2A63F"/>
       </svg>
       <div class="body">
-        <span class="type">One-tap swing · endless</span>
+        <span class="type">One-tap swing · 20 missions</span>
         <h2 translate="no">Cable Swing</h2>
         <p>Hold to grab a hook, let go to fly. Collect crowns, bounce on gold pads, never touch the live cables.</p>
         <div class="meta"><span class="best" data-best="cable">New</span><span class="play">Play <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></div>
@@ -155,13 +157,15 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
         <text x="160" y="118" fill="#E25B45" font-size="16" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">!!</text>
       </svg>
       <div class="body">
-        <span class="type">Stealth · 10 levels</span>
+        <span class="type">Stealth · 20 levels</span>
         <h2 translate="no">Crown Heist</h2>
         <p>Sneak up to the crown and freeze when the camera looks your way. Faster runs earn more stars.</p>
         <div class="meta"><span class="best" data-best="heist">New</span><span class="play">Play <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></div>
       </div>
     </a>
   </section>
+
+  <div class="ad-slot" data-ad-slot-name="arcade" hidden></div>
 
   <section class="sec">
     <div class="promo">
@@ -188,5 +192,6 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
   if(h&&h.best)set("heist",t("Best:")+" <b>"+h.best.stars+"/30 ★</b>");else if(h&&h.level)set("heist",t("Level")+" <b>"+(h.level+1)+"/10</b>");
 })();
 </script>
+<script src="/ads.js" async></script>
 </body>
 </html>
