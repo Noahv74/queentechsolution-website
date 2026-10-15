@@ -39,7 +39,7 @@ var INTENTS=[
   {k:new RegExp("\\b(price|prices|pricing|cost|costs|how much|quote|rates?)\\b|سعر|أسعار|اسعار|بكام|تكلف|"+B+"كام($|[\\s؟?])","i"),a:"price"},
   {k:/\b(offers?|discounts?|promo|sale|deals?)\b|عروض|خصم|تخفيض|العرض/i,a:"offer"},
   {k:/\b(anydesk|remote(ly)?|online fix)\b|عن بعد|انى ديسك|اني ديسك|أني ديسك/i,a:"remote"},
-  {k:/\b(opening hours|working hours|open now|what time)\b|مواعيد العمل|ساعات العمل|مفتوحين/i,a:"hours"},
+  {k:/\b(opening hours|working hours|business hours|open now|open today|what time|when are you open)\b|مواعيد العمل|مواعيدكم|ساعات العمل|مفتوحين|بتفتحوا|بتقفلوا/i,a:"hours"},
   {k:/^\s*(hi|hello|hey|salam)\b|^\s*(السلام|مرحبا|مرحباً|اهلا|أهلا|هاي)/i,a:"hi"},
   {k:/\bthank|شكرا|شكراً|تسلم/i,a:"thanks"},
   {k:/where (are|is) (you|your)|your (office|shop|location|address)|\b(location|address)\b|فين|عنوان|مكانكم|مكانك|لوكيشن|موقعكم|مكتبكم/i,a:"where"},
@@ -192,7 +192,7 @@ function reply(a){
   case"visit":bot(L("We visit for free, check the place and send you a written quote. You only pay if you go ahead.","نزورك مجاناً، نعاين المكان ونبعتلك عرض سعر مكتوب، ولا تدفع إلا لو وافقت."),[{t:L("Book a free visit","احجز زيارة مجانية"),href:P("/contact.html")},waChip(L("I'd like a free site visit.","أريد زيارة مجانية للموقع."))]);break;
   case"tools":bot(L("Free tools for planning jobs: CCTV bandwidth and storage calculator, BOQ builder with Excel export, and the Tech corner.","أدوات مجانية لتخطيط الشغل: حاسبة الباندويث والتخزين، منشئ جدول الكميات مع تصدير Excel، وركن الفنيين."),[{t:L("Bandwidth calculator","حاسبة الباندويث"),href:"/bandwidth.html"},{t:L("BOQ builder","جدول الكميات"),href:"/boq.html"},{t:L("Tech corner","ركن الفنيين"),href:"/tech.html"}]);break;
   case"boards":bot(L("For CAME, BFT and Titan barriers: choose the board, type the code on the display (for example E7 or ER31) and you get the cause and the fix step by step, with videos.","لبوابات CAME و BFT و Titan: اختار الكارت، واكتب الكود اللي على الشاشة (مثلاً E7 أو ER31)، وهتلاقي السبب والحل خطوة بخطوة مع فيديوهات."),[{t:L("🚧 Open the board fixer","🚧 افتح أعطال الكروت"),href:"/boards.html"},{t:"CAME",href:"/boards.html#came"},{t:"BFT",href:"/boards.html#bft"},{t:"Titan",href:"/boards.html#titan"},waChip(L("I have a barrier error code.","عندي كود عطل في بوابة."))]);break;
-  case"hours":bot(L("Message us on WhatsApp any time and we'll reply as soon as we can.","راسلنا على واتساب في أي وقت وهنرد عليك في أقرب وقت."),[waChip()]);break;
+  case"hours":bot(L("We're open <b>every day, 10am to 10pm</b> (UAE time). Outside these hours, send us a WhatsApp and we'll reply first thing in the morning.","مفتوحين <b>كل يوم من 10 صباحاً لـ 10 مساءً</b> (بتوقيت الإمارات). برّه المواعيد دي ابعتلنا واتساب وهنرد عليك أول حاجة الصبح."),[waChip(),{t:L("Contact page","صفحة التواصل"),href:P("/contact.html")}]);break;
   case"hi":bot(L("Hello! How can I help?","أهلاً بيك! أقدر أساعدك إزاي؟"),menu());break;
   case"thanks":bot(L("You're welcome! 😊","العفو! 😊"),menu());break;
   }
