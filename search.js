@@ -103,6 +103,14 @@
     ["svc", "CCTV Care Plan", "خطة صيانة الكاميرات", "/care.html", "Scheduled CCTV maintenance visits", "زيارات صيانة دورية للكاميرات", "cctv maintenance amc annual contract care plan camera check nvr hard disk صيانه كاميرات عقد سنوي"],
     ["svc", "Business IT Support Plans", "باقات الدعم التقني للشركات", "/it-plans.html", "Monthly IT support for small offices", "دعم تقني شهري للمكاتب الصغيرة", "it support plan monthly managed office small business helpdesk amc دعم فني شهري شركات مكتب باقه"],
     ["svc", "Wi-Fi Checkup", "فحص الواي فاي", "/wifi-check.html", "Find dead zones and get a recommended setup", "اكتشف المناطق الميتة واحصل على الحل المناسب", "wifi wi-fi survey slow dead zone signal weak coverage mesh access point checkup واي فاي ضعيف بطيء اشاره فحص"],
+    ["tool", "Access & barrier planner", "مخطط الدخول والبوابات", "/access-planner.html", "Doors, barriers, equipment and price", "الأبواب والبوابات والأجهزة والسعر", "access control planner door fingerprint face card barrier boom uhf anpr price estimate attendance مخطط نظام دخول بصمه وجه بوابه حضور انصراف سعر"],
+    ["svc", "System card (QR sticker)", "بطاقة النظام (ملصق QR)", "/system.html", "Warranty, service history, report a problem", "الضمان وسجل الصيانة والإبلاغ عن مشكلة", "qr sticker system card warranty service history my system scan ملصق ضمان بطاقه نظام صيانه"],
+    ["svc", "Business Bay: CCTV, access & IT", "الخليج التجاري: كاميرات ودخول وتقنية", "/cctv-it-support-business-bay.html", "Our home area", "منطقتنا", "business bay الخليج التجاري silver tower office"],
+    ["svc", "JLT: IT support & Wi-Fi", "JLT: دعم تقني وواي فاي", "/cctv-it-support-jlt.html", "Offices, clinics, cafés", "مكاتب وعيادات وكافيهات", "jlt jumeirah lake towers ابراج بحيرات جميرا"],
+    ["svc", "Dubai Marina: Wi-Fi, cameras & repairs", "دبي مارينا: واي فاي وكاميرات وتصليح", "/cctv-it-support-dubai-marina.html", "Apartments and shops", "شقق ومحلات", "dubai marina مارينا apartment شقه"],
+    ["svc", "Al Quoz: warehouse CCTV & barriers", "القوز: كاميرات مستودعات وبوابات", "/cctv-it-support-al-quoz.html", "Warehouses and workshops", "مستودعات وورش", "al quoz القوز warehouse مستودع industrial"],
+    ["svc", "Deira: shop CCTV & IT", "ديرة: كاميرات محلات وتقنية", "/cctv-it-support-deira.html", "Shops and trading companies", "محلات وشركات تجارية", "deira ديره shop محل trading"],
+    ["svc", "Mussafah: CCTV, barriers & attendance", "مصفح: كاميرات وبوابات وحضور", "/cctv-it-support-mussafah.html", "Abu Dhabi industrial area", "منطقة أبوظبي الصناعية", "mussafah مصفح abu dhabi ابوظبي icad"],
     ["gamer", "Vanguard error (Valorant, League of Legends)", "خطأ Vanguard (فالورانت، ليغ أوف ليجندز)", "/rescue.html#vanguard", "Vanguard not initialized, or a VAN error when the game starts.", "Vanguard لم يبدأ، أو يظهر خطأ VAN عند تشغيل اللعبة.", "VAN 9001 · VAN 9003 · VAN -81 · VAN 152 · VAN 68 game error fix"],
     ["gamer", "EasyAntiCheat error", "خطأ EasyAntiCheat", "/rescue.html#eac", "EasyAntiCheat is not installed, launch error, or untrusted system file.", "EasyAntiCheat غير مثبت، أو خطأ في التشغيل، أو ملف نظام غير موثوق.", "EAC · EOS · 30005 · Untrusted system file game error fix"],
     ["gamer", "BattlEye error", "خطأ BattlEye", "/rescue.html#battleye", "BattlEye failed to initialize, BEService errors or kicks.", "فشل تشغيل BattlEye، أو أخطاء BEService، أو الطرد من اللعب.", "BEService · Failed to initialize game error fix"],
@@ -251,6 +259,8 @@
     ".qs-hd:active,.qs-hd:focus-visible{border-color:var(--gold,#E2A63F);background:rgba(226,166,63,.12)}" +
     "@media (max-width:760px){html.qs-has-hd .qs-hd{display:inline-grid}html.qs-has-hd .qs-btn{display:none}}" +
     "@media (max-width:380px){.qs-hd{width:36px;height:36px}}" +
+    "@media (max-width:760px){html.qs-has-hd header.top .links{gap:10px}}" +
+    "html.qs-tight header.top .links .btn{display:none!important}" +
     "#qt-search{position:fixed;inset:0;z-index:400;background:rgba(8,7,6,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:flex-start;padding:min(10vh,90px) 16px 16px}" +
     "#qt-search[hidden]{display:none}" +
     "#qt-search .qs-p{width:min(680px,100%);max-height:calc(100dvh - min(10vh,90px) - 16px);display:flex;flex-direction:column;background:var(--surface,#201E1A);border:1px solid var(--gold,#E2A63F);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 30px rgba(226,166,63,.12);overflow:hidden}" +
@@ -382,6 +392,14 @@
       h.addEventListener("click", function () { open(""); });
       hd.insertBefore(h, tg);
       document.documentElement.classList.add("qs-has-hd");
+      /* hide the header's gold button only if the header no longer fits */
+      var fit = function () {
+        var de = document.documentElement, nv = document.querySelector("header.top .nav") || hd;
+        de.classList.remove("qs-tight");
+        if (getComputedStyle(h).display !== "none" && (nv.scrollWidth > nv.clientWidth + 1 || de.scrollWidth > window.innerWidth + 1)) de.classList.add("qs-tight");
+      };
+      fit(); window.addEventListener("resize", fit);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     }
     return true;
   }

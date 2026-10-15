@@ -39,6 +39,15 @@ service cloud.firestore {
         && request.resource.data.phone is string && request.resource.data.phone.size() <= 30
         && request.resource.data.notes is string && request.resource.data.notes.size() <= 800;
     }
+    // QR system cards: the sticker on an installed system opens systems/{id}. Anyone with the id can read
+    // that one card (no names or phone numbers in it); only admins can list, create or change cards.
+    match /systems/{id} {
+      allow get: if true;
+      allow list, create, update, delete: if isAdmin();
+    }
+    match /systems_private/{id} {
+      allow read, write: if isAdmin();
+    }
     // Admin list: created by hand in the Firebase console (document ID = the admin's user ID).
     match /admins/{uid} {
       allow read: if signedIn() && request.auth.uid == uid;
