@@ -246,6 +246,11 @@
     ".qs-btn svg{width:16px;height:16px;stroke:var(--gold,#E2A63F);fill:none;stroke-width:2.2;stroke-linecap:round}" +
     ".qs-btn kbd{font:500 .66rem 'JetBrains Mono',monospace;color:var(--dim,#6E675C);border:1px solid var(--line,#36322B);border-radius:3px;padding:1px 5px}" +
     "@media (max-width:760px){.qs-btn kbd{display:none}.qs-btn{padding:6px 10px}}" +
+    ".qs-hd{display:none;flex:none;width:40px;height:40px;place-items:center;padding:0;border:1px solid var(--line-2,#4A443A);border-radius:50%;background:transparent;color:var(--gold,#E2A63F);cursor:pointer;-webkit-tap-highlight-color:transparent}" +
+    ".qs-hd svg{width:19px;height:19px;stroke:var(--gold,#E2A63F);fill:none;stroke-width:2.2;stroke-linecap:round}" +
+    ".qs-hd:active,.qs-hd:focus-visible{border-color:var(--gold,#E2A63F);background:rgba(226,166,63,.12)}" +
+    "@media (max-width:760px){html.qs-has-hd .qs-hd{display:inline-grid}html.qs-has-hd .qs-btn{display:none}}" +
+    "@media (max-width:380px){.qs-hd{width:36px;height:36px}}" +
     "#qt-search{position:fixed;inset:0;z-index:400;background:rgba(8,7,6,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:flex-start;padding:min(10vh,90px) 16px 16px}" +
     "#qt-search[hidden]{display:none}" +
     "#qt-search .qs-p{width:min(680px,100%);max-height:calc(100dvh - min(10vh,90px) - 16px);display:flex;flex-direction:column;background:var(--surface,#201E1A);border:1px solid var(--gold,#E2A63F);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 30px rgba(226,166,63,.12);overflow:hidden}" +
@@ -368,6 +373,16 @@
     b.innerHTML = ICON + "<span>" + esc(L("Search", "بحث")) + "</span><kbd>" + (mac ? "⌘K" : "Ctrl K") + "</kbd>";
     b.addEventListener("click", function () { open(""); });
     inr.insertBefore(b, inr.firstChild);
+    /* phones: a round search button in the header, always visible (the pill in the scrolling bar hides there) */
+    var tg = document.querySelector("header.top [data-lang-toggle], header.top .links a.lang, header.top .links .btn"), hd = tg && tg.parentNode;
+    if (hd && !hd.querySelector(".qs-hd")) {
+      var h = document.createElement("button"); h.type = "button"; h.className = "qs-hd";
+      h.setAttribute("aria-label", L("Search the website", "ابحث في الموقع"));
+      h.innerHTML = ICON;
+      h.addEventListener("click", function () { open(""); });
+      hd.insertBefore(h, tg);
+      document.documentElement.classList.add("qs-has-hd");
+    }
     return true;
   }
   if (!addButton()) { var tries = 0, iv = setInterval(function () { if (addButton() || ++tries > 20) clearInterval(iv); }, 150); }
