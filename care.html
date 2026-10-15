@@ -30,7 +30,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/pages.css">
 <link rel="stylesheet" href="/book.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5383296169254857" crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="top">
@@ -178,6 +177,7 @@
       t("Phone") + ": " + $("phone").value.trim(),
       $("area").value.trim() ? t("Area") + ": " + $("area").value.trim() : ""
     ].filter(Boolean);
+    if (window.qtTrack) qtTrack("lead_form", { form: "care_plan" });
     window.open(B.wa(L.join("\n")), "_blank", "noopener");
   });
 })();

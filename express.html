@@ -30,7 +30,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/pages.css">
 <link rel="stylesheet" href="/book.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5383296169254857" crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="top">
@@ -264,6 +263,7 @@ $("f").addEventListener("submit", async e => {
     $("done-t").textContent = t("Send your booking to us on WhatsApp. We'll confirm the time and send your tracking code.");
   }
   done.hidden = false;
+  if (window.qtTrack) qtTrack("booking", { form: "expressfix", service, online: code ? "yes" : "no" });
   done.scrollIntoView({ behavior: "smooth", block: "center" });
   go.disabled = false; go.textContent = t("Book my repair");
 });

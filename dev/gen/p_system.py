@@ -1,0 +1,151 @@
+BODY = '''
+<style>
+.due{color:var(--warn)!important}
+.ok{color:var(--net)!important}
+.sys-h{display:flex;gap:14px;align-items:center}
+.sys-h svg{width:44px;height:44px;flex:none;fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;border:1px solid var(--line-2);border-radius:10px;padding:8px;background:var(--bg-2)}
+.sys-h h2{font-size:clamp(1.5rem,3.4vw,2.1rem)}
+.sys-h p{color:var(--muted);font-size:.92rem}
+.acts2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:18px}
+.acts2 .btn{width:100%;padding:14px}
+.tips{list-style:none;margin:0;padding:0;display:grid;gap:8px;color:var(--muted);font-size:.92rem}
+.tips li{display:flex;gap:10px}
+.tips li::before{content:"→";color:var(--gold);flex:none}
+</style>
+  <section class="phead">
+    <div class="crumbs"><a href="/">Home</a><span>/</span><a href="/services.html">Services</a><span>/</span><span>System card</span></div>
+    <span class="tag">Queen Tech system card</span>
+    <h1>Your system, <em>one scan away.</em></h1>
+    <p class="lede">Every system we install has a Queen Tech sticker with a QR code. Scan it to see the install date, warranty, next service and history, and to report a problem in one tap.</p>
+  </section>
+
+  <section class="sec" style="border-bottom:0">
+    <div class="bk">
+      <div>
+        <div class="block" id="card" hidden aria-live="polite">
+          <div class="sys-h"><svg viewBox="0 0 24 24" aria-hidden="true" id="c-ic"></svg><div><span class="tag" id="c-type">–</span><h2 id="c-title">–</h2><p id="c-site"></p></div></div>
+          <div class="kv">
+            <div><span>Brand</span><b id="c-brand">–</b></div>
+            <div><span>Model</span><b id="c-model">–</b></div>
+            <div><span>Installed</span><b id="c-inst">–</b></div>
+            <div><span>Warranty</span><b id="c-war">–</b></div>
+            <div><span>Next service</span><b id="c-next">–</b></div>
+            <div><span>Care Plan</span><b id="c-plan">–</b></div>
+          </div>
+          <div class="acts2">
+            <a class="btn btn-wa" id="a-prob" href="#" target="_blank" rel="noopener">Report a problem</a>
+            <a class="btn btn-gold" id="a-visit" href="#" target="_blank" rel="noopener">Book a service visit</a>
+            <a class="btn btn-line" href="tel:+971557971520">Call +971 55 797 1520</a>
+          </div>
+          <h3 style="margin:24px 0 12px;font-size:1.2rem">Service history</h3>
+          <ol class="tl" id="c-log"></ol>
+          <p class="fine"><span>System ID</span> <span id="c-id" style="font-family:var(--f-mono);direction:ltr;unicode-bidi:isolate">–</span> · <span>This page shows no names, phone numbers or passwords.</span></p>
+        </div>
+
+        <form class="block" id="f" novalidate>
+          <h2>Open a system card</h2>
+          <p class="note" style="margin-bottom:12px">Scan the sticker, or type the 10-letter ID printed under the QR code.</p>
+          <div class="trk">
+            <input id="i" maxlength="14" placeholder="XXXXXXXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="System ID">
+            <button class="btn btn-gold" type="submit">Open</button>
+          </div>
+          <div class="err" id="err" role="alert"></div>
+        </form>
+      </div>
+
+      <aside class="side">
+        <div class="block" id="tips-b">
+          <h2>Before you call</h2>
+          <ul class="tips" id="tips">
+            <li>Check the power: is the recorder, panel or barrier light on?</li>
+            <li>Restart the internet router if the app can't connect.</li>
+            <li>Send us a photo or short video of the problem on WhatsApp.</li>
+          </ul>
+          <div class="cta-row" style="margin-top:14px" id="tips-l"><a class="btn btn-line" href="/help.html">Help centre</a></div>
+        </div>
+        <div class="block">
+          <h2>Keep it running</h2>
+          <p class="note">With a Care Plan we visit on a schedule, check everything and fix small issues before they become big ones.</p>
+          <div class="cta-row" style="margin-top:12px"><a class="btn btn-line" href="/care.html">CCTV Care Plan</a><a class="btn btn-line" href="/it-plans.html">IT Support Plans</a></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+'''
+
+SCRIPT = '''
+<script src="/qt-auth-config.js"></script>
+<script src="/plans.js"></script>
+<script src="/book.js"></script>
+<script type="module">
+import { enabled, getSystem, cleanId } from "/qt-systems.js";
+const B = window.QTB, t = B.t;
+const $ = id => document.getElementById(id);
+const TY = {
+  cctv: ["CCTV cameras", '<path d="M3 7h11l3 3v4l-3 3H3z"/><circle cx="8.5" cy="12" r="2.5"/><path d="M17 10l4-2v8l-4-2"/>'],
+  access: ["Access control", '<path d="M5 21V3h11v18M3 21h16"/><circle cx="13" cy="12" r=".8"/>'],
+  barrier: ["Parking barrier", '<path d="M4 21V9M2 21h5M4 11h17"/><path d="M8 11l2-2M12 11l2-2M16 11l2-2"/>'],
+  network: ["Network and Wi-Fi", '<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/>'],
+  intercom: ["Video intercom", '<rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="9" r="2.5"/><path d="M10 16h4"/>'],
+  other: ["System", '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/>']
+};
+const TIPS = {
+  cctv: [["A camera shows no picture: check the cable at the camera and the recorder.", "The app says offline: restart the router, then the recorder.", "Recording stopped: the hard disk may be full or failing. Message us."], "/help.html", "Help centre"],
+  access: [["In an emergency, the green break glass opens the door at once.", "Door won't open with a finger: clean the reader and try another finger.", "Power cut: magnetic locks open by themselves for safety."], "/help.html", "Help centre"],
+  barrier: [["The arm won't move: check the error code on the board.", "It stays open: something may be standing on the loop or blocking the photocell.", "Remote doesn't work: change the remote battery first."], "/boards.html", "Barrier error codes"],
+  network: [["Restart the router and wait 3 minutes.", "Slow in one room only: it may be a dead zone.", "No internet at all: check the du or e& line lights."], "/wifi-check.html", "Wi-Fi Checkup"],
+  intercom: [["No picture: check the power adapter of the indoor screen.", "No sound: check the volume on the indoor screen.", "App not ringing: allow notifications on your phone."], "/help.html", "Help centre"],
+  other: [["Check the power first.", "Send us a photo or short video of the problem on WhatsApp."], "/help.html", "Help centre"]
+};
+const fmt = ms => new Date(ms).toLocaleDateString(B.ar() ? "ar-AE" : "en-GB", { day: "numeric", month: "short", year: "numeric" });
+function addMonths(ms, m) { const d = new Date(ms); d.setMonth(d.getMonth() + m); return d.getTime(); }
+
+function show(s) {
+  const ty = TY[s.type] || TY.other;
+  $("card").hidden = false;
+  $("c-ic").innerHTML = ty[1]; $("c-type").textContent = t(ty[0]);
+  $("c-title").textContent = s.title || t(ty[0]); $("c-site").textContent = s.site || "";
+  $("c-brand").textContent = s.brand || "–"; $("c-model").textContent = s.model || "–";
+  $("c-inst").textContent = s.installed ? fmt(s.installed) : "–";
+  const w = $("c-war"); w.className = "";
+  if (s.installed && s.warranty) {
+    const end = addMonths(s.installed, s.warranty), on = end > Date.now();
+    w.textContent = (on ? t("Active until") : t("Ended")) + " " + fmt(end); w.className = on ? "ok" : "due";
+  } else w.textContent = "–";
+  const n = $("c-next"); n.className = "";
+  if (s.next) { n.textContent = fmt(s.next); if (s.next < Date.now()) { n.textContent += " · " + t("due now"); n.className = "due"; } }
+  else n.textContent = t("Not scheduled");
+  $("c-plan").textContent = s.plan || t("No plan");
+  $("c-id").textContent = s.id;
+  const label = (s.title || t(ty[0])) + " (" + s.id + ")";
+  $("a-prob").href = B.wa(t("Hi Queen Tech, I have a problem with my system:") + " " + label + "\\n" + t("Problem:") + " ");
+  $("a-visit").href = B.wa(t("Hi Queen Tech, I'd like to book a service visit for my system:") + " " + label);
+  $("c-log").innerHTML = (s.log || []).slice().sort((a, b) => b.at - a.at).map(x => '<li><b>' + B.esc(t(x.note)) + '</b><time>' + B.esc(fmt(x.at)) + '</time></li>').join("");
+  const tp = TIPS[s.type] || TIPS.other;
+  $("tips").innerHTML = tp[0].map(x => "<li>" + B.esc(t(x)) + "</li>").join("");
+  $("tips-l").innerHTML = '<a class="btn btn-line" href="' + tp[1] + '">' + B.esc(t(tp[2])) + '</a>';
+  $("f").hidden = true;
+  try { localStorage.setItem("qt-system", s.id); } catch (e) {}
+}
+async function load(raw) {
+  const id = cleanId(raw); $("err").textContent = "";
+  if (!id) { $("err").textContent = t("Please type the 10-letter ID under the QR code."); return; }
+  if (!enabled) { $("err").textContent = t("System cards are not available right now. Please message us on WhatsApp."); return; }
+  $("err").textContent = t("Opening…");
+  try {
+    const s = await getSystem(id);
+    if (!s) { $("err").textContent = t("We couldn't find this ID. Check it, or message us on WhatsApp."); return; }
+    $("err").textContent = ""; show(s);
+    history.replaceState(null, "", "?id=" + id);
+  } catch (e) { $("err").textContent = t("System cards are not available right now. Please message us on WhatsApp."); }
+}
+$("f").addEventListener("submit", e => { e.preventDefault(); load($("i").value); });
+let id0 = new URLSearchParams(location.search).get("id");
+if (!id0) try { id0 = localStorage.getItem("qt-system"); } catch (e) {}
+if (id0) { $("i").value = id0; load(id0); }
+</script>
+'''
+
+page("system", "System Card: Warranty, Service History &amp; Support | Queen Tech",
+     "Scan the Queen Tech sticker on your CCTV recorder, access control panel or barrier to see the warranty, next service and history, and report a problem in one tap.",
+     "Queen Tech system card", "System card", ("https://wa.me/971557971520", "WhatsApp"), BODY, SCRIPT)

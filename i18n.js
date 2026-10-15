@@ -26,6 +26,21 @@
     if(/[?&]source=(app|pwa)\b/.test(location.search)||document.referrer.indexOf("android-app://")===0)sessionStorage.setItem("qt-app","1");
     APP=sessionStorage.getItem("qt-app")==="1"||matchMedia("(display-mode: standalone)").matches;
   }catch(e){}
+  /* Analytics (Google Analytics 4). Off until a Measurement ID is pasted below, e.g. "G-ABC123XYZ".
+     Counts page views and the clicks that bring work: WhatsApp, call, email, review, bookings and quote forms.
+     In Google Analytics, mark whatsapp_click, call_click, booking and lead_form as key events. */
+  var GA_ID="";
+  window.qtTrack=function(n,p){try{if(window.gtag)window.gtag("event",n,Object.assign({page:location.pathname},p||{}))}catch(e){}};
+  try{if(/^G-[A-Z0-9]{4,}$/.test(GA_ID)&&!/[?&]notrack\b/.test(location.search)&&!/bot|crawl|spider|slurp/i.test(navigator.userAgent)){
+    window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};
+    window.gtag("js",new Date());window.gtag("config",GA_ID,{language:lang,app:APP?"yes":"no"});
+    var ga=document.createElement("script");ga.async=true;ga.src="https://www.googletagmanager.com/gtag/js?id="+GA_ID;document.head.appendChild(ga);
+    document.addEventListener("click",function(e){
+      var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href")||"";
+      var k=/^https:\/\/wa\.me\//.test(h)?"whatsapp_click":/^tel:/.test(h)?"call_click":/^mailto:/.test(h)?"email_click":/g\.page\/r\/.+\/review/.test(h)?"review_click":/maps\.app\.goo\.gl/.test(h)?"map_click":null;
+      if(k)window.qtTrack(k,{label:(a.textContent||"").trim().slice(0,60)});
+    },true);
+  }}catch(e){}
   /* Brand cursor (black arrow, white glow; gold over links). Mouse/trackpad only; text fields keep the text cursor. */
   try{if(matchMedia("(pointer:fine)").matches){document.documentElement.classList.add("qt-cur");var cs=document.createElement("style");cs.textContent="html.qt-cur,html.qt-cur body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}html.qt-cur :is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}";document.head.appendChild(cs)}}catch(e){}
   /* Instant page switches (Chrome/Edge): prepare a page when the visitor points at its link, so it opens at once
