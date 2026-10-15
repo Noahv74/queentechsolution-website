@@ -48,6 +48,7 @@
       '<button class="go" data-a="new">' + t("Play again") + '</button><a class="b" href="/games.html">' + t("More games") + '</a>' + G.reviewBtn() + '</div>' +
       '<p class="promo">' + t("Our real cameras never blink.") + ' <a href="/price.html">' + t("Protect your shop: get a CCTV price") + ' →</a></p>');
     G.sfx("win");
+    if (window.QTReview) setTimeout(function () { window.QTReview.ask("game"); }, 1800);
   }
   document.getElementById("ov").addEventListener("click", function (e) {
     var b = e.target.closest("[data-a]"); if (!b) return;
@@ -102,6 +103,7 @@
         data.stars[st.index] = Math.max(data.stars[st.index] || 0, sc);
         data.level++; persist(); hud(); G.sfx("win"); endT = 1.2; burst(CX, st.crownY, 30, ["#E2A63F", "#F3C877", "#EFE8DB"]);
         G.toast(t("Level complete!") + " " + stars(sc), 1300);
+        if (data.level === 3 && window.QTReview) setTimeout(function () { window.QTReview.ask("game"); }, 1000);
       }
     });
     st.ev.length = 0;

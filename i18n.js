@@ -114,7 +114,7 @@
   }
   function sw(){if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"))navigator.serviceWorker.register("/sw.js").catch(function(){})}
   if(document.readyState==="complete")setTimeout(sw,0);else window.addEventListener("load",sw);
-  function boot(){secnav();offers();picker();if(!/\/(boq|account)\.html$/.test(location.pathname)&&!/^\/games\//.test(location.pathname)){var as=document.createElement("script");as.src="/assistant.js";as.defer=true;document.body.appendChild(as)}}
+  function boot(){secnav();offers();picker();(function(){var es=document.createElement("script");es.src="/engage.js";es.defer=true;document.body.appendChild(es)})();if(!/\/(boq|account)\.html$/.test(location.pathname)&&!/^\/games\//.test(location.pathname)){var as=document.createElement("script");as.src="/assistant.js";as.defer=true;document.body.appendChild(as)}}
   document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot):setTimeout(boot);
 
   var D=Object.create(null),RX=[];

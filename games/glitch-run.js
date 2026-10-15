@@ -63,6 +63,7 @@
       '<button class="go" data-a="new">' + t("Play again") + '</button><a class="b" href="/games.html">' + t("More games") + '</a>' + G.reviewBtn() + '</div>' +
       '<p class="promo">' + t("Real buildings need security that never glitches.") + ' <a href="/price.html">' + t("Get a CCTV price") + ' →</a></p>');
     G.sfx("win");
+    if (window.QTReview) setTimeout(function () { window.QTReview.ask("game"); }, 1800);
   }
   document.getElementById("ov").addEventListener("click", function (e) {
     var b = e.target.closest("[data-a]"); if (!b) return;
@@ -100,6 +101,7 @@
         G.sfx("win"); winT = 0.75; burst(p.x + 9, p.y + 13, 22, ["#E2A63F", "#F3C877", "#5FC8A0"], 200);
         data.level++; data.unlocked = Math.max(data.unlocked, Math.min(N - 1, data.level)); data.deaths = st.deaths; persist();
         if (data.level < N) G.toast(t("Level complete!"), 900);
+        if (data.level === 3 && window.QTReview) setTimeout(function () { window.QTReview.ask("game"); }, 900);
       } else if (ev === "spike") G.sfx("pop");
       else if (ev === "rumble") { shakeA = Math.max(shakeA, 3); G.sfx("tick"); }
       else if (ev === "slam") { shakeA = 8; G.sfx("slam"); G.buzz(30); }

@@ -35,8 +35,10 @@
       (best.best ? '<div class="stats"><div><b>' + best.best + '</b><small>' + t("Best distance (m)") + '</small></div></div>' : '') +
       '<div class="btns"><button class="go" data-a="play">' + t("Play") + '</button><a class="b" href="/games.html">' + t("More games") + '</a></div>');
   }
+  var plays = 0;
   function gameOver() {
-    playing = false;
+    playing = false; plays++;
+    if (plays >= 2 && window.QTReview) setTimeout(function () { window.QTReview.ask("game"); }, 1600);
     var m = C.meters(st), isBest = m > best.best;
     if (isBest) best.best = m; best.crowns = Math.max(best.crowns, st.crownsGot); G.save("cable", best); hud();
     var msg = G.ar ? "وصلت " + m + " متر في Cable Swing على كوين تك! تقدر تكسر رقمي؟" : "I swung " + m + " m in Cable Swing on Queen Tech! Can you beat it?";
