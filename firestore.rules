@@ -48,6 +48,42 @@ service cloud.firestore {
     match /systems_private/{id} {
       allow read, write: if isAdmin();
     }
+    // Reviews on our own site (reviews.html): anyone can read PUBLISHED reviews and send a new one,
+    // which waits for an admin. Only admins can publish, verify, reply or delete.
+    match /reviews/{id} {
+      allow get, list: if resource.data.approved == true || isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(['name','area','service','rating','text','job','lang','at','approved','verified','reply','replyAt'])
+        && request.resource.data.approved == false && request.resource.data.verified == false
+        && request.resource.data.reply == null && request.resource.data.replyAt == null
+        && request.resource.data.rating is int && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
+        && request.resource.data.name is string && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 40
+        && request.resource.data.area is string && request.resource.data.area.size() <= 40
+        && request.resource.data.text is string && request.resource.data.text.size() >= 10 && request.resource.data.text.size() <= 1000
+        && request.resource.data.job is string && request.resource.data.job.size() <= 12
+        && request.resource.data.service in ['cctv','access','barrier','network','it','laptop','phone','gaming','other']
+        && request.resource.data.lang in ['en','ar'] && request.resource.data.at is int;
+      allow update, delete: if isAdmin();
+    }
+    // QuickSwap loaners: the pool (type + status only) is public so the page can show availability.
+    match /loaners/{id} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    // Loaner requests: anyone can send one (status "new"); only admins can read or change them.
+    match /loan_requests/{id} {
+      allow read, update, delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(['company','licence','name','phone','type','repair','from','notes','lang','at','status','loaner'])
+        && request.resource.data.status == 'new' && request.resource.data.loaner == ''
+        && request.resource.data.type in ['laptop','router','nvr','other'] && request.resource.data.lang in ['en','ar']
+        && request.resource.data.company is string && request.resource.data.company.size() >= 1 && request.resource.data.company.size() <= 80
+        && request.resource.data.name is string && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 60
+        && request.resource.data.phone is string && request.resource.data.phone.size() >= 7 && request.resource.data.phone.size() <= 30
+        && request.resource.data.licence is string && request.resource.data.licence.size() <= 40
+        && request.resource.data.repair is string && request.resource.data.repair.size() <= 12
+        && request.resource.data.from is string && request.resource.data.from.size() <= 20
+        && request.resource.data.notes is string && request.resource.data.notes.size() <= 500
+        && request.resource.data.at is int;
+    }
     // Admin list: created by hand in the Firebase console (document ID = the admin's user ID).
     match /admins/{uid} {
       allow read: if signedIn() && request.auth.uid == uid;

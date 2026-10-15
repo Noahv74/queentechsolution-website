@@ -51,7 +51,22 @@
     <span class="tag">Wi-Fi survey · Homes · Offices · Dubai · Abu Dhabi</span>
     <h1>Wi-Fi Checkup: <em>find the dead zones, fix them once.</em></h1>
     <p class="lede">Slow Wi-Fi in the bedroom, the meeting room or the back of the shop? We visit, measure the signal in every room and give you a clear plan to fix it, instead of guessing with more extenders.</p>
-    <div class="cta-row"><a class="btn btn-gold" href="#book">Book a checkup</a><a class="btn btn-line" href="#sizes">See prices</a></div>
+    <div class="cta-row"><a class="btn btn-gold" href="#quiz">Check my Wi-Fi (1 min)</a><a class="btn btn-line" href="#book">Book a checkup</a><a class="btn btn-line" href="#sizes">See prices</a></div>
+  </section>
+
+  <section class="sec" id="quiz">
+    <style>
+      .qz{display:grid;gap:14px}.qz .qbar{height:6px;border-radius:99px;background:var(--line);overflow:hidden}.qz .qbar i{display:block;height:100%;background:var(--gold);transition:width .25s}
+      .qz .qq{font:700 1.15rem var(--f-body)}.qz .qh{color:var(--muted);font-size:.9rem;margin-top:-8px}
+      .qz .qopts{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+      .qz .qnav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+      .qres{display:grid;gap:10px}.qres .rec{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start;border:1px solid var(--line-2);border-radius:8px;padding:12px 14px;background:var(--bg-2)}
+      .qres .rec .ic{font-size:1.5rem;grid-row:span 2}.qres .rec b{font-size:1rem}.qres .rec span{color:var(--muted);font-size:.92rem;line-height:1.5}
+      .qres .rec.top{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+      .qres .sum{font-size:1.05rem}.qres .sum b{color:var(--gold-2)}
+    </style>
+    <div class="sec-head"><span class="tag">Free · 1 minute</span><h2>Wi-Fi dead-zone check</h2><p>Answer 6 quick questions and get a first idea of what's wrong and how to fix it, before anyone visits.</p></div>
+    <div class="block qz" id="qz" translate="no"></div>
   </section>
 
   <section class="sec">
@@ -179,6 +194,83 @@
     if (window.qtTrack) qtTrack("lead_form", { form: "wifi_check" });
     window.open(B.wa(L.join("\n")), "_blank", "noopener");
   });
+})();
+</script>
+<script>
+/* Wi-Fi dead-zone check: 6 questions → recommendations → pre-fills the booking form */
+(function () {
+  var B = window.QTB, t = B ? B.t : function (s) { return s; }, box = document.getElementById("qz"); if (!box) return;
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var Q = [
+    { id: "prop", q: "What kind of place is it?", o: [["apt", "Apartment"], ["villa", "Villa or townhouse"], ["office", "Office"], ["shop", "Shop or restaurant"], ["wh", "Warehouse or large hall"]] },
+    { id: "size", q: "How big is it?", o: [["s", "Up to 3 rooms, 1 floor"], ["m", "4–6 rooms or a big open floor"], ["two", "2 floors"], ["three", "3 floors or more"]] },
+    { id: "where", q: "Where is the Wi-Fi weak?", h: "Pick all that apply.", multi: true, o: [["far", "Rooms far from the router"], ["floor", "On another floor"], ["out", "Garden, roof or majlis outside"], ["meet", "Meeting room or back office"], ["all", "Everywhere, even next to the router"], ["drop", "It works, then drops for no reason"]] },
+    { id: "router", q: "Where is the main router?", o: [["mid", "In the middle of the place"], ["hide", "In a cupboard, corner or behind the TV"], ["other", "On a different floor"], ["dk", "I'm not sure"]] },
+    { id: "use", q: "What do you use it for?", h: "Pick all that apply.", multi: true, o: [["calls", "Video calls and work"], ["tv", "Streaming and TVs"], ["game", "Gaming"], ["cctv", "CCTV cameras"], ["many", "20+ devices or staff"], ["smart", "Smart home devices"]] },
+    { id: "now", q: "What's installed now?", o: [["isp", "Only the du / e& router"], ["ext", "Plug-in extenders or repeaters"], ["mesh", "A mesh system"], ["ap", "Access points with cables"]] }
+  ];
+  var A = {}, step = 0;
+  function has(id, v) { var a = A[id]; return Array.isArray(a) ? a.indexOf(v) > -1 : a === v; }
+  function draw() {
+    if (step >= Q.length) return result();
+    var q = Q[step], sel = A[q.id] || (q.multi ? [] : null);
+    box.innerHTML = '<div class="qbar"><i style="width:' + Math.round(step / Q.length * 100) + '%"></i></div>' +
+      '<div class="qq">' + (step + 1) + ' / ' + Q.length + ' · ' + esc(t(q.q)) + '</div>' + (q.h ? '<div class="qh">' + esc(t(q.h)) + '</div>' : '') +
+      '<div class="qopts">' + q.o.map(function (o) { var on = q.multi ? sel.indexOf(o[0]) > -1 : sel === o[0]; return '<button type="button" class="opt" data-v="' + o[0] + '" aria-pressed="' + on + '"><b>' + esc(t(o[1])) + '</b></button>'; }).join("") + '</div>' +
+      '<div class="qnav">' + (step ? '<button type="button" class="btn btn-line" data-q="back">' + esc(t("Back")) + '</button>' : '') +
+      (q.multi ? '<button type="button" class="btn btn-gold" data-q="next"' + (sel.length ? '' : ' disabled') + '>' + esc(t("Next")) + '</button>' : '') + '</div>';
+  }
+  box.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-v]"), n = e.target.closest("[data-q]");
+    if (b && step < Q.length) {
+      var q = Q[step], v = b.getAttribute("data-v");
+      if (q.multi) { var a = A[q.id] = A[q.id] || []; var i = a.indexOf(v); if (i > -1) a.splice(i, 1); else { if (v === "all") a.length = 0; else { var j = a.indexOf("all"); if (j > -1) a.splice(j, 1); } a.push(v); } draw(); }
+      else { A[q.id] = v; step++; draw(); }
+      return;
+    }
+    if (n) { var k = n.getAttribute("data-q"); if (k === "back") { step = Math.max(0, step - 1); draw(); } else if (k === "next") { step++; draw(); } else if (k === "again") { A = {}; step = 0; draw(); } else if (k === "book") prefill(); }
+  });
+  function recs() {
+    var R = [], big = has("size", "two") || has("size", "three") || has("prop", "villa") || has("prop", "wh");
+    var units = has("size", "three") ? "4–6" : has("size", "two") ? "3–4" : has("size", "m") ? "2–3" : "1–2";
+    if (has("prop", "office") && has("use", "many")) units = has("size", "s") ? "2–3" : "3–6";
+    if (has("where", "all")) R.push([1, "📡", "Your line or router may be the problem", "If it's slow even next to the router, test with a cable. If it's slow on a cable too, the issue is the internet line or plan (du / e&), not the Wi-Fi. We check the line and router on the visit."]);
+    if (has("router", "hide")) R.push([2, "📦", "Move the router out of the cupboard", "Cupboards, corners and TV cabinets block a lot of signal. Moving the router to a central, open spot often fixes weak rooms for free."]);
+    if (has("router", "other") || has("where", "floor")) R.push([2, "🏢", "Each floor needs its own Wi-Fi point", "Concrete floors in the UAE block most of the signal. Put one access point or mesh unit on every floor, ideally connected by cable."]);
+    if (has("now", "ext")) R.push([2, "🔁", "Replace the extenders with mesh or cabled access points", "Plug-in extenders usually cut the speed in half and make devices jump between networks. A mesh system or cabled access points give one network with full speed."]);
+    if (has("where", "far") || has("where", "meet") || big) R.push([3, "📶", "About " + units + " access points or mesh units", "For this size of place, plan on roughly " + units + " units placed where you use Wi-Fi most. A signal map on the visit gives the exact number and positions."]);
+    if (has("where", "out")) R.push([3, "🌴", "An outdoor access point for the garden or majlis", "Indoor Wi-Fi rarely reaches outside through walls and glass. A weatherproof outdoor access point covers the garden, roof or majlis."]);
+    if (has("where", "drop")) R.push([3, "📻", "Fix channel interference", "Random drops are often caused by neighbours' networks on the same channel. We scan the area and set clean channels; often this is fixed on the spot."]);
+    if (has("use", "game") || has("use", "calls")) R.push([4, "🔌", "Use a cable for the desk, console or meeting room", "For gaming and video calls a network cable is always more stable than Wi-Fi. We can add a network point where you need it."]);
+    if (has("use", "cctv")) R.push([4, "📹", "Keep CCTV off the Wi-Fi", "Wi-Fi cameras use a lot of upload and drop often. Wired PoE cameras on their own network are far more reliable."]);
+    if (has("use", "many") || has("prop", "office") || has("prop", "shop")) R.push([4, "👥", "Separate staff and guest Wi-Fi", "A separate guest network keeps visitors away from your computers, printers and cameras, and keeps the staff network fast."]);
+    if (!R.length) R.push([5, "✅", "Your setup sounds close", "A quick visit to check router settings and channels may be all you need."]);
+    R.sort(function (a, b) { return a[0] - b[0]; });
+    return { list: R, size: (has("size", "three") || has("prop", "wh")) ? "large" : (has("size", "two") || has("size", "m") || has("prop", "villa") || has("prop", "office")) ? "medium" : "small" };
+  }
+  var NAME = { small: "Small", medium: "Medium", large: "Large" };
+  function result() {
+    var r = recs();
+    box.innerHTML = '<div class="qbar"><i style="width:100%"></i></div><div class="qres">' +
+      '<p class="sum">' + esc(t("Most likely fix")) + ': <b>' + esc(t(r.list[0][2]).replace(/^About /, "")) + '</b></p>' +
+      r.list.map(function (x, i) { return '<div class="rec' + (i ? "" : " top") + '"><span class="ic">' + x[1] + '</span><b>' + esc(t(x[2])) + '</b><span>' + esc(t(x[3])) + '</span></div>'; }).join("") +
+      '<p class="note">' + esc(t("Suggested visit")) + ': <b>' + esc(t(NAME[r.size])) + '</b>. ' + esc(t("A first idea only: the signal map on the visit shows the real dead zones.")) + '</p>' +
+      '<div class="qnav"><button type="button" class="btn btn-gold" data-q="book">' + esc(t("Book this checkup")) + '</button><button type="button" class="btn btn-line" data-q="again">' + esc(t("Start again")) + '</button></div></div>';
+    box.dataset.size = r.size;
+  }
+  function prefill() {
+    var size = box.dataset.size || "small", sb = document.querySelector('#size [data-v="' + size + '"]'); if (sb) sb.click();
+    var prop = { apt: 0, villa: 1, office: 2, shop: 3, wh: 4 }[A.prop], ps = document.getElementById("prop"); if (ps && prop != null) ps.selectedIndex = prop;
+    var fl = document.getElementById("floors"); if (fl) fl.selectedIndex = has("size", "three") ? 2 : has("size", "two") ? 1 : 0;
+    var map = { far: 1, floor: 1, out: 1, meet: 1, all: 2, drop: 3 }, tags = {};
+    (A.where || []).forEach(function (w) { if (map[w]) tags[map[w]] = 1; });
+    if (has("use", "many")) tags[4] = 1; if (has("use", "calls")) tags[5] = 1; if (has("use", "cctv")) tags[6] = 1; if (has("now", "ext")) tags[7] = 1;
+    document.querySelectorAll("#prob [data-v]").forEach(function (b) { var want = !!tags[b.getAttribute("data-v")]; if ((b.getAttribute("aria-pressed") === "true") !== want) b.click(); });
+    if (window.qtTrack) qtTrack("lead_form", { form: "wifi_quiz" });
+    document.getElementById("book").scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(function () { var n = document.getElementById("name"); if (n) n.focus({ preventScroll: true }); }, 600);
+  }
+  draw();
 })();
 </script>
 </body>

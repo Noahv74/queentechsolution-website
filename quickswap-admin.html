@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style id="qt-cursor">@media (pointer:fine){html,body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="/i18n.js"></script>
+<script src="/i18n/ar-common.js"></script>
+
+<title>QuickSwap admin | Queen Tech</title>
+<meta name="description" content="Queen Tech loaner devices (staff only).">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://queentechsolution.info/quickswap-admin.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="QuickSwap admin | Queen Tech">
+<meta property="og:description" content="Queen Tech loaner devices (staff only).">
+<meta property="og:url" content="https://queentechsolution.info/quickswap-admin.html">
+<meta property="og:image" content="https://queentechsolution.info/og-image.png">
+<meta name="theme-color" content="#131210">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<script src="/qt-auth-config.js"></script>
+<script src="/site-config.js"></script>
+<style>
+
+:root{
+  --bg:#131210; --bg-2:#1A1916; --surface:#201E1A; --surface-2:#2A2722;
+  --ink:#EFE8DB; --muted:#A79E8F; --dim:#6E675C; --line:#36322B; --line-2:#4A443A;
+  --gold:#E2A63F; --gold-2:#F3C877; --gold-soft:rgba(226,166,63,.12);
+  --red:#E25B45; --wa:#2FA866;
+  --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:140px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold-2);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{margin:0;font-family:var(--f-display);line-height:.95;text-transform:uppercase;letter-spacing:.005em;text-wrap:balance}
+h2{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:800}
+h3{font-size:1.35rem;font-weight:800}
+p{margin:0}
+[hidden]{display:none!important}
+.tag{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:10px}
+.tag::before{content:"";width:22px;height:1px;background:currentColor}
+.muted{color:var(--muted)}
+.hint{font-size:.84rem;color:var(--dim)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 18px;border-radius:4px;font:600 .92rem/1 var(--f-body);text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn-gold{background:var(--gold);color:var(--bg)}.btn-gold:hover{background:var(--gold-2)}
+.btn-line{border-color:var(--line-2);color:var(--ink);background:transparent}.btn-line:hover{border-color:var(--gold);color:var(--gold-2)}
+header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:24px;min-height:66px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);margin-right:auto;flex:none}
+.crown{width:34px;height:34px;flex:none}
+.brand b{display:block;font:900 1.3rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.brand small{display:block;font:500 .58rem/1.4 var(--f-mono);letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-top:3px;white-space:nowrap}
+.links{display:flex;gap:24px;align-items:center}
+.links a:not(.btn){color:var(--muted);text-decoration:none;font-weight:500;font-size:.92rem;white-space:nowrap}
+.links a:not(.btn):hover{color:var(--ink)}
+@media (max-width:820px){.links a.hide-sm{display:none}}
+@media (max-width:420px){.brand small{display:none}.links .btn{padding:10px 12px;font-size:.82rem}}
+.jump{display:flex;gap:0;border-top:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.jump a{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:12px 16px;white-space:nowrap}
+.jump a b{color:var(--gold);font-weight:500;margin-right:6px}
+.jump a:hover{color:var(--ink)}
+.phead{padding-block:clamp(32px,5vw,60px) 10px}
+.phead h1{font-size:clamp(2.8rem,7vw,5.4rem);font-weight:900;line-height:.9;margin:16px 0 14px}
+.phead h1 em{font-style:normal;color:var(--gold)}
+.phead p{max-width:62ch;color:var(--muted);font-size:1.05rem}
+.quick{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.sec{padding-block:clamp(40px,6vw,64px);border-bottom:1px solid var(--line)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.sec-head .tag{display:flex;margin-bottom:12px}
+.sec-head p{max-width:56ch;color:var(--muted);font-size:.95rem}
+.card{background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:clamp(16px,2.6vw,26px)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th{font:500 .66rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px;border-bottom:1px solid var(--line-2);background:var(--bg-2)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.tbl{overflow-x:auto;border:1px solid var(--line-2);border-radius:6px;background:var(--surface)}
+.mono{font-family:var(--f-mono);font-size:.86rem}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* FixTrack */
+.tform{display:flex;gap:10px;margin-top:22px;max-width:560px}
+.tform input{flex:1;min-width:0;font:600 1.3rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:14px 16px;border:1px solid var(--line-2);border-radius:6px;background:var(--surface);color:var(--ink)}
+.tform input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+.tcard{background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:clamp(16px,3vw,26px);margin:16px 0;display:grid;gap:14px}
+.tcard h2{font-size:clamp(1.6rem,4vw,2.3rem)}
+.thead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.k{display:block;font:500 .68rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.code{font-family:var(--f-mono);font-size:1.05rem;letter-spacing:.06em;color:var(--gold-2)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.facts div{background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.facts span{display:block;font-size:.78rem;color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.steps li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;position:relative;padding-bottom:16px}
+.steps li:not(:last-child)::after{content:"";position:absolute;inset-inline-start:16px;top:32px;bottom:0;width:2px;background:var(--line-2)}
+.steps li.done:not(:last-child)::after{background:var(--gold)}
+.steps i{font-style:normal;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font:700 .85rem var(--f-mono);border:2px solid var(--line-2);color:var(--dim);background:var(--bg)}
+.steps li.done i{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+.steps li.now i{border-color:var(--gold);color:var(--gold-2);box-shadow:0 0 0 5px var(--gold-soft);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 9px rgba(226,166,63,.06)}}
+.steps b{display:block;padding-top:5px}
+.steps li:not(.done):not(.now) b{color:var(--dim)}
+.steps small{display:block;color:var(--muted);font-size:.9rem;margin-top:2px}
+.steps time{display:block;font:500 .74rem var(--f-mono);color:var(--dim);margin-top:2px}
+.note{border-inline-start:3px solid var(--gold);background:var(--bg-2);padding:10px 14px;border-radius:4px;display:grid;gap:8px}
+.note.ok{border-color:var(--wa)}
+.quote{border:1px solid var(--gold);border-radius:8px;padding:14px;background:linear-gradient(135deg,rgba(226,166,63,.12),transparent);display:grid;gap:8px}
+.quote b{font:800 1.8rem var(--f-display)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn-wa{background:var(--wa);color:#fff}
+.upd{font-size:.8rem;color:var(--dim)}
+.ask{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid var(--line-2);border-radius:6px;padding:20px 22px;background:var(--bg-2);margin:20px 0}
+.ask p{color:var(--muted)}.ask b{color:var(--ink)}
+.spin{width:28px;height:28px;border:3px solid var(--line-2);border-top-color:var(--gold);border-radius:50%;animation:sp 1s linear infinite;margin:10px auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.muted{color:var(--muted)}
+/* admin */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.grid .wide{grid-column:1/-1}
+.grid label{display:grid;gap:4px;font-size:.8rem;color:var(--muted)}
+.grid input,.grid select{font:inherit;font-size:.95rem;padding:9px 10px;border:1px solid var(--line-2);border-radius:5px;background:var(--bg-2);color:var(--ink)}
+.newr summary{cursor:pointer;list-style:none}.newr summary::-webkit-details-marker{display:none}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.tabs button{all:unset;cursor:pointer;padding:7px 14px;border-radius:999px;border:1px solid var(--line-2);font-weight:600;font-size:.88rem}
+.tabs button[aria-pressed=true]{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.tabs input{flex:1;min-width:180px;font:inherit;padding:7px 12px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+.stagebar{display:flex;flex-wrap:wrap;gap:6px}
+.stagebar button{all:unset;cursor:pointer;font-size:.8rem;font-weight:600;padding:6px 10px;border-radius:6px;border:1px solid var(--line-2);color:var(--muted)}
+.stagebar button.past{color:var(--gold-2);border-color:rgba(226,166,63,.4)}
+.stagebar button[aria-pressed=true]{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.msg{font-size:.85rem;color:var(--gold-2)}
+html.rtl .tform input{direction:ltr}
+footer{padding-block:28px 40px;color:var(--dim);font:500 .74rem var(--f-mono)}
+footer a{color:var(--muted)}
+/* QuickSwap */
+.avail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:6px 0 18px}
+@media (max-width:640px){.avail{grid-template-columns:1fr}}
+.av{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:center;border:1px solid var(--line-2);border-radius:10px;padding:16px;background:var(--surface)}
+.av .ic{grid-row:span 2;font-size:2rem}
+.av small{color:var(--muted)}
+.av.on{border-color:rgba(143,198,163,.6)}.av.on small{color:#9EE0BA;font-weight:600}
+.how3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.how3{grid-template-columns:1fr}}
+.how3 .tcard{margin:0;gap:6px}.how3 .k{font-size:1.4rem;font-family:var(--f-display)}
+.terms ul{margin:0;padding-inline-start:20px;display:grid;gap:6px;color:var(--muted)}
+.chk{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:.92rem;color:var(--muted)}
+.chk input{margin-top:3px;accent-color:var(--gold)}
+.hp{position:absolute;inset-inline-start:0;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip-path:inset(50%);opacity:0;pointer-events:none}
+.big{font-size:1.15rem;font-weight:600}
+.grid label i{font-style:normal;color:var(--dim)}
+.pill{font:600 .72rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:3px;border:1px solid var(--line-2);color:var(--muted)}
+.pill.ok{color:#9EE0BA;border-color:rgba(143,198,163,.5)}.pill.wait{color:var(--gold-2);border-color:rgba(226,166,63,.5)}
+.plist{display:grid;gap:8px;margin-top:10px}
+.pitem{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:8px 12px;background:var(--bg-2)}
+@media (max-width:600px){.pitem{grid-template-columns:1fr 1fr}}
+.pitem select,.rq select{font:inherit;padding:7px 9px;border-radius:5px;border:1px solid var(--line-2);background:var(--bg-2);color:var(--ink)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Queen Tech Solutions home">
+      <svg class="crown" viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" rx="5" fill="none" stroke="var(--gold)"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="var(--gold)"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="var(--gold)"/></svg>
+      <span><b>Queen Tech</b><small>QuickSwap · admin</small></span>
+    </a>
+    <nav class="links" aria-label="Main"><a class="btn btn-line" href="/repairs-admin.html">Repairs</a><a class="btn btn-line" href="/quickswap.html">Public page</a></nav>
+  </div>
+</header>
+<main class="wrap" translate="no">
+  <section class="phead"><span class="tag">QuickSwap · Admin</span><h1>Loaner <em>devices.</em></h1></section>
+  <div id="gate" class="tcard"><div class="spin"></div></div>
+  <div id="app" hidden>
+    <section class="tcard">
+      <span class="k">Your loaner pool</span>
+      <p class="muted">Only the type and status are public (the public page shows how many are free). Never store customer data here.</p>
+      <form id="pf" class="grid" autocomplete="off">
+        <label>Type<select name="type"><option value="laptop">Laptop</option><option value="router">Wi-Fi router</option><option value="nvr">CCTV recorder (NVR)</option><option value="other">Other</option></select></label>
+        <label>Label<input name="label" maxlength="60" placeholder="Dell Latitude 5490 #1" required></label>
+        <div class="row" style="align-self:end"><button class="btn btn-gold" type="submit">+ Add loaner</button></div>
+      </form>
+      <div id="pool"></div>
+    </section>
+    <div class="tabs" id="tabs"><button data-f="open" aria-pressed="true">Open requests</button><button data-f="lent" aria-pressed="false">Lent out</button><button data-f="closed" aria-pressed="false">Closed</button></div>
+    <div id="reqs"></div>
+  </div>
+</main>
+<script type="module">
+import { firebase } from "/qt-auth.js";
+import { isAdmin } from "/qt-repairs.js";
+import { listLoaners, saveLoaner, deleteLoaner, listRequests, updateRequest, deleteRequest } from "/qt-loans.js";
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const TN = { laptop: "Laptop", router: "Wi-Fi router", nvr: "CCTV recorder", other: "Other" };
+const ST = { new: "New", ok: "Confirmed", lent: "Lent out", returned: "Returned", declined: "Declined" };
+let pool = [], reqs = [], filt = "open";
+const when = t => t ? new Date(t).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "";
+function phoneIntl(p) { let d = String(p || "").replace(/\D/g, ""); if (d.startsWith("00")) d = d.slice(2); if (d.startsWith("0")) d = "971" + d.slice(1); if (/^5\d{8}$/.test(d)) d = "971" + d; return d; }
+function wa(r, kind) {
+  const lo = pool.find(x => x.id === r.loaner), dev = lo ? lo.label : TN[r.type];
+  const M = r.lang === "ar" ? {
+    ok: `أهلاً ${r.name}، معاك كوين تك. جهازك البديل (${dev}) جاهز. تقدر تستلمه من سيلفر تاور، الخليج التجاري (كل يوم 10 ص – 10 م). هات معاك صورة الرخصة التجارية وهوية المستلم.`,
+    none: `أهلاً ${r.name}، معاك كوين تك. للأسف مفيش ${TN[r.type]} بديل متاح دلوقتي. هنبلغك أول ما يرجع واحد.`,
+    back: `أهلاً ${r.name}، جهازك اتصلّح! لما تيجي تستلمه، هات الجهاز البديل (${dev}) وشاحنه. شكراً!` } : {
+    ok: `Hello ${r.name}, Queen Tech here. Your loaner (${dev}) is ready. Collect it at Silver Tower, Business Bay (every day 10am–10pm). Please bring a copy of your trade licence and the collector's Emirates ID.`,
+    none: `Hello ${r.name}, Queen Tech here. Sorry, no ${TN[r.type].toLowerCase()} loaner is free right now. We'll message you as soon as one is back.`,
+    back: `Hello ${r.name}, your device is repaired! When you collect it, please bring the loaner (${dev}) and its charger. Thank you!` };
+  return "https://wa.me/" + phoneIntl(r.phone) + "?text=" + encodeURIComponent(M[kind]);
+}
+function drawPool() {
+  $("pool").innerHTML = pool.length ? '<div class="plist">' + pool.map(x => `<div class="pitem" data-id="${esc(x.id)}"><b>${esc(x.label)}</b><span class="muted">${esc(TN[x.type])}</span>
+    <select data-st><option value="available"${x.status === "available" ? " selected" : ""}>Available</option><option value="out"${x.status === "out" ? " selected" : ""}>Lent out</option><option value="service"${x.status === "service" ? " selected" : ""}>Being prepared</option></select>
+    <button class="btn btn-line" data-del>Remove</button></div>`).join("") + '</div>' : '<p class="muted">No loaners yet. Add the devices you can lend.</p>';
+}
+function drawReqs() {
+  const list = reqs.filter(r => filt === "open" ? (r.status === "new" || r.status === "ok") : filt === "lent" ? r.status === "lent" : (r.status === "returned" || r.status === "declined"));
+  $("reqs").innerHTML = list.length ? list.map(r => {
+    const free = pool.filter(x => x.status === "available" && (x.type === r.type || r.type === "other"));
+    return `<div class="tcard rq" data-id="${esc(r.id)}">
+      <div class="thead"><div><b>${esc(r.company)}</b> · ${esc(r.name)} <span class="muted">${esc(r.phone)}${r.licence ? " · TL " + esc(r.licence) : ""}</span>
+        <div class="muted">${esc(TN[r.type])}${r.repair ? " · repair " + esc(r.repair) : ""}${r.from ? " · from " + esc(r.from) : ""} · asked ${esc(when(r.at))}</div>${r.notes ? `<p style="margin:6px 0 0">${esc(r.notes)}</p>` : ""}</div>
+        <span class="pill ${r.status === "lent" ? "wait" : r.status === "returned" ? "ok" : ""}">${esc(ST[r.status] || r.status)}</span></div>
+      <div class="row">
+        ${r.status === "new" || r.status === "ok" ? `<select data-loaner><option value="">Choose a loaner…</option>${free.map(x => `<option value="${esc(x.id)}"${x.id === r.loaner ? " selected" : ""}>${esc(x.label)}</option>`).join("")}</select>
+          <button class="btn btn-gold" data-a="lend">Lend it</button><a class="btn btn-wa" target="_blank" rel="noopener" href="${esc(wa(r, "ok"))}">WhatsApp: ready</a><a class="btn btn-line" target="_blank" rel="noopener" href="${esc(wa(r, "none"))}">WhatsApp: none free</a><button class="btn btn-line" data-a="decline">Decline</button>` : ""}
+        ${r.status === "lent" ? `<a class="btn btn-wa" target="_blank" rel="noopener" href="${esc(wa(r, "back"))}">WhatsApp: bring it back</a><button class="btn btn-gold" data-a="return">Mark returned</button>` : ""}
+        <button class="btn btn-line" data-a="del">Delete</button><span class="msg" data-msg></span></div></div>`;
+  }).join("") : '<div class="tcard muted">Nothing here.</div>';
+}
+async function load() { [pool, reqs] = await Promise.all([listLoaners(), listRequests()]); drawPool(); drawReqs(); }
+$("pf").addEventListener("submit", async e => { e.preventDefault(); const f = e.target; const id = await saveLoaner(null, { type: f.elements.type.value, label: f.elements.label.value.trim() }); pool.push({ id, type: f.elements.type.value, label: f.elements.label.value.trim(), status: "available" }); f.reset(); drawPool(); drawReqs(); });
+$("pool").addEventListener("change", async e => { const s = e.target.closest("[data-st]"); if (!s) return; const id = e.target.closest(".pitem").getAttribute("data-id"); await saveLoaner(id, { status: s.value }); pool.find(x => x.id === id).status = s.value; drawReqs(); });
+$("pool").addEventListener("click", async e => { if (!e.target.closest("[data-del]")) return; const id = e.target.closest(".pitem").getAttribute("data-id"); if (!confirm("Remove this loaner?")) return; await deleteLoaner(id); pool = pool.filter(x => x.id !== id); drawPool(); drawReqs(); });
+$("tabs").addEventListener("click", e => { const b = e.target.closest("[data-f]"); if (!b) return; filt = b.getAttribute("data-f"); document.querySelectorAll("#tabs [data-f]").forEach(x => x.setAttribute("aria-pressed", x === b)); drawReqs(); });
+$("reqs").addEventListener("change", async e => { const s = e.target.closest("[data-loaner]"); if (!s) return; const id = e.target.closest(".rq").getAttribute("data-id"), r = reqs.find(x => x.id === id); r.loaner = s.value; await updateRequest(id, { loaner: s.value, status: s.value ? "ok" : r.status }); if (s.value) r.status = "ok"; drawReqs(); });
+$("reqs").addEventListener("click", async e => {
+  const b = e.target.closest("[data-a]"), el = e.target.closest(".rq"); if (!b || !el) return;
+  const id = el.getAttribute("data-id"), r = reqs.find(x => x.id === id), a = b.getAttribute("data-a"), msg = t => el.querySelector("[data-msg]").textContent = t;
+  try {
+    if (a === "lend") { if (!r.loaner) { msg("Choose a loaner first."); return; } await updateRequest(id, { status: "lent", lentAt: Date.now() }); await saveLoaner(r.loaner, { status: "out" }); r.status = "lent"; pool.find(x => x.id === r.loaner).status = "out"; }
+    else if (a === "return") { await updateRequest(id, { status: "returned", returnedAt: Date.now() }); if (r.loaner) { await saveLoaner(r.loaner, { status: "service" }); const lo = pool.find(x => x.id === r.loaner); if (lo) lo.status = "service"; } r.status = "returned"; msg("Returned. Wipe it, then set it to Available."); }
+    else if (a === "decline") { await updateRequest(id, { status: "declined" }); r.status = "declined"; }
+    else if (a === "del") { if (!confirm("Delete this request?")) return; await deleteRequest(id); reqs = reqs.filter(x => x.id !== id); }
+    drawPool(); drawReqs();
+  } catch (err) { msg("Couldn't save: " + (err.code || err.message)); }
+});
+const fb = await firebase();
+fb.onAuthStateChanged(fb.auth, async u => {
+  if (!u) { $("gate").innerHTML = '<h2>Sign in</h2><a class="btn btn-gold" href="/account.html?next=/quickswap-admin.html">Sign in</a>'; return; }
+  let ok = false; try { ok = await isAdmin(u.uid); } catch (err) {}
+  if (!ok) { $("gate").innerHTML = '<h2>Not an admin</h2><p>Signed in as ' + esc(u.email) + '. Add your user ID <code>' + esc(u.uid) + '</code> to the Firestore <b>admins</b> collection (same as FixTrack).</p>'; return; }
+  $("gate").hidden = true; $("app").hidden = false;
+  try { await load(); } catch (err) { $("reqs").innerHTML = '<div class="tcard">Couldn\'t load: ' + esc(err.code || err.message) + '</div>'; }
+});
+</script>
+</body>
+</html>

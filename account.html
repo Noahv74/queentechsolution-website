@@ -293,8 +293,8 @@ else {
     const AR = document.documentElement.lang === "ar" || window.QT_LANG === "ar";
     const tt = (en, ar) => AR ? ar : en;
     const escH = v => String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-    const ICON = { "boq-pdf": "📄", "boq-excel": "📊", "boq-file": "💾", "price-pdf": "🧾", "price-list": "📋" };
-    const KIND = { "boq-pdf": ["BOQ · PDF", "جدول كميات · PDF"], "boq-excel": ["BOQ · Excel", "جدول كميات · Excel"], "boq-file": ["BOQ · project file", "جدول كميات · ملف مشروع"], "price-pdf": ["Price check · PDF", "حساب السعر · PDF"], "price-list": ["Hardware list", "قائمة الأجهزة"] };
+    const ICON = { "boq-pdf": "📄", "boq-excel": "📊", "boq-file": "💾", "price-pdf": "🧾", "price-list": "📋", "shop-plan": "🏪" };
+    const KIND = { "boq-pdf": ["BOQ · PDF", "جدول كميات · PDF"], "boq-excel": ["BOQ · Excel", "جدول كميات · Excel"], "boq-file": ["BOQ · project file", "جدول كميات · ملف مشروع"], "price-pdf": ["Price check · PDF", "حساب السعر · PDF"], "price-list": ["Hardware list", "قائمة الأجهزة"], "shop-plan": ["Shop camera plan", "خطة كاميرات المحل"] };
     function localGames() { const o = {}; ["glitch", "heist", "cable", "cablemis"].forEach(k => { try { const v = JSON.parse(localStorage.getItem("qtg-" + k)); if (v) o[k] = v; } catch (e) {} }); return o; }
     function gameTiles(g) {
       const gl = g.glitch || {}, he = g.heist || {}, ca = g.cable || {}, mi = g.cablemis || {};
@@ -305,17 +305,17 @@ else {
     }
     let histItems = [];
     function renderHist(uid) {
-      if (!histItems.length) { $("hist").innerHTML = '<span class="muted">' + tt("Nothing yet. When you download a BOQ or save a price check as PDF while signed in, it shows up here.", "لسه مفيش. لما تنزّل جدول كميات أو تحفظ حساب سعر PDF وأنت مسجّل، هيظهر هنا.") + '</span>'; return; }
+      if (!histItems.length) { $("hist").innerHTML = '<span class="muted">' + tt("Nothing yet. When you download a BOQ, save a price check or a shop camera plan as PDF while signed in, it shows up here.", "لسه مفيش. لما تنزّل جدول كميات أو تحفظ حساب سعر أو خطة كاميرات PDF وأنت مسجّل، هيظهر هنا.") + '</span>'; return; }
       $("hist").innerHTML = histItems.map(h => {
         const d = new Date(h.at), when = d.toLocaleDateString(AR ? "ar-AE" : "en-GB", { day: "numeric", month: "short", year: "numeric" }) + " " + d.toLocaleTimeString(AR ? "ar-AE" : "en-GB", { hour: "2-digit", minute: "2-digit" });
         const k = KIND[h.type] || ["Saved", "محفوظ"], boq = /^boq/.test(h.type);
         return '<div class="hrow" data-id="' + escH(h.id) + '"><span class="ic">' + (ICON[h.type] || "📁") + '</span><div><b>' + escH(h.title || k[0]) + '</b><small>' + escH(tt(k[0], k[1])) + ' · ' + escH(when) + (h.total != null ? ' · AED ' + Number(h.total).toLocaleString("en-US") : '') + '</small><small>' + escH(h.summary || "") + '</small></div>' +
-          '<div class="acts">' + (boq && h.data ? '<button type="button" data-open>' + tt("Open", "افتح") + '</button>' : '') + (!boq && h.data ? '<button type="button" data-view>' + tt("View", "عرض") + '</button><a href="/price.html">' + tt("Price page", "صفحة الأسعار") + '</a>' : '') + '<button type="button" data-del aria-label="' + tt("Delete", "حذف") + '">🗑</button></div></div>';
+          '<div class="acts">' + ((boq || h.type === "shop-plan") && h.data ? '<button type="button" data-open>' + tt("Open", "افتح") + '</button>' : '') + (!boq && h.type !== "shop-plan" && h.data ? '<button type="button" data-view>' + tt("View", "عرض") + '</button><a href="/price.html">' + tt("Price page", "صفحة الأسعار") + '</a>' : '') + '<button type="button" data-del aria-label="' + tt("Delete", "حذف") + '">🗑</button></div></div>';
       }).join("");
     }
     $("hist").addEventListener("click", async e => {
       const row = e.target.closest(".hrow"); if (!row) return; const id = row.getAttribute("data-id"), h = histItems.find(x => x.id === id), u = fb.auth.currentUser; if (!h || !u) return;
-      if (e.target.closest("[data-open]")) { try { sessionStorage.setItem("qt-restore-boq", h.data); } catch (x) {} location.href = "/boq.html"; }
+      if (e.target.closest("[data-open]")) { const shop = h.type === "shop-plan"; try { sessionStorage.setItem(shop ? "qt-restore-shop" : "qt-restore-boq", h.data); } catch (x) {} location.href = shop ? "/shop-planner.html" : "/boq.html"; }
       else if (e.target.closest("[data-view]")) { const pre = row.querySelector("pre"); if (pre) { pre.remove(); return; } let txt = ""; try { txt = JSON.parse(h.data).text || ""; } catch (x) {} row.insertAdjacentHTML("beforeend", "<pre>" + escH(txt) + "</pre>"); }
       else if (e.target.closest("[data-del]")) { if (!confirm(tt("Delete this from your history?", "تمسح ده من السجل؟"))) return; try { await cloud.deleteHistory(u.uid, id); histItems = histItems.filter(x => x.id !== id); renderHist(); } catch (x) {} }
     });

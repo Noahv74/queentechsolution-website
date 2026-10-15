@@ -13,5 +13,5 @@ Run from the repository root with Python 3:
 Notes
 - `dev/sitegen/prices.json` is a snapshot of `prices.js` + `i18n/ar-price.js` used for the price chips' first paint; the live chips update from `prices.js` in the browser.
 - Ads: generators do NOT add the AdSense tag (ads stay off pages where customers decide to buy). Ads are only on tools, help, games, gamers and app pages.
-- Not built here: index, services, tools, contact (+ /ar/), price, planner, rescue, games, help, track, repairs-admin. Edit those files directly.
+- Not built here: index, services, tools, contact (+ /ar/), price, planner, rescue, games, help, track, repairs-admin, boards, account, reviews, reviews-admin, quickswap, quickswap-admin, shop-planner. Edit those files directly.
 - robots.txt blocks /dev/.

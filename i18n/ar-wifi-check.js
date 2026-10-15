@@ -52,3 +52,42 @@ QT_AR.add({
   "Hi Queen Tech, I'd like to book a Wi-Fi Checkup.":"مرحباً كوين تك، أريد حجز فحص الواي فاي.",
   "Problem":"المشكلة","Internet":"الإنترنت","Visit":"الزيارة"
 });
+/* Wi-Fi dead-zone check (quiz) */
+QT_AR.add({
+  "Check my Wi-Fi (1 min)":"افحص الواي فاي عندي (دقيقة)","Free · 1 minute":"مجاني · دقيقة واحدة","Wi-Fi dead-zone check":"فحص المناطق الميتة في الواي فاي",
+  "Answer 6 quick questions and get a first idea of what's wrong and how to fix it, before anyone visits.":"جاوب على 6 أسئلة سريعة واعرف فكرة مبدئية عن المشكلة وحلها، قبل أي زيارة.",
+  "What kind of place is it?":"المكان نوعه إيه؟","Apartment":"شقة","Villa or townhouse":"فيلا أو تاون هاوس","Office":"مكتب","Shop or restaurant":"محل أو مطعم","Warehouse or large hall":"مستودع أو صالة كبيرة",
+  "How big is it?":"المساحة قد إيه؟","Up to 3 rooms, 1 floor":"لحد 3 غرف، دور واحد","4–6 rooms or a big open floor":"4–6 غرف أو دور مفتوح كبير","2 floors":"دورين","3 floors or more":"3 أدوار أو أكتر",
+  "Where is the Wi-Fi weak?":"الواي فاي ضعيف فين؟","Pick all that apply.":"اختار كل اللي ينطبق.","Rooms far from the router":"الغرف البعيدة عن الراوتر","On another floor":"في دور تاني","Garden, roof or majlis outside":"الحديقة أو السطح أو المجلس برّه","Meeting room or back office":"غرفة الاجتماعات أو المكتب الخلفي","Everywhere, even next to the router":"في كل حتة، حتى جنب الراوتر","It works, then drops for no reason":"بيشتغل وبعدين يفصل من غير سبب",
+  "Where is the main router?":"الراوتر الأساسي فين؟","In the middle of the place":"في نص المكان","In a cupboard, corner or behind the TV":"في دولاب أو ركن أو ورا التلفزيون","On a different floor":"في دور تاني","I'm not sure":"مش متأكد",
+  "What do you use it for?":"بتستخدمه في إيه؟","Video calls and work":"مكالمات فيديو وشغل","Streaming and TVs":"أفلام وتلفزيونات","Gaming":"ألعاب","CCTV cameras":"كاميرات مراقبة","20+ devices or staff":"أكتر من 20 جهاز أو موظف","Smart home devices":"أجهزة البيت الذكي",
+  "What's installed now?":"إيه المركّب دلوقتي؟","Only the du / e& router":"راوتر du / e& بس","Plug-in extenders or repeaters":"مقويات أو ريبيتر في الفيشة","A mesh system":"نظام Mesh","Access points with cables":"أكسس بوينت بكابلات",
+  "Back":"رجوع","Next":"التالي","Most likely fix":"الحل الأقرب","Suggested visit":"الزيارة المقترحة","Small":"صغير","Medium":"متوسط","Large":"كبير",
+  "A first idea only: the signal map on the visit shows the real dead zones.":"دي فكرة مبدئية بس: خريطة الإشارة في الزيارة بتوضح المناطق الميتة الحقيقية.",
+  "Book this checkup":"احجز الفحص ده","Start again":"ابدأ من الأول",
+  "Your line or router may be the problem":"ممكن المشكلة في الخط أو الراوتر",
+  "If it's slow even next to the router, test with a cable. If it's slow on a cable too, the issue is the internet line or plan (du / e&), not the Wi-Fi. We check the line and router on the visit.":"لو بطيء حتى جنب الراوتر، جرّب بكابل. لو بطيء بالكابل كمان، يبقى المشكلة في خط الإنترنت أو الباقة (du / e&) مش في الواي فاي. بنفحص الخط والراوتر في الزيارة.",
+  "Move the router out of the cupboard":"طلّع الراوتر من الدولاب",
+  "Cupboards, corners and TV cabinets block a lot of signal. Moving the router to a central, open spot often fixes weak rooms for free.":"الدواليب والأركان ووحدات التلفزيون بتحجب إشارة كتير. نقل الراوتر لمكان مفتوح في النص غالباً بيحل الغرف الضعيفة ببلاش.",
+  "Each floor needs its own Wi-Fi point":"كل دور محتاج نقطة واي فاي خاصة بيه",
+  "Concrete floors in the UAE block most of the signal. Put one access point or mesh unit on every floor, ideally connected by cable.":"الأسقف الخرسانية في الإمارات بتحجب معظم الإشارة. حط أكسس بوينت أو وحدة Mesh في كل دور، والأفضل يكون متوصل بكابل.",
+  "Replace the extenders with mesh or cabled access points":"غيّر المقويات بنظام Mesh أو أكسس بوينت بكابلات",
+  "Plug-in extenders usually cut the speed in half and make devices jump between networks. A mesh system or cabled access points give one network with full speed.":"المقويات اللي في الفيشة غالباً بتقسم السرعة نصين وبتخلي الأجهزة تنط بين الشبكات. نظام Mesh أو أكسس بوينت بكابلات بيدّيك شبكة واحدة بسرعة كاملة.",
+  "An outdoor access point for the garden or majlis":"أكسس بوينت خارجي للحديقة أو المجلس",
+  "Indoor Wi-Fi rarely reaches outside through walls and glass. A weatherproof outdoor access point covers the garden, roof or majlis.":"الواي فاي الداخلي نادراً ما يوصل برّه من الحيطان والزجاج. أكسس بوينت خارجي مقاوم للجو بيغطي الحديقة أو السطح أو المجلس.",
+  "Fix channel interference":"حل تداخل القنوات",
+  "Random drops are often caused by neighbours' networks on the same channel. We scan the area and set clean channels; often this is fixed on the spot.":"الفصل العشوائي غالباً سببه شبكات الجيران على نفس القناة. بنفحص المكان ونظبط قنوات نظيفة، وغالباً بيتحل في نفس الزيارة.",
+  "Use a cable for the desk, console or meeting room":"استخدم كابل للمكتب أو جهاز الألعاب أو غرفة الاجتماعات",
+  "For gaming and video calls a network cable is always more stable than Wi-Fi. We can add a network point where you need it.":"للألعاب ومكالمات الفيديو كابل الشبكة دايماً أثبت من الواي فاي. نقدر نضيف نقطة شبكة في المكان اللي محتاجه.",
+  "Keep CCTV off the Wi-Fi":"خلّي الكاميرات بعيد عن الواي فاي",
+  "Wi-Fi cameras use a lot of upload and drop often. Wired PoE cameras on their own network are far more reliable.":"كاميرات الواي فاي بتستهلك رفع كتير وبتفصل كتير. كاميرات PoE بكابل على شبكة لوحدها أضمن بكتير.",
+  "Separate staff and guest Wi-Fi":"افصل واي فاي الموظفين عن الضيوف",
+  "A separate guest network keeps visitors away from your computers, printers and cameras, and keeps the staff network fast.":"شبكة ضيوف منفصلة بتبعد الزوار عن الكمبيوترات والطابعات والكاميرات، وبتخلي شبكة الموظفين سريعة.",
+  "Your setup sounds close":"الإعداد عندك قريب من المظبوط",
+  "A quick visit to check router settings and channels may be all you need.":"ممكن زيارة سريعة لضبط إعدادات الراوتر والقنوات تكون كفاية."
+});
+QT_AR.rx([
+  [/^About (\d+–\d+) access points or mesh units$/, "حوالي $1 أكسس بوينت أو وحدات Mesh"],
+  [/^(\d+–\d+) access points or mesh units$/, "$1 أكسس بوينت أو وحدات Mesh"],
+  [/^For this size of place, plan on roughly (\d+–\d+) units placed where you use Wi-Fi most\. A signal map on the visit gives the exact number and positions\.$/, "لمساحة زي دي، خطّط لحوالي $1 وحدات في الأماكن اللي بتستخدم فيها الواي فاي أكتر. خريطة الإشارة في الزيارة بتحدد العدد والأماكن بالظبط."]
+]);
