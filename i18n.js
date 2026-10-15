@@ -26,6 +26,8 @@
     if(/[?&]source=(app|pwa)\b/.test(location.search)||document.referrer.indexOf("android-app://")===0)sessionStorage.setItem("qt-app","1");
     APP=sessionStorage.getItem("qt-app")==="1"||matchMedia("(display-mode: standalone)").matches;
   }catch(e){}
+  /* Brand cursor (black arrow, white glow; gold over links). Mouse/trackpad only; text fields keep the text cursor. */
+  try{if(matchMedia("(pointer:fine)").matches){document.documentElement.classList.add("qt-cur");var cs=document.createElement("style");cs.textContent="html.qt-cur,html.qt-cur body{cursor:url(/cursor.png) 3 3,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 3 3,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 3 3,auto}html.qt-cur :is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 3 3,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 3 3,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 3 3,pointer!important}";document.head.appendChild(cs)}}catch(e){}
   window.QT_APP=APP;if(APP)document.documentElement.classList.add("qt-app");
   /* Install from Chrome (PWA) */
   var installEvt=null;
