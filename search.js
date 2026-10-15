@@ -240,29 +240,29 @@
     ".qs-btn svg{width:16px;height:16px;stroke:var(--gold,#E2A63F);fill:none;stroke-width:2.2;stroke-linecap:round}" +
     ".qs-btn kbd{font:500 .66rem 'JetBrains Mono',monospace;color:var(--dim,#6E675C);border:1px solid var(--line,#36322B);border-radius:3px;padding:1px 5px}" +
     "@media (max-width:760px){.qs-btn kbd{display:none}.qs-btn{padding:6px 10px}}" +
-    "#qs{position:fixed;inset:0;z-index:400;background:rgba(8,7,6,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:flex-start;padding:min(10vh,90px) 16px 16px}" +
-    "#qs[hidden]{display:none}" +
-    "#qs .qs-p{width:min(680px,100%);max-height:calc(100dvh - min(10vh,90px) - 16px);display:flex;flex-direction:column;background:var(--surface,#201E1A);border:1px solid var(--gold,#E2A63F);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 30px rgba(226,166,63,.12);overflow:hidden}" +
-    "#qs .qs-f{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line,#36322B)}" +
-    "#qs .qs-f svg{width:20px;height:20px;flex:none;stroke:var(--gold,#E2A63F);fill:none;stroke-width:2.2;stroke-linecap:round}" +
-    "#qs input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink,#EFE8DB);font-family:inherit;font-weight:500;font-size:1.1rem;line-height:1.4;padding:6px 0}" +
-    "#qs input::-webkit-search-cancel-button{display:none}" +
-    "#qs .qs-x{border:1px solid var(--line-2,#4A443A);background:transparent;color:var(--muted,#A79E8F);border-radius:4px;font:500 .72rem 'JetBrains Mono',monospace;padding:4px 7px;cursor:pointer}" +
-    "#qs ul{list-style:none;margin:0;padding:6px;overflow-y:auto;overscroll-behavior:contain}" +
-    "#qs li a{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:center;padding:10px 12px;border-radius:6px;color:var(--ink,#EFE8DB);text-decoration:none}" +
-    "#qs li a .g{grid-row:span 2;font:600 .62rem/1 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-2,#F3C877);border:1px solid rgba(226,166,63,.45);border-radius:3px;padding:4px 6px;min-width:78px;text-align:center}" +
-    "html.rtl #qs li a .g{font-family:inherit;letter-spacing:0;font-size:.7rem}" +
-    "#qs li a b{font-weight:600;font-size:.98rem;line-height:1.35;overflow:hidden;text-overflow:ellipsis}" +
-    "#qs li a small{color:var(--muted,#A79E8F);font-size:.82rem;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
-    "#qs li a mark{background:rgba(226,166,63,.28);color:inherit;border-radius:2px;padding:0 1px}" +
-    "#qs li[aria-selected=true] a{background:var(--gold-soft,rgba(226,166,63,.12));outline:1px solid rgba(226,166,63,.5)}" +
-    "#qs .qs-h{padding:10px 12px 4px;font:500 .68rem 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--dim,#6E675C)}" +
-    "html.rtl #qs .qs-h{font-family:inherit;letter-spacing:0;font-size:.78rem}" +
-    "#qs .qs-chips{display:flex;flex-wrap:wrap;gap:8px;padding:6px 12px 14px}" +
-    "#qs .qs-chips button{border:1px solid var(--line-2,#4A443A);background:var(--bg-2,#1A1916);color:var(--ink,#EFE8DB);border-radius:999px;padding:7px 12px;font-family:inherit;font-weight:600;font-size:.84rem;cursor:pointer}" +
-    "#qs .qs-chips button:hover{border-color:var(--gold,#E2A63F)}" +
-    "#qs .qs-foot{display:flex;justify-content:space-between;gap:10px;padding:8px 14px;border-top:1px solid var(--line,#36322B);font:500 .7rem 'JetBrains Mono',monospace;color:var(--dim,#6E675C)}" +
-    "@media (max-width:600px){#qs{padding:0}#qs .qs-p{border-radius:0;border-width:0 0 1px;max-height:100dvh;height:100dvh}#qs .qs-foot{display:none}#qs li a .g{min-width:0}}" +
+    "#qt-search{position:fixed;inset:0;z-index:400;background:rgba(8,7,6,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:flex-start;padding:min(10vh,90px) 16px 16px}" +
+    "#qt-search[hidden]{display:none}" +
+    "#qt-search .qs-p{width:min(680px,100%);max-height:calc(100dvh - min(10vh,90px) - 16px);display:flex;flex-direction:column;background:var(--surface,#201E1A);border:1px solid var(--gold,#E2A63F);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 30px rgba(226,166,63,.12);overflow:hidden}" +
+    "#qt-search .qs-f{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line,#36322B)}" +
+    "#qt-search .qs-f svg{width:20px;height:20px;flex:none;stroke:var(--gold,#E2A63F);fill:none;stroke-width:2.2;stroke-linecap:round}" +
+    "#qt-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink,#EFE8DB);font-family:inherit;font-weight:500;font-size:1.1rem;line-height:1.4;padding:6px 0}" +
+    "#qt-search input::-webkit-search-cancel-button{display:none}" +
+    "#qt-search .qs-x{border:1px solid var(--line-2,#4A443A);background:transparent;color:var(--muted,#A79E8F);border-radius:4px;font:500 .72rem 'JetBrains Mono',monospace;padding:4px 7px;cursor:pointer}" +
+    "#qt-search ul{list-style:none;margin:0;padding:6px;overflow-y:auto;overscroll-behavior:contain}" +
+    "#qt-search li a{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:center;padding:10px 12px;border-radius:6px;color:var(--ink,#EFE8DB);text-decoration:none}" +
+    "#qt-search li a .g{grid-row:span 2;font:600 .62rem/1 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-2,#F3C877);border:1px solid rgba(226,166,63,.45);border-radius:3px;padding:4px 6px;min-width:78px;text-align:center}" +
+    "html.rtl #qt-search li a .g{font-family:inherit;letter-spacing:0;font-size:.7rem}" +
+    "#qt-search li a b{font-weight:600;font-size:.98rem;line-height:1.35;overflow:hidden;text-overflow:ellipsis}" +
+    "#qt-search li a small{color:var(--muted,#A79E8F);font-size:.82rem;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
+    "#qt-search li a mark{background:rgba(226,166,63,.28);color:inherit;border-radius:2px;padding:0 1px}" +
+    "#qt-search li[aria-selected=true] a{background:var(--gold-soft,rgba(226,166,63,.12));outline:1px solid rgba(226,166,63,.5)}" +
+    "#qt-search .qs-h{padding:10px 12px 4px;font:500 .68rem 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--dim,#6E675C)}" +
+    "html.rtl #qt-search .qs-h{font-family:inherit;letter-spacing:0;font-size:.78rem}" +
+    "#qt-search .qs-chips{display:flex;flex-wrap:wrap;gap:8px;padding:6px 12px 14px}" +
+    "#qt-search .qs-chips button{border:1px solid var(--line-2,#4A443A);background:var(--bg-2,#1A1916);color:var(--ink,#EFE8DB);border-radius:999px;padding:7px 12px;font-family:inherit;font-weight:600;font-size:.84rem;cursor:pointer}" +
+    "#qt-search .qs-chips button:hover{border-color:var(--gold,#E2A63F)}" +
+    "#qt-search .qs-foot{display:flex;justify-content:space-between;gap:10px;padding:8px 14px;border-top:1px solid var(--line,#36322B);font:500 .7rem 'JetBrains Mono',monospace;color:var(--dim,#6E675C)}" +
+    "@media (max-width:600px){#qt-search{padding:0}#qt-search .qs-p{border-radius:0;border-width:0 0 1px;max-height:100dvh;height:100dvh}#qt-search .qs-foot{display:none}#qt-search li a .g{min-width:0}}" +
     "html.qs-open{overflow:hidden}";
   document.head.appendChild(css);
 
@@ -274,7 +274,7 @@
   var box, inp, list, sel = -1, items = [], lastFocus = null;
   function ui() {
     if (box) return;
-    box = document.createElement("div"); box.id = "qs"; box.hidden = true;
+    box = document.createElement("div"); box.id = "qt-search"; box.hidden = true;
     box.innerHTML = '<div class="qs-p" role="dialog" aria-modal="true" aria-label="' + esc(L("Search the website", "ابحث في الموقع")) + '">' +
       '<div class="qs-f">' + ICON + '<input id="qs-in" type="search" autocomplete="off" spellcheck="false" enterkeyhint="go" role="combobox" aria-expanded="true" aria-controls="qs-list" aria-autocomplete="list" placeholder="' + esc(L("Search everything: cameras, Er7, maglock, Steam…", "ابحث في كل الموقع: كاميرات، Er7، قفل، Steam…")) + '"><button type="button" class="qs-x" aria-label="' + esc(L("Close", "إغلاق")) + '">Esc</button></div>' +
       '<ul id="qs-list" role="listbox"></ul>' +
