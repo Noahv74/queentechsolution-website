@@ -124,7 +124,7 @@
     st.ev.forEach(function (ev) {
       if (ev === "jump") G.sfx("jump");
       else if (ev.indexOf("die") === 0) {
-        G.sfx("die"); G.buzz(70); deadT = 0.8; shakeA = 9; flash = 1;
+        G.sfx("die"); G.buzz(70); deadT = 0.4; shakeA = 9; flash = 1;
         burst(p.x + 9, p.y + 13, 26, ["#EFE8DB", "#E2A63F", "#E25B45"], 230);
         data.deaths = st.deaths; persist(); hud();
       } else if (ev === "win") {

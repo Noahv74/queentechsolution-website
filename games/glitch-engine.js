@@ -14,6 +14,9 @@
   var T = 30, COLS = 32, ROWS = 18, W = COLS * T, H = ROWS * T, DT = 1 / 60;
   var MOVE = 200, ACC_G = 3200, ACC_A = 2200, GRAV = 1600, JUMP = 560, MAXF = 820,
       COYOTE = 0.08, BUFFER = 0.1, PW = 18, PH = 26;
+  /* Trap difficulty (17 Oct 2026: every trap made harder; all 100 levels re-checked with the solver). */
+  var HARD = { fallDelay: 0.07, vanishDelay: 0.18, hidNear: 34, hidPop: 24, dropNear: 48, dropG: 3200,
+               crushNear: 14, crushG: 3400, sawX: 1.35, doorNear: 95, doorNearY: 75, riseDelay: 0.75, riseSpeed: 1.3 };
 
   var LEVELS = [
     { hint: "Walk to the door. Easy.", doors: [[28, 15]], map: [
@@ -449,12 +452,12 @@
       st.ents.push({ k: "crush", x: k.c * T, y: k.r * T, w: k.w * T, h: T, s: "idle", vy: 0, trig: k.trig != null ? k.trig * T : null });
     });
     (def.saws || []).forEach(function (s) {
-      st.saws.push({ x: s.c * T + T / 2, y: s.r * T + T / 2, r: 13, x0: s.from * T + T / 2, x1: s.to * T + T / 2, v: s.speed });
+      st.saws.push({ x: s.c * T + T / 2, y: s.r * T + T / 2, r: 13, x0: s.from * T + T / 2, x1: s.to * T + T / 2, v: s.speed * HARD.sawX });
     });
     st.doors = def.doors.map(function (d) { return { x: d[0] * T, y: (d[1] - 1) * T, w: T, h: 2 * T }; });
     st.hint = def.hint;
     st.rev = !!def.rev; st.moon = !!def.moon;
-    if (def.rise) st.rise = { y: H + 10, t: def.rise.delay || 1.5, v: def.rise.speed || 30, min: (def.rise.to || 8) * T };
+    if (def.rise) st.rise = { y: H + 10, t: (def.rise.delay || 1.5) * HARD.riseDelay, v: (def.rise.speed || 30) * HARD.riseSpeed, min: (def.rise.to || 8) * T };
     return st;
   }
 
@@ -525,26 +528,26 @@
     for (i = 0; i < st.ents.length; i++) {
       var e = st.ents[i];
       if (e.k === "fall") {
-        if (e.s === "idle" && under === e) { e.s = "shake"; e.tm = 0.14; st.ev.push("crack"); }
+        if (e.s === "idle" && under === e) { e.s = "shake"; e.tm = HARD.fallDelay; st.ev.push("crack"); }
         else if (e.s === "shake") { e.tm -= dt; if (e.tm <= 0) e.s = "fall"; }
         else if (e.s === "fall") { e.vy += GRAV * dt; e.y += e.vy * dt; if (e.y > H + 80) e.s = "gone"; }
       } else if (e.k === "vanish") {
-        if (e.s === "idle" && under === e) { e.s = "fade"; e.tm = 0.35; }
+        if (e.s === "idle" && under === e) { e.s = "fade"; e.tm = HARD.vanishDelay; }
         else if (e.s === "fade") { e.tm -= dt; if (e.tm <= 0) { e.s = "gone"; st.ev.push("poof"); } }
       } else if (e.k === "drop") {
-        if (e.s === "idle") { if (Math.abs(cx - (e.x + T / 2)) < 34 && p.y > e.y) { e.s = "fall"; st.ev.push("spike"); } }
+        if (e.s === "idle") { if (Math.abs(cx - (e.x + T / 2)) < HARD.dropNear && p.y > e.y) { e.s = "fall"; st.ev.push("spike"); } }
         else if (e.s === "fall") {
-          e.vy += 2400 * dt; e.y += e.vy * dt;
+          e.vy += HARD.dropG * dt; e.y += e.vy * dt;
           if (hit(me, rect(e.x + 7, e.y + 4, e.w - 14, e.h - 8))) die(st, "spike");
           var hitT = tileHits(st, rect(e.x + 4, e.y + 8, e.w - 8, e.h - 8));
           if (hitT.length || e.y > H) { e.s = "gone"; st.ev.push("poof"); }
         }
       } else if (e.k === "crush") {
         if (e.s === "idle") {
-          var go = e.trig != null ? cx >= e.trig : (cx > e.x - 4 && cx < e.x + e.w + 4);
+          var go = e.trig != null ? cx >= e.trig : (cx > e.x - HARD.crushNear && cx < e.x + e.w + HARD.crushNear);
           if (go && p.y > e.y) { e.s = "fall"; e.vy = 0; st.ev.push("rumble"); }
         } else if (e.s === "fall") {
-          e.vy += 2600 * dt; e.y += e.vy * dt;
+          e.vy += HARD.crushG * dt; e.y += e.vy * dt;
           var below = tileHits(st, rect(e.x + 1, e.y, e.w - 2, e.h));
           if (below.length) { e.y = below[0].y - e.h; e.s = "landed"; st.ev.push("slam"); }
           if (hit(me, e)) die(st, "crush");
@@ -553,8 +556,8 @@
     }
     for (i = 0; i < st.spikes.length; i++) {
       var s = st.spikes[i];
-      if (!s.up && Math.abs(cx - (s.x + T / 2)) < 44 && p.y + PH > s.y - 50) { s.up = 0.001; st.ev.push("spike"); }
-      if (s.up && s.up < 1) s.up = Math.min(1, s.up + dt * 14);
+      if (!s.up && Math.abs(cx - (s.x + T / 2)) < HARD.hidNear && p.y + PH > s.y - 50) { s.up = 0.001; st.ev.push("spike"); }
+      if (s.up && s.up < 1) s.up = Math.min(1, s.up + dt * HARD.hidPop);
       if (s.up >= 0.6 && hit(me, rect(s.x + 5, s.y + 14, T - 10, T - 14))) die(st, "spike");
     }
     for (i = 0; i < st.saws.length; i++) {
@@ -570,11 +573,11 @@
     }
     // door
     var d = st.doors[st.door], dcx = d.x + d.w / 2, dcy = d.y + d.h / 2;
-    if (st.door < st.doors.length - 1 && Math.abs(cx - dcx) < 70 && Math.abs(p.y + PH / 2 - dcy) < 60) { st.door++; st.ev.push("door"); }
+    if (st.door < st.doors.length - 1 && Math.abs(cx - dcx) < HARD.doorNear && Math.abs(p.y + PH / 2 - dcy) < HARD.doorNearY) { st.door++; st.ev.push("door"); }
     else if (!st.dead && hit(me, rect(d.x + 6, d.y + 12, d.w - 12, d.h - 12))) { st.won = true; st.ev.push("win"); }
     return st;
   }
 
-  var api = { LEVELS: LEVELS, create: create, step: step, T: T, COLS: COLS, ROWS: ROWS, W: W, H: H, PW: PW, PH: PH, DT: DT };
+  var api = { HARD: HARD, LEVELS: LEVELS, create: create, step: step, T: T, COLS: COLS, ROWS: ROWS, W: W, H: H, PW: PW, PH: PH, DT: DT };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.GlitchEngine = api;
 })(this);
