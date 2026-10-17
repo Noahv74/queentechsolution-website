@@ -40,9 +40,9 @@
     var el = document.getElementById("cloudchip");
     if (!el) { el = document.createElement("a"); el.id = "cloudchip"; el.className = "g-cloud"; bar.appendChild(el); }
     var C = window.QT_CLOUD || {}, ar = G.ar;
-    if (C.user && C.status === "on") { el.textContent = "☁ " + (ar ? "محفوظ" : "Saved"); el.href = "/account.html"; el.title = ar ? "تقدمك محفوظ في حسابك" : "Your progress is saved to your account"; }
-    else if (C.user) { el.textContent = "☁ " + (ar ? "على الجهاز" : "This device"); el.href = "/account.html"; el.title = ar ? "الحفظ السحابي غير مفعّل حالياً" : "Cloud save isn't available right now"; }
-    else { el.textContent = "☁ " + (ar ? "سجّل واحفظ تقدّمك" : "Sign in to save"); el.href = "/account.html?next=" + encodeURIComponent(location.pathname); el.title = ""; }
+    if (C.user && C.status === "on") { el.innerHTML = "☁<span> " + (ar ? "محفوظ" : "Saved") + "</span>"; el.href = "/account.html"; el.title = ar ? "تقدمك محفوظ في حسابك" : "Your progress is saved to your account"; }
+    else if (C.user) { el.innerHTML = "☁<span> " + (ar ? "على الجهاز" : "This device") + "</span>"; el.href = "/account.html"; el.title = ar ? "الحفظ السحابي غير مفعّل حالياً" : "Cloud save isn't available right now"; }
+    else { el.innerHTML = "☁<span> " + (ar ? "سجّل واحفظ تقدّمك" : "Sign in to save") + "</span>"; el.href = "/account.html?next=" + encodeURIComponent(location.pathname); el.title = ""; }
   }
   G.oncloud = null;
   (function () {
@@ -113,16 +113,27 @@
   };
   G.buzz = function (ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} };
 
+  /* ---------- fit the game to the screen we can really see ----------
+     Some phones ("full screen apps" setting, the Android app) report a taller 100dvh than the visible area,
+     which pushed the arrow buttons off the bottom. Use the measured height instead. */
+  function fitApp() {
+    var h = window.innerHeight, v = window.visualViewport; if (v && v.height && v.height < h) h = v.height;
+    document.documentElement.style.setProperty("--app-h", Math.round(h) + "px");
+  }
+  fitApp();
+
   /* ---------- canvas ---------- */
   G.setup = function (canvas) {
     G.cv = canvas; G.cx = canvas.getContext("2d");
     function rs() {
-      var r = canvas.parentNode.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      fitApp();
+      var r = canvas.parentNode.getBoundingClientRect(), dpr = Math.min(G.touch ? 1.5 : 2, window.devicePixelRatio || 1);
       canvas.width = Math.max(1, Math.round(r.width * dpr)); canvas.height = Math.max(1, Math.round(r.height * dpr));
       G.w = r.width; G.h = r.height; G.dpr = dpr;
       if (G.onresize) G.onresize();
     }
     window.addEventListener("resize", rs);
+    if (window.visualViewport) visualViewport.addEventListener("resize", rs);
     window.addEventListener("orientationchange", function () { setTimeout(rs, 200); });
     rs(); setTimeout(rs, 120);
   };
@@ -236,6 +247,7 @@
   function adsOn() { return !!(window.QT_ADS && window.QT_ADS.on && window.adBreak); }
   /* An ad MAY show at a natural break (between levels / before a replay). done() always runs exactly once. */
   G.adBreak = function (name, done) {
+    loadAds();
     var fired = false, showing = false, wasPaused = G.paused;
     function fin() { if (fired) return; fired = true; G.adMute = false; G.paused = wasPaused; if (done) done(); }
     if (!adsOn()) return fin();
@@ -249,6 +261,7 @@
   };
   /* Opt-in rewarded ad. Shows our own offer card only when Google has an ad ready. */
   G.rewarded = function (name, offer, onReward) {
+    loadAds();
     if (!adsOn()) return false;
     try {
       window.adBreak({ type: "reward", name: name,
@@ -272,7 +285,10 @@
     return "https://wa.me/?text=" + encodeURIComponent(text + "\n" + url);
   };
 
-  (function () { var a = document.createElement("script"); a.src = "/ads.js"; a.async = true; document.head.appendChild(a); })();
+  /* The ad script is heavy on phones, so it loads only at the first break between levels, never while the first level is played. */
+  var adsAsked = false;
+  function loadAds() { if (adsAsked) return; adsAsked = true; var a = document.createElement("script"); a.src = "/ads.js"; a.async = true; document.head.appendChild(a); }
+  G.loadAds = loadAds;
 
   /* ---------- top bar buttons ---------- */
   var mute = document.getElementById("mute");

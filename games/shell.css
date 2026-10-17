@@ -7,7 +7,7 @@ html,body{margin:0;height:100%;background:#0d0c0a;color:var(--ink);font-family:v
   -webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 html[dir=rtl] body{font-family:"IBM Plex Sans Arabic","Noto Kufi Arabic",var(--f-body)}
 [hidden]{display:none!important}
-.g-app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+.g-app{display:flex;flex-direction:column;height:100vh;height:100dvh;height:var(--app-h,100dvh)}
 .g-bar{flex:none;display:flex;align-items:center;gap:8px;padding:8px 10px;padding-top:calc(8px + env(safe-area-inset-top));background:var(--bg);border-bottom:1px solid var(--line);min-height:52px}
 .g-back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-weight:600;font-size:.88rem;padding:6px 8px;border-radius:6px;white-space:nowrap}
 .g-back:hover{color:var(--ink);background:var(--surface)}
@@ -90,3 +90,11 @@ html[dir=rtl] .g-card h2{font-family:"Noto Kufi Arabic",var(--f-display);font-si
 .g-cloud{font:600 .74rem/1 var(--f-body,system-ui);color:var(--muted,#A79E8F);text-decoration:none;border:1px solid var(--line-2,#4A443A);border-radius:999px;padding:6px 10px;white-space:nowrap}
 .g-cloud:hover{color:var(--ink,#EFE8DB);border-color:var(--gold,#E2A63F)}
 @media (max-width:560px){.g-cloud{font-size:.68rem;padding:5px 8px}}
+
+/* installed app / phones with "full screen apps": keep the arrows clear of the gesture bar and rounded corners */
+.touch .g-pad{padding-bottom:calc(10px + max(env(safe-area-inset-bottom), 10px))}
+@media (display-mode:standalone),(display-mode:fullscreen){.touch .g-pad{padding-bottom:calc(14px + max(env(safe-area-inset-bottom), 22px))}}
+/* small phones: the cloud chip shows just the cloud so the top bar fits */
+@media (max-width:480px){.g-cloud span{display:none}.g-cloud{padding:5px 8px}}
+.g-hud span span{background:none;border:0;padding:0}
+@media (max-width:440px){.g-hud span span{display:none}.g-hud{gap:4px;font-size:.74rem}.g-hud span{padding:3px 6px}.g-bar{gap:5px;padding-inline:6px}.g-bar .lang-tg{display:none}}
