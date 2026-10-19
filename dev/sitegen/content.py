@@ -97,7 +97,7 @@ PAGES = [
 },
 # ---------------------------------------------------------------- CCTV ABU DHABI
 {
- "slug": "cctv-installation-abu-dhabi", "kind": "cctv", "city": "abudhabi",
+ "slug": "cctv-installation-abu-dhabi", "work": ["wall", "rack-sr6", "rack-honeywell", "rack-gr6"], "kind": "cctv", "city": "abudhabi",
  "prices": [("lab", "cam"), ("lab", "nvr"), ("from", "cam4_dome,cam4_bullet"), ("from", "nvr8")],
  "related": ["cctv-installation-dubai", "access-control-dubai", "gate-barrier-installation", "it-support-dubai"],
  "en": {
@@ -253,7 +253,7 @@ PAGES = [
 },
 # ---------------------------------------------------------------- BARRIERS
 {
- "slug": "gate-barrier-installation", "kind": "barrier", "city": "both",
+ "slug": "gate-barrier-installation", "work": ["barrier-came", "barrier-tech"], "kind": "barrier", "city": "both",
  "prices": [("lab", "barrier"), ("from", "barrier"), ("lab", "loop"), ("from", "remote"), ("from", "anpr")],
  "related": ["access-control-dubai", "cctv-installation-dubai", "cctv-installation-abu-dhabi", "network-wifi-installation-dubai"],
  "en": {

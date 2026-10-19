@@ -84,6 +84,30 @@ def areas_for(pg, lang):
 def url(slug, lang):
     return f"/{slug}.html" if lang == "en" else f"/ar/{slug}.html"
 
+# Real job photos (files in /work, page /work.html). A page lists the keys it shows in pg["work"].
+WORK = {
+    "wall": ("Control-room video wall", "شاشات غرفة التحكم"),
+    "rack-sr6": ("Network room · recorders + UPS", "غرفة شبكة · أجهزة تسجيل وUPS"),
+    "rack-honeywell": ("Honeywell recorders", "أجهزة تسجيل Honeywell"),
+    "rack-gr6": ("Three recorders, labelled", "ثلاث أجهزة تسجيل مرقّمة"),
+    "barrier-came": ("CAME barrier: spring and arm service", "بوابة CAME: صيانة الياي والذراع"),
+    "barrier-tech": ("Barrier service on site", "صيانة البوابة في الموقع"),
+}
+WORK_UI = {"en": ("Our work", "Real jobs, real photos.", "From our maintenance work at a residential community on Saadiyat Island, Abu Dhabi.", "See all photos →"),
+           "ar": ("شغلنا", "مشاريع حقيقية، صور حقيقية.", "من شغل الصيانة في مجمّع سكني بجزيرة السعديات، أبوظبي.", "شوف كل الصور ←")}
+
+
+def work_sec(pg, lang):
+    keys = pg.get("work") or []
+    if not keys:
+        return ""
+    t, h, p, more = WORK_UI[lang]
+    q = "" if lang == "en" else "?lang=ar"
+    items = "".join(f'<a href="/work.html{q}"><img src="/work/{k}-s.webp" alt="{e(WORK[k][0 if lang == "en" else 1])}" loading="lazy" decoding="async" width="560" height="420"><span>{e(WORK[k][0 if lang == "en" else 1])}</span></a>' for k in keys)
+    return (f'  <section class="sec" id="work">\n    <div class="sec-head"><span class="tag">{e(t)}</span><h2>{e(h)}</h2><p>{e(p)}</p></div>\n'
+            f'    <div class="work-strip">{items}</div>\n    <p class="fine"><a href="/work.html{q}">{e(more)}</a></p>\n  </section>\n\n')
+
+
 def build(pg, lang):
     c, u, slug = pg[lang], UI[lang], pg["slug"]
     other = "ar" if lang == "en" else "en"
@@ -242,7 +266,7 @@ def build(pg, lang):
     <ol class="steps">{steps}</ol>
   </section>
 
-  <section class="sec faq" id="faq">
+{work_sec(pg, lang)}  <section class="sec faq" id="faq">
     <div class="sec-head"><span class="tag">{e(u["faq"])}</span><h2>{e(u["faq_h"])}</h2></div>
     {faq}
   </section>
