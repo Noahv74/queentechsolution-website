@@ -375,13 +375,8 @@ form.lead::before{content:"Quote request · via WhatsApp";position:absolute;top:
 footer{border-top:1px solid var(--line);padding-block:40px 32px;color:var(--muted);font-size:.88rem;overflow:hidden}
 .big-mark{margin:0 0 30px;user-select:none;direction:ltr}
 .big-mark svg{display:block;width:100%;height:auto;overflow:visible}
-.big-mark text{font-family:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;font-weight:900;font-size:168px;fill:none}
-.big-mark .tube{stroke:#E2A63F;stroke-width:2.4;filter:url(#neon);animation:neonPulse 4s ease-in-out infinite}
-.big-mark .chase{stroke:#FFF4D8;stroke-width:3;stroke-linecap:round;stroke-dasharray:10 70;filter:url(#neon);animation:ledChase 7s linear infinite;opacity:.95}
-.big-mark .l2{animation:neonFlicker 6s infinite}.big-mark .l7{animation:neonFlicker 8.5s 1.3s infinite}
-@keyframes neonPulse{0%,100%{opacity:.82}50%{opacity:1}}
-@keyframes ledChase{to{stroke-dashoffset:-800}}
-@keyframes neonFlicker{0%,18%,22%,60%,64%,100%{opacity:1}20%,62%{opacity:.15}21%{opacity:.7}}
+.big-mark text{font-family:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;font-weight:900;font-size:168px}
+.big-mark .word{fill:url(#bmFill);filter:url(#bmGlow);opacity:.9}
 footer{position:relative}
 footer::before,footer::after{content:"";position:absolute;left:0;right:0;top:-3px;height:6px;pointer-events:none}
 footer::before{background:radial-gradient(circle at 4px 3px,rgba(226,166,63,.28) 1.8px,transparent 2.4px) 0 0/16px 6px repeat-x}
@@ -543,7 +538,7 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
 
 <footer>
   <div class="wrap">
-    <div class="big-mark" aria-hidden="true"><svg viewBox="0 0 1000 160" role="presentation"><defs><filter id="neon" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="a"/><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="a"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><text class="tube" x="500" y="134" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs"><tspan class="l0">Q</tspan><tspan class="l1">U</tspan><tspan class="l2">E</tspan><tspan class="l3">E</tspan><tspan class="l4">N</tspan><tspan class="l5"> </tspan><tspan class="l6">T</tspan><tspan class="l7">E</tspan><tspan class="l8">C</tspan><tspan class="l9">H</tspan></text><text class="chase" x="500" y="134" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">QUEEN TECH</text></svg></div>
+    <div class="big-mark" aria-hidden="true"><svg viewBox="0 0 1000 160" role="presentation"><defs><linearGradient id="bmFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3C877"/><stop offset=".55" stop-color="#E2A63F"/><stop offset="1" stop-color="#A8742A"/></linearGradient><filter id="bmGlow" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feFlood flood-color="#E2A63F" flood-opacity=".18"/><feComposite operator="in" in2="SourceAlpha"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><text class="word" x="500" y="134" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">QUEEN TECH</text></svg></div>
     <nav class="svc-foot" aria-label="Services"><a href="/cctv-installation-dubai.html">CCTV installation in Dubai</a><a href="/cctv-installation-abu-dhabi.html">CCTV installation in Abu Dhabi</a><a href="/access-control-dubai.html">Access control</a><a href="/gate-barrier-installation.html">Gate and parking barriers</a><a href="/network-wifi-installation-dubai.html">Network and WiFi</a><a href="/laptop-repair-business-bay.html">Laptop and PC repair</a><a href="/phone-repair-dubai.html">Mobile phone repair</a><a href="/it-support-dubai.html">IT support for businesses</a><a href="/planner.html">Camera planner</a><a href="/rescue.html">Game error rescue</a></nav>
     <div class="foot">
       <span>© 2026 Queen Tech Solutions · CCTV, access control, networking &amp; IT repair in Dubai &amp; Abu Dhabi, UAE · <a href="/tools.html" style="color:inherit">Free tools</a> · <a href="/help.html" style="color:inherit">Help centre</a> · <a href="/account.html" style="color:inherit">Account</a> · <a href="/app.html" style="color:inherit">Android app</a> · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="https://g.page/r/CXPWAzSYn864ECE/review" style="color:inherit" target="_blank" rel="noopener">⭐ Google reviews</a></span>
