@@ -5,7 +5,7 @@
    Brand items live under v: { hikvision, dahua, honeywell, infinique, zkteco, generic }.
    To update: change price / url, then update "checked". */
 window.QT_PRICES = {
-  checked: "14 Oct 2026",
+  checked: "22 Oct 2026",
   offer: { label: "Limited offer · 50% off all installation" },
   brands: { hikvision: "Hikvision", dahua: "Dahua", honeywell: "Honeywell", infinique: "Infinique", zkteco: "ZKTeco", generic: "Other brand" },
   items: {
@@ -13,7 +13,7 @@ window.QT_PRICES = {
     cam2_dome: { label: "2MP IP dome camera", v: {
       hikvision: { model: "DS-2CD1121G0-I", price: 95, shop: "Terrabyt", url: "https://www.terrabyt.com/hikvision-ds-2cd1121g0-i-2-8mm-dubai" },
       dahua:     { model: "IPC-HDW1230T1-A-S5 (eyeball)", price: 79, shop: "Terrabyt", url: "https://www.terrabyt.com/dahua-dh-ipc-hdw1230t1-a-s5-dubai" },
-      honeywell: { model: "HC30W42R3", price: 1314.24, shop: "securitysupplies.ae", url: "https://www.securitysupplies.ae/product/honeywell-hc30w42r3-30-series-2mp-ir-rugged-dome-ip-security-camera-2-8mm-lens-taiwan/" },
+      honeywell: { model: "HC30W42R3", price: 1251.66, shop: "securitysupplies.ae", url: "https://www.securitysupplies.ae/product/honeywell-hc30w42r3-30-series-2mp-ir-rugged-dome-ip-security-camera-2-8mm-lens-taiwan/" },
       infinique: { model: "INV703F-RTN", price: null, shop: "Infinique dealer", url: "https://www.infinique.com/products/inv703f-rtn" },
       zkteco:    { model: "ES-852T21C (eyeball)", price: null, shop: "SYS LLC", url: "https://www.sysllc.ae/zkteco-biopro-series-2mp-starlight-fixed-lens-face-detection-eyeball-ip-camera-es-852t21c.html" } } },
     cam2_bullet: { label: "2MP IP bullet camera", v: {
@@ -29,7 +29,7 @@ window.QT_PRICES = {
       infinique: { model: "INV413Z-RWTM", price: null, shop: "Infinique dealer", url: "https://www.infinique.com/products/network-camera" },
       zkteco:    { model: "ES-854N11-12-13H (eyeball)", price: null, shop: "SYS LLC", url: "https://www.sysllc.ae/zkteco-e-series-4mp-ir-eyeball-network-camera-es-854n11-12-13h.html" } } },
     cam4_bullet: { label: "4MP IP bullet camera", v: {
-      hikvision: { model: "DS-2CD1043G2-LIU", price: 177, shop: "Noon (via Pricena)", url: "https://ae.pricena.com/en/product/4-mp-smart-hybrid-light-fixed-bullet-network-camera-2-8-mm-lens-h-265-compression-up-to-30m-ir-light-range-built-in-mic-ip67-water-and-dust-resistant-ds-2cd1043g2-liu-price-in-dubai-uae-212068860" },
+      hikvision: { model: "DS-2CD1043G2-LIU", price: 180.6, shop: "iTechDevices UAE", url: "https://www.itechdevices.ae/ds-2cd1043g2-liu-1723347.html" },
       dahua:     { model: "IPC-HFW1431S1-S4", price: 140, shop: "Terrabyt", url: "https://www.terrabyt.com/dahua-dh-ipc-hfw1431s1-s4-dubai" },
       honeywell: { model: "HBW4PER2V", price: 990, shop: "securitysupplies.ae", url: "https://www.securitysupplies.ae/product/honeywell-hbw4per2v-wdr-4mp-ir-bullet-camera-mfz-lens/" },
       infinique: { model: "INB413Z-RWTM", price: null, shop: "Infinique dealer", url: "https://www.infinique.com/products/network-camera" },
@@ -93,7 +93,7 @@ window.QT_PRICES = {
     /* ---------- Home ---------- */
     wifi_in:   { label: "Wi-Fi indoor camera (pan/tilt)", v: { generic: { model: "EZVIZ C6N 1080p", price: 74, shop: "Amazon.ae (via Pricena)", url: "https://ae.pricena.com/en/product/ezviz-c6n-baby-monitor-security-camera-1080p-wifi-camera-surveillance-camera-cctv-for-home-with-night-vision-360-coverage-smart-tracking-motion-detection-two-way-audio-h-264-works-with-alexa-price-in-dubai-uae-210624887" } } },
     wifi_out:  { label: "Wi-Fi outdoor camera", v: { generic: { model: "EZVIZ H3c 1080p", price: 149, shop: "Amazon.ae (via Pricena)", url: "https://ae.pricena.com/en/product/ezviz-h3c-security-camera-1080p-2mp-outdoor-wifi-camera-cctv-for-home-with-ir-night-vision-ai-human-shape-detection-weatherproof-design-audio-pick-up-compatible-with-alexa-and-google-assistant-price-in-dubai-uae-210649036" } } },
-    vdoorbell: { label: "Video doorbell with chime", v: { generic: { model: "EZVIZ DB2C", price: 399, shop: "Carrefour UAE", url: "https://www.carrefouruae.com/mafuae/en/ip-camera/ezviz-db2c-wirefree-video-doorbell-with-chime-rechargable-battery-powerd-wireless-smart-home-security-camera-two-way-talk-human-detection-full-hd-night-vision/p/8081280382453" } } },
+    vdoorbell: { label: "Video doorbell with chime", v: { generic: { model: "EZVIZ DB2C", price: 404, shop: "Carrefour UAE", url: "https://www.carrefouruae.com/mafuae/en/ip-camera/ezviz-db2c-wirefree-video-doorbell-with-chime-rechargable-battery-powerd-wireless-smart-home-security-camera-two-way-talk-human-detection-full-hd-night-vision/p/8081280382453" } } },
 
     /* ---------- Gate barrier ---------- */
     barrier: { label: "Automatic boom barrier, 4 m arm", v: {
@@ -130,7 +130,7 @@ window.QT_PRICES = {
     poe8:   { label: "10-port switch with 8 PoE ports", v: { generic: { model: "TP-Link TL-SG1210P", price: 193, shop: "Noon (via Pricena)", url: "https://ae.pricena.com/en/product/10-port-gigabit-desktop-switch-with-8-port-poe-ethernet-switch-910-100-1000mbps-rj45-ports-1gigabit-sfp-port-tl-sg1210p-black-price-in-dubai-uae-203014237" } } },
     poe16:  { label: "16-port PoE switch", v: { generic: { model: "D-Link DGS-F1016P", price: 449.6, shop: "Noon (via Pricena)", url: "https://ae.pricena.com/en/product/16-port-gigabit-unmanaged-poe-switch-with-2-sfp-ports-250-watts-1610-100-1000mbps-ports-2gigabit-sfp-uplink-ports-dgs-f1016p-black-price-in-dubai-uae-175308803" } } },
     sw24:   { label: "24-port gigabit switch", v: { generic: { model: "D-Link DGS-1024C", price: 215, shop: "Sharaf DG", url: "https://uae.sharafdg.com/product/d-link-24-port-unmanaged-desktop-switch/" } } },
-    router: { label: "Business router (VPN, multi-WAN)", v: { generic: { model: "TP-Link Omada ER605", price: 180.4, shop: "Amazon.ae (via Pricena)", url: "https://ae.pricena.com/en/search/?s=er605" } } },
+    router: { label: "Business router (VPN, multi-WAN)", v: { generic: { model: "TP-Link Omada ER605", price: 180.4, shop: "Amazon.ae (via Pricena)", url: "https://ae.pricena.com/en/product/tplink-er605-vpn-router-giga-black-price-in-dubai-uae-190515069" } } },
     patch24:{ label: "24-port Cat6 patch panel (loaded)", v: { generic: { model: "D-Link NPP-C61BLK241", price: 102.98, shop: "Amazon.ae (via Pricena)", url: "https://ae.pricena.com/en/product/24-port-cat-6-utp-loaded-patch-panel-black-price-in-dubai-uae-217458999" } } },
     cab6u:  { label: "6U wall-mount network cabinet", v: { generic: { model: "XFORM 6U 600×600", price: 245, shop: "Amazon.ae (via Pricena)", url: "https://ae.pricena.com/en/product/wall-mount-server-rack-cabinet-6u-600mm-w-x-600mm-d-x-370mm-h-high-quality-6u-cabinet-loading-capacity-70kg-price-in-dubai-uae-124112434" } } },
     keystone:{ label: "Cat6 keystone jack", v: { generic: { model: "SATMAXIMUM Cat6 (from 50-pack)", price: 4.64, shop: "Amazon.ae (via Pricena)", url: "https://ae.pricena.com/en/product/cat6-rj45-keystone-jack-punch-down-network-black-50-price-in-dubai-uae-85522291" } } },
