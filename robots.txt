@@ -7,11 +7,6 @@ Disallow: /reviews-admin.html
 Disallow: /quickswap-admin.html
 Disallow: /dev/
 Disallow: /review-card.html
-Disallow: /elements.html
-Disallow: /left-sidebar.html
-Disallow: /right-sidebar.html
-Disallow: /no-sidebar.html
-Disallow: /testfile
 Disallow: /ai-worker/
 Disallow: /android/
 Disallow: /offline.html
