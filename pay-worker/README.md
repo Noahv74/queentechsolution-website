@@ -9,6 +9,12 @@ and creates the payments, so the key is never in the website code (the site is p
 - Every payment appears in your Ziina app.
 
 ## 1. Deploy the worker (free Cloudflare plan is enough)
+**Connected to GitHub (current setup):** Workers & Pages → queentech-pay → Settings → Build:
+Root directory `/pay-worker`, Deploy command `npx wrangler deploy`, Include paths `pay-worker/*`.
+Do NOT use the repo-root `wrangler.jsonc` (that one publishes the whole website as static files).
+The key goes in Settings → **Variables and Secrets** (runtime), not in the Build variables box.
+
+**Or from a terminal:**
 Use the same Cloudflare account as the AI assistant if you made one. On your computer (Node.js installed):
 ```
 cd pay-worker
