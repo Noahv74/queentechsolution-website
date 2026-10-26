@@ -4,6 +4,8 @@
 name = "queentech-pay"
 main = "worker.js"
 compatibility_date = "2025-09-27"
+workers_dev = true      # public address: https://queentech-pay.<account>.workers.dev
+preview_urls = false
 
 [vars]
 # "true" = test payments only (any card, no money moves). Change to "false" and redeploy to take real payments.

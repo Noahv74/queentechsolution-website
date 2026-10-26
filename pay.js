@@ -1,7 +1,13 @@
 /* Queen Tech – pay online (Ziina). Talks to the payment worker (QT_SITE.payEndpoint); the Ziina key lives only there. */
 (function () {
   var S = window.QT_SITE || {}, E = String(S.payEndpoint || "").replace(/\/+$/, "");
-  var q = new URLSearchParams(location.search), ar = document.documentElement.lang === "ar" || q.get("lang") === "ar";
+  var q = new URLSearchParams(location.search);
+  /* testing before go-live: /pay.html?pe=https://queentech-pay.<account>.workers.dev (this browser tab only) */
+  try {
+    var pe = q.get("pe"); if (pe && /^https:\/\/queentech-pay\.[a-z0-9-]+\.workers\.dev$/.test(pe)) sessionStorage.setItem("qt-pe", pe);
+    if (!E) E = sessionStorage.getItem("qt-pe") || "";
+  } catch (e) {}
+  var ar = document.documentElement.lang === "ar" || q.get("lang") === "ar";
   var L = ar ? {
     go: "جاري التحويل لصفحة الدفع…", nf: "مش لاقيين الكود ده. اتأكد منه أو كلمنا على واتساب.", nq: "لسه مفيش سعر للإصلاح ده. هنبعتلك السعر الأول.",
     col: "الجهاز ده اتسلّم خلاص.", amt: "اكتب مبلغ صحيح (أقل حاجة 2 درهم).", name: "اكتب اسمك أو اسم الشركة.", code: "اكتب كود الإصلاح زي QT-AB12-CD34.",
