@@ -212,11 +212,18 @@ function reviewWa(r, priv) {
                             : `Hello ${r.first}, thank you for choosing Queen Tech! Could you take a minute to tell us how we did? It really helps us and new customers:\n${u}`;
   return "https://wa.me/" + phoneIntl(priv.phone) + "?text=" + encodeURIComponent(m);
 }
+function payWa(r, priv) {
+  const u = location.origin + "/pay.html?repair=" + r.code + (r.lang === "ar" ? "&lang=ar" : "");
+  const amt = "AED " + Number(String(r.quote).replace(/[^0-9.]/g, "")).toLocaleString("en-US");
+  const m = r.lang === "ar" ? `أهلاً ${r.first}، معاك كوين تك. تقدر تدفع تمن إصلاح جهازك (${amt}) أونلاين بالكارت من اللينك ده:\n${u}`
+                            : `Hello ${r.first}, Queen Tech here. You can pay for your repair (${amt}) online by card here:\n${u}`;
+  return "https://wa.me/" + phoneIntl(priv.phone) + "?text=" + encodeURIComponent(m);
+}
 function card(r) {
   const p = privs[r.code] || {};
   return `<div class="tcard rep" data-c="${esc(r.code)}">
     <div class="thead"><div><b class="code">${esc(r.code)}</b> · <b>${esc(p.name || r.first)}</b> <span class="muted">${esc(p.phone || "")}</span><div class="muted">${esc(r.device)}${r.issue ? " · " + esc(r.issue) : ""} · updated ${esc(when(r.updated))}</div></div>
-      <div class="row"><a class="btn btn-wa" target="_blank" rel="noopener" href="${esc(waUpdate(r, p))}">WhatsApp update</a><button class="btn btn-line" data-copy>Copy link</button><a class="btn btn-line" target="_blank" rel="noopener" href="${esc(reviewWa(r, p))}">⭐ Ask for review</a></div></div>
+      <div class="row"><a class="btn btn-wa" target="_blank" rel="noopener" href="${esc(waUpdate(r, p))}">WhatsApp update</a><button class="btn btn-line" data-copy>Copy link</button><a class="btn btn-line" target="_blank" rel="noopener" href="${esc(reviewWa(r, p))}">⭐ Ask for review</a>${(window.QT_SITE || {}).payEndpoint && r.quote != null && r.quote !== "" && !r.collected ? `<a class="btn btn-line" target="_blank" rel="noopener" href="${esc(payWa(r, p))}">💳 Send pay link</a>` : ""}</div></div>
     <div class="stagebar">${ST.map((s, i) => `<button data-stage="${i}" aria-pressed="${i === (r.stage || 0) && !r.collected}" class="${i < (r.stage || 0) || r.collected ? "past" : ""}">${i + 1}. ${s}</button>`).join("")}<button data-collect aria-pressed="${!!r.collected}">✓ Collected</button></div>
     <div class="grid">
       <label>Note for the customer<input data-f="note" value="${esc(r.note || "")}" placeholder="e.g. Hard disk failed, needs replacing"></label>

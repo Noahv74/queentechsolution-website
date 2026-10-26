@@ -186,14 +186,14 @@ const L = ar ? {
   st: [["تم الاستلام", "استلمنا جهازك."], ["الفحص", "الفني بيفحص الجهاز ويحدد المشكلة."], ["في انتظار موافقتك", "بعتنالك السعر. وافق عشان نبدأ الإصلاح."], ["جاري الإصلاح", "بنصلّح جهازك دلوقتي."], ["جاهز", "جهازك جاهز للاستلام."]],
   hi: "أهلاً", dev: "الجهاز", issue: "المشكلة", note: "رسالة من الفني", quote: "السعر المطلوب موافقتك عليه", aed: "درهم", eta: "الموعد المتوقع",
   approve: "✅ موافق، ابدأوا الإصلاح", qa: "عندي سؤال", ready: "تقدر تستلمه من مكتبنا في سيلفر تاور، الخليج التجاري (كل يوم 10 ص – 10 م)، أو اطلب التوصيل.",
-  done: "تم الاستلام. شكراً لثقتك في كوين تك!", review: "⭐ قيّمنا على جوجل", rsite: "✍️ اكتب رأيك في شغلنا", qs: "شركة؟ استلف جهاز بديل لحد ما جهازك يخلص (QuickSwap) ←", none: "مش لاقيين الكود ده. اتأكد منه أو كلّمنا على واتساب.",
+  done: "تم الاستلام. شكراً لثقتك في كوين تك!", review: "⭐ قيّمنا على جوجل", rsite: "✍️ اكتب رأيك في شغلنا", pay: "💳 ادفع أونلاين بالكارت", qs: "شركة؟ استلف جهاز بديل لحد ما جهازك يخلص (QuickSwap) ←", none: "مش لاقيين الكود ده. اتأكد منه أو كلّمنا على واتساب.",
   bad: "الكود شكله: QT-XXXX-XXXX", err: "مش قادرين نتصل دلوقتي. جرّب تاني بعد شوية.", upd: "آخر تحديث", code: "كود الإصلاح", copy: "نسخ الرابط", copied: "اتنسخ ✓",
   wa1: "مرحباً كوين تك، أوافق على السعر لإصلاح رقم ", wa2: "مرحباً كوين تك، عندي سؤال عن إصلاح رقم ", loc: "ar-AE"
 } : {
   st: [["Received", "We have your device."], ["Diagnosing", "Our technician is checking the device to find the fault."], ["Waiting for your approval", "We sent you the price. Approve it and we start the repair."], ["Repairing", "Your device is being repaired now."], ["Ready", "Your device is ready for pickup."]],
   hi: "Hi", dev: "Device", issue: "Problem", note: "Message from the technician", quote: "Price for your approval", aed: "AED", eta: "Expected",
   approve: "✅ I approve, start the repair", qa: "I have a question", ready: "Pick it up at our office in Silver Tower, Business Bay (every day 10am–10pm), or ask us to deliver it.",
-  done: "Collected. Thank you for choosing Queen Tech!", review: "⭐ Review us on Google", rsite: "✍️ Tell us how we did", qs: "Business customer? Borrow a loaner while we repair it (QuickSwap) →", none: "We couldn't find that code. Check it, or message us on WhatsApp.",
+  done: "Collected. Thank you for choosing Queen Tech!", review: "⭐ Review us on Google", rsite: "✍️ Tell us how we did", pay: "💳 Pay online by card", qs: "Business customer? Borrow a loaner while we repair it (QuickSwap) →", none: "We couldn't find that code. Check it, or message us on WhatsApp.",
   bad: "Codes look like QT-XXXX-XXXX", err: "We can't connect right now. Please try again in a moment.", upd: "Last update", code: "Repair code", copy: "Copy link", copied: "Copied ✓",
   wa1: "Hello Queen Tech, I approve the price for repair ", wa2: "Hello Queen Tech, I have a question about repair ", loc: "en-GB"
 };
@@ -212,6 +212,7 @@ function render(r) {
   if (r.note) h += '<div class="note"><span class="k">' + esc(L.note) + '</span><p>' + esc(r.note) + '</p></div>';
   if (s === 2 && !r.collected && r.quote != null && r.quote !== "") h += '<div class="quote"><span class="k">' + esc(L.quote) + '</span><b>' + (ar ? esc(Number(r.quote).toLocaleString("en-US")) + ' ' + esc(L.aed) : esc(L.aed) + ' ' + esc(Number(r.quote).toLocaleString("en-US"))) + '</b><div class="row"><a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent(L.wa1 + r.code) + '">' + esc(L.approve) + '</a><a class="btn btn-line" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent(L.wa2 + r.code) + '">' + esc(L.qa) + '</a></div></div>';
   if (s < 4 && !r.collected) h += '<p class="muted" style="margin:4px 0 0"><a href="/quickswap.html?repair=' + encodeURIComponent(r.code) + (ar ? '&lang=ar' : '') + '">' + esc(L.qs) + '</a></p>';
+  if ((window.QT_SITE || {}).payEndpoint && s >= 2 && !r.collected && r.quote != null && r.quote !== "") h += '<div class="row"><a class="btn btn-gold" href="/pay.html?repair=' + encodeURIComponent(r.code) + (ar ? '&lang=ar' : '') + '">' + esc(L.pay) + '</a></div>';
   if (s === 4 && !r.collected) h += '<div class="note ok"><p>' + esc(L.ready) + '</p></div>';
   if (r.collected) h += '<div class="note ok"><p>' + esc(L.done) + '</p><div class="row"><a class="btn btn-gold" href="/reviews.html?write=1&job=' + r.code + (ar ? '&lang=ar' : '') + '">' + esc(L.rsite) + '</a><a class="btn btn-line" href="https://g.page/r/CXPWAzSYn864ECE/review" target="_blank" rel="noopener">' + esc(L.review) + '</a></div></div>';
   if (s !== 2 || r.collected) h += '<div class="row"><a class="btn btn-line" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent(L.wa2 + r.code) + '">' + esc(L.qa) + '</a></div>';

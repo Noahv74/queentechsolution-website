@@ -1,0 +1,16 @@
+# Queen Tech online payments (Ziina) – Cloudflare Worker
+# Deploy:  npx wrangler deploy                 (from this pay-worker folder)
+# Secret:  npx wrangler secret put ZIINA_API_KEY   (paste the Ziina API key; never put it in this file)
+name = "queentech-pay"
+main = "worker.js"
+compatibility_date = "2025-09-27"
+
+[vars]
+# "true" = test payments only (any card, no money moves). Change to "false" and redeploy to take real payments.
+ZIINA_TEST = "true"
+ALLOWED_ORIGINS = "https://queentechsolution.info,https://www.queentechsolution.info"
+SITE = "https://queentechsolution.info"
+FIREBASE_PROJECT = "queen-tech"
+MIN_AED = "2"
+MAX_AED = "20000"
+MAX_PER_HOUR = "20"

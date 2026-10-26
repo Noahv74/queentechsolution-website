@@ -1,0 +1,2 @@
+/* RTL tweaks for pay.html */
+html.rtl .payform .amt input{direction:ltr;text-align:right}
