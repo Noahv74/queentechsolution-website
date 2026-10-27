@@ -1,6 +1,6 @@
 /* Arabic shared by ExpressFix, repair tracking, CCTV Care Plan, IT Support Plans and Wi-Fi Checkup */
 QT_AR.add({
-  "Queen Tech Solutions · Silver Tower, Business Bay, Dubai ·":"كوين تك للحلول التقنية · سيلفر تاور، الخليج التجاري، دبي ·",
+  "Queen Tech Solutions · Dubai and Abu Dhabi ·":"كوين تك للحلول التقنية · دبي وأبوظبي ·",
   "Brand names belong to their owners.":"أسماء الماركات ملك لأصحابها.",
   "Contact":"تواصل معنا","ExpressFix":"إكسبرس فيكس","Track a repair":"تتبّع التصليح","CCTV Care Plan":"خطة صيانة الكاميرات",
   "IT Support Plans":"باقات الدعم التقني","Wi-Fi Checkup":"فحص الواي فاي",
@@ -18,5 +18,5 @@ QT_AR.add({
   "Camera planner":"مخطط الكاميرات","Storage calculator":"حاسبة التخزين","Bandwidth calculator":"حاسبة الإنترنت",
   "Wi-Fi installation":"تركيب الواي فاي","One-time IT support":"دعم تقني لمرة واحدة","ExpressFix repair":"تصليح إكسبرس فيكس",
   "Call +971 55 797 1520":"اتصل ‎+971 55 797 1520",
-  "Silver Tower, Business Bay, Dubai · 10 am – 10 pm daily":"سيلفر تاور، الخليج التجاري، دبي · يومياً من 10 صباحاً حتى 10 مساءً"
+  "Dubai and Abu Dhabi · 10 am – 10 pm daily":"دبي وأبوظبي · يومياً من 10 صباحاً حتى 10 مساءً"
 });

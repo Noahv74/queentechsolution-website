@@ -750,7 +750,7 @@ $("btnXlsx").addEventListener("click",doXlsx);$("btnXlsx2").addEventListener("cl
 function buildPrint(){
   var P=S.project,pr=!!S.settings.prices,lines=allLines(),t=totals(lines);
   var info=[["Project",P.name],["Ref",P.ref],["Client",P.client],["Phone",P.phone],["Email",P.email],["Location",P.coords||P.location],["Survey date",P.date],["Technician",P.tech]].filter(function(r){return r[1]});
-  var h='<div class="ph"><div><h1>Bill of Quantities</h1><small>Queen Tech Solutions · CCTV · Access control · IT</small></div><div class="r"><b>Queen Tech Solutions</b><br>Silver Tower, Business Bay, Dubai<br>+971 55 797 1520 · noah@queentechsolution.info<br>queentechsolution.info</div></div>';
+  var h='<div class="ph"><div><h1>Bill of Quantities</h1><small>Queen Tech Solutions · CCTV · Access control · IT</small></div><div class="r"><b>Queen Tech Solutions</b><br>Dubai and Abu Dhabi<br>+971 55 797 1520 · noah@queentechsolution.info<br>queentechsolution.info</div></div>';
   h+='<div class="info">'+info.map(function(r){return'<div><b>'+esc(r[0])+'</b> '+esc(r[1])+'</div>'}).join("")+'</div>';
   h+='<h2>Items</h2><table><thead><tr><th>N</th><th>Device type</th><th>Description</th><th>Model number</th><th>Qty</th>'+(pr?'<th>Unit price</th><th>Total</th>':'')+'<th>Notes</th></tr></thead><tbody>'+
     lines.map(function(l,i){var lt=(+l.qty||0)*(+l.price||0);return'<tr><td>'+(i+1)+'</td><td>'+esc(l.type)+'</td><td>'+esc(l.desc)+'</td><td>'+esc(l.model)+'</td><td class="num">'+esc(l.qty)+'</td>'+(pr?'<td class="num">'+(l.price?fmt(+l.price,2):"")+'</td><td class="num">'+(lt?fmt(lt,2):"")+'</td>':'')+'<td>'+esc(l.notes)+'</td></tr>'}).join("")+'</tbody></table>';

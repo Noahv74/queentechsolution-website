@@ -6,9 +6,9 @@ WAF = open(os.path.join(G, "wa.txt")).read().strip()
 ADS = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5383296169254857" crossorigin="anonymous"></script>'
 CROWN = '<svg class="crown" viewBox="0 0 36 36" aria-hidden="true"><rect x=".5" y=".5" width="35" height="35" rx="5" fill="none" stroke="var(--gold)"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="var(--gold)"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="var(--gold)"/></svg>'
 BIZ = {"@type": "LocalBusiness", "name": "Queen Tech Solutions", "telephone": "+971557971520",
-       "address": {"@type": "PostalAddress", "streetAddress": "Silver Tower, Business Bay", "addressLocality": "Dubai", "addressCountry": "AE"},
+       "address": {"@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE"},
        "areaServed": ["Dubai", "Abu Dhabi"]}
-FOOT = ('<footer class="pfoot wrap">Queen Tech Solutions · Silver Tower, Business Bay, Dubai · <a href="/">Home</a> · '
+FOOT = ('<footer class="pfoot wrap">Queen Tech Solutions · Dubai and Abu Dhabi · <a href="/">Home</a> · '
         '<a href="/services.html">Services</a> · <a href="/express.html">ExpressFix</a> · <a href="/track.html">Track a repair</a> · '
         '<a href="/care.html">CCTV Care Plan</a> · <a href="/it-plans.html">IT Support Plans</a> · <a href="/wifi-check.html">Wi-Fi Checkup</a> · '
         '<a href="/contact.html">Contact</a> · <span>Brand names belong to their owners.</span></footer>')

@@ -7,7 +7,7 @@ window.QT_PLANS = {
 
   /* ExpressFix – PC, laptop, phone and tablet repair */
   express: {
-    dropoffDiagnosis: 0,          /* bring it to Silver Tower: free check */
+    dropoffDiagnosis: 0,          /* on-site visit: free check */
     pickupFee: 49,                /* pickup + return in Dubai */
     pickupFreeOver: 500,          /* pickup free when the repair costs more than this */
     declineFee: 59,               /* only if you pick it up from us and decide not to repair */

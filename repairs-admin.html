@@ -190,14 +190,14 @@ const MSG = {
     (r, u) => `Hello ${r.first}, we're checking your ${r.device} now. We'll tell you the fault and the price soon.\nTrack: ${u}`,
     (r, u) => `Hello ${r.first}, we found the problem with your ${r.device}.${r.note ? "\n" + r.note : ""}${r.quote != null && r.quote !== "" ? "\nPrice: AED " + r.quote : ""}\nPlease approve on WhatsApp or here: ${u}`,
     (r, u) => `Hello ${r.first}, thanks for approving. We're repairing your ${r.device} now.${r.eta ? "\nExpected: " + r.eta : ""}\nTrack: ${u}`,
-    (r, u) => `Good news ${r.first}! Your ${r.device} is ready. Pick it up at Silver Tower, Business Bay (every day 10am–10pm) or ask us to deliver.${r.quote != null && r.quote !== "" ? "\nTotal: AED " + r.quote : ""}\n${u}`
+    (r, u) => `Good news ${r.first}! Your ${r.device} is ready. Reply with a good time and we'll bring it back to you.${r.quote != null && r.quote !== "" ? "\nTotal: AED " + r.quote : ""}\n${u}`
   ],
   ar: [
     (r, u) => `أهلاً ${r.first}، معاك كوين تك. استلمنا جهازك (${r.device}). كود الإصلاح: ${r.code}\nتابع حالته في أي وقت: ${u}`,
     (r, u) => `أهلاً ${r.first}، بنفحص جهازك (${r.device}) دلوقتي، وهنبلغك بالعطل والسعر قريب.\nتابع: ${u}`,
     (r, u) => `أهلاً ${r.first}، عرفنا مشكلة جهازك (${r.device}).${r.note ? "\n" + r.note : ""}${r.quote != null && r.quote !== "" ? "\nالسعر: " + r.quote + " درهم" : ""}\nوافق على واتساب أو من هنا: ${u}`,
     (r, u) => `أهلاً ${r.first}، شكراً على الموافقة. بنصلّح جهازك (${r.device}) دلوقتي.${r.eta ? "\nالموعد المتوقع: " + r.eta : ""}\nتابع: ${u}`,
-    (r, u) => `خبر حلو يا ${r.first}! جهازك (${r.device}) جاهز. تقدر تستلمه من سيلفر تاور، الخليج التجاري (كل يوم 10 ص – 10 م) أو نوصّله لك.${r.quote != null && r.quote !== "" ? "\nالإجمالي: " + r.quote + " درهم" : ""}\n${u}`
+    (r, u) => `خبر حلو يا ${r.first}! جهازك (${r.device}) جاهز. رد علينا بالوقت المناسب وهنوصّله لك.${r.quote != null && r.quote !== "" ? "\nالإجمالي: " + r.quote + " درهم" : ""}\n${u}`
   ]
 };
 function phoneIntl(p) { let d = String(p || "").replace(/\D/g, ""); if (d.startsWith("00")) d = d.slice(2); if (d.startsWith("0")) d = "971" + d.slice(1); if (/^5\d{8}$/.test(d)) d = "971" + d; return d; }

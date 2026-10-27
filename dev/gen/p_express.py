@@ -18,23 +18,23 @@ PROBS = ["Won't turn on", "Slow or freezing", "Broken screen", "Battery or charg
          "Windows or software", "Water damage", "Overheating or noisy", "Keyboard or ports", "Data recovery",
          "Upgrade (SSD / RAM)", "Something else"]
 TAGS = "".join('<button type="button" class="tg" data-v="%d" aria-pressed="false">%s</button>' % (i, p) for i, p in enumerate(PROBS))
-SVC = (opt("dropoff", "Drop it off", "Bring it to Silver Tower, Business Bay. Free check while you wait or the same day.", True, '<span class="pr" id="p-drop"></span>')
+SVC = (opt("dropoff", "We come to you", "A technician visits your home or office. Software jobs are often fixed on the spot.", True, '<span class="pr" id="p-drop"></span>')
        + opt("pickup", "We pick it up", "We collect from your home or office in Dubai and bring it back fixed.", False, '<span class="pr" id="p-pick"></span>'))
 SLOTS = "".join('<option>%s</option>' % s for s in ["10 am – 12 pm", "12 pm – 2 pm", "2 pm – 4 pm", "4 pm – 6 pm", "6 pm – 8 pm", "8 pm – 10 pm"])
 
 BODY = '''
   <section class="phead">
     <div class="crumbs"><a href="/">Home</a><span>/</span><a href="/services.html">Services</a><span>/</span><span>ExpressFix</span></div>
-    <span class="tag">PC · Laptop · Phone repair · Business Bay</span>
+    <span class="tag">PC · Laptop · Phone repair · Dubai</span>
     <h1>ExpressFix: book a repair, <em>track it live.</em></h1>
-    <p class="lede">Book your PC, laptop or phone repair in one minute. Drop it off at Silver Tower or we pick it up anywhere in Dubai. You get a tracking code and can follow every step of the repair from your phone.</p>
+    <p class="lede">Book your PC, laptop or phone repair in one minute. We come to you, or pick it up anywhere in Dubai. You get a tracking code and can follow every step of the repair from your phone.</p>
     <div class="cta-row"><a class="btn btn-gold" href="#book">Book a repair</a><a class="btn btn-line" href="/track.html">Track my repair</a></div>
   </section>
 
   <section class="sec">
     <ol class="steps">
       <li><b>Book online</b><span>Tell us the device and the problem. It takes one minute.</span></li>
-      <li><b>Drop off or pickup</b><span>Bring it to Business Bay, or we collect it from you in Dubai.</span></li>
+      <li><b>Visit or pickup</b><span>We come to you, or collect it from you anywhere in Dubai.</span></li>
       <li><b>Free check and a clear quote</b><span>We find the fault and send you the price on WhatsApp. Nothing is done until you say yes.</span></li>
       <li><b>Track it live</b><span>Open your tracking page any time to see where your repair is.</span></li>
       <li><b>Ready</b><span>Collect it, or we deliver it back to you. Every repair has a warranty.</span></li>
@@ -59,7 +59,7 @@ BODY = '''
         </div>
 
         <div class="block">
-          <h2><span class="n">3</span>Drop-off or pickup</h2>
+          <h2><span class="n">3</span>Visit or pickup</h2>
           <p>Choose what's easier for you.</p>
           <div class="opts wide" id="svc" role="group" aria-label="Service">''' + SVC + '''</div>
           <div class="two" style="margin-top:14px">
@@ -105,7 +105,7 @@ BODY = '''
         <div class="block">
           <h2>Our promise</h2>
           <ul class="promise">
-            <li><span><b>Free check</b> when you drop it off.</span></li>
+            <li><span><b>Free check</b> on a visit.</span></li>
             <li><span><b>Price before work.</b> We only repair after you approve the quote.</span></li>
             <li><span><b id="w-days">Warranty</b> on every repair and part we fit.</span></li>
             <li><span><b>Your data stays private.</b> We don't open your files unless you ask us to.</span></li>
@@ -125,7 +125,7 @@ BODY = '''
     <div class="sec-head"><span class="tag">Questions</span><h2>Good to know</h2></div>
     <div class="faq">
       <details><summary>How long does a repair take?</summary><p>Software jobs like a Windows reinstall or virus clean-up are usually done the same day. Screens, batteries and other parts depend on the part: most are done in 1 to 3 days. Your tracking page always shows the expected date.</p></details>
-      <details><summary>Do I pay if I decide not to repair?</summary><p>If you drop it off, the check is free. If we picked it up and you decide not to go ahead, you only pay the pickup and check fee. We tell you this before we collect.</p></details>
+      <details><summary>Do I pay if I decide not to repair?</summary><p>The check on a visit is free. If we picked it up and you decide not to go ahead, you only pay the pickup and check fee. We tell you this before we collect.</p></details>
       <details><summary>Will I lose my files?</summary><p>Not if we can help it. Tell us if your files matter and we back them up before any software work. If the drive is failing, we tell you first and quote data recovery separately.</p></details>
       <details><summary>Which devices do you repair?</summary><p>Windows laptops and desktops, MacBooks and iMacs, iPhone and Android phones, and tablets. For business laptops we can also set up email, Office, printers and backup.</p></details>
       <details><summary>How do I follow my repair?</summary><p>After booking you get a code like QT-7K4M-2PXA. Open the tracking page, type the code and you'll see each step: received, checking, price approval, repairing and ready.</p></details>
@@ -134,8 +134,8 @@ BODY = '''
 
   <section class="sec" style="border-bottom:0">
     <div class="cta-box">
-      <div><h2>Need it today?</h2><p>Message us now. If it's a quick fix, we can often do it while you wait in Business Bay.</p></div>
-      <div class="acts"><a class="btn btn-wa" href="https://wa.me/971557971520?text=Hi%20Queen%20Tech%2C%20I%20need%20an%20urgent%20repair" target="_blank" rel="noopener">WhatsApp us</a><a class="btn btn-line" href="tel:+971557971520">Call +971 55 797 1520</a><span class="addr">Silver Tower, Business Bay, Dubai · 10 am – 10 pm daily</span></div>
+      <div><h2>Need it today?</h2><p>Message us now. If it's a quick fix, we can often do it on the same day at your place.</p></div>
+      <div class="acts"><a class="btn btn-wa" href="https://wa.me/971557971520?text=Hi%20Queen%20Tech%2C%20I%20need%20an%20urgent%20repair" target="_blank" rel="noopener">WhatsApp us</a><a class="btn btn-line" href="tel:+971557971520">Call +971 55 797 1520</a><span class="addr">Dubai and Abu Dhabi · 10 am – 10 pm daily</span></div>
     </div>
   </section>
 '''
@@ -246,6 +246,6 @@ $("f").addEventListener("submit", async e => {
 '''
 
 page("express", "ExpressFix PC, Laptop &amp; Phone Repair with Pickup and Live Tracking | Queen Tech Dubai",
-     "Book a PC, laptop or phone repair in Dubai in one minute. Drop it off in Business Bay or we pick it up. Free check, price before work, warranty and a live tracking page.",
+     "Book a PC, laptop or phone repair in Dubai in one minute. We come to you or pick it up. Free check, price before work, warranty and a live tracking page.",
      "ExpressFix repair booking | Queen Tech Solutions", "ExpressFix repair", ("/track.html", "Track repair"),
-     BODY, SCRIPT, ld=ld_service("ExpressFix PC, laptop and phone repair", "Repair booking with drop-off in Business Bay or pickup in Dubai, free check, quote before work and live tracking.", "express"))
+     BODY, SCRIPT, ld=ld_service("ExpressFix PC, laptop and phone repair", "Repair booking with an on-site visit or pickup in Dubai, free check, quote before work and live tracking.", "express"))

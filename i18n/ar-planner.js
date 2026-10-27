@@ -56,7 +56,7 @@ QT_AR.add({
   "CCTV installation in Abu Dhabi":"تركيب كاميرات المراقبة في أبوظبي",
   "Storage calculator":"حاسبة التخزين","Contact":"تواصل معنا",
   "Brand names belong to their owners.":"أسماء الماركات ملك لأصحابها.",
-  "Queen Tech Solutions · Silver Tower, Business Bay, Dubai ·":"كوين تك للحلول التقنية · سيلفر تاور، الخليج التجاري، دبي ·",
+  "Queen Tech Solutions · Dubai and Abu Dhabi ·":"كوين تك للحلول التقنية · دبي وأبوظبي ·",
   /* drawn by the script */
   "outside":"خارجية","inside":"داخلية","ch":"قناة","days":"يوماً",
   "Add at least one area":"أضف مكاناً واحداً على الأقل",

@@ -185,6 +185,6 @@ QT_AR.add({
     [/^About ([\d.,]+) MB per second actually moving\.$/, "حوالي $1 MB في الثانية تنتقل فعلياً."],
     /* footer / band */
     [/^Call (\+971 55 797 1520)$/, "اتصل $1"],
-    [/^Silver Tower, Business Bay, Dubai · (.+)$/, "سيلفر تاور، الخليج التجاري، دبي · $1"]
+    [/^Dubai and Abu Dhabi · (.+)$/, "دبي وأبوظبي · $1"]
   ]);
 })();

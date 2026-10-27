@@ -44,12 +44,12 @@ QT_AR.add({
   "Discord, Steam, Xbox Game Bar and GPU overlays all hook into the game. Turning off the ones you don't use stops many crashes.":"طبقات Discord وSteam وXbox Game Bar وكرت الشاشة كلها تتداخل مع اللعبة. إيقاف ما لا تستخدمه يمنع كثيراً من حالات الانهيار.",
   "Hardware problem?":"مشكلة هاردوير؟",
   "Overheating, no power or a new build?":"حرارة عالية، الجهاز لا يعمل، أو تجميع جهاز جديد؟",
-  "Those need hands on the PC. We repair gaming PCs and laptops in Dubai and Abu Dhabi, from Silver Tower in Business Bay.":"هذه تحتاج فحص الجهاز بشكل مباشر. نصلح أجهزة الجيمنج واللابتوبات في دبي وأبوظبي من مكتبنا في سيلفر تاور بالخليج التجاري.",
+  "Those need hands on the PC. We repair gaming PCs and laptops in Dubai and Abu Dhabi, on site or with pickup.":"هذه تحتاج فحص الجهاز بشكل مباشر. نصلح أجهزة الجيمنج واللابتوبات في دبي وأبوظبي، في مكانك أو مع خدمة الاستلام.",
   "Gamers & PC repair":"صيانة أجهزة الجيمرز",
   "Laptop & PC repair in Business Bay":"صيانة اللابتوب والكمبيوتر في الخليج التجاري",
   "Arcade":"الألعاب","Contact":"تواصل معنا",
   "Game, anti-cheat and AnyDesk names are trademarks of their owners. We are not affiliated with them.":"أسماء الألعاب وبرامج مكافحة الغش وAnyDesk علامات تجارية لأصحابها، ولا علاقة لنا بهم.",
-  "Queen Tech Solutions · Silver Tower, Business Bay, Dubai ·":"كوين تك للحلول التقنية · سيلفر تاور، الخليج التجاري، دبي ·",
+  "Queen Tech Solutions · Dubai and Abu Dhabi ·":"كوين تك للحلول التقنية · دبي وأبوظبي ·",
 
   /* errors */
   "Vanguard error (Valorant, League of Legends)":"خطأ Vanguard (فالورانت، ليغ أوف ليجندز)",

@@ -211,10 +211,10 @@ function phoneIntl(p) { let d = String(p || "").replace(/\D/g, ""); if (d.starts
 function wa(r, kind) {
   const lo = pool.find(x => x.id === r.loaner), dev = lo ? lo.label : TN[r.type];
   const M = r.lang === "ar" ? {
-    ok: `أهلاً ${r.name}، معاك كوين تك. جهازك البديل (${dev}) جاهز. تقدر تستلمه من سيلفر تاور، الخليج التجاري (كل يوم 10 ص – 10 م). هات معاك صورة الرخصة التجارية وهوية المستلم.`,
+    ok: `أهلاً ${r.name}، معاك كوين تك. جهازك البديل (${dev}) جاهز. رد علينا بالوقت المناسب وهنوصّله لك. جهّز صورة الرخصة التجارية وهوية المستلم.`,
     none: `أهلاً ${r.name}، معاك كوين تك. للأسف مفيش ${TN[r.type]} بديل متاح دلوقتي. هنبلغك أول ما يرجع واحد.`,
     back: `أهلاً ${r.name}، جهازك اتصلّح! لما تيجي تستلمه، هات الجهاز البديل (${dev}) وشاحنه. شكراً!` } : {
-    ok: `Hello ${r.name}, Queen Tech here. Your loaner (${dev}) is ready. Collect it at Silver Tower, Business Bay (every day 10am–10pm). Please bring a copy of your trade licence and the collector's Emirates ID.`,
+    ok: `Hello ${r.name}, Queen Tech here. Your loaner (${dev}) is ready. Reply with a good time and we'll deliver it. Please have a copy of your trade licence and the collector's Emirates ID.`,
     none: `Hello ${r.name}, Queen Tech here. Sorry, no ${TN[r.type].toLowerCase()} loaner is free right now. We'll message you as soon as one is back.`,
     back: `Hello ${r.name}, your device is repaired! When you collect it, please bring the loaner (${dev}) and its charger. Thank you!` };
   return "https://wa.me/" + phoneIntl(r.phone) + "?text=" + encodeURIComponent(M[kind]);

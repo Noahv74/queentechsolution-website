@@ -23,7 +23,7 @@ QT_AR.add({
   "Loaner terms":"شروط الجهاز البديل",
   "Free for business customers while their device is being repaired by Queen Tech.":"مجاني لعملاء الشركات طول ما جهازهم في الصيانة عند كوين تك.",
   "Subject to availability. We confirm by WhatsApp before you come.":"حسب التوفر. بنأكدلك على واتساب قبل ما تيجي.",
-  "Please bring a copy of your trade licence and the Emirates ID of the person collecting.":"هات معاك صورة الرخصة التجارية والهوية الإماراتية للي هيستلم.",
+  "Please have a copy of your trade licence and the Emirates ID of the person collecting.":"جهّز صورة الرخصة التجارية والهوية الإماراتية للي هيستلم.",
   "Return the loaner with its charger and accessories when you collect your repaired device.":"رجّع الجهاز البديل بالشاحن والملحقات لما تستلم جهازك.",
   "Don't keep personal files on it: we wipe every loaner when it comes back.":"ما تسيبش ملفات شخصية عليه: بنمسح كل جهاز بديل لما يرجع.",
   "A lost or damaged loaner is charged at its repair or replacement cost.":"الجهاز البديل لو ضاع أو اتكسر بيتحسب بتكلفة إصلاحه أو تغييره.",
