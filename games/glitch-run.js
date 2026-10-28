@@ -22,11 +22,12 @@
   }
   function start(level) {
     if (level !== lvlDeaths.l) lvlDeaths = { l: level, n: 0, offered: false };
-    st = E.create(level, data.deaths); deadT = 0; winT = 0; parts = []; wasGround = true;
+    var calm = lvlDeaths.n >= 4;
+    st = E.create(level, data.deaths, calm); deadT = 0; winT = 0; parts = []; wasGround = true;
     playing = true; hud();
     ACC = world(level)[2];
     var Lv = E.LEVELS[level], tags = (Lv.rev ? " ⇄" : "") + (Lv.moon ? " 🌙" : "") + (Lv.rise ? " ⚡" : "");
-    G.toast((level % 20 === 0 ? (G.ar ? world(level)[1] : world(level)[0]) + " · " : "") + t("Level") + " " + (level + 1) + " · " + t(Lv.hint) + tags, 2400);
+    G.toast((level % 20 === 0 ? (G.ar ? world(level)[1] : world(level)[0]) + " · " : "") + t("Level") + " " + (level + 1) + " · " + t(Lv.hint) + tags + (calm ? " · " + t("Traps calmed down") : ""), 2400);
   }
   function burst(x, y, n, colors, spd) {
     for (var i = 0; i < n; i++) {

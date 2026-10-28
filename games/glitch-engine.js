@@ -14,9 +14,13 @@
   var T = 30, COLS = 32, ROWS = 18, W = COLS * T, H = ROWS * T, DT = 1 / 60;
   var MOVE = 200, ACC_G = 3200, ACC_A = 2200, GRAV = 1600, JUMP = 560, MAXF = 820,
       COYOTE = 0.08, BUFFER = 0.1, PW = 18, PH = 26;
-  /* Trap difficulty (17 Oct 2026: every trap made harder; all 100 levels re-checked with the solver). */
-  var HARD = { fallDelay: 0.07, vanishDelay: 0.18, hidNear: 34, hidPop: 24, dropNear: 48, dropG: 3200,
-               crushNear: 14, crushG: 3400, sawX: 1.35, doorNear: 95, doorNearY: 75, riseDelay: 0.75, riseSpeed: 1.3 };
+  /* Trap difficulty. 17 Oct 2026 values were frame-perfect only (beatable by the solver, not by people);
+     28 Oct 2026: set between the original and that, so a person can react. After 4 deaths on one level the
+     game switches that level to CALM (original timings, no extra traps) so nobody gets stuck. */
+  var HARDV = { fallDelay: 0.12, vanishDelay: 0.28, hidNear: 40, hidPop: 18, dropNear: 40, dropG: 2800,
+                crushNear: 8, crushG: 2900, sawX: 1.15, doorNear: 80, doorNearY: 68, riseDelay: 0.9, riseSpeed: 1.12 };
+  var CALM = { fallDelay: 0.2, vanishDelay: 0.42, hidNear: 48, hidPop: 12, dropNear: 34, dropG: 2300,
+               crushNear: 4, crushG: 2500, sawX: 0.9, doorNear: 70, doorNearY: 60, riseDelay: 1.25, riseSpeed: 0.85 };
 
   var LEVELS = [
     { hint: "Walk to the door. Easy.", doors: [[28, 15]], map: [
@@ -425,11 +429,13 @@
   function rect(x, y, w, h) { return { x: x, y: y, w: w, h: h }; }
   function hit(a, b) { return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
 
-  function create(index, deaths) {
-    var def = LEVELS[index], st = { index: index, t: 0, deaths: deaths || 0, dead: false, won: false, ev: [],
+  function create(index, deaths, calm) {
+    var HARD = calm ? CALM : HARDV, def = LEVELS[index], extra = calm ? null : (api.EXTRA || {})[index], map = def.map.slice();
+    (extra || []).forEach(function (q) { map[q[1]] = map[q[1]].slice(0, q[0]) + q[2] + map[q[1]].slice(q[0] + 1); });
+    var st = { index: index, calm: !!calm, t: 0, deaths: deaths || 0, dead: false, won: false, ev: [],
       solid: [], ents: [], spikes: [], saws: [], doors: [], door: 0, p: null, sparkle: [] };
     for (var r = 0; r < ROWS; r++) {
-      var row = def.map[r], line = [];
+      var row = map[r], line = [];
       for (var c = 0; c < COLS; c++) {
         var ch = row.charAt(c), x = c * T, y = r * T;
         line.push(ch === "#" ? 1 : 0);
@@ -480,6 +486,7 @@
   function die(st, why) { if (st.dead || st.won) return; st.dead = true; st.deaths++; st.ev.push("die:" + why); }
 
   function step(st, inp) {
+    var HARD = st.calm ? CALM : HARDV;
     if (st.dead || st.won) return st;
     var p = st.p, dt = DT;
     st.t += dt;
@@ -578,6 +585,6 @@
     return st;
   }
 
-  var api = { HARD: HARD, LEVELS: LEVELS, create: create, step: step, T: T, COLS: COLS, ROWS: ROWS, W: W, H: H, PW: PW, PH: PH, DT: DT };
+  var api = { HARD: HARDV, CALM: CALM, LEVELS: LEVELS, create: create, step: step, T: T, COLS: COLS, ROWS: ROWS, W: W, H: H, PW: PW, PH: PH, DT: DT };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.GlitchEngine = api;
 })(this);

@@ -5,7 +5,7 @@ QT_AR.add({
   "Move":"تحرّك","Jump (hold for higher)":"اقفز (اضغط أطول لقفزة أعلى)","Continue":"متابعة","New game":"لعبة جديدة","Play":"العب","Play again":"العب مرة أخرى",
   "More games":"ألعاب أخرى","Paused":"إيقاف مؤقت","Resume":"استمرار","Menu":"القائمة","Deaths":"مرات الموت","Time":"الوقت","Best time":"أفضل وقت",
   "Best: deaths":"الأفضل: مرات الموت","New personal best!":"رقم قياسي جديد لك!","Challenge a friend on WhatsApp":"تحدَّ صديقك على واتساب",
-  "Level complete!":"أنهيت المرحلة!","Turn your phone sideways to see the whole level":"اقلب الهاتف بالعرض لترى المرحلة كاملة",
+  "Level complete!":"أنهيت المرحلة!","Traps calmed down":"هدّأنا الفخاخ شوية","Turn your phone sideways to see the whole level":"اقلب الهاتف بالعرض لترى المرحلة كاملة",
   "Restart":"إعادة","Best":"الأفضل","Score":"النقاط","Get a CCTV price":"اعرف سعر الكاميرات",
   /* Glitch Run */
   "Glitch Run – free trap platformer game | Queen Tech Arcade":"Glitch Run – لعبة أفخاخ مجانية | ألعاب كوين تك",
