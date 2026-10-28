@@ -122,7 +122,6 @@ def build(pg, lang):
     biz = {"@type": "LocalBusiness", "@id": SITE + "/#business", "name": "Queen Tech Solutions", "url": SITE + "/",
            "telephone": "+971557971520", "email": "noah@queentechsolution.info", "image": SITE + "/og-image.png",
            "address": {"@type": "PostalAddress", "addressLocality": "Dubai", "addressRegion": "Dubai", "addressCountry": "AE"},
-           "hasMap": "https://maps.app.goo.gl/cSnLAqS8K9FapcgEA",
            "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "10:00", "closes": "22:00"}]}
     graph = [
         {"@type": "Service", "name": c["crumb"], "serviceType": c["crumb"], "description": c["desc"], "url": canon,
