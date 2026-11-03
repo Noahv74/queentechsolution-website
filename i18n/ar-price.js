@@ -93,6 +93,9 @@ QT_AR.add({
   "exit loop":"حلقة خروج","exit by reader / remote":"الخروج بالقارئ / جهاز التحكم",
   "Every barrier includes a safety loop detector and a photocell, so the arm never closes on a car.":"كل حاجز يشمل كاشف حلقة أمان وحساساً ضوئياً، حتى لا تنغلق الذراع على أي سيارة.",
   /* quote panel */
+  "Compare 3 options":"قارن 3 خيارات","same site":"لنفس الموقع","Basic":"الأساسي","Recommended":"المُوصى به","Premium":"المميّز",
+  "2MP Full HD cameras":"كاميرات 2MP بدقة Full HD","4MP sharp cameras":"كاميرات 4MP عالية الوضوح","4MP, colour at night outside":"4MP، ألوان ليلاً في الخارج",
+  "Estimates for the equipment and installation below. Tap one to see its full list.":"تقديرات للمعدات والتركيب بالأسفل. اضغط على أي خيار لعرض قائمته كاملة.",
   "Estimated total":"الإجمالي التقديري","Items in this list":"عدد العناصر في القائمة",
   "Book this on WhatsApp":"احجز عبر واتساب","Send list on WhatsApp":"أرسل القائمة عبر واتساب","Include tools checklist":"تضمين قائمة العدّة",
   "Equipment":"المعدات","Hardware needed":"الأجهزة المطلوبة","Installation by Queen Tech":"التركيب من كوين تك",

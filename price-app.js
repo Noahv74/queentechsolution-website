@@ -184,6 +184,19 @@ function addOptions(){
   var groups={office:/^(cam|nvr|hdd|cat6|monitor)/,home:/^(cam|nvr|hdd|cat6|monitor|wifi|vdoor|intercom|chime)/,access:/^(ac_|maglock|bracket|exitbtn|psu|breakglass|cards|chime|intercom|cat6)/,network:/^(ap|poe|sw24|router|patch|cab|keystone|face|cat6)/,barrier:/^(barrier|anpr|loop|photocell|qr|controller|uhf|remote|cat6|cam4_bullet)/}[state.goal];
   return Object.keys(I).filter(function(k){return groups.test(k)}).map(function(k){return'<option value="'+k+'">'+esc(I[k].label)+'</option>'}).join("")}
 var last={};
+/* three-level comparison for business CCTV: same site, different picture quality */
+var TIERS=[["2","Basic","2MP Full HD cameras"],["4","Recommended","4MP sharp cameras"],["4c","Premium","4MP, colour at night outside"]];
+function tierTotal(mp){
+  var keep=ctx;ctx={};var base=[],notes=[];
+  cctv(n("in",0,16),n("out",0,16),mp,v("days"),+v("size"),v("mon")==="1",base,notes);
+  var r=resolve(base),t=0,pend=0;
+  r.lines.forEach(function(l){var d=lineData(l);if(d.unit==null)pend++;else t+=d.unit*l.qty});
+  ctx=keep;return{t:r2(t),pend:pend}}
+function tierBox(){
+  if(state.goal!=="office"||state.mode==="hw"||!(n("in",0,16)+n("out",0,16)))return "";
+  var cur=v("mp");
+  return '<div class="grp tiers3"><h3>Compare 3 options <span>same site</span></h3><div class="t3">'+TIERS.map(function(x){var r=tierTotal(x[0]);
+    return '<button type="button" data-mp="'+x[0]+'" aria-pressed="'+(cur===x[0])+'"><b>'+esc(x[1])+'</b><small>'+esc(x[2])+'</small><span class="amt">AED '+money(r.t)+'</span>'+(r.pend?'<small>+ '+r.pend+' on request</small>':'')+'</button>'}).join("")+'</div><p class="sub">Estimates for the equipment and installation below. Tap one to see its full list.</p></div>'}
 function calc(){
   ctx={};var base=[],notes=[];var info=BUILD[state.goal](base,notes);
   last.baseKeys=base.map(function(l){return l.key});var r=resolve(base),lines=r.lines,hw=state.mode==="hw";
@@ -196,7 +209,7 @@ function calc(){
   var tools="";
   if(hw&&$("withtools").checked){var tl=P.tools.common.concat(P.tools[{office:"cctv",home:v("sys")==="wired"?"cctv":"home",access:"access",network:"network",barrier:"barrier"}[state.goal]]||[]);
     tools='<div class="grp tools"><h3>Tools &amp; consumables <span>optional</span></h3><ul>'+tl.map(function(t){return'<li>'+esc(t)+'</li>'}).join("")+'</ul></div>'}
-  $("groups").innerHTML='<div class="grp"><h3>'+(hw?"Hardware needed":"Equipment")+' <span>'+(hw?eqs.length+" items":"AED "+money(eT))+'</span></h3><p class="sub">'+(hw?"Quantities and models for this job. Change, remove or add items as needed.":"Lowest price we found online. Tap a shop to buy. Change, remove or add items as needed.")+'</p>'+eqs.map(li).join("")+
+  $("groups").innerHTML=tierBox()+'<div class="grp"><h3>'+(hw?"Hardware needed":"Equipment")+' <span>'+(hw?eqs.length+" items":"AED "+money(eT))+'</span></h3><p class="sub">'+(hw?"Quantities and models for this job. Change, remove or add items as needed.":"Lowest price we found online. Tap a shop to buy. Change, remove or add items as needed.")+'</p>'+eqs.map(li).join("")+
     '<div class="addrow"><select id="addsel" aria-label="Add an item"><option value="">+ Add an item…</option>'+addOptions()+'</select><button type="button" class="link" id="reset">Reset to suggested</button></div>'+rem+'</div>'+
     '<div class="grp lab"><h3>Installation by Queen Tech <span>AED '+money(lT)+'</span></h3>'+labs.map(li).join("")+'</div>'+tools+
     (notes.length?'<div class="grp"><p class="sub">'+notes.map(esc).join("<br>")+'</p></div>':"");
@@ -241,6 +254,7 @@ $("groups").addEventListener("click",function(e){var t=e.target,o=ov(),k;
   if((k=t.getAttribute("data-back"))){if(o[k]){delete o[k].off;if(o[k].qty===0)delete o[k].qty}calc();return}
   if((k=t.getAttribute("data-k"))){var inp=t.parentElement.querySelector("input"),q=Math.max(0,(parseInt(inp.value,10)||0)+parseInt(t.getAttribute("data-q"),10));o[k]=Object.assign(o[k]||{},{qty:q});calc();return}
   if(t.id==="reset"){state.ov[state.goal]={};state.extra[state.goal]=[];calc()}});
+$("groups").addEventListener("click",function(e){var b=e.target.closest("[data-mp]");if(!b)return;var r=document.querySelector('[name="mp"][value="'+b.getAttribute("data-mp")+'"]');if(r){r.checked=true;calc()}});
 $("groups").addEventListener("change",function(e){var t=e.target;
   if(t.id==="addsel"&&t.value){var s=t.value,ex=extra(),o=ov();if(last.baseKeys.indexOf(s)<0&&ex.indexOf(s)<0){ex.push(s);if(o[s])delete o[s]}else{var cur=document.querySelector('[data-qk="'+s+'"]');o[s]=Object.assign(o[s]||{},{off:false,qty:((cur&&parseInt(cur.value,10))||0)+1})}calc();return}
   var k=t.getAttribute("data-qk");if(k){var o2=ov();o2[k]=Object.assign(o2[k]||{},{qty:Math.max(0,parseInt(t.value,10)||0)});calc()}});
