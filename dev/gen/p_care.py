@@ -27,9 +27,9 @@ BODY = '''
   </section>
 
   <section class="sec" id="plans">
-    <div class="sec-head"><span class="tag">Plans</span><h2>Pick your plan</h2><p>Yearly plans for homes, shops, offices and buildings. Works with Hikvision, Dahua, Uniview and most other brands, even if we didn't install the system.</p></div>
+    <div class="sec-head"><span class="tag">Plans</span><h2>Pick your plan</h2><p>Yearly maintenance contracts for offices, shops, warehouses, hotels and residential communities. Works with Hikvision, Dahua, Uniview, Honeywell and most other brands, even if we didn't install the system.</p></div>
     <div class="tiers" id="tiers"></div>
-    <p class="fine" id="tiers-n">Parts like hard disks, cameras or power supplies are quoted separately before we fit them. Care Plan customers get 10% off parts.</p>
+    <p class="fine" id="tiers-n">Prices are yearly and start from the amount shown; the final price depends on the number of cameras and network rooms. Parts like hard disks, cameras or power supplies are quoted separately before we fit them.</p>
   </section>
 
   <section class="sec" id="book" style="border-bottom:0">
@@ -69,8 +69,8 @@ BODY = '''
           <ul class="promise">
             <li><span><b>Visits on a schedule.</b> We remind you a few days before each one.</span></li>
             <li><span><b>A report after every visit</b> with photos, so you know it's done.</span></li>
-            <li><span><b>Priority when something breaks.</b> Plan customers come first.</span></li>
-            <li><span><b>10% off parts</b> like hard disks and cameras.</span></li>
+            <li><span><b>A written response time</b> for faults, from 48 hours down to 4-6 hours on site.</span></li>
+            <li><span><b>Loaner devices</b> on Pro and Enterprise, so recording continues while we repair.</span></li>
             <li><span><b>Any brand</b>, even if we didn't install it.</span></li>
           </ul>
         </div>
@@ -87,8 +87,8 @@ BODY = '''
     <div class="sec-head"><span class="tag">Questions</span><h2>Good to know</h2></div>
     <div class="faq">
       <details><summary>Do you maintain systems you didn't install?</summary><p>Yes. On the first visit we check the whole system and tell you if anything needs fixing before the plan starts. You need the recorder's admin password, or we can help you reset it.</p></details>
-      <details><summary>What if a camera breaks between visits?</summary><p>Message us. Care Plan customers get priority visits. If a part needs replacing, we send you the price first and you get 10% off.</p></details>
-      <details><summary>I have more cameras than the plan covers.</summary><p>Every plan can take extra cameras for a small fee per camera per year. For large buildings and compounds we make a custom plan.</p></details>
+      <details><summary>What if a camera breaks between visits?</summary><p>Message us. We respond within your plan's response time. If a part needs replacing, we send you the price first. On Pro and Enterprise we lend you a recorder or switch so recording continues.</p></details>
+      <details><summary>I have more cameras than the plan covers.</summary><p>The price shown is a starting price. We confirm the final price after a free site survey, based on the number of cameras, recorders and network rooms.</p></details>
       <details><summary>Can I pay monthly?</summary><p>Plans are yearly. For businesses we can split the payment into quarters.</p></details>
     </div>
   </section>
@@ -101,30 +101,28 @@ SCRIPT = '''
 (function () {
   var B = window.QTB, t = B.t, P = B.plans;
   var $ = function (id) { return document.getElementById(id); };
-  var NAMES = { home: ["Home Care", "Apartments and villas"], standard: ["Standard", "Villas, shops and restaurants"], business: ["Business", "Offices, warehouses and buildings"] };
+  var NAMES = { standard: ["Business Standard", "Small offices and shops"], pro: ["Business Pro", "Mid-size companies, warehouses and commercial buildings"], enterprise: ["Enterprise SLA", "Hotels, large residential communities and critical sites"] };
+  var FEATS = {
+    standard: ["4 scheduled preventive visits a year", "Lens cleaning, view-angle check and firmware updates", "Fault response within 48 working hours", "Phone and remote support in working hours", "Parts and loaner devices priced separately"],
+    pro: ["6 scheduled preventive visits a year", "Network room and UPS check on every visit", "Emergency fault response within 24 hours", "Loaner NVR or switch if yours fails, so recording continues", "Extended remote support", "15% off parts"],
+    enterprise: ["Monthly visits (12 a year) with a status report for every camera and network room", "Emergency response with on-site attendance within 4-6 hours", "Immediate loaner devices (QuickSwap) for critical components", "Dedicated account manager", "Direct WhatsApp emergency line"]
+  };
+  var SHOW = P.approved || P.careApproved;
   var tiers = P.care || [];
   $("tiers").innerHTML = tiers.map(function (p) {
-    var n = NAMES[p.id] || [p.id, ""], pr = B.price(p.price, "per year");
-    var li = [
-      "<b>" + t("Up to") + " " + p.cams + "</b> " + t("cameras"),
-      "<b>" + p.visits + " " + t("visits") + "</b> " + t("a year") + " (" + t(p.visits >= 4 ? "every 3 months" : "every 6 months") + ")",
-      t("Full checklist and report after each visit"),
-      t("Remote help on WhatsApp"),
-      t("10% off parts"),
-      p.priority ? "<b>" + t("Same-day response") + "</b> " + t("for faults") : t("Priority booking for faults"),
-      P.approved ? t("Extra camera") + ": " + B.aed(p.extraCam) + " " + t("per year") : t("Extra cameras can be added")
-    ];
+    var n = NAMES[p.id] || [p.id, ""];
+    var li = (FEATS[p.id] || []).map(function (x) { return B.esc(t(x)); });
     return '<div class="tier' + (p.featured ? " feat" : "") + '">' + (p.featured ? '<span class="badge">' + B.esc(t("Most popular")) + '</span>' : "") +
       '<h3>' + B.esc(t(n[0])) + '</h3><p class="for">' + B.esc(t(n[1])) + '</p>' +
-      (pr ? '<div class="amt">' + B.esc(B.aed(p.price)) + '<small>' + B.esc(t("per year")) + '</small></div>' : '<div class="amt ask">' + B.esc(t("Price on request")) + '</div>') +
+      (SHOW && p.from ? '<div class="amt"><small style="display:block;margin:0 0 4px">' + B.esc(t("From")) + '</small>' + B.esc(B.aed(p.from)) + '<small>' + B.esc(t("per year")) + '</small>' + (p.custom ? '<small style="display:block;margin:4px 0 0">' + B.esc(t("Custom quote for your site")) + '</small>' : '') + '</div>' : '<div class="amt ask">' + B.esc(t("Price on request")) + '</div>') +
       '<ul>' + li.map(function (x) { return "<li><span>" + x + "</span></li>"; }).join("") + '</ul>' +
       '<a class="btn ' + (p.featured ? "btn-gold" : "btn-line") + '" href="#book" data-plan="' + p.id + '">' + B.esc(t("Choose")) + " " + B.esc(t(n[0])) + '</a></div>';
   }).join("");
   $("plan").innerHTML = tiers.map(function (p) {
     var n = NAMES[p.id] || [p.id, ""];
-    return '<button type="button" class="opt" data-v="' + p.id + '" aria-pressed="' + (p.featured ? "true" : "false") + '"><b>' + B.esc(t(n[0])) + '</b><small>' + B.esc(t("Up to") + " " + p.cams + " " + t("cameras")) + '</small></button>';
-  }).join("") + '<button type="button" class="opt" data-v="custom" aria-pressed="false"><b>' + B.esc(t("Custom")) + '</b><small>' + B.esc(t("More than 16 cameras")) + '</small></button>';
-  B.pick($("plan"), function (v) { var p = tiers.filter(function (x) { return x.id === v; })[0]; if (p) $("cams").value = p.cams; });
+    return '<button type="button" class="opt" data-v="' + p.id + '" aria-pressed="' + (p.featured ? "true" : "false") + '"><b>' + B.esc(t(n[0])) + '</b><small>' + B.esc(p.visits + " " + t("visits a year")) + '</small></button>';
+  }).join("") + '<button type="button" class="opt" data-v="custom" aria-pressed="false"><b>' + B.esc(t("Not sure")) + '</b><small>' + B.esc(t("Help me choose")) + '</small></button>';
+  B.pick($("plan"), function () {});
   $("tiers").addEventListener("click", function (e) { var a = e.target.closest("a[data-plan]"); if (!a) return; var b = $("plan").querySelector('[data-v="' + a.dataset.plan + '"]'); if (b) b.click(); });
   B.multi($("now"));
   $("f").addEventListener("submit", function (e) {
@@ -150,6 +148,6 @@ SCRIPT = '''
 '''
 
 page("care", "CCTV Care Plan: Yearly CCTV Maintenance in Dubai &amp; Abu Dhabi | Queen Tech",
-     "Scheduled CCTV maintenance visits for homes, shops and offices in Dubai and Abu Dhabi: cameras, recorder, hard disk, cabling and the phone app checked on every visit, with a report.",
+     "Yearly CCTV maintenance contracts for offices, shops, warehouses and residential communities in Dubai and Abu Dhabi, with scheduled visits, a written response time and loaner devices.",
      "CCTV Care Plan | Queen Tech Solutions", "CCTV Care Plan", ("#book", "Schedule visits"), BODY, SCRIPT,
      ld=ld_service("CCTV Care Plan", "Yearly CCTV maintenance plan with scheduled visits checking cameras, recorder, cabling and remote viewing.", "care", {"serviceType": "CCTV maintenance"}))

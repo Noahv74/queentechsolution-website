@@ -56,7 +56,7 @@ BODY = '''
           <h2 id="ed-h">New system</h2>
           <div class="two">
             <div class="field"><label for="e-type">Type</label><select id="e-type"><option value="cctv">CCTV</option><option value="access">Access control</option><option value="barrier">Parking barrier</option><option value="network">Network / Wi-Fi</option><option value="intercom">Video intercom</option><option value="other">Other</option></select></div>
-            <div class="field"><label for="e-plan">Care Plan</label><select id="e-plan"><option value="">No plan</option><option>Home Care</option><option>Standard</option><option>Business</option><option>IT Starter</option><option>IT Business</option><option>IT Pro</option><option>Custom plan</option></select></div>
+            <div class="field"><label for="e-plan">Care Plan</label><select id="e-plan"><option value="">No plan</option><option>Business Standard</option><option>Business Pro</option><option>Enterprise SLA</option><option>Home Care</option><option>Standard</option><option>Business</option><option>IT Starter</option><option>IT Business</option><option>IT Pro</option><option>Custom plan</option></select></div>
           </div>
           <div class="field"><label for="e-title">Title (shows to the customer)</label><input id="e-title" maxlength="80" placeholder="Villa CCTV – 8 cameras"></div>
           <div class="field"><label for="e-site">Area / site (no street address)</label><input id="e-site" maxlength="80" placeholder="Arabian Ranches, Dubai"></div>
@@ -187,7 +187,7 @@ function open(id) {
   const first = (p.name || "").split(" ")[0];
   $("d-wa").href = "https://wa.me/" + uae(p.phone) + "?text=" + encodeURIComponent("Hi " + first + ", this is Queen Tech. Here is the card for your " + (sel.title || "system") + ": warranty, service history and one-tap support.\\n" + url(sel.id) + "\\n\\nمرحباً، هذه بطاقة نظامك من كوين تك: الضمان وسجل الصيانة والدعم بلمسة واحدة.");
   $("d-rem").href = "https://wa.me/" + uae(p.phone) + "?text=" + encodeURIComponent("Hi " + first + ", Queen Tech here. Your " + (sel.title || "system") + " is due for its service visit" + (sel.next ? " (" + fmt(sel.next) + ")" : "") + ". Which day suits you?\\n" + url(sel.id));
-  $("v-note").value = ""; $("v-next").value = sel.plan ? toDate(Date.now() + (/Home Care/.test(sel.plan) ? 182 : 91) * DAY) : "";
+  $("v-note").value = ""; $("v-next").value = sel.plan ? toDate(Date.now() + (/Enterprise/.test(sel.plan) ? 30 : /Pro/.test(sel.plan) ? 61 : /Home Care/.test(sel.plan) ? 182 : 91) * DAY) : "";
   $("v-err").textContent = ""; $("d-del").textContent = "Delete";
   $("d-log").innerHTML = (sel.log || []).slice().sort((a, b) => b.at - a.at).map(x => "<li><b>" + esc(x.note) + "</b><time>" + fmt(x.at) + "</time></li>").join("");
 }

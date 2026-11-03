@@ -22,11 +22,13 @@ window.QT_PLANS = {
     }
   },
 
-  /* CCTV Care Plan – per year, includes the visits listed */
+  /* CCTV maintenance contracts – yearly, "from" prices (final price depends on the site).
+     careApproved: true shows these prices even while approved is false. */
+  careApproved: true,
   care: [
-    { id: "home",     cams: 4,  visits: 2, price: 599,  extraCam: 60 },
-    { id: "standard", cams: 8,  visits: 4, price: 999,  extraCam: 60, featured: true },
-    { id: "business", cams: 16, visits: 4, price: 1799, extraCam: 60, priority: true }
+    { id: "standard",   visits: 4,  from: 2000, response: "48 working hours" },
+    { id: "pro",        visits: 6,  from: 4500, response: "24 hours", featured: true },
+    { id: "enterprise", visits: 12, from: 9000, response: "4-6 hours on site", custom: true }
   ],
 
   /* Business IT Support – per month */

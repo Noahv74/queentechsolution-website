@@ -20,3 +20,30 @@ QT_AR.add({
   "Barrier error codes":"أكواد أعطال البوابات","CCTV in Abu Dhabi":"كاميرات في أبوظبي","Customer reviews":"آراء العملاء",
   "Close":"إغلاق","Previous":"السابق","Next":"التالي","Photo":"صورة"
 });
+QT_AR.add({
+  "Case studies":"دراسات حالة",
+  "The problem, what we did, the result.":"المشكلة، ما قمنا به، والنتيجة.",
+  "Challenge":"التحدي",
+  "Solution":"الحل",
+  "Result":"النتيجة",
+  "Residential community · 12 network rooms":"مجمع سكني · 12 غرفة شبكات",
+  "Saadiyat Island, Abu Dhabi":"جزيرة السعديات، أبوظبي",
+  "Fragmented maintenance and inconsistent surveillance coverage across 12 decentralized network rooms in a large residential community.":"تغطية أمنية متقطعة وصيانة عشوائية موزعة على 12 غرفة شبكات في مجمع سكني ضخم.",
+  "Conducted a comprehensive infrastructure audit, standardized NVR configurations, and implemented a unified maintenance protocol across all nodes.":"تنفيذ فحص شامل للبنية التحتية، توحيد إعدادات أجهزة التسجيل، وتطبيق بروتوكول صيانة موحد لجميع الغرف.",
+  "Restored full system visibility, eliminated blind spots, and ensured continuous compliance with residential security standards.":"استعادة الرؤية الشاملة للنظام، القضاء على النقاط العمياء، وضمان التوافق مع المعايير الأمنية للمجمعات السكنية.",
+  "Control-room video wall":"جدار شاشات غرفة التحكم",
+  "Security control room":"غرفة التحكم الأمني",
+  "Inefficient monitoring and delayed live-feed rendering hindering the security team's incident response time.":"ضعف كفاءة المراقبة لدى طاقم الأمن بسبب تشتت الشاشات وبطء عرض البث الحي للكاميرات المتعددة.",
+  "Engineered and installed a centralized, high-definition video wall optimized for continuous 24/7 multi-channel streaming.":"هندسة وتركيب جدار شاشات مركزي عالي الدقة، مُهيأ للعمل المتواصل 24/7 دون تأخير في معالجة البيانات.",
+  "Maximized monitoring efficiency, enabling faster threat detection and improved situational awareness for operators.":"رفع كفاءة المراقبة المركزية بشكل جذري، مما أتاح لطاقم الأمن سرعة اكتشاف الحوادث وإدارتها.",
+  "Honeywell recorders rack":"كابينة أجهزة تسجيل Honeywell",
+  "Network room":"غرفة شبكات",
+  "Disorganized cabling and thermal management issues jeopardizing the reliability of enterprise-grade Honeywell recording equipment.":"فوضى الكابلات وسوء التهوية في كابينة السيرفرات هددت كفاءة وعمر أجهزة التسجيل عالية التكلفة.",
+  "Restructured the rack layout, executed professional cable management, and integrated dedicated UPS battery backups.":"إعادة بناء هيكل الكابينة، تنفيذ إدارة احترافية للكابلات (Cable Management)، وربط النظام بوحدات طاقة احتياطية مستقلة (UPS).",
+  "Secured data integrity against power fluctuations and extended hardware lifespan through optimal ventilation and power stability.":"تأمين البيانات ضد تذبذب التيار الكهربائي، وإطالة العمر الافتراضي للأجهزة بفضل استقرار الحرارة والطاقة.",
+  "CAME barrier service":"صيانة بوابة CAME",
+  "Main parking entrance":"مدخل المواقف الرئيسي",
+  "Frequent mechanical jamming of the main parking barrier, causing severe traffic bottlenecks during peak facility hours.":"أعطال ميكانيكية متكررة في بوابة المواقف الرئيسية أدت إلى تكدس حاد للسيارات في أوقات الذروة.",
+  "Performed deep mechanical servicing of the CAME motor, recalibrated safety sensors, and updated access control relays.":"تنفيذ صيانة ميكانيكية عميقة لمحرك البوابة، إعادة معايرة مستشعرات الأمان، وتحديث مرحلات نظام الدخول.",
+  "Restored smooth, uninterrupted barrier operation, permanently resolving peak-hour traffic congestion at the entrance.":"استعادة الحركة السلسة والاعتمادية للبوابة، وإنهاء أزمة التكدس المروري عند المدخل بشكل نهائي."
+});

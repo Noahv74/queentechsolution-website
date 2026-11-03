@@ -49,3 +49,30 @@ QT_AR.add({
   "Can I pay monthly?":"هل يمكنني الدفع شهرياً؟","Plans are yearly. For businesses we can split the payment into quarters.":"الباقات سنوية. وللشركات يمكن تقسيم الدفع على أربع دفعات.",
   "Hi Queen Tech, I'd like a CCTV Care Plan.":"مرحباً كوين تك، أريد خطة صيانة للكاميرات.","Right now":"المشاكل حالياً"
 });
+QT_AR.add({
+  "Yearly maintenance contracts for offices, shops, warehouses, hotels and residential communities. Works with Hikvision, Dahua, Uniview, Honeywell and most other brands, even if we didn't install the system.":"عقود صيانة سنوية للمكاتب والمحلات والمستودعات والفنادق والمجمعات السكنية. تعمل مع هيكفيجن وداهوا ويونيفيو وهانيويل وأغلب الماركات الأخرى، حتى لو لم نركّب النظام نحن.",
+  "Prices are yearly and start from the amount shown; the final price depends on the number of cameras and network rooms. Parts like hard disks, cameras or power supplies are quoted separately before we fit them.":"الأسعار سنوية وتبدأ من المبلغ الظاهر، والسعر النهائي يعتمد على عدد الكاميرات وغرف الشبكات. القطع مثل الهارد ديسك والكاميرات ومحولات الكهرباء لها عرض سعر منفصل قبل تركيبها.",
+  "Business Standard":"باقة الأعمال الأساسية","Small offices and shops":"المكاتب الصغيرة والمحلات التجارية",
+  "Business Pro":"باقة الأعمال الاحترافية","Mid-size companies, warehouses and commercial buildings":"الشركات المتوسطة والمستودعات والمجمعات التجارية",
+  "Enterprise SLA":"عقود الشركات والمجمعات (SLA)","Hotels, large residential communities and critical sites":"الفنادق والمجمعات السكنية الكبرى والمنشآت الحساسة",
+  "4 scheduled preventive visits a year":"4 زيارات صيانة وقائية مجدولة سنوياً",
+  "Lens cleaning, view-angle check and firmware updates":"تنظيف العدسات وفحص زوايا الرؤية وتحديث السوفتوير",
+  "Fault response within 48 working hours":"الاستجابة للأعطال خلال 48 ساعة عمل",
+  "Phone and remote support in working hours":"دعم فني هاتفي وعن بُعد في أوقات العمل الرسمية",
+  "Parts and loaner devices priced separately":"قطع الغيار والأجهزة البديلة تُسعّر منفصلة",
+  "6 scheduled preventive visits a year":"6 زيارات صيانة وقائية مجدولة سنوياً",
+  "Network room and UPS check on every visit":"فحص شامل لغرف الشبكات والـ UPS في كل زيارة",
+  "Emergency fault response within 24 hours":"الاستجابة للأعطال الطارئة خلال 24 ساعة",
+  "Loaner NVR or switch if yours fails, so recording continues":"جهاز تسجيل أو سويتش بديل مؤقت عند تعطل جهازك، ليستمر التسجيل",
+  "Extended remote support":"دعم فني عن بُعد ممتد","15% off parts":"خصم 15% على قطع الغيار",
+  "Monthly visits (12 a year) with a status report for every camera and network room":"زيارات صيانة شهرية (12 زيارة سنوياً) مع تقرير حالة مفصل لكل كاميرا وغرفة شبكات",
+  "Emergency response with on-site attendance within 4-6 hours":"استجابة فورية للطوارئ وحضور للموقع خلال 4-6 ساعات",
+  "Immediate loaner devices (QuickSwap) for critical components":"أجهزة بديلة فورية (QuickSwap) لجميع المكونات الحساسة",
+  "Dedicated account manager":"مدير حساب مخصص","Direct WhatsApp emergency line":"خط طوارئ مباشر على واتساب",
+  "From":"تبدأ من","Custom quote for your site":"عرض سعر مخصص لموقعك",
+  "visits a year":"زيارات سنوياً","Not sure":"لست متأكداً","Help me choose":"ساعدني في الاختيار",
+  "A written response time":"زمن استجابة مكتوب","for faults, from 48 hours down to 4-6 hours on site.":"للأعطال، من 48 ساعة حتى 4-6 ساعات للحضور في الموقع.",
+  "Loaner devices":"أجهزة بديلة","on Pro and Enterprise, so recording continues while we repair.":"في الباقة الاحترافية وعقود الشركات، ليستمر التسجيل أثناء الإصلاح.",
+  "Message us. We respond within your plan's response time. If a part needs replacing, we send you the price first. On Pro and Enterprise we lend you a recorder or switch so recording continues.":"راسلنا. نستجيب خلال زمن الاستجابة في باقتك. إذا احتاجت قطعة للتغيير نرسل لك السعر أولاً. وفي الباقة الاحترافية وعقود الشركات نعيرك جهاز تسجيل أو سويتش ليستمر التسجيل.",
+  "The price shown is a starting price. We confirm the final price after a free site survey, based on the number of cameras, recorders and network rooms.":"السعر الظاهر هو سعر البداية. نؤكد السعر النهائي بعد معاينة مجانية للموقع، حسب عدد الكاميرات وأجهزة التسجيل وغرف الشبكات."
+});

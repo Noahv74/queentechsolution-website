@@ -155,6 +155,17 @@ footer a{color:var(--muted)}
 .stats4 b{display:block;font:800 1.7rem/1 var(--f-display);color:var(--gold-2)}
 .stats4 span{font-size:.78rem;color:var(--muted)}
 .did{margin:8px 0 0;padding-inline-start:20px;display:grid;gap:6px}
+.cases{margin:34px 0 10px}
+.cs-head h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1;margin:12px 0 18px}
+.cs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px}
+.cs{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:14px;align-items:start}
+.cs img{width:150px;height:150px;object-fit:cover;border-radius:6px;display:block}
+.cs .k{font:500 .72rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.cs h3{font-size:1.15rem;margin:6px 0 10px}
+.cs dl{margin:0;display:grid;gap:8px}
+.cs dt{font:600 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cs dd{margin:2px 0 0;font-size:.93rem;line-height:1.5}
+@media (max-width:560px){.cs{grid-template-columns:1fr}.cs img{width:100%;height:180px}}
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .gal button{all:unset;cursor:zoom-in;position:relative;display:block;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#0d0c0a;aspect-ratio:4/3}
 .gal button.tall{grid-row:span 2;aspect-ratio:auto}
@@ -216,6 +227,61 @@ html[dir=rtl] .lb .nv{transform:translateY(-50%) scaleX(-1)}
       <div class="row" style="margin-top:14px"><a class="btn btn-wa" href="https://wa.me/971557971520?text=Hi%20Queen%20Tech%2C%20I%20saw%20your%20work%20page.%20I%20need%20CCTV%20maintenance%20for%20my%20building." target="_blank" rel="noopener">Maintenance for my building</a><a class="btn btn-line" href="/care.html">CCTV Care Plan</a></div>
     </div>
     <div class="gal" id="gal" translate="no"></div>
+  </section>
+
+
+  <section class="cases" aria-labelledby="cs-h">
+    <div class="cs-head"><span class="tag">Case studies</span><h2 id="cs-h">The problem, what we did, the result.</h2></div>
+    <div class="cs-grid">
+      <article class="cs">
+        <img src="/work/rack-sr6-s.webp" alt="Residential community · 12 network rooms" loading="lazy" decoding="async" width="560" height="420">
+        <div class="cs-b">
+          <span class="k">Saadiyat Island, Abu Dhabi</span>
+          <h3>Residential community · 12 network rooms</h3>
+          <dl>
+            <dt>Challenge</dt><dd>Fragmented maintenance and inconsistent surveillance coverage across 12 decentralized network rooms in a large residential community.</dd>
+            <dt>Solution</dt><dd>Conducted a comprehensive infrastructure audit, standardized NVR configurations, and implemented a unified maintenance protocol across all nodes.</dd>
+            <dt>Result</dt><dd>Restored full system visibility, eliminated blind spots, and ensured continuous compliance with residential security standards.</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="cs">
+        <img src="/work/wall-s.webp" alt="Control-room video wall" loading="lazy" decoding="async" width="560" height="420">
+        <div class="cs-b">
+          <span class="k">Security control room</span>
+          <h3>Control-room video wall</h3>
+          <dl>
+            <dt>Challenge</dt><dd>Inefficient monitoring and delayed live-feed rendering hindering the security team&#x27;s incident response time.</dd>
+            <dt>Solution</dt><dd>Engineered and installed a centralized, high-definition video wall optimized for continuous 24/7 multi-channel streaming.</dd>
+            <dt>Result</dt><dd>Maximized monitoring efficiency, enabling faster threat detection and improved situational awareness for operators.</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="cs">
+        <img src="/work/rack-honeywell-s.webp" alt="Honeywell recorders rack" loading="lazy" decoding="async" width="560" height="420">
+        <div class="cs-b">
+          <span class="k">Network room</span>
+          <h3>Honeywell recorders rack</h3>
+          <dl>
+            <dt>Challenge</dt><dd>Disorganized cabling and thermal management issues jeopardizing the reliability of enterprise-grade Honeywell recording equipment.</dd>
+            <dt>Solution</dt><dd>Restructured the rack layout, executed professional cable management, and integrated dedicated UPS battery backups.</dd>
+            <dt>Result</dt><dd>Secured data integrity against power fluctuations and extended hardware lifespan through optimal ventilation and power stability.</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="cs">
+        <img src="/work/barrier-came-s.webp" alt="CAME barrier service" loading="lazy" decoding="async" width="560" height="420">
+        <div class="cs-b">
+          <span class="k">Main parking entrance</span>
+          <h3>CAME barrier service</h3>
+          <dl>
+            <dt>Challenge</dt><dd>Frequent mechanical jamming of the main parking barrier, causing severe traffic bottlenecks during peak facility hours.</dd>
+            <dt>Solution</dt><dd>Performed deep mechanical servicing of the CAME motor, recalibrated safety sensors, and updated access control relays.</dd>
+            <dt>Result</dt><dd>Restored smooth, uninterrupted barrier operation, permanently resolving peak-hour traffic congestion at the entrance.</dd>
+          </dl>
+        </div>
+      </article>
+    </div>
   </section>
 
   <p class="note-p">Locations are removed from every photo and camera screens are blurred to protect our clients' privacy.</p>
