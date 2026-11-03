@@ -15,6 +15,11 @@ exit /b
 #  login) the details of your NVR/DVR. Passwords are never saved or sent.
 # =====================================================================
 $ErrorActionPreference = 'SilentlyContinue'
+# Recorders often use a self-signed HTTPS certificate. Accept it only for devices addressed by IP on this network.
+try {
+  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]'Tls12, Tls11, Tls'
+  [Net.ServicePointManager]::ServerCertificateValidationCallback = { param($snd, $crt, $chn, $err) ($err -eq 'None') -or ($snd -is [Net.HttpWebRequest] -and $snd.RequestUri.Host -match '^\d{1,3}(\.\d{1,3}){3}$') }
+} catch {}
 $QT = @{
   UploadUrl = '__UPLOAD_URL__'          # set by Queen Tech; empty = no automatic upload
   Customer  = '__CUSTOMER__'
@@ -28,7 +33,7 @@ $QT = @{
   Review    = '__REVIEW_URL__'      # Google Maps review link
   WhatsApp  = '971557971520'
   Email     = 'noah@queentechsolution.info'
-  Version   = '1.3'
+  Version   = '1.4'
 }
 foreach ($k in @('UploadUrl','Customer','Company','Phone','CEmail','Emirate','Area','SiteType','Review','Ranges')) { if ($QT[$k] -like '__*__') { $QT[$k] = '' } }
 
@@ -155,6 +160,23 @@ function Get-Http($url, $cred = $null, $ms = 4000) {
   try { $sr = New-Object IO.StreamReader($resp.GetResponseStream()); $r.Body = $sr.ReadToEnd(); $sr.Close() } catch {}
   $resp.Close(); $r
 }
+function Get-RtspInfo($ip, $port = 554, $ms = 1500) {
+  # One unauthenticated DESCRIBE: cameras answer with their server name and login realm. Nothing is changed.
+  $r = [pscustomobject]@{ Server = ''; Realm = '' }
+  try {
+    $c = New-Object Net.Sockets.TcpClient
+    if (-not $c.ConnectAsync($ip, $port).Wait($ms)) { $c.Close(); return $r }
+    $st = $c.GetStream(); $st.ReadTimeout = $ms; $st.WriteTimeout = $ms
+    $q = [Text.Encoding]::ASCII.GetBytes("DESCRIBE rtsp://${ip}:$port/ RTSP/1.0`r`nCSeq: 1`r`nUser-Agent: QueenTech-SystemCheck`r`nAccept: application/sdp`r`n`r`n")
+    $st.Write($q, 0, $q.Length)
+    $buf = New-Object byte[] 2048; $n = $st.Read($buf, 0, $buf.Length); $c.Close()
+    $txt = [Text.Encoding]::ASCII.GetString($buf, 0, [math]::Max(0, $n))
+    if ($txt -notmatch '^RTSP/') { return $r }
+    if ($txt -match '(?im)^Server:\s*(.+?)\s*$') { $r.Server = $matches[1] } else { $r.Server = 'RTSP' }
+    if ($txt -match 'realm="([^"]*)"') { $r.Realm = $matches[1] }
+  } catch {}
+  $r
+}
 function Get-Title($html) { if ($html -match '(?is)<title[^>]*>\s*(.*?)\s*</title>') { return ($matches[1] -replace '\s+', ' ').Trim() }; '' }
 
 function Invoke-WsDiscovery($localIp, $waitMs = 3500) {
@@ -192,8 +214,8 @@ function Invoke-WsDiscovery($localIp, $waitMs = 3500) {
 }
 
 function Get-Vendor($d) {
-  $txt = (@($d.OnvifMfr, $d.OnvifName, $d.OnvifHardware, $d.Realm, $d.Server, $d.Title, $d.MacVendor) -join ' ').ToLower()
-  $map = [ordered]@{ 'hikvision'='Hikvision'; 'hik'='Hikvision'; 'ds-2'='Hikvision'; 'ds-7'='Hikvision'; 'ds-9'='Hikvision'; 'dahua'='Dahua'; 'dh-'='Dahua'; 'dhi-'='Dahua'; 'uniview'='Uniview'; 'unv'='Uniview'; 'axis'='Axis'; 'hanwha'='Hanwha'; 'wisenet'='Hanwha'; 'ezviz'='EZVIZ'; 'imou'='Imou'; 'tp-link'='TP-Link'; 'tplink'='TP-Link'; 'ubiquiti'='Ubiquiti'; 'unifi'='Ubiquiti'; 'mikrotik'='MikroTik'; 'cisco'='Cisco'; 'huawei'='Huawei'; 'zte'='ZTE'; 'netgear'='Netgear'; 'd-link'='D-Link'; 'hp '='HP'; 'epson'='Epson'; 'canon'='Canon'; 'xmeye'='XMEye (generic)' }
+  $txt = (@($d.OnvifMfr, $d.OnvifName, $d.OnvifHardware, $d.Realm, $d.Server, $d.Title, $d.MacVendor, $d.RtspServer, $d.RtspRealm) -join ' ').ToLower()
+  $map = [ordered]@{ 'hikvision'='Hikvision'; 'hik'='Hikvision'; 'ds-2'='Hikvision'; 'ds-7'='Hikvision'; 'ds-9'='Hikvision'; 'dahua'='Dahua'; 'dh-'='Dahua'; 'dhi-'='Dahua'; 'uniview'='Uniview'; 'unv'='Uniview'; 'axis'='Axis'; 'hanwha'='Hanwha'; 'wisenet'='Hanwha'; 'ezviz'='EZVIZ'; 'imou'='Imou'; 'tp-link'='TP-Link'; 'tplink'='TP-Link'; 'ubiquiti'='Ubiquiti'; 'unifi'='Ubiquiti'; 'mikrotik'='MikroTik'; 'cisco'='Cisco'; 'huawei'='Huawei'; 'zte'='ZTE'; 'netgear'='Netgear'; 'd-link'='D-Link'; 'hp '='HP'; 'epson'='Epson'; 'canon'='Canon'; 'xmeye'='XMEye (generic)'; 'infinique'='Infinique'; 'milesight'='Milesight'; 'tiandy'='Tiandy'; 'provision'='Provision-ISR'; 'reolink'='Reolink'; 'vivotek'='Vivotek'; 'bosch'='Bosch'; 'honeywell'='Honeywell'; 'tvt'='TVT'; 'hipcam'='Generic camera'; 'netsurveillance'='XMEye (generic)' }
   foreach ($k in $map.Keys) { if ($txt.Contains($k)) { return $map[$k] } }
   if ($d.Ports -contains 37777) { return 'Dahua' }
   if ($d.Ports -contains 8000 -and $d.Ports -contains 554) { return 'Hikvision' }
@@ -203,10 +225,11 @@ function Get-Vendor($d) {
 function Get-DevType($d, $gw, $self) {
   if ($d.IP -eq $self) { return 'This computer' }
   if ($d.IP -eq $gw) { return 'Router / gateway' }
-  $t = (@($d.OnvifName, $d.OnvifHardware, $d.Realm, $d.Title, $d.Server) -join ' ').ToLower()
+  $t = (@($d.OnvifName, $d.OnvifHardware, $d.Realm, $d.Title, $d.Server, $d.RtspServer, $d.RtspRealm) -join ' ').ToLower()
   if ($t -match 'nvr|dvr|xvr|ds-7[0-9]|ds-9[0-9]|ds-8[0-9]|recorder') { return 'NVR / DVR' }
   if ($d.OnvifTypes -match 'NetworkVideoTransmitter' -or $t -match 'ipc|ip camera|ds-2c|ds-2d|camera') { return 'IP camera' }
   if ($d.Ports -contains 554 -and $d.Vendor -in @('Hikvision','Dahua','Uniview','Axis','Hanwha','EZVIZ','Imou','XMEye (generic)')) { return 'IP camera' }
+  if (($d.Ports -contains 554 -or $d.RtspServer) -and -not ($d.Ports -contains 445 -or $d.Ports -contains 3389 -or $d.Ports -contains 9100)) { return 'IP camera' }
   if ($d.Ports -contains 9100) { return 'Printer' }
   if ($d.Vendor -in @('TP-Link','Ubiquiti','MikroTik','Cisco','Netgear','D-Link','Huawei','ZTE')) { return 'Network device (switch / AP / router)' }
   if ($d.Ports -contains 3389 -or $d.Ports -contains 445) { return 'Computer / server' }
@@ -218,9 +241,11 @@ function Get-DevType($d, $gw, $self) {
 function Read-Kv($body) { $h = [ordered]@{}; foreach ($l in ($body -split "`r?`n")) { if ($l -match '^\s*([^=]+?)=(.*)$') { $h[$matches[1]] = $matches[2].Trim() } }; $h }
 function X($node, $name) { $n = $node.SelectSingleNode(".//*[local-name()='$name']"); if ($n) { $n.InnerText } else { '' } }
 
+function Base-Url($ip) { if ($ip -match '^https?://') { $ip.TrimEnd('/') } else { "http://$ip" } }
 function Read-Hikvision($ip, $cred) {
-  $base = "http://$ip"
+  $base = Base-Url $ip
   $di = Get-Http "$base/ISAPI/System/deviceInfo" $cred
+  if ($di.Code -eq 401) { $script:LoginWhy = 'Wrong username or password (or the account is locked for 30 minutes after too many tries).' }
   if ($di.Code -ne 200 -or $di.Body -notmatch 'DeviceInfo') { return $null }
   $x = [xml]$di.Body
   $res = [ordered]@{ Brand = 'Hikvision'; Name = (X $x 'deviceName'); Model = (X $x 'model'); Serial = (X $x 'serialNumber'); Firmware = ((X $x 'firmwareVersion') + ' ' + (X $x 'firmwareReleasedDate')).Trim(); Mac = (X $x 'macAddress'); Channels = @(); Disks = @() }
@@ -247,8 +272,9 @@ function Read-Hikvision($ip, $cred) {
 }
 
 function Read-Dahua($ip, $cred) {
-  $base = "http://$ip/cgi-bin"
+  $base = (Base-Url $ip) + '/cgi-bin'
   $si = Get-Http "$base/magicBox.cgi?action=getSystemInfo" $cred
+  if ($si.Code -eq 401) { $script:LoginWhy = 'Wrong username or password (or the account is locked after too many tries).' }
   if ($si.Code -ne 200 -or $si.Body -notmatch '=') { return $null }
   $kv = Read-Kv $si.Body
   $sw = Read-Kv (Get-Http "$base/magicBox.cgi?action=getSoftwareVersion" $cred).Body
@@ -270,19 +296,96 @@ function Read-Dahua($ip, $cred) {
   $res
 }
 
-function Read-Onvif($ip, $user, $pass) {
-  $nonce = New-Object byte[] 16; (New-Object Security.Cryptography.RNGCryptoServiceProvider).GetBytes($nonce)
-  $created = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-  $sha = [Security.Cryptography.SHA1]::Create()
-  $digest = [Convert]::ToBase64String($sha.ComputeHash([byte[]]($nonce + [Text.Encoding]::UTF8.GetBytes($created + $pass))))
-  $env = '<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"><s:Header><Security s:mustUnderstand="1" xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><UsernameToken><Username>' + [Security.SecurityElement]::Escape($user) + '</Username><Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">' + $digest + '</Password><Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">' + [Convert]::ToBase64String($nonce) + '</Nonce><Created xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">' + $created + '</Created></UsernameToken></Security></s:Header><s:Body><GetDeviceInformation xmlns="http://www.onvif.org/ver10/device/wsdl"/></s:Body></s:Envelope>'
+function Onvif-Call($url, $user, $pass, $body, $ms = 6000) {
+  $hdr = ''
+  if ($user) {
+    $nonce = New-Object byte[] 16; (New-Object Security.Cryptography.RNGCryptoServiceProvider).GetBytes($nonce)
+    $created = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+    $digest = [Convert]::ToBase64String([Security.Cryptography.SHA1]::Create().ComputeHash([byte[]]($nonce + [Text.Encoding]::UTF8.GetBytes($created + $pass))))
+    $hdr = '<s:Header><Security s:mustUnderstand="1" xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><UsernameToken><Username>' + [Security.SecurityElement]::Escape($user) + '</Username><Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">' + $digest + '</Password><Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">' + [Convert]::ToBase64String($nonce) + '</Nonce><Created xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">' + $created + '</Created></UsernameToken></Security></s:Header>'
+  }
+  $env = '<?xml version="1.0" encoding="UTF-8"?><s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope">' + $hdr + '<s:Body>' + $body + '</s:Body></s:Envelope>'
+  $resp = $null
   try {
-    $r = Invoke-WebRequest -Uri "http://$ip/onvif/device_service" -Method Post -Body $env -ContentType 'application/soap+xml; charset=utf-8' -TimeoutSec 6 -UseBasicParsing
-    $x = [xml]$r.Content
-    return [ordered]@{ Brand = (X $x 'Manufacturer'); Name = ''; Model = (X $x 'Model'); Serial = (X $x 'SerialNumber'); Firmware = (X $x 'FirmwareVersion'); Mac = ''; Channels = @(); Disks = @() }
-  } catch { return $null }
+    $req = [Net.HttpWebRequest]::Create($url); $req.Method = 'POST'; $req.Timeout = $ms; $req.ReadWriteTimeout = $ms
+    $req.ContentType = 'application/soap+xml; charset=utf-8'; $req.UserAgent = 'QueenTech-SystemCheck/1.4'
+    if ($user) { $req.Credentials = New-Object Net.NetworkCredential($user, $pass) }   # some devices want HTTP digest instead
+    $b = [Text.Encoding]::UTF8.GetBytes($env); $req.ContentLength = $b.Length
+    $rs = $req.GetRequestStream(); $rs.Write($b, 0, $b.Length); $rs.Close()
+    $resp = $req.GetResponse()
+  } catch [Net.WebException] { $resp = $_.Exception.Response } catch { return $null }
+  if (-not $resp) { return $null }
+  $code = [int]$resp.StatusCode; $txt = ''
+  try { $sr = New-Object IO.StreamReader($resp.GetResponseStream()); $txt = $sr.ReadToEnd(); $sr.Close() } catch {}
+  $resp.Close()
+  if ($code -eq 401 -or $txt -match 'NotAuthorized') { $script:OnvifAuthFail = $true }
+  if ($code -ne 200) { return $null }
+  try { [xml]$txt } catch { $null }
+}
+function Fix-XAddr($u, $devUrl) {
+  # a device can report its own address wrongly (NAT, second network card): keep its path, use the address that answered
+  try { $a = [Uri]$u; $d = [Uri]$devUrl; return ('{0}://{1}{2}' -f $d.Scheme, $d.Authority, $a.PathAndQuery) } catch { $u }
+}
+function Read-Onvif($ip, $user, $pass, $xaddr = '') {
+  $script:OnvifAuthFail = $false
+  $urls = New-Object System.Collections.Generic.List[string]
+  foreach ($x in (('' + $xaddr) -split '\s+')) { if ($x -match '^https?://' -and $x.Contains($ip) -and -not $urls.Contains($x)) { $urls.Add($x) } }
+  foreach ($pt in @(80, 8000, 8080, 8899, 2020, 8999, 5000, 10080)) { $u = $(if ($pt -eq 80) { "http://$ip/onvif/device_service" } else { "http://${ip}:$pt/onvif/device_service" }); if (-not $urls.Contains($u)) { $urls.Add($u) } }
+  $x = $null; $dev = ''
+  foreach ($u in $urls) {
+    if ($u -match '://[^/:]+:(\d+)/' -and -not (Test-Ports $ip @([int]$matches[1]) 500)) { continue }
+    $x = Onvif-Call $u $user $pass '<GetDeviceInformation xmlns="http://www.onvif.org/ver10/device/wsdl"/>'
+    if ($x -and ((X $x 'Model') -or (X $x 'Manufacturer'))) { $dev = $u; break }
+    $x = $null
+    if ($script:OnvifAuthFail) { $script:LoginWhy = 'ONVIF refused the login. Check the username/password, and that ONVIF is enabled on the device with this user allowed.'; break }
+  }
+  if (-not $x) { return $null }
+  $res = [ordered]@{ Brand = (X $x 'Manufacturer'); Name = ''; Model = (X $x 'Model'); Serial = (X $x 'SerialNumber'); Firmware = (X $x 'FirmwareVersion'); Mac = ''; Channels = @(); Disks = @(); Resolution = '' }
+  $media = ''
+  $cap = Onvif-Call $dev $user $pass '<GetCapabilities xmlns="http://www.onvif.org/ver10/device/wsdl"><Category>Media</Category></GetCapabilities>'
+  if ($cap) { $n = $cap.SelectSingleNode("//*[local-name()='Media']/*[local-name()='XAddr']"); if ($n) { $media = Fix-XAddr $n.InnerText.Trim() $dev } }
+  if (-not $media) { $media = $dev -replace 'device_service$', 'Media' }
+  $pr = Onvif-Call $media $user $pass '<GetProfiles xmlns="http://www.onvif.org/ver10/media/wsdl"/>'
+  if ($pr) {
+    $seen = [ordered]@{}
+    foreach ($pf in $pr.SelectNodes("//*[local-name()='Profiles']")) {
+      $vs = $pf.SelectSingleNode("./*[local-name()='VideoSourceConfiguration']"); if (-not $vs) { continue }
+      $src = X $vs 'SourceToken'; if (-not $src) { $src = $vs.GetAttribute('token') }
+      if (-not $src -or $seen.Contains($src)) { continue }   # main and sub streams share one source = one camera
+      $w = ''; $h = ''
+      $rn = $pf.SelectSingleNode("./*[local-name()='VideoEncoderConfiguration']/*[local-name()='Resolution']")
+      if ($rn) { $w = X $rn 'Width'; $h = X $rn 'Height' }
+      $nm = ''; $nn = $vs.SelectSingleNode("./*[local-name()='Name']"); if ($nn) { $nm = $nn.InnerText }
+      if (-not $nm) { $nm = $pf.SelectSingleNode("./*[local-name()='Name']").InnerText }
+      $seen[$src] = [pscustomobject]@{ Channel = ($seen.Count + 1); Name = $nm; 'Camera IP' = ''; Protocol = 'ONVIF'; Model = $(if ($w) { "${w}x$h" } else { '' }); Status = '' }
+      if (-not $res.Resolution -and $w) { $res.Resolution = "${w}x$h" }
+    }
+    $res.Channels = @($seen.Values)
+  }
+  $res
 }
 
+# Uniview (and its OEM brands): LAPI
+function Read-Uniview($ip, $cred) {
+  $base = Base-Url $ip
+  $b = Get-Http "$base/LAPI/V1.0/System/DeviceBasicInfo" $cred
+  if ($b.Code -eq 401) { $script:LoginWhy = 'Wrong username or password (or the account is locked after too many tries).' }
+  if ($b.Code -ne 200 -or $b.Body -notmatch '"Response"') { return $null }
+  $d = ($b.Body | ConvertFrom-Json).Response.Data
+  if (-not $d) { return $null }
+  $res = [ordered]@{ Brand = 'Uniview'; Name = ('' + $d.DeviceName); Model = ('' + $d.DeviceModel); Serial = ('' + $d.SerialNumber); Firmware = ('' + $d.FirmwareVersion); Mac = ('' + $d.MAC); Channels = @(); Disks = @() }
+  $c = Get-Http "$base/LAPI/V1.0/Channels/System/ChannelDetailInfo" $cred
+  if ($c.Code -eq 200) {
+    $cd = ($c.Body | ConvertFrom-Json).Response.Data
+    foreach ($ch in @($cd.DetailInfos)) {
+      if (-not $ch) { continue }
+      $ipa = '' + $ch.AddressInfo.Address; if (-not $ipa) { $ipa = '' + $ch.Address }
+      $stt = '' + $ch.Status
+      $res.Channels += [pscustomobject]@{ Channel = $(if ('' + $ch.ID -match '^\d+$') { [int]$ch.ID + 1 } else { $ch.ID }); Name = ('' + $ch.Name); 'Camera IP' = $ipa; Protocol = 'LAPI'; Model = ('' + $ch.DeviceModel); Status = $(switch ($stt) { '1' { 'Online' } '0' { 'Offline' } '2' { 'Offline' } default { $stt } }) }
+    }
+  }
+  $res
+}
 
 # ---------------------------------------------------- custom IP ranges
 function ConvTo-UInt($ip) { $b = ([Net.IPAddress]::Parse($ip)).GetAddressBytes(); [Array]::Reverse($b); [BitConverter]::ToUInt32($b, 0) }
@@ -306,7 +409,7 @@ function Expand-Ranges($text, $max = 4096) {
 }
 
 # ---------------------------------------------------- camera login
-function Read-Camera($ip, $u, $p) {
+function Read-Camera($ip, $u, $p, $xaddr = '') {
   $cred = New-Object Net.NetworkCredential($u, $p)
   $di = Get-Http "http://$ip/ISAPI/System/deviceInfo" $cred
   if ($di.Code -eq 200 -and $di.Body -match 'DeviceInfo') {
@@ -325,8 +428,8 @@ function Read-Camera($ip, $u, $p) {
     if ($w) { $res.Resolution = "${w}x$h" }; $res.Codec = '' + $en['table.Encode[0].MainFormat[0].Video.Compression']
     return $res
   }
-  $o = Read-Onvif $ip $u $p
-  if ($o) { return [ordered]@{ Brand = $o.Brand; Model = $o.Model; Name = ''; Serial = $o.Serial; Firmware = $o.Firmware; MAC = ''; Resolution = ''; Codec = '' } }
+  $o = Read-Onvif $ip $u $p $xaddr
+  if ($o) { return [ordered]@{ Brand = $o.Brand; Model = $o.Model; Name = ''; Serial = $o.Serial; Firmware = $o.Firmware; MAC = ''; Resolution = $o.Resolution; Codec = ''; OnvifChannels = $o.Channels.Count } }
   $null
 }
 
@@ -483,11 +586,12 @@ $PORTS = @(80, 443, 554, 8000, 8080, 8899, 37777, 34567, 9100, 445, 3389)
 $devices = @(); $i = 0
 foreach ($ip in $ips) {
   $i++; Write-Progress -Activity 'Identifying devices' -Status $ip -PercentComplete ([int](100 * $i / $ips.Count))
-  $d = [ordered]@{ IP = $ip; MAC = ''; MacVendor = ''; Ports = @(); Server = ''; Title = ''; Realm = ''; OnvifName = ''; OnvifHardware = ''; OnvifMfr = ''; OnvifTypes = ''; Ping = ''; Host = '' }
+  $d = [ordered]@{ IP = $ip; MAC = ''; MacVendor = ''; Ports = @(); Server = ''; Title = ''; Realm = ''; OnvifName = ''; OnvifHardware = ''; OnvifMfr = ''; OnvifTypes = ''; OnvifXAddr = ''; RtspServer = ''; RtspRealm = ''; Ping = ''; Host = '' }
   if ($arp.ContainsKey($ip)) { $d.MAC = $arp[$ip]; $d.MacVendor = Get-MacVendor $d.MAC }
   if ($alive.ContainsKey($ip)) { $d.Ping = $alive[$ip] }
-  if ($wsd.ContainsKey($ip)) { $w = $wsd[$ip]; $d.OnvifName = $w.Name; $d.OnvifHardware = $w.Hardware; $d.OnvifMfr = $w.Mfr; $d.OnvifTypes = $w.Types }
+  if ($wsd.ContainsKey($ip)) { $w = $wsd[$ip]; $d.OnvifName = $w.Name; $d.OnvifHardware = $w.Hardware; $d.OnvifMfr = $w.Mfr; $d.OnvifTypes = $w.Types; $d.OnvifXAddr = $w.XAddr }
   if ($nets.IP -notcontains $ip) { $d.Ports = @(Test-Ports $ip $PORTS) }
+  if ($d.Ports -contains 554) { $rt = Get-RtspInfo $ip; $d.RtspServer = $rt.Server; $d.RtspRealm = $rt.Realm }
   if ($d.Ports -contains 80) {
     $h = Get-Http "http://$ip/" $null 2500; $d.Server = $h.Server; $d.Title = Get-Title $h.Body
     $a = Get-Http "http://$ip/ISAPI/System/deviceInfo" $null 2500; if ($a.Realm) { $d.Realm = $a.Realm }
@@ -509,9 +613,27 @@ foreach ($n in $nvrs) { Say ("   Recorder: {0}  {1} {2}" -f $n.IP, $n.Vendor, ($
 $recorders = @(); $camInfo = @(); $swInfo = @(); $loginState = @{}
 function Read-Secret($q) { $sp = Read-Host $q -AsSecureString; $p = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sp)); if ($null -eq $p) { $p = '' }; $p }
 function YesNo($q, $def = 'Y') { $a = (Read-Host ($q + $(if ($def -eq 'Y') { ' (Y/n)' } else { ' (y/N)' }))).Trim(); if (-not $a) { $a = $def }; $a -match '^[Yy]' }
-function Read-RecorderAt($ip, $u, $p) {
+function Read-RecorderAt($ip, $u, $p, $dev = $null) {
+  $script:LoginWhy = ''
   $cred = New-Object Net.NetworkCredential($u, $p)
-  $r = Read-Hikvision $ip $cred; if (-not $r) { $r = Read-Dahua $ip $cred }; if (-not $r) { $r = Read-Onvif $ip $u $p }; $r
+  $ports = @(); if ($dev) { $ports = @($dev.Ports) } else { $ports = @(Test-Ports $ip @(80, 443, 8080)) }
+  $bases = @(); if ($ports -contains 80 -or -not $ports.Count) { $bases += $ip }; if ($ports -contains 443) { $bases += "https://$ip" }; if ($ports -contains 8080) { $bases += "${ip}:8080" }
+  $r = $null
+  foreach ($b in $bases) {
+    $bu = Base-Url $b
+    # ask without a password first, so a wrong password is only tried on the one API this device really has
+    if ((Get-Http "$bu/ISAPI/System/deviceInfo" $null 2500).Code -eq 401) { $r = Read-Hikvision $b $cred; if ($r -or $script:LoginWhy) { break } }
+    if ((Get-Http "$bu/cgi-bin/magicBox.cgi?action=getSystemInfo" $null 2500).Code -eq 401) { $r = Read-Dahua $b $cred; if ($r -or $script:LoginWhy) { break } }
+    if ((Get-Http "$bu/LAPI/V1.0/System/DeviceBasicInfo" $null 2500).Code -in @(200, 401)) { $r = Read-Uniview $b $cred; if ($r -or $script:LoginWhy) { break } }
+  }
+  if ($script:LoginWhy -and -not $r) { return $null }
+  $xa = ''; if ($dev) { $xa = $dev.OnvifXAddr }
+  if (-not $r) { $r = Read-Onvif $ip $u $p $xa; if ($r) { $r.Remove('Resolution') }; return $r }
+  if ($r.Channels.Count -eq 0) {
+    $o = Read-Onvif $ip $u $p $xa
+    if ($o -and $o.Channels.Count) { $r.Channels = $o.Channels }
+  }
+  $r
 }
 $netGear = @($devices | Where-Object { $_.Type -like 'Network device*' -or $_.Type -eq 'Router / gateway' })
 
@@ -535,9 +657,15 @@ foreach ($ip in @($recList)) {
     $u = (Read-Host '   Username [admin]').Trim(); if (-not $u) { $u = 'admin' }
     $p = Read-Secret '   Password'
     Say '   Reading...'
-    $rec = Read-RecorderAt $ip $u $p; $p = $null
-    if ($rec) { $rec['IP'] = $ip; $recorders += $rec; $loginState[$ip] = 'OK'; Say ("   OK: {0} {1} - {2} channel(s), {3} disk(s)" -f $rec.Brand, $rec.Model, $rec.Channels.Count, $rec.Disks.Count) Green; break }
-    $loginState[$ip] = 'Login failed'; Say '   Could not log in (wrong username/password, or model not supported).' Red
+    $rec = Read-RecorderAt $ip $u $p $d; $p = $null
+    if ($rec) {
+      $rec['IP'] = $ip; $recorders += $rec; $loginState[$ip] = 'OK'; Say ("   OK: {0} {1} - {2} channel(s), {3} disk(s)" -f $rec.Brand, $rec.Model, $rec.Channels.Count, $rec.Disks.Count) Green
+      if ($rec.Channels.Count -eq 0) { Say '   The recorder did not list its cameras. You can type the number of cameras in the next step.' Yellow }
+      break
+    }
+    $loginState[$ip] = 'Login failed'
+    if ($script:LoginWhy) { Say ('   Could not log in: ' + $script:LoginWhy) Red }
+    else { Say '   Could not read this recorder. Its model may not be supported, or ONVIF is turned off.' Red; Say '   Tip: in the recorder menu, enable ONVIF (Network > Advanced / Platform access) and try again.' DarkGray }
     if (-not (YesNo '   Try again?' 'N')) { break }
   }
 }
@@ -548,8 +676,8 @@ while ($true) {
   if ($x -notmatch '^\d{1,3}(\.\d{1,3}){3}$') { Say '   That is not an IP address.' Red; continue }
   $u = (Read-Host '   Username [admin]').Trim(); if (-not $u) { $u = 'admin' }
   $p = Read-Secret '   Password'; Say '   Reading...'
-  $rec = Read-RecorderAt $x $u $p; $p = $null
-  if ($rec) { $rec['IP'] = $x; $recorders += $rec; $loginState[$x] = 'OK'; Say ("   OK: {0} {1} - {2} channel(s)" -f $rec.Brand, $rec.Model, $rec.Channels.Count) Green } else { $loginState[$x] = 'Login failed'; Say '   Could not read it.' Red }
+  $rec = Read-RecorderAt $x $u $p ($devices | Where-Object { $_.IP -eq $x } | Select-Object -First 1); $p = $null
+  if ($rec) { $rec['IP'] = $x; $recorders += $rec; $loginState[$x] = 'OK'; Say ("   OK: {0} {1} - {2} channel(s)" -f $rec.Brand, $rec.Model, $rec.Channels.Count) Green } else { $loginState[$x] = 'Login failed'; Say ('   Could not read it. ' + $script:LoginWhy) Red }
 }
 
 # Cameras
@@ -561,6 +689,7 @@ if ($cams.Count) {
   Say '   [3] Skip the cameras'
   $m = ''; while ($m -notmatch '^[123]$') { $m = (Read-Host '   Choose 1, 2 or 3').Trim() }
   if ($m -ne '3') {
+    $recIPs0 = @($recorders | ForEach-Object { $_['IP'] })
     $cu = ''; $cp = ''
     if ($m -eq '1') { $cu = (Read-Host '   Username [admin]').Trim(); if (-not $cu) { $cu = 'admin' }; $cp = Read-Secret '   Password' }
     $k = 0
@@ -572,7 +701,11 @@ if ($cams.Count) {
         $p = Read-Secret '      Password'
       }
       Write-Progress -Activity 'Reading cameras' -Status $c.IP -PercentComplete ([int](100 * $k / $cams.Count))
-      $ci = Read-Camera $c.IP $u $p
+      $ci = Read-Camera $c.IP $u $p $c.OnvifXAddr
+      if ($ci -and (('' + $ci.Model) -match '^(DS-7|DS-8|DS-9|iDS-7|iDS-9)|NVR|DVR|XVR' -or [int]$ci.OnvifChannels -gt 1) -and $recIPs0 -notcontains $c.IP) {
+        $rr = Read-RecorderAt $c.IP $u $p $c
+        if ($rr -and $rr.Channels.Count -gt 1) { $rr['IP'] = $c.IP; $recorders += $rr; $loginState[$c.IP] = 'OK'; $c.Type = 'NVR / DVR'; Say ("   {0} is a recorder: {1} {2} - {3} channel(s)" -f $c.IP, $rr.Brand, $rr.Model, $rr.Channels.Count) Green; continue }
+      }
       if ($ci) { $ci['IP'] = $c.IP; $camInfo += [pscustomobject]$ci; $loginState[$c.IP] = 'OK' } else { $loginState[$c.IP] = 'Login failed'; $camInfo += [pscustomobject]@{ IP = $c.IP; Brand = $c.Vendor; Model = $c.OnvifHardware; Name = ''; Serial = ''; Firmware = ''; MAC = $c.MAC; Resolution = ''; Codec = '' } }
     }
     Write-Progress -Activity 'Reading cameras' -Completed
@@ -603,6 +736,9 @@ if ($sw.Count) {
 }
 
 # ------------------------------------------------------- what we found
+$cams = @($devices | Where-Object { $_.Type -eq 'IP camera' })
+$nvrs = @($devices | Where-Object { $_.Type -eq 'NVR / DVR' })
+$camInfo = @($camInfo | Where-Object { $cams.IP -contains $_.IP })
 $chanAll = @(); $diskAll = @()
 foreach ($r in $recorders) {
   foreach ($c in $r.Channels) { $chanAll += ,@(($r.IP + ' ' + $r.Brand), $c.Channel, $c.Name, $c.'Camera IP', $c.Protocol, $c.Model, $c.Status) }
@@ -678,6 +814,8 @@ foreach ($r in $recorders) {
   $off = @($r.Channels | Where-Object { $_.Status -in @('Offline', 'No video') })
   if ($off.Count) { AddRec 'High' 'Cameras' ("{0} channel(s) offline on {1}: {2}" -f $off.Count, $nm, (($off | ForEach-Object { 'CH' + $_.Channel + $(if ($_.Name) { ' ' + $_.Name }) }) -join ', ')) 'Check cable, PoE power and the camera. These areas are not being recorded.' }
 }
+if ($recorders.Count -and $chanCount -eq 0) { AddRec 'Info' 'Cameras' 'The recorder login worked, but it did not list its cameras.' 'Usually ONVIF/API access is off on the recorder, or the model is not supported yet. We will count the cameras on site.' }
+if (($nvrs.Count -or $recorders.Count) -and $cams.Count -eq 0) { AddRec 'Info' 'Cameras' 'No cameras were seen directly on the network.' 'This is normal when cameras are plugged into the recorder''s own PoE ports: they sit on a private network inside the recorder. Logging in to the recorder lists them.' }
 foreach ($n in ($nvrs | Where-Object { $recIPs -notcontains $_.IP })) { AddRec 'Info' 'Recorder' ("Recorder {0} ({1}) was not logged in." -f $n.IP, $n.Vendor) 'We will read channels and disks during the site visit.' }
 
 $lowRes = @($camInfo | Where-Object { $_.Resolution -match '^(\d+)x(\d+)$' -and ([int]$matches[1] * [int]$matches[2]) -lt 2000000 })
