@@ -139,3 +139,9 @@ QT_AR.add({
     if(p)p.placeholder="انسخ الصفوف من قائمة الكاميرات في Excel والصقها هنا.\nالأعمدة: N. | Camera name | Model | Coverage | Existing/New | NVR | Remarks | Floor";
   });
 })();
+QT_AR.add({
+  "Existing system? Let the System Check fill this in.":"عندك نظام موجود؟ خلّي أداة فحص النظام تملأ هذا عنك.",
+  "The customer runs our free Windows tool on site. It finds every camera, NVR and switch, reads models, channels and disks, and sends us an Excel BOQ automatically.":"يشغّل العميل أداتنا المجانية على ويندوز في الموقع، فتجد كل كاميرا وجهاز تسجيل وسويتش، وتقرأ الموديلات والقنوات والهاردات، وترسل لنا جدول كميات إكسل تلقائياً.",
+  "Open System Check →":"افتح فحص النظام ←","System Check":"فحص النظام"
+});
+QT_AR.add({"Checking a system that's already installed? The System Check needs no account:":"تفحص نظاماً مركّباً بالفعل؟ أداة فحص النظام لا تحتاج حساباً:"});

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-gate="The CCTV BOQ builder">
+<html lang="en" data-gate="The CCTV BOQ builder" data-gate-alt="/system-check.html|Checking a system that's already installed? The System Check needs no account:|Open System Check →">
 <head>
 <meta charset="utf-8">
 <style id="qt-cursor">@media (pointer:fine){html,body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
@@ -90,6 +90,10 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .intro h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;line-height:.9;margin-top:14px}
 .intro h1 em{font-style:normal;color:var(--gold)}
 .intro p{max-width:60ch;margin-top:12px}
+.sc-cta{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:22px;padding:18px 20px;border:1px solid var(--gold);border-radius:6px;background:color-mix(in srgb,var(--gold) 9%,var(--surface))}
+.sc-cta b{display:block;font-size:1.05rem;color:var(--ink)}
+.sc-cta p{margin:4px 0 0;color:var(--muted);font-size:.9rem;max-width:62ch}
+.sc-cta a{white-space:nowrap;text-decoration:none;font-weight:700;padding:11px 18px;border-radius:3px;background:var(--gold);color:#16130e}
 .sec{padding-block:36px;border-bottom:1px solid var(--line)}
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
 .sec-head .tag{display:flex;margin-bottom:10px}
@@ -242,6 +246,11 @@ footer{padding-block:28px 40px;color:var(--dim);font:500 .72rem var(--f-mono);le
     </div>
     <p class="hint" style="max-width:34ch">Everything stays on this device and is saved automatically. Nothing is uploaded. Use <b>Excel</b> or <b>Save project file</b> to move a job to another device.</p>
   </section>
+  <aside class="sc-cta" aria-label="System Check">
+    <div><b>Existing system? Let the System Check fill this in.</b>
+    <p>The customer runs our free Windows tool on site. It finds every camera, NVR and switch, reads models, channels and disks, and sends us an Excel BOQ automatically.</p></div>
+    <a href="/system-check.html">Open System Check →</a>
+  </aside>
 
   <!-- 01 PROJECT -->
   <section class="sec" id="project">

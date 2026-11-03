@@ -82,6 +82,8 @@ function chip(fb, user) {
 
 async function gate() {
   const tool = document.documentElement.getAttribute("data-gate") || "this tool";
+  const altA = (document.documentElement.getAttribute("data-gate-alt") || "").split("|");
+  const alt = altA.length === 3 ? '<p style="margin:16px 0 0;padding:12px 14px;border:1px solid #E2A63F;border-radius:4px;font-size:.9rem">' + esc(altA[1]) + ' <a href="' + esc(altA[0]) + '" style="color:#E2A63F;font-weight:700">' + esc(altA[2]) + '</a></p>' : "";
   const next = encodeURIComponent(location.pathname + location.hash);
   gateBox('<div class="spin" aria-label="Checking your account"></div>');
   let fb;
@@ -106,7 +108,7 @@ async function gate() {
       });
       return;
     }
-    gateBox('<span class="k">Limited free service</span><h2>Free with a Queen Tech account</h2><p>' + esc(tool) + ' is free for registered customers. Create your account once and use it any time, on any device.</p><ul><li>Free, takes about a minute</li><li>Use all Queen Tech free tools</li><li>We never share your details</li></ul><div class="row"><a class="b g" href="/account.html?mode=signup&next=' + next + '">Create free account</a><a class="b" href="/account.html?next=' + next + '">Sign in</a></div><p style="margin-top:12px;font-size:.88rem">Have a Google account? <a href="/account.html?next=' + next + '" style="color:#E2A63F">Continue with Google</a>, no email to verify.</p><p style="margin-top:14px;font-size:.85rem"><a href="/" style="color:#A79E8F">Back to home page</a></p>');
+    gateBox('<span class="k">Limited free service</span><h2>Free with a Queen Tech account</h2><p>' + esc(tool) + ' is free for registered customers. Create your account once and use it any time, on any device.</p><ul><li>Free, takes about a minute</li><li>Use all Queen Tech free tools</li><li>We never share your details</li></ul><div class="row"><a class="b g" href="/account.html?mode=signup&next=' + next + '">Create free account</a><a class="b" href="/account.html?next=' + next + '">Sign in</a></div><p style="margin-top:12px;font-size:.88rem">Have a Google account? <a href="/account.html?next=' + next + '" style="color:#E2A63F">Continue with Google</a>, no email to verify.</p>' + alt + '<p style="margin-top:14px;font-size:.85rem"><a href="/" style="color:#A79E8F">Back to home page</a></p>');
   });
 }
 
