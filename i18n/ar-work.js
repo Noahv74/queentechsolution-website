@@ -44,6 +44,6 @@ QT_AR.add({
   "CAME barrier service":"صيانة بوابة CAME",
   "Main parking entrance":"مدخل المواقف الرئيسي",
   "Frequent mechanical jamming of the main parking barrier, causing severe traffic bottlenecks during peak facility hours.":"أعطال ميكانيكية متكررة في بوابة المواقف الرئيسية أدت إلى تكدس حاد للسيارات في أوقات الذروة.",
-  "Performed deep mechanical servicing of the CAME motor, recalibrated safety sensors, and updated access control relays.":"تنفيذ صيانة ميكانيكية عميقة لمحرك البوابة، إعادة معايرة مستشعرات الأمان، وتحديث مرحلات نظام الدخول.",
-  "Restored smooth, uninterrupted barrier operation, permanently resolving peak-hour traffic congestion at the entrance.":"استعادة الحركة السلسة والاعتمادية للبوابة، وإنهاء أزمة التكدس المروري عند المدخل بشكل نهائي."
+  "Performed deep mechanical servicing of the CAME motor, recalibrated the safety sensors, and recalibrated and serviced the existing access control relays.":"تنفيذ صيانة ميكانيكية عميقة لمحرك البوابة، إعادة معايرة مستشعرات الأمان، وإعادة ضبط ومعايرة وصيانة مرحلات نظام الدخول الحالية.",
+  "Restored traffic flow at the entrance and significantly minimized emergency barrier downtime.":"استعادة انسيابية الحركة المرورية عند المدخل والحد من معدل الأعطال الميكانيكية الطارئة."
 });
