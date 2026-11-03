@@ -509,6 +509,10 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
         <div class="field"><label for="f-company">اسم النشاط التجاري</label><input id="f-company" name="company" autocomplete="organization"></div>
       </div>
       <div class="two">
+        <div class="field"><label for="f-email">البريد الإلكتروني للعمل</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="name@company.com" dir="ltr"></div>
+        <div class="field"><label for="f-phone">رقم الجوال</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="05x xxx xxxx" dir="ltr"></div>
+      </div>
+      <div class="two">
         <div class="field"><label for="f-type">نوع النشاط</label>
           <select id="f-type" name="type"><option>مكتب / شركة</option><option>متجر</option><option>مطعم / مقهى</option><option>فرد / منزل</option><option>أخرى</option></select></div>
         <div class="field"><label for="f-need">ماذا تحتاج؟</label>
@@ -523,7 +527,7 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
         <button class="btn btn-wa" type="submit">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.3Z"/></svg>
           أرسل عبر واتساب</button>
-        <button class="btn btn-line" type="button" id="mailBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>أرسل بالبريد</button>
+        <button class="btn btn-gold" type="button" id="mailBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>اطلب عرض سعر رسمي</button>
         <p class="form-note">تُفتح رسالتك في واتساب أو تطبيق البريد، جاهزة للإرسال إلينا.</p>
       </div>
       <div class="sent" id="sent" hidden role="status">من المفترض أن يُفتح واتساب برسالتك. إن لم يُفتح، <a id="sentLink" href="https://wa.me/971557971520" target="_blank" rel="noopener">اضغط هنا</a> أو اتصل على <bdi>+971 55 797 1520</bdi>.</div>
@@ -628,11 +632,13 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
   document.getElementById("mailBtn").addEventListener("click",function(){
     var name=f.elements.name;
     if(!name.value.trim()){fn.classList.add("err");name.setAttribute("aria-invalid","true");name.focus();return;}
-    var lines=["مرحباً كوين تك،","","أريد عرض سعر.","الاسم: "+name.value.trim()];
+    var lines=["مرحباً كوين تك،","","أرجو إرسال عرض سعر رسمي.","الاسم: "+name.value.trim()];
     if(f.elements.company.value.trim())lines.push("النشاط: "+f.elements.company.value.trim());
+    if(f.elements.email.value.trim())lines.push("البريد: "+f.elements.email.value.trim());
+    if(f.elements.phone.value.trim())lines.push("الجوال: "+f.elements.phone.value.trim());
     lines.push("النوع: "+f.elements.type.value,"الطلب: "+f.elements.need.value,"الموقع: "+f.elements.city.value+(f.elements.area.value.trim()?", "+f.elements.area.value.trim():""));
     if(f.elements.msg.value.trim())lines.push("التفاصيل: "+f.elements.msg.value.trim());
-    location.href="mailto:sales@queentechsolution.info?subject="+encodeURIComponent("طلب عرض سعر - "+f.elements.need.value)+"&body="+encodeURIComponent(lines.join("\n"));
+    location.href="mailto:sales@queentechsolution.info?subject="+encodeURIComponent("طلب عرض سعر رسمي - "+f.elements.need.value)+"&body="+encodeURIComponent(lines.join("\n"));
   });
   f.addEventListener("submit",function(e){
     e.preventDefault();
@@ -640,6 +646,8 @@ input[type=tel],input[type=email]{direction:ltr;text-align:right}
     if(!name.value.trim()){fn.classList.add("err");name.setAttribute("aria-invalid","true");name.focus();return;}
     var lines=["مرحباً كوين تك، أريد عرض سعر.","الاسم: "+name.value.trim()];
     if(f.elements.company.value.trim())lines.push("النشاط: "+f.elements.company.value.trim());
+    if(f.elements.email.value.trim())lines.push("البريد: "+f.elements.email.value.trim());
+    if(f.elements.phone.value.trim())lines.push("الجوال: "+f.elements.phone.value.trim());
     lines.push("النوع: "+f.elements.type.value,"الطلب: "+f.elements.need.value);
     lines.push("الموقع: "+f.elements.city.value+(f.elements.area.value.trim()?", "+f.elements.area.value.trim():""));
     if(f.elements.msg.value.trim())lines.push("التفاصيل: "+f.elements.msg.value.trim());
