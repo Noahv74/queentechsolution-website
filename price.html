@@ -97,8 +97,8 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 
 /* layout */
 .calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(20px,3.5vw,44px);align-items:start;padding-bottom:clamp(56px,8vw,96px)}
-@media (max-width:960px){.calc{grid-template-columns:1fr}}
-.qs{background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:clamp(20px,3vw,32px);display:grid;gap:22px;position:relative}
+@media (max-width:960px){.calc{grid-template-columns:minmax(0,1fr)}}
+.qs{background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:minmax(0,1fr);gap:22px;position:relative;min-width:0}
 .qs::before{content:attr(data-label);position:absolute;top:-11px;left:24px;background:var(--bg);padding:0 10px;font:500 .66rem/22px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
 .q{display:grid;gap:10px}
 .q>.lbl{font-weight:600;font-size:1rem}

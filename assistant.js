@@ -69,7 +69,7 @@ function searchHelp(q){
 var css=document.createElement("style");
 css.textContent=
 "#qa-btn{position:fixed;bottom:84px;right:18px;z-index:61;display:flex;align-items:center;gap:8px;height:48px;padding:0 16px 0 12px;border-radius:24px;border:1px solid #E2A63F;background:#201E1A;color:#EFE8DB;font:600 .9rem/1 "+(AR?"'IBM Plex Sans Arabic',":"")+"Figtree,system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.45)}"+
-"#qa-btn svg{width:24px;height:24px;flex:none}#qa-btn:hover{background:#2A2722}#qa-btn .dot{position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;background:#E2A63F;border:2px solid #131210}"+
+"#qa-btn svg{width:24px;height:24px;flex:none}#qa-btn:hover{background:#2A2722}@media (max-width:600px){#qa-btn{width:48px;padding:0;justify-content:center}#qa-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}#qa-btn .dot{position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;background:#E2A63F;border:2px solid #131210}"+
 "html[dir=rtl] #qa-btn{right:auto;left:18px}html[dir=rtl] #qa-btn .dot{right:auto;left:-3px}"+
 "body.qa-nowa #qa-btn{bottom:18px}"+
 "#qa{position:fixed;bottom:18px;right:18px;z-index:62;width:380px;max-width:calc(100vw - 24px);height:min(600px,calc(100vh - 36px));display:flex;flex-direction:column;background:#1A1916;border:1px solid #4A443A;border-radius:14px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);overflow:hidden;color:#EFE8DB;font:400 .93rem/1.55 "+(AR?"'IBM Plex Sans Arabic','Noto Kufi Arabic',":"")+"Figtree,system-ui,sans-serif;animation:qain .2s ease}"+
