@@ -22,6 +22,7 @@ var Q={
     choice("days","How many days of recording to keep?","",[["7","7 days"],["15","15 days"],["30","30 days","most common"],["60","60 days"]],"30")+
     choice("size","How big is the place?","For cable length",[["15","Small","shop / small office"],["25","Medium","office floor"],["40","Large","warehouse / villa"]],"25")+
     choice("mon","Do you want a screen on site to watch the cameras?","",[["1","Yes, add a monitor"],["0","No, phone only"]],"0")+
+    choice("ups","Backup power and a locked cabinet?","Keeps recording through power cuts",[["1","Yes","UPS + wall cabinet"],["0","No"]],"0")+
     '<div class="big-warn" id="bigwarn" hidden>More than 16 cameras needs a bigger recorder and a site plan. The list covers 16 cameras; book a free visit for the full design.</div>'},
   access:function(){return stepper("doors","How many doors?","Each door gets a reader, magnetic lock, exit button and power supply",1,1,20)+
     choice("how","How will people open the door?","",[["card","Card or PIN","budget"],["finger","Fingerprint","+ card + PIN"],["face","Face recognition","+ fingerprint + card"]],"finger")+
@@ -70,6 +71,7 @@ function brandName(b){return b==="generic"?"":B[b]+" "}
 function eq(slot,qty,note){return{type:"eq",key:slot,slot:slot,qty:qty,note:note}}
 function lab(id,qty){return{type:"lab",key:"lab:"+id,id:id,qty:qty}}
 function storage(cams,mbps,days){var gb=cams*mbps*86400*days/8/1000*1.1,need=gb/931,list=[1,2,4,8];for(var i=0;i<list.length;i++)if(list[i]>=need)return{n:1,tb:list[i]};return{n:Math.ceil(need/8),tb:8}}
+function protect(lines){lines.push(eq("ups",1,"Keeps recording through power cuts"),eq("cab6u",1,"Recorder, switch and UPS locked away"),lab("rack",1))}
 function cctv(cIn,cOut,mp,days,runM,mon,lines,notes){
   var total=cIn+cOut;if(!total)return;
   var capped=Math.min(total,16);if(total>16){var r=16/total;cIn=Math.round(cIn*r);cOut=16-cIn}
@@ -88,6 +90,7 @@ function cctv(cIn,cOut,mp,days,runM,mon,lines,notes){
 var BUILD={
   office:function(lines,notes){var cIn=n("in",0,16),cOut=n("out",0,16);$("bigwarn").hidden=cIn+cOut<=16;
     cctv(cIn,cOut,v("mp"),v("days"),+v("size"),v("mon")==="1",lines,notes);
+    if(cIn+cOut&&v("ups")==="1")protect(lines);
     return{title:"Secure my office / shop",summary:(cIn+cOut)+" cameras ("+cIn+" inside, "+cOut+" outside), "+({"2":"2MP","4":"4MP","4c":"4MP colour at night"})[v("mp")]+", "+v("days")+" days recording"}},
   access:function(lines){var d=n("doors",1,20),how=v("how"),bell=v("bell"),staff=n("staff",0,500);
     lines.push(eq(how==="card"?"ac_card":how==="finger"?"ac_finger":"ac_face",d));
@@ -181,22 +184,22 @@ function li(l){
   var link=d.url&&!d.incl?'<a href="'+esc(d.url)+'" target="_blank" rel="noopener nofollow">'+esc(d.shop)+' ↗</a>':(d.incl?"":'<a>'+esc(d.shop)+'</a>');
   return '<div class="li"><div class="n"><b>'+(hw?l.qty+' × ':"")+esc(d.name)+'</b><small>'+esc(d.model)+(l.note?" · "+esc(l.note):"")+'</small>'+(d.fallback?'<span class="flag">'+esc(d.fallback)+'</span><br>':"")+link+ctl+'</div><div class="p">'+price+'</div></div>'}
 function addOptions(){
-  var groups={office:/^(cam|nvr|hdd|cat6|monitor)/,home:/^(cam|nvr|hdd|cat6|monitor|wifi|vdoor|intercom|chime)/,access:/^(ac_|maglock|bracket|exitbtn|psu|breakglass|cards|chime|intercom|cat6)/,network:/^(ap|poe|sw24|router|patch|cab|keystone|face|cat6)/,barrier:/^(barrier|anpr|loop|photocell|qr|controller|uhf|remote|cat6|cam4_bullet)/}[state.goal];
+  var groups={office:/^(cam|nvr|hdd|cat6|monitor|ups|cab6u)/,home:/^(cam|nvr|hdd|cat6|monitor|ups|wifi|vdoor|intercom|chime)/,access:/^(ac_|maglock|bracket|exitbtn|psu|breakglass|cards|chime|intercom|cat6)/,network:/^(ap|poe|sw24|router|patch|cab|keystone|face|cat6|ups)/,barrier:/^(barrier|anpr|loop|photocell|qr|controller|uhf|remote|cat6|cam4_bullet)/}[state.goal];
   return Object.keys(I).filter(function(k){return groups.test(k)}).map(function(k){return'<option value="'+k+'">'+esc(I[k].label)+'</option>'}).join("")}
 var last={};
 /* three-level comparison for business CCTV: same site, different picture quality */
-var TIERS=[["2","Basic","2MP Full HD cameras"],["4","Recommended","4MP sharp cameras"],["4c","Premium","4MP, colour at night outside"]];
-function tierTotal(mp){
+var TIERS=[["2","Basic","2MP Full HD cameras","0"],["4","Recommended","4MP sharp cameras","0"],["4c","Premium","4MP colour at night + UPS + locked cabinet","1"]];
+function tierTotal(mp,up){
   var keep=ctx;ctx={};var base=[],notes=[];
-  cctv(n("in",0,16),n("out",0,16),mp,v("days"),+v("size"),v("mon")==="1",base,notes);
+  cctv(n("in",0,16),n("out",0,16),mp,v("days"),+v("size"),v("mon")==="1",base,notes);if(up==="1")protect(base);
   var r=resolve(base),t=0,pend=0;
   r.lines.forEach(function(l){var d=lineData(l);if(d.unit==null)pend++;else t+=d.unit*l.qty});
   ctx=keep;return{t:r2(t),pend:pend}}
 function tierBox(){
   if(state.goal!=="office"||state.mode==="hw"||!(n("in",0,16)+n("out",0,16)))return "";
-  var cur=v("mp");
-  return '<div class="grp tiers3"><h3>Compare 3 options <span>same site</span></h3><div class="t3">'+TIERS.map(function(x){var r=tierTotal(x[0]);
-    return '<button type="button" data-mp="'+x[0]+'" aria-pressed="'+(cur===x[0])+'"><b>'+esc(x[1])+'</b><small>'+esc(x[2])+'</small><span class="amt">AED '+money(r.t)+'</span>'+(r.pend?'<small>+ '+r.pend+' on request</small>':'')+'</button>'}).join("")+'</div><p class="sub">Estimates for the equipment and installation below. Tap one to see its full list.</p></div>'}
+  var cur=v("mp")+"|"+v("ups");
+  return '<div class="grp tiers3"><h3>Compare 3 options <span>same site</span></h3><div class="t3">'+TIERS.map(function(x){var r=tierTotal(x[0],x[3]);
+    return '<button type="button" data-mp="'+x[0]+'" data-ups="'+x[3]+'" aria-pressed="'+(cur===x[0]+"|"+x[3])+'"><b>'+esc(x[1])+'</b><small>'+esc(x[2])+'</small><span class="amt">AED '+money(r.t)+'</span>'+(r.pend?'<small>+ '+r.pend+' on request</small>':'')+'</button>'}).join("")+'</div><p class="sub">Estimates for the equipment and installation below. Tap one to see its full list.</p></div>'}
 function calc(){
   ctx={};var base=[],notes=[];var info=BUILD[state.goal](base,notes);
   last.baseKeys=base.map(function(l){return l.key});var r=resolve(base),lines=r.lines,hw=state.mode==="hw";
@@ -254,7 +257,7 @@ $("groups").addEventListener("click",function(e){var t=e.target,o=ov(),k;
   if((k=t.getAttribute("data-back"))){if(o[k]){delete o[k].off;if(o[k].qty===0)delete o[k].qty}calc();return}
   if((k=t.getAttribute("data-k"))){var inp=t.parentElement.querySelector("input"),q=Math.max(0,(parseInt(inp.value,10)||0)+parseInt(t.getAttribute("data-q"),10));o[k]=Object.assign(o[k]||{},{qty:q});calc();return}
   if(t.id==="reset"){state.ov[state.goal]={};state.extra[state.goal]=[];calc()}});
-$("groups").addEventListener("click",function(e){var b=e.target.closest("[data-mp]");if(!b)return;var r=document.querySelector('[name="mp"][value="'+b.getAttribute("data-mp")+'"]');if(r){r.checked=true;calc()}});
+$("groups").addEventListener("click",function(e){var b=e.target.closest("[data-mp]");if(!b)return;var r=document.querySelector('[name="mp"][value="'+b.getAttribute("data-mp")+'"]');var u=document.querySelector('[name="ups"][value="'+b.getAttribute("data-ups")+'"]');if(u)u.checked=true;if(r){r.checked=true;calc()}});
 $("groups").addEventListener("change",function(e){var t=e.target;
   if(t.id==="addsel"&&t.value){var s=t.value,ex=extra(),o=ov();if(last.baseKeys.indexOf(s)<0&&ex.indexOf(s)<0){ex.push(s);if(o[s])delete o[s]}else{var cur=document.querySelector('[data-qk="'+s+'"]');o[s]=Object.assign(o[s]||{},{off:false,qty:((cur&&parseInt(cur.value,10))||0)+1})}calc();return}
   var k=t.getAttribute("data-qk");if(k){var o2=ov();o2[k]=Object.assign(o2[k]||{},{qty:Math.max(0,parseInt(t.value,10)||0)});calc()}});
