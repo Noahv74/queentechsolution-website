@@ -44,7 +44,7 @@ BODY = '''
   <section class="sec" id="book" style="border-bottom:0">
     <div class="bk">
       <form class="block" id="f" novalidate>
-        <h2><span class="n">1</span>Your place</h2>
+        <h2><span class="n">1</span> Your place</h2>
         <p>We confirm the visit time and price on WhatsApp.</p>
         <div class="field"><label>Size</label><div class="opts wide" id="size" role="group" aria-label="Size"></div></div>
         <div class="two">
@@ -65,7 +65,7 @@ BODY = '''
           <div class="field"><label for="isp">Internet provider</label><select id="isp"><option>du</option><option>e&amp; (Etisalat)</option><option>Other</option><option>I don't know</option></select></div>
           <div class="field"><label for="when">Preferred visit</label><select id="when"><option>As soon as possible</option><option>This week</option><option>Weekend</option><option>Next week</option></select></div>
         </div>
-        <h2 style="margin-top:20px"><span class="n">2</span>Your details</h2>
+        <h2 style="margin-top:20px"><span class="n">2</span> Your details</h2>
         <div class="two">
           <div class="field"><label for="name">Your name</label><input id="name" maxlength="70" autocomplete="name"></div>
           <div class="field"><label for="phone">Mobile / WhatsApp</label><input id="phone" type="tel" maxlength="25" autocomplete="tel" placeholder="05X XXX XXXX"></div>

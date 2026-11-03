@@ -164,7 +164,7 @@ def build(pg, lang):
     rel_html = "".join(f'<a class="rel" href="{h}"><b>{e(t)}</b><span>{e(d)}</span></a>' for h, t, d in rel[:6])
 
     foot_links = "".join(f'<a href="{url(s, lang)}">{e(n[0] if lang=="en" else n[2])}</a>' for s, n in NAMES.items())
-    foot_links += f'<a href="/planner.html">{e(u["planner_rel"][0])}</a><a href="/rescue.html">{"Game error rescue" if lang=="en" else "إنقاذ أخطاء الألعاب"}</a>'
+    foot_links += f'<a href="/planner.html">{e(u["planner_rel"][0])}</a>'
 
     h1 = f'{e(c["h1"])} <em>{e(c["h1em"])}</em>'
     alt_en, alt_ar = SITE + url(slug, "en"), SITE + url(slug, "ar")

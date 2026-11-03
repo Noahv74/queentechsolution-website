@@ -45,7 +45,7 @@ BODY = '''
   <section class="sec" id="book" style="border-bottom:0">
     <div class="bk">
       <form class="block" id="f" novalidate>
-        <h2><span class="n">1</span>Your office</h2>
+        <h2><span class="n">1</span> Your office</h2>
         <p>We'll reply with the right plan and a start date. The first visit includes a free check of your setup.</p>
         <div class="field"><label>Plan</label><div class="opts" id="plan" role="group" aria-label="Plan"></div></div>
         <div class="two">
@@ -62,7 +62,7 @@ BODY = '''
           <button type="button" class="tg" data-v="7" aria-pressed="false">Access control</button>
         </div></div>
         <div class="field"><label for="pain">Biggest IT headache right now (optional)</label><textarea id="pain" maxlength="400" placeholder="e.g. Wi-Fi drops in the meeting room, no backup, slow laptops"></textarea></div>
-        <h2 style="margin-top:20px"><span class="n">2</span>Contact</h2>
+        <h2 style="margin-top:20px"><span class="n">2</span> Contact</h2>
         <div class="two">
           <div class="field"><label for="name">Your name</label><input id="name" maxlength="70" autocomplete="name"></div>
           <div class="field"><label for="company">Company</label><input id="company" maxlength="80" autocomplete="organization"></div>

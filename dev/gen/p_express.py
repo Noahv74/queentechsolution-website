@@ -45,21 +45,21 @@ BODY = '''
     <div class="bk">
       <form id="f" novalidate>
         <div class="block">
-          <h2><span class="n">1</span>Your device</h2>
+          <h2><span class="n">1</span> Your device</h2>
           <p>What needs fixing?</p>
           <div class="opts" id="dev" role="group" aria-label="Device type">''' + DEV + '''</div>
           <div class="field" style="margin:14px 0 0"><label for="model">Brand and model</label><input id="model" maxlength="50" placeholder="e.g. HP ProBook 450 G8, iPhone 13" autocomplete="off"><span class="hint">If you don't know, leave it empty.</span></div>
         </div>
 
         <div class="block">
-          <h2><span class="n">2</span>The problem</h2>
+          <h2><span class="n">2</span> The problem</h2>
           <p>Pick everything that fits.</p>
           <div class="tags" id="prob" role="group" aria-label="Problem">''' + TAGS + '''</div>
           <div class="field" style="margin:14px 0 0"><label for="details">Tell us more (optional)</label><textarea id="details" maxlength="500" placeholder="When did it start? Any error message? Do you need your files kept?"></textarea></div>
         </div>
 
         <div class="block">
-          <h2><span class="n">3</span>Visit or pickup</h2>
+          <h2><span class="n">3</span> Visit or pickup</h2>
           <p>Choose what's easier for you.</p>
           <div class="opts wide" id="svc" role="group" aria-label="Service">''' + SVC + '''</div>
           <div class="two" style="margin-top:14px">
@@ -70,7 +70,7 @@ BODY = '''
         </div>
 
         <div class="block">
-          <h2><span class="n">4</span>Your details</h2>
+          <h2><span class="n">4</span> Your details</h2>
           <p>We send the quote and updates to this number on WhatsApp.</p>
           <div class="two">
             <div class="field"><label for="name">Your name</label><input id="name" maxlength="70" autocomplete="name" required></div>
