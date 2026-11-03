@@ -2,7 +2,15 @@
 <html lang="en" data-i18n-static>
 <head>
 <meta charset="utf-8">
-<style id="qt-cursor">@media (pointer:fine){html,body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
+<style id="qt-cursor">@media (pointer:fine){html,body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}#reviews .rv-sum{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 16px}#reviews .rv-sum b{font:900 2.4rem/1 var(--f-display);color:var(--ink)}#reviews .rv-sum span{color:var(--muted);font-size:.92rem}#reviews .rv-sum span.st{color:var(--gold);font-size:1.2rem}#reviews .rv-sum span.st i{color:var(--line-2)}
+#reviews .st{color:var(--gold);letter-spacing:2px;font-size:1.05rem}#reviews .st i{font-style:normal;color:var(--line-2)}
+#reviews .rv-wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+#reviews .rcard{background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:18px;display:grid;gap:10px;align-content:start}
+#reviews .rcard .rt{margin:0;line-height:1.6;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+#reviews .rmeta{font-size:.85rem;color:var(--muted)}#reviews .rmeta b{color:var(--ink)}
+#reviews .ver{justify-self:start;font:600 .74rem var(--f-body);color:#9EE0BA;border:1px solid rgba(143,198,163,.5);background:rgba(143,198,163,.1);border-radius:999px;padding:3px 10px}
+#reviews .rreply{border-inline-start:3px solid var(--gold);background:var(--bg-2,#1a1815);padding:8px 12px;border-radius:4px;font-size:.88rem}
+</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="google-adsense-account" content="ca-pub-5383296169254857">
 <meta name="description" content="Queen Tech Solutions in Dubai and Abu Dhabi: CCTV, access control and gate barrier installation and maintenance, networking and WiFi, PC, laptop and mobile repair, software installation and data backup. Free site survey.">
@@ -571,6 +579,14 @@ html[dir=rtl] .svc-card:hover .more span,html.rtl .svc-card:hover .more span{tra
   </div>
 </section>
 
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="head"><span class="tag rv">Customer reviews</span><h2 class="rv">What our customers <em>say.</em></h2><p class="lede rv" style="--d:.1s">Real reviews from our customers, published as written, good or bad.</p></div>
+    <div class="rv-sum" id="rvSum" aria-live="polite"></div>
+    <div class="rv-wall" id="rvWall"><p class="muted">Loading reviews…</p></div>
+    <div class="cta-row" style="margin-top:18px"><a class="btn btn-gold" href="/reviews.html?write=1#write">Share your opinion</a><a class="btn btn-line" href="/reviews.html">All reviews</a></div>
+  </div>
+</section>
 <section class="sec aud" id="who">
   <div class="wrap">
     <div class="head">
@@ -736,5 +752,25 @@ html[dir=rtl] .svc-card:hover .more span,html.rtl .svc-card:hover .more span{tra
 })();
 </script>
 
+<script type="module">
+(function(){
+  var sec=document.getElementById("reviews");if(!sec)return;
+  var L={none:"Be the first to review Queen Tech.",reviews:"reviews",ver:"Verified job",rep:"Queen Tech replied",loc:"en-GB"};
+  var esc=function(x){return String(x==null?"":x).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+  var star=function(n){return '<span class="st" aria-label="'+n+'/5">'+"★★★★★".slice(0,n)+'<i>'+"★★★★★".slice(n)+'</i></span>'};
+  var go=function(){
+    import("/qt-reviews.js").then(function(m){return m.listApproved()}).then(function(all){
+      var wall=document.getElementById("rvWall"),sum=document.getElementById("rvSum");
+      if(!all.length){wall.innerHTML='<p class="muted">'+L.none+'</p>';return}
+      var avg=all.reduce(function(a,r){return a+r.rating},0)/all.length;
+      sum.innerHTML='<b>'+avg.toFixed(1)+'</b>'+star(Math.round(avg))+'<span>'+all.length+' '+L.reviews+'</span>';
+      wall.innerHTML=all.slice(0,6).map(function(r){var d=new Date(r.at).toLocaleDateString(L.loc,{month:"short",year:"numeric"});
+        return '<article class="rcard">'+star(r.rating)+'<p class="rt" dir="auto">'+esc(r.text)+'</p><div class="rmeta"><b dir="auto">'+esc(r.name)+'</b>'+(r.area?' · <span dir="auto">'+esc(r.area)+'</span>':'')+' · '+d+'</div>'+
+          (r.verified?'<span class="ver">✔ '+L.ver+'</span>':'')+(r.reply?'<div class="rreply"><b>'+L.rep+':</b> <span dir="auto">'+esc(r.reply)+'</span></div>':'')+'</article>'}).join("");
+    }).catch(function(){sec.hidden=true});
+  };
+  if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();go()}},{rootMargin:"600px 0px"});io.observe(sec)}else go();
+})();
+</script>
 </body>
 </html>
