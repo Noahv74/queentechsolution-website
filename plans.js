@@ -28,7 +28,7 @@ window.QT_PLANS = {
   care: [
     { id: "standard",   visits: 4,  from: 2000, response: "48 working hours" },
     { id: "pro",        visits: 6,  from: 4500, response: "24 hours", featured: true },
-    { id: "enterprise", visits: 12, from: 9000, response: "4-6 hours on site", custom: true }
+    { id: "enterprise", visits: 12, from: 9000, response: "same day in Dubai, next business day in Abu Dhabi", custom: true }
   ],
 
   /* Business IT Support – per month */

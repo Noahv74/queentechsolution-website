@@ -69,7 +69,7 @@ BODY = '''
           <ul class="promise">
             <li><span><b>Visits on a schedule.</b> We remind you a few days before each one.</span></li>
             <li><span><b>A report after every visit</b> with photos, so you know it's done.</span></li>
-            <li><span><b>A written response time</b> for faults, from 48 hours down to 4-6 hours on site.</span></li>
+            <li><span><b>A written response time</b> for faults, from 48 working hours down to same day in Dubai.</span></li>
             <li><span><b>Loaner devices</b> on Pro and Enterprise, so recording continues while we repair.</span></li>
             <li><span><b>Any brand</b>, even if we didn't install it.</span></li>
           </ul>
@@ -105,7 +105,7 @@ SCRIPT = '''
   var FEATS = {
     standard: ["4 scheduled preventive visits a year", "Lens cleaning, view-angle check and firmware updates", "Fault response within 48 working hours", "Phone and remote support in working hours", "Parts and loaner devices priced separately"],
     pro: ["6 scheduled preventive visits a year", "Network room and UPS check on every visit", "Emergency fault response within 24 hours", "Loaner NVR or switch if yours fails, so recording continues", "Extended remote support", "15% off parts"],
-    enterprise: ["Monthly visits (12 a year) with a status report for every camera and network room", "Emergency response with on-site attendance within 4-6 hours", "Immediate loaner devices (QuickSwap) for critical components", "Dedicated account manager", "Direct WhatsApp emergency line"]
+    enterprise: ["Monthly visits (12 a year) with a status report for every camera and network room", "Same-Day emergency response within Dubai; Next Business Day for Abu Dhabi (for requests logged before 12 PM)", "Immediate loaner devices (QuickSwap) for critical components", "Dedicated account manager", "Direct WhatsApp emergency line"]
   };
   var SHOW = P.approved || P.careApproved;
   var tiers = P.care || [];
