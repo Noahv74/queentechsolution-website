@@ -32,7 +32,7 @@ $QT = @{
   Ranges    = '__RANGES__'
   Review    = '__REVIEW_URL__'      # Google Maps review link
   WhatsApp  = '971557971520'
-  Email     = 'noah@queentechsolution.info'
+  Email     = 'sales@queentechsolution.info'
   Version   = '1.4'
 }
 foreach ($k in @('UploadUrl','Customer','Company','Phone','CEmail','Emirate','Area','SiteType','Review','Ranges')) { if ($QT[$k] -like '__*__') { $QT[$k] = '' } }

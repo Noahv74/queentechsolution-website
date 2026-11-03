@@ -19,7 +19,7 @@ UI = {
         "brand_small": "Solutions · Dubai · Abu Dhabi", "wa_btn": "WhatsApp us", "call": "Call", "arrow": "→", "t_what": "Included", "t_who": "Who it's for", "t_area": "Areas", "t_price": "Pricing",
         "how": "How it works", "t_how": "Process", "faq": "Questions", "faq_h": "Common questions.", "related": "Related", "related_h": "You may also need.",
         "cta_tag": "Free site visit", "cta_h": "Tell us what you need.", "cta_p": "Message us on WhatsApp with a short description and a photo or two. We reply the same day with next steps, and confirm the price in writing before any work starts.",
-        "book": "Book a free site visit", "addr": "Dubai and Abu Dhabi · +971 55 797 1520 · noah@queentechsolution.info · Open every day 10am–10pm",
+        "book": "Book a free site visit", "addr": "Dubai and Abu Dhabi · +971 55 797 1520 · sales@queentechsolution.info · Open every day 10am–10pm",
         "from": "From", "install": "Installation", "per": {"camera": "per camera", "system": "per system", "door": "per door", "unit": "per unit", "point": "per point", "access point": "per access point", "barrier": "per barrier", "loop": "per loop", "reader": "per reader"},
         "equip": "Equipment", "fine": "Equipment prices are the lowest we found at UAE shops on {d}. Final price confirmed after a free site visit.",
         "offer": "Limited offer: 50% off all installation until 1 December 2026.", "see_prices": "See all prices", "planner": "Plan your cameras",
@@ -31,7 +31,7 @@ UI = {
         "brand_small": "حلول تقنية · دبي · أبوظبي", "wa_btn": "راسلنا على واتساب", "call": "اتصل", "arrow": "←", "t_what": "يشمل", "t_who": "لمن", "t_area": "المناطق", "t_price": "التسعير",
         "how": "كيف نعمل", "t_how": "الخطوات", "faq": "أسئلة", "faq_h": "أسئلة شائعة.", "related": "ذات صلة", "related_h": "قد تحتاج أيضاً.",
         "cta_tag": "زيارة مجانية للموقع", "cta_h": "أخبرنا بما تحتاجه.", "cta_p": "راسلنا على واتساب بوصف قصير وصورة أو صورتين. نرد في نفس اليوم بالخطوات التالية، ونؤكد السعر كتابياً قبل بدء أي عمل.",
-        "book": "احجز زيارة مجانية", "addr": "دبي وأبوظبي · ‎+971 55 797 1520 · noah@queentechsolution.info · مفتوحين يومياً من 10 صباحاً لـ 10 مساءً",
+        "book": "احجز زيارة مجانية", "addr": "دبي وأبوظبي · ‎+971 55 797 1520 · sales@queentechsolution.info · مفتوحين يومياً من 10 صباحاً لـ 10 مساءً",
         "from": "ابتداءً من", "install": "التركيب", "per": {"camera": "لكل كاميرا", "system": "لكل نظام", "door": "لكل باب", "unit": "لكل وحدة", "point": "لكل نقطة", "access point": "لكل نقطة وصول", "barrier": "لكل بوابة", "loop": "لكل حساس", "reader": "لكل قارئ"},
         "equip": "الأجهزة", "fine": "أسعار الأجهزة هي أقل ما وجدناه في متاجر الإمارات بتاريخ {d}. يتم تأكيد السعر النهائي بعد زيارة مجانية للموقع.",
         "offer": "عرض لفترة محدودة: خصم 50% على كل أعمال التركيب حتى 1 ديسمبر 2026.", "see_prices": "كل الأسعار", "planner": "خطّط كاميراتك",
@@ -120,7 +120,7 @@ def build(pg, lang):
     area_served = {"dubai": [{"@type": "City", "name": "Dubai"}], "abudhabi": [{"@type": "City", "name": "Abu Dhabi"}],
                    "both": [{"@type": "City", "name": "Dubai"}, {"@type": "City", "name": "Abu Dhabi"}]}[pg["city"]]
     biz = {"@type": "LocalBusiness", "@id": SITE + "/#business", "name": "Queen Tech Solutions", "url": SITE + "/",
-           "telephone": "+971557971520", "email": "noah@queentechsolution.info", "image": SITE + "/og-image.png",
+           "telephone": "+971557971520", "email": "sales@queentechsolution.info", "image": SITE + "/og-image.png",
            "address": {"@type": "PostalAddress", "addressLocality": "Dubai", "addressRegion": "Dubai", "addressCountry": "AE"},
            "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "10:00", "closes": "22:00"}]}
     graph = [
