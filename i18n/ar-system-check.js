@@ -56,3 +56,12 @@ QT_AR.add({
   "Downloaded QueenTech-SystemCheck.zip. Open it and double-click QueenTech-SystemCheck.cmd.":"تم تحميل QueenTech-SystemCheck.zip. افتحه واضغط مرتين على QueenTech-SystemCheck.cmd.",
   "The download didn't start. Message us on WhatsApp and we'll send you the tool.":"لم يبدأ التحميل. راسلنا على واتساب ونرسل لك الأداة."
 });
+QT_AR.add({
+  "What we receive":"ما نستلمه","Exactly what is sent":"ما يُرسل بالضبط",
+  "Sent:":"يُرسل:","the details you type on this page, the list of devices found (IP, MAC, brand, model, serial, firmware, channels, disks, PoE use), your count answers, your rating and comment, and the report.":"البيانات التي تكتبها في هذه الصفحة، وقائمة الأجهزة التي وُجدت (IP والماك والماركة والموديل والسيريال والسوفتوير والقنوات والهاردات واستهلاك PoE)، وإجاباتك على الأعداد، وتقييمك وتعليقك، والتقرير.",
+  "Never sent:":"لا يُرسل أبداً:","any password, and nothing from your files, browser or other programs.":"أي كلمة مرور، ولا أي شيء من ملفاتك أو المتصفح أو البرامج الأخرى.",
+  "Who gets it:":"من يستلمه:","only Queen Tech Solutions, by secure upload and email to our team. We do not share or sell it.":"كوين تك سوليوشنز فقط، عبر رفع آمن وبريد إلى فريقنا. لا نشاركه ولا نبيعه.",
+  "Why:":"لماذا:","to prepare your BOQ and quote, and to support your system later if you become a customer.":"لتجهيز جدول الكميات وعرض السعر، ولدعم نظامك لاحقاً إذا أصبحت عميلاً.",
+  "Delete it:":"احذفه:","message us on WhatsApp or email sales@queentechsolution.info and we delete your report.":"راسلنا على واتساب أو على sales@queentechsolution.info ونحذف تقريرك.",
+  "A copy of both files stays on your Desktop, so you see everything we receive.":"تبقى نسخة من الملفين على سطح المكتب، فترى كل ما نستلمه."
+});

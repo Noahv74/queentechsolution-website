@@ -55,7 +55,7 @@ a{color:var(--gold)}
 :focus-visible{outline:2px solid var(--gold-2);outline-offset:3px;border-radius:4px}
 .wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(18px,4vw,40px)}
 h1,h2,h3{margin:0;font-family:var(--f-display);line-height:.95;text-transform:uppercase;letter-spacing:.005em;text-wrap:balance}
-h2{font-size:clamp(2.6rem,6vw,4.8rem);font-weight:800}
+h2,h1.pg{font-size:clamp(2.6rem,6vw,4.8rem);font-weight:800}
 h3{font-size:1.6rem;font-weight:800;letter-spacing:.01em}
 p{margin:0}
 .mono{font-family:var(--f-mono)}
@@ -296,7 +296,7 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:48px;align-items:start}
 @media (max-width:860px){.faq-grid{grid-template-columns:1fr}}
 .faq-grid .head{display:block;margin:0;position:sticky;top:110px}
-.faq-grid .head h2{margin-top:18px}
+.faq-grid .head h2,.head h1{margin-top:18px}
 @media (max-width:860px){.faq-grid .head{position:static}}
 .faq{border-top:1px solid var(--line)}
 .faq details{border-bottom:1px solid var(--line)}
@@ -339,8 +339,8 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .contact{background:var(--bg-2);border-top:1px solid var(--line)}
 .contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(36px,6vw,80px);align-items:start}
 @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
-.contact h2{font-size:clamp(3rem,7vw,5.6rem);margin-top:18px}
-.contact h2 em{font-style:normal;color:var(--gold)}
+.contact h2,.contact h1{font-size:clamp(3rem,7vw,5.6rem);margin-top:18px}
+.contact h2 em,.contact h1 em{font-style:normal;color:var(--gold)}
 .contact .lede{margin-top:18px}
 .cbox{display:grid;margin-top:36px;border-top:1px solid var(--line)}
 .crow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
@@ -437,7 +437,7 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
   <div class="wrap">
     <div class="head">
       <span class="tag rv">Services</span>
-      <h2 class="rv">Everything your business runs on, set up properly.</h2>
+      <h1 class="rv pg">Everything your business runs on, set up properly.</h1>
       <p class="lede rv" style="--d:.1s">Security systems, networks and repairs from one team. We plan each job around your space and budget, then do it neatly and show you how everything works.</p>
     </div>
     <div class="svc-list">
