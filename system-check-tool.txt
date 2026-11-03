@@ -1,0 +1,876 @@
+<# : Queen Tech System Check - batch launcher
+@echo off
+setlocal
+title Queen Tech Solutions - System Check
+set "QT_SELF=%~f0"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ([IO.File]::ReadAllText($env:QT_SELF))"
+echo.
+pause
+exit /b
+#>
+# =====================================================================
+#  Queen Tech Solutions - CCTV & Network System Check (BOQ survey)
+#  Runs once. Installs nothing. Changes nothing on your devices.
+#  Reads: devices on your local network, and (only if you type its
+#  login) the details of your NVR/DVR. Passwords are never saved or sent.
+# =====================================================================
+$ErrorActionPreference = 'SilentlyContinue'
+$QT = @{
+  UploadUrl = '__UPLOAD_URL__'          # set by Queen Tech; empty = no automatic upload
+  Customer  = '__CUSTOMER__'
+  Company   = '__COMPANY__'
+  Phone     = '__PHONE__'
+  CEmail    = '__CEMAIL__'
+  Emirate   = '__EMIRATE__'
+  Area      = '__AREA__'
+  SiteType  = '__SITETYPE__'
+  Ranges    = '__RANGES__'
+  Review    = '__REVIEW_URL__'      # Google Maps review link
+  WhatsApp  = '971557971520'
+  Email     = 'noah@queentechsolution.info'
+  Version   = '1.2'
+}
+foreach ($k in @('UploadUrl','Customer','Company','Phone','CEmail','Emirate','Area','SiteType','Review','Ranges')) { if ($QT[$k] -like '__*__') { $QT[$k] = '' } }
+
+function Say($t, $c = 'Gray') { Write-Host $t -ForegroundColor $c }
+function Step($t) { Write-Host ''; Write-Host ('>> ' + $t) -ForegroundColor Yellow }
+
+Clear-Host
+Say '======================================================' DarkYellow
+Say '   QUEEN TECH SOLUTIONS  -  CCTV & NETWORK SYSTEM CHECK' Yellow
+Say '======================================================' DarkYellow
+Say ''
+Say 'This tool will:'
+Say '  1. Find the devices on this local network (IP, maker, type).'
+Say '  2. Optionally log in to your recorder, cameras and switches to read details.'
+Say '  3. Ask you to confirm a few counts (or answer "I don''t know").'
+Say '  4. Save an Excel file and a customer report on your Desktop'
+if ($QT.UploadUrl) { Say '     and send a copy to Queen Tech Solutions.' }
+Say ''
+Say 'It installs nothing and changes no settings. Your NVR password is used'
+Say 'only to read details during this check. It is never saved or sent.'
+Say ''
+$ok = Read-Host 'Type Y and press Enter to start (anything else to cancel)'
+if ($ok -notmatch '^[Yy]') { Say 'Cancelled. Nothing was scanned.'; return }
+
+if (-not $QT.Customer) { $QT.Customer = Read-Host 'Your name' }
+if (-not $QT.Company)  { $QT.Company  = Read-Host 'Company / site name (optional)' }
+if (-not $QT.Phone)    { $QT.Phone    = Read-Host 'Mobile / WhatsApp number (optional)' }
+
+# ---------------------------------------------------------------- helpers
+function Get-LocalNets {
+  $nets = @()
+  $cfg = Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -and $_.NetAdapter.Status -eq 'Up' }
+  foreach ($c in $cfg) {
+    foreach ($a in $c.IPv4Address) {
+      $nets += [pscustomobject]@{ IP = $a.IPAddress; Prefix = [int]$a.PrefixLength; Gateway = $c.IPv4DefaultGateway[0].NextHop; Adapter = $c.InterfaceAlias }
+    }
+  }
+  if (-not $nets) {
+    foreach ($ni in [Net.NetworkInformation.NetworkInterface]::GetAllNetworkInterfaces()) {
+      if ($ni.OperationalStatus -ne 'Up' -or $ni.NetworkInterfaceType -eq 'Loopback') { continue }
+      $p = $ni.GetIPProperties(); $gw = ($p.GatewayAddresses | Where-Object { $_.Address.AddressFamily -eq 'InterNetwork' } | Select-Object -First 1)
+      foreach ($u in $p.UnicastAddresses) {
+        if ($u.Address.AddressFamily -ne 'InterNetwork') { continue }
+        $nets += [pscustomobject]@{ IP = $u.Address.ToString(); Prefix = [int]$u.PrefixLength; Gateway = $(if ($gw) { $gw.Address.ToString() } else { '' }); Adapter = $ni.Name }
+      }
+    }
+  }
+  $nets | Where-Object { $_.IP -notlike '169.254.*' -and $_.IP -ne '127.0.0.1' }
+}
+
+function Get-HostList($ip, $prefix) {
+  # Scan the /24 around this PC (or the real subnet if it is smaller). Caps at 1024 hosts.
+  if ($prefix -lt 22) { $prefix = 24 }
+  $b = ([Net.IPAddress]::Parse($ip)).GetAddressBytes(); [Array]::Reverse($b)
+  $n = [BitConverter]::ToUInt32($b, 0)
+  $mask = [uint32]([math]::Pow(2, 32) - [math]::Pow(2, 32 - $prefix))
+  $net = $n -band $mask; $count = [math]::Pow(2, 32 - $prefix)
+  $list = New-Object System.Collections.Generic.List[string]
+  for ($i = 1; $i -lt $count - 1; $i++) {
+    $v = [BitConverter]::GetBytes([uint32]($net + $i)); [Array]::Reverse($v)
+    $list.Add(([Net.IPAddress]::new($v)).ToString())
+  }
+  $list
+}
+
+function Invoke-PingSweep($ips) {
+  $alive = @{}
+  $batch = 128
+  for ($s = 0; $s -lt $ips.Count; $s += $batch) {
+    $jobs = @()
+    foreach ($ip in $ips[$s..([math]::Min($s + $batch, $ips.Count) - 1)]) {
+      $p = New-Object Net.NetworkInformation.Ping
+      $jobs += [pscustomobject]@{ IP = $ip; T = $p.SendPingAsync($ip, 700) }
+    }
+    try { [Threading.Tasks.Task]::WaitAll([Threading.Tasks.Task[]]($jobs.T)) } catch {}
+    foreach ($j in $jobs) { if ($j.T.Status -eq 'RanToCompletion' -and $j.T.Result.Status -eq 'Success') { $alive[$j.IP] = [int]$j.T.Result.RoundtripTime } }
+  }
+  $alive
+}
+
+function Get-ArpTable {
+  $t = @{}
+  $nb = Get-NetNeighbor -AddressFamily IPv4 | Where-Object { $_.State -ne 'Unreachable' -and $_.State -ne 'Incomplete' -and $_.LinkLayerAddress -and $_.LinkLayerAddress -ne '00-00-00-00-00-00' -and $_.LinkLayerAddress -ne 'FF-FF-FF-FF-FF-FF' }
+  foreach ($n in $nb) { $t[$n.IPAddress] = ($n.LinkLayerAddress -replace '-', ':').ToUpper() }
+  if ($t.Count -eq 0) {
+    foreach ($line in (arp -a)) {
+      if ($line -match '^\s*(\d+\.\d+\.\d+\.\d+)\s+([0-9a-fA-F-]{17})\s+dynamic') { $t[$matches[1]] = ($matches[2] -replace '-', ':').ToUpper() }
+    }
+  }
+  $t
+}
+
+$OUI = @{
+  '44:19:B6'='Hikvision'; 'BC:AD:28'='Hikvision'; 'C0:56:E3'='Hikvision'; '4C:BD:8F'='Hikvision'; '28:57:BE'='Hikvision'
+  '3C:EF:8C'='Dahua'; '90:02:A9'='Dahua'; '4C:11:BF'='Dahua'; 'E0:50:8B'='Dahua'
+  '24:A4:3C'='Ubiquiti'; '44:D9:E7'='Ubiquiti'; '68:72:51'='Ubiquiti'; '78:8A:20'='Ubiquiti'; 'F0:9F:C2'='Ubiquiti'; 'FC:EC:DA'='Ubiquiti'
+  'B8:27:EB'='Raspberry Pi'; '00:40:8C'='Axis'; 'AC:CC:8E'='Axis'; 'B8:A4:4F'='Axis'
+}
+function Get-MacVendor($mac) { if (-not $mac) { return '' }; $p = $mac.Substring(0, 8); if ($OUI.ContainsKey($p)) { return $OUI[$p] }; return '' }
+
+function Test-Ports($ip, $ports, $ms = 600) {
+  $open = @(); $jobs = @()
+  foreach ($pt in $ports) { $c = New-Object Net.Sockets.TcpClient; $jobs += [pscustomobject]@{ P = $pt; C = $c; T = $c.ConnectAsync($ip, $pt) } }
+  try { [void][Threading.Tasks.Task]::WaitAll([Threading.Tasks.Task[]]($jobs.T), $ms) } catch {}
+  foreach ($j in $jobs) { if ($j.T.Status -eq 'RanToCompletion' -and $j.C.Connected) { $open += $j.P }; try { $j.C.Close() } catch {} }
+  $open
+}
+
+function Get-Http($url, $cred = $null, $ms = 4000) {
+  $r = [pscustomobject]@{ Code = 0; Server = ''; Realm = ''; Body = '' }
+  try {
+    $req = [Net.HttpWebRequest]::Create($url); $req.Timeout = $ms; $req.ReadWriteTimeout = $ms; $req.AllowAutoRedirect = $true
+    $req.UserAgent = 'QueenTech-SystemCheck/1.0'
+    if ($cred) { $req.Credentials = $cred; $req.PreAuthenticate = $false }
+    $resp = $req.GetResponse()
+  } catch [Net.WebException] { $resp = $_.Exception.Response } catch { return $r }
+  if (-not $resp) { return $r }
+  $r.Code = [int]$resp.StatusCode; $r.Server = '' + $resp.Headers['Server']
+  $wa = '' + $resp.Headers['WWW-Authenticate']; if ($wa -match 'realm="([^"]*)"') { $r.Realm = $matches[1] }
+  try { $sr = New-Object IO.StreamReader($resp.GetResponseStream()); $r.Body = $sr.ReadToEnd(); $sr.Close() } catch {}
+  $resp.Close(); $r
+}
+function Get-Title($html) { if ($html -match '(?is)<title[^>]*>\s*(.*?)\s*</title>') { return ($matches[1] -replace '\s+', ' ').Trim() }; '' }
+
+function Invoke-WsDiscovery($localIp, $waitMs = 3500) {
+  $found = @{}
+  try {
+    $udp = New-Object Net.Sockets.UdpClient (New-Object Net.IPEndPoint ([Net.IPAddress]::Parse($localIp)), 0)
+    $udp.Client.ReceiveTimeout = 500
+    $msg = '<?xml version="1.0" encoding="UTF-8"?><e:Envelope xmlns:e="http://www.w3.org/2003/05/soap-envelope" xmlns:w="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:d="http://schemas.xmlsoap.org/ws/2005/04/discovery"><e:Header><w:MessageID>uuid:' + [guid]::NewGuid() + '</w:MessageID><w:To e:mustUnderstand="true">urn:schemas-xmlsoap-org:ws:2005:04:discovery</w:To><w:Action e:mustUnderstand="true">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</w:Action></e:Header><e:Body><d:Probe/></e:Body></e:Envelope>'
+    $bytes = [Text.Encoding]::UTF8.GetBytes($msg)
+    $ep = New-Object Net.IPEndPoint ([Net.IPAddress]::Parse('239.255.255.250')), 3702
+    [void]$udp.Send($bytes, $bytes.Length, $ep); Start-Sleep -Milliseconds 150; [void]$udp.Send($bytes, $bytes.Length, $ep)
+    $end = (Get-Date).AddMilliseconds($waitMs)
+    while ((Get-Date) -lt $end) {
+      try {
+        $from = New-Object Net.IPEndPoint ([Net.IPAddress]::Any), 0
+        $data = $udp.Receive([ref]$from); $txt = [Text.Encoding]::UTF8.GetString($data)
+        $ip = $from.Address.ToString()
+        $scopes = ''; $xaddr = ''; $types = ''
+        if ($txt -match '(?s)<[^>]*Scopes[^>]*>(.*?)</') { $scopes = $matches[1] }
+        if ($txt -match '(?s)<[^>]*XAddrs[^>]*>(.*?)</') { $xaddr = $matches[1] }
+        if ($txt -match '(?s)<[^>]*Types[^>]*>(.*?)</') { $types = $matches[1] }
+        $info = @{ Name = ''; Hardware = ''; Mfr = ''; Types = $types; XAddr = $xaddr }
+        foreach ($s in ($scopes -split '\s+')) {
+          $d = [Uri]::UnescapeDataString($s)
+          if ($d -match 'onvif://www\.onvif\.org/name/(.+)$') { $info.Name = $matches[1] }
+          elseif ($d -match 'onvif://www\.onvif\.org/hardware/(.+)$') { $info.Hardware = $matches[1] }
+          elseif ($d -match 'onvif://www\.onvif\.org/(mfr|manufacturer)/(.+)$') { $info.Mfr = $matches[2] }
+        }
+        $found[$ip] = $info
+      } catch {}
+    }
+    $udp.Close()
+  } catch {}
+  $found
+}
+
+function Get-Vendor($d) {
+  $txt = (@($d.OnvifMfr, $d.OnvifName, $d.OnvifHardware, $d.Realm, $d.Server, $d.Title, $d.MacVendor) -join ' ').ToLower()
+  $map = [ordered]@{ 'hikvision'='Hikvision'; 'hik'='Hikvision'; 'ds-2'='Hikvision'; 'ds-7'='Hikvision'; 'ds-9'='Hikvision'; 'dahua'='Dahua'; 'dh-'='Dahua'; 'dhi-'='Dahua'; 'uniview'='Uniview'; 'unv'='Uniview'; 'axis'='Axis'; 'hanwha'='Hanwha'; 'wisenet'='Hanwha'; 'ezviz'='EZVIZ'; 'imou'='Imou'; 'tp-link'='TP-Link'; 'tplink'='TP-Link'; 'ubiquiti'='Ubiquiti'; 'unifi'='Ubiquiti'; 'mikrotik'='MikroTik'; 'cisco'='Cisco'; 'huawei'='Huawei'; 'zte'='ZTE'; 'netgear'='Netgear'; 'd-link'='D-Link'; 'hp '='HP'; 'epson'='Epson'; 'canon'='Canon'; 'xmeye'='XMEye (generic)' }
+  foreach ($k in $map.Keys) { if ($txt.Contains($k)) { return $map[$k] } }
+  if ($d.Ports -contains 37777) { return 'Dahua' }
+  if ($d.Ports -contains 8000 -and $d.Ports -contains 554) { return 'Hikvision' }
+  if ($d.Ports -contains 34567) { return 'XMEye (generic)' }
+  ''
+}
+function Get-DevType($d, $gw, $self) {
+  if ($d.IP -eq $self) { return 'This computer' }
+  if ($d.IP -eq $gw) { return 'Router / gateway' }
+  $t = (@($d.OnvifName, $d.OnvifHardware, $d.Realm, $d.Title, $d.Server) -join ' ').ToLower()
+  if ($t -match 'nvr|dvr|xvr|ds-7[0-9]|ds-9[0-9]|ds-8[0-9]|recorder') { return 'NVR / DVR' }
+  if ($d.OnvifTypes -match 'NetworkVideoTransmitter' -or $t -match 'ipc|ip camera|ds-2c|ds-2d|camera') { return 'IP camera' }
+  if ($d.Ports -contains 554 -and $d.Vendor -in @('Hikvision','Dahua','Uniview','Axis','Hanwha','EZVIZ','Imou','XMEye (generic)')) { return 'IP camera' }
+  if ($d.Ports -contains 9100) { return 'Printer' }
+  if ($d.Vendor -in @('TP-Link','Ubiquiti','MikroTik','Cisco','Netgear','D-Link','Huawei','ZTE')) { return 'Network device (switch / AP / router)' }
+  if ($d.Ports -contains 3389 -or $d.Ports -contains 445) { return 'Computer / server' }
+  if ($d.Ports -contains 80 -or $d.Ports -contains 443) { return 'Device with web page' }
+  'Other device'
+}
+
+# ------------------------------------------------------- NVR / DVR reading
+function Read-Kv($body) { $h = [ordered]@{}; foreach ($l in ($body -split "`r?`n")) { if ($l -match '^\s*([^=]+?)=(.*)$') { $h[$matches[1]] = $matches[2].Trim() } }; $h }
+function X($node, $name) { $n = $node.SelectSingleNode(".//*[local-name()='$name']"); if ($n) { $n.InnerText } else { '' } }
+
+function Read-Hikvision($ip, $cred) {
+  $base = "http://$ip"
+  $di = Get-Http "$base/ISAPI/System/deviceInfo" $cred
+  if ($di.Code -ne 200 -or $di.Body -notmatch 'DeviceInfo') { return $null }
+  $x = [xml]$di.Body
+  $res = [ordered]@{ Brand = 'Hikvision'; Name = (X $x 'deviceName'); Model = (X $x 'model'); Serial = (X $x 'serialNumber'); Firmware = ((X $x 'firmwareVersion') + ' ' + (X $x 'firmwareReleasedDate')).Trim(); Mac = (X $x 'macAddress'); Channels = @(); Disks = @() }
+  $st = @{}
+  $s = Get-Http "$base/ISAPI/ContentMgmt/InputProxy/channels/status" $cred
+  if ($s.Code -eq 200) { foreach ($n in ([xml]$s.Body).SelectNodes("//*[local-name()='InputProxyChannelStatus']")) { $st[(X $n 'id')] = $(if ((X $n 'online') -eq 'true') { 'Online' } else { 'Offline' }) } }
+  $c = Get-Http "$base/ISAPI/ContentMgmt/InputProxy/channels" $cred
+  if ($c.Code -eq 200) {
+    foreach ($n in ([xml]$c.Body).SelectNodes("//*[local-name()='InputProxyChannel']")) {
+      $id = X $n 'id'
+      $res.Channels += [pscustomobject]@{ Channel = $(if ($id -match '^\d+$') { [int]$id } else { $id }); Name = (X $n 'name'); 'Camera IP' = (X $n 'ipAddress'); Protocol = (X $n 'proxyProtocol'); Model = (X $n 'model'); Status = $(if ($st.ContainsKey($id)) { $st[$id] } else { '' }) }
+    }
+  }
+  $a = Get-Http "$base/ISAPI/System/Video/inputs/channels" $cred
+  if ($a.Code -eq 200) { foreach ($n in ([xml]$a.Body).SelectNodes("//*[local-name()='VideoInputChannel']")) { $res.Channels += [pscustomobject]@{ Channel = ('A' + (X $n 'id')); Name = (X $n 'name'); 'Camera IP' = 'Analog'; Protocol = 'Analog / HD-TVI'; Model = ''; Status = $(if ((X $n 'resDesc') -match 'NO VIDEO') { 'No video' } else { '' }) } } }
+  $h = Get-Http "$base/ISAPI/ContentMgmt/Storage" $cred
+  if ($h.Code -eq 200) {
+    foreach ($n in ([xml]$h.Body).SelectNodes("//*[local-name()='hdd']")) {
+      $cap = [double](X $n 'capacity'); $free = [double](X $n 'freeSpace')
+      $res.Disks += [pscustomobject]@{ Disk = [int](X $n 'id'); Name = (X $n 'hddName'); 'Capacity (GB)' = [math]::Round($cap / 1024, 0); 'Free (GB)' = [math]::Round($free / 1024, 0); Status = (X $n 'status'); Type = (X $n 'hddType') }
+    }
+  }
+  $res
+}
+
+function Read-Dahua($ip, $cred) {
+  $base = "http://$ip/cgi-bin"
+  $si = Get-Http "$base/magicBox.cgi?action=getSystemInfo" $cred
+  if ($si.Code -ne 200 -or $si.Body -notmatch '=') { return $null }
+  $kv = Read-Kv $si.Body
+  $sw = Read-Kv (Get-Http "$base/magicBox.cgi?action=getSoftwareVersion" $cred).Body
+  $res = [ordered]@{ Brand = 'Dahua'; Name = ''; Model = ('' + $kv['deviceType']); Serial = ('' + $kv['serialNumber']); Firmware = ('' + $sw['version']); Mac = ''; Channels = @(); Disks = @() }
+  $titles = Read-Kv (Get-Http "$base/configManager.cgi?action=getConfig&name=ChannelTitle" $cred).Body
+  $rd = Read-Kv (Get-Http "$base/configManager.cgi?action=getConfig&name=RemoteDevice" $cred).Body
+  $devs = [ordered]@{}
+  foreach ($k in $rd.Keys) { if ($k -match '^table\.RemoteDevice\.([^.]+)\.(Address|Name|DeviceType|Enable|Port)$') { if (-not $devs.Contains($matches[1])) { $devs[$matches[1]] = @{} }; $devs[$matches[1]][$matches[2]] = $rd[$k] } }
+  $i = 0
+  foreach ($k in $devs.Keys) {
+    $d = $devs[$k]; if (-not $d.Address -or $d.Address -eq '0.0.0.0') { continue }; $i++
+    $res.Channels += [pscustomobject]@{ Channel = $i; Name = ('' + $d.Name); 'Camera IP' = $d.Address; Protocol = 'Remote device'; Model = ('' + $d.DeviceType); Status = $(if ($d.Enable -eq 'false') { 'Disabled' } else { '' }) }
+  }
+  if ($res.Channels.Count -eq 0) { foreach ($k in $titles.Keys) { if ($k -match '^table\.ChannelTitle\[(\d+)\]\.Name$') { $res.Channels += [pscustomobject]@{ Channel = ([int]$matches[1] + 1); Name = $titles[$k]; 'Camera IP' = ''; Protocol = ''; Model = ''; Status = '' } } } }
+  $sd = Read-Kv (Get-Http "$base/storageDevice.cgi?action=getDeviceAllInfo" $cred).Body
+  $disks = [ordered]@{}
+  foreach ($k in $sd.Keys) { if ($k -match '^list\.info\[(\d+)\]\.(Name|State)$') { if (-not $disks.Contains($matches[1])) { $disks[$matches[1]] = @{} }; $disks[$matches[1]][$matches[2]] = $sd[$k] } elseif ($k -match '^list\.info\[(\d+)\]\.Detail\[\d+\]\.(TotalBytes|UsedBytes)$') { if (-not $disks.Contains($matches[1])) { $disks[$matches[1]] = @{} }; $disks[$matches[1]][$matches[2]] = [double]$disks[$matches[1]][$matches[2]] + [double]$sd[$k] } }
+  foreach ($k in $disks.Keys) { $d = $disks[$k]; $res.Disks += [pscustomobject]@{ Disk = ([int]$k + 1); Name = ('' + $d.Name); 'Capacity (GB)' = [math]::Round([double]$d.TotalBytes / 1e9, 0); 'Free (GB)' = [math]::Round(([double]$d.TotalBytes - [double]$d.UsedBytes) / 1e9, 0); Status = ('' + $d.State); Type = '' } }
+  $res
+}
+
+function Read-Onvif($ip, $user, $pass) {
+  $nonce = New-Object byte[] 16; (New-Object Security.Cryptography.RNGCryptoServiceProvider).GetBytes($nonce)
+  $created = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+  $sha = [Security.Cryptography.SHA1]::Create()
+  $digest = [Convert]::ToBase64String($sha.ComputeHash([byte[]]($nonce + [Text.Encoding]::UTF8.GetBytes($created + $pass))))
+  $env = '<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"><s:Header><Security s:mustUnderstand="1" xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><UsernameToken><Username>' + [Security.SecurityElement]::Escape($user) + '</Username><Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">' + $digest + '</Password><Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">' + [Convert]::ToBase64String($nonce) + '</Nonce><Created xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">' + $created + '</Created></UsernameToken></Security></s:Header><s:Body><GetDeviceInformation xmlns="http://www.onvif.org/ver10/device/wsdl"/></s:Body></s:Envelope>'
+  try {
+    $r = Invoke-WebRequest -Uri "http://$ip/onvif/device_service" -Method Post -Body $env -ContentType 'application/soap+xml; charset=utf-8' -TimeoutSec 6 -UseBasicParsing
+    $x = [xml]$r.Content
+    return [ordered]@{ Brand = (X $x 'Manufacturer'); Name = ''; Model = (X $x 'Model'); Serial = (X $x 'SerialNumber'); Firmware = (X $x 'FirmwareVersion'); Mac = ''; Channels = @(); Disks = @() }
+  } catch { return $null }
+}
+
+
+# ---------------------------------------------------- custom IP ranges
+function ConvTo-UInt($ip) { $b = ([Net.IPAddress]::Parse($ip)).GetAddressBytes(); [Array]::Reverse($b); [BitConverter]::ToUInt32($b, 0) }
+function ConvFrom-UInt($n) { $v = [BitConverter]::GetBytes([uint32]$n); [Array]::Reverse($v); ([Net.IPAddress]::new($v)).ToString() }
+function Expand-Ranges($text, $max = 4096) {
+  $out = New-Object System.Collections.Generic.List[string]; $bad = @()
+  foreach ($part in ($text -split '[,;\s]+' | Where-Object { $_ })) {
+    $from = $null; $to = $null
+    if ($part -match '^(\d{1,3}(?:\.\d{1,3}){3})/(\d{1,2})$') {
+      $pre = [int]$matches[2]; if ($pre -lt 20 -or $pre -gt 32) { $bad += $part; continue }
+      $n = ConvTo-UInt $matches[1]; $mask = [uint32]([math]::Pow(2, 32) - [math]::Pow(2, 32 - $pre)); $net = $n -band $mask; $cnt = [math]::Pow(2, 32 - $pre)
+      if ($cnt -gt 2) { $from = $net + 1; $to = $net + $cnt - 2 } else { $from = $net; $to = $net + $cnt - 1 }
+    } elseif ($part -match '^(\d{1,3}(?:\.\d{1,3}){3})-(\d{1,3}(?:\.\d{1,3}){3})$') { $from = ConvTo-UInt $matches[1]; $to = ConvTo-UInt $matches[2] }
+    elseif ($part -match '^(\d{1,3}\.\d{1,3}\.\d{1,3}\.)(\d{1,3})-(\d{1,3})$') { $from = ConvTo-UInt ($matches[1] + $matches[2]); $to = ConvTo-UInt ($matches[1] + $matches[3]) }
+    elseif ($part -match '^\d{1,3}(?:\.\d{1,3}){3}$') { $from = ConvTo-UInt $part; $to = $from }
+    else { $bad += $part; continue }
+    if ($to -lt $from) { $t = $from; $from = $to; $to = $t }
+    for ($x = [double]$from; $x -le $to -and $out.Count -lt $max; $x++) { $out.Add((ConvFrom-UInt $x)) }
+  }
+  [pscustomobject]@{ IPs = $out; Bad = $bad }
+}
+
+# ---------------------------------------------------- camera login
+function Read-Camera($ip, $u, $p) {
+  $cred = New-Object Net.NetworkCredential($u, $p)
+  $di = Get-Http "http://$ip/ISAPI/System/deviceInfo" $cred
+  if ($di.Code -eq 200 -and $di.Body -match 'DeviceInfo') {
+    $x = [xml]$di.Body
+    $res = [ordered]@{ Brand = 'Hikvision'; Model = (X $x 'model'); Name = (X $x 'deviceName'); Serial = (X $x 'serialNumber'); Firmware = (X $x 'firmwareVersion'); MAC = (X $x 'macAddress'); Resolution = ''; Codec = '' }
+    $st = Get-Http "http://$ip/ISAPI/Streaming/channels/101" $cred
+    if ($st.Code -eq 200) { $y = [xml]$st.Body; $w = X $y 'videoResolutionWidth'; $h = X $y 'videoResolutionHeight'; if ($w) { $res.Resolution = "${w}x$h" }; $res.Codec = X $y 'videoCodecType' }
+    return $res
+  }
+  $si = Get-Http "http://$ip/cgi-bin/magicBox.cgi?action=getSystemInfo" $cred
+  if ($si.Code -eq 200 -and $si.Body -match '=') {
+    $kv = Read-Kv $si.Body; $sw = Read-Kv (Get-Http "http://$ip/cgi-bin/magicBox.cgi?action=getSoftwareVersion" $cred).Body
+    $res = [ordered]@{ Brand = 'Dahua'; Model = ('' + $kv['deviceType']); Name = ''; Serial = ('' + $kv['serialNumber']); Firmware = ('' + $sw['version']); MAC = ''; Resolution = ''; Codec = '' }
+    $en = Read-Kv (Get-Http "http://$ip/cgi-bin/configManager.cgi?action=getConfig&name=Encode" $cred).Body
+    $w = $en['table.Encode[0].MainFormat[0].Video.Width']; $h = $en['table.Encode[0].MainFormat[0].Video.Height']
+    if ($w) { $res.Resolution = "${w}x$h" }; $res.Codec = '' + $en['table.Encode[0].MainFormat[0].Video.Compression']
+    return $res
+  }
+  $o = Read-Onvif $ip $u $p
+  if ($o) { return [ordered]@{ Brand = $o.Brand; Model = $o.Model; Name = ''; Serial = $o.Serial; Firmware = $o.Firmware; MAC = ''; Resolution = ''; Codec = '' } }
+  $null
+}
+
+# ---------------------------------------------------- SNMP v2c (switches)
+function TLV([byte]$t, [byte[]]$v) {
+  $l = New-Object System.Collections.Generic.List[byte]; $l.Add($t); $n = $v.Length
+  if ($n -lt 128) { $l.Add([byte]$n) } else { $lb = New-Object System.Collections.Generic.List[byte]; while ($n -gt 0) { $lb.Insert(0, [byte]($n % 256)); $n = [math]::Floor($n / 256) }; $l.Add([byte](0x80 + $lb.Count)); $l.AddRange($lb) }
+  if ($v.Length) { $l.AddRange($v) }; , $l.ToArray()
+}
+function EncInt([long]$i) { $b = [BitConverter]::GetBytes([int32]$i); [Array]::Reverse($b); $j = 0; while ($j -lt 3 -and $b[$j] -eq 0 -and $b[$j + 1] -lt 128) { $j++ }; , (TLV 2 ([byte[]]$b[$j..3])) }
+function EncOid($s) {
+  $p = @($s.Split('.') | ForEach-Object { [long]$_ }); $l = New-Object System.Collections.Generic.List[byte]; $l.Add([byte](40 * $p[0] + $p[1]))
+  for ($k = 2; $k -lt $p.Count; $k++) { $v = $p[$k]; $tmp = New-Object System.Collections.Generic.List[byte]; $tmp.Add([byte]($v % 128)); $v = [math]::Floor($v / 128); while ($v -gt 0) { $tmp.Insert(0, [byte](($v % 128) + 128)); $v = [math]::Floor($v / 128) }; $l.AddRange($tmp) }
+  , (TLV 6 $l.ToArray())
+}
+function RT($b, $p) { $t = $b[$p]; $p++; $l = [int]$b[$p]; $p++; if ($l -band 0x80) { $n = $l -band 0x7F; $l = 0; for ($k = 0; $k -lt $n; $k++) { $l = $l * 256 + $b[$p]; $p++ } }; [pscustomobject]@{ T = $t; S = $p; L = $l; N = $p + $l } }
+function Kids($b, $s, $e) { $r = @(); $p = $s; while ($p -lt $e) { $x = RT $b $p; $r += $x; $p = $x.N }; $r }
+function DecOid($b, $s, $l) { $first = $b[$s]; $parts = @([math]::Floor($first / 40), ($first % 40)); $v = 0; for ($k = $s + 1; $k -lt $s + $l; $k++) { $v = $v * 128 + ($b[$k] -band 127); if (-not ($b[$k] -band 128)) { $parts += $v; $v = 0 } }; $parts -join '.' }
+function Snmp-Get($ip, $community, $oids, $ms = 1500) {
+  $vbs = New-Object System.Collections.Generic.List[byte]
+  foreach ($o in $oids) { $vbs.AddRange([byte[]](TLV 0x30 ([byte[]]((EncOid $o) + [byte[]](5, 0))))) }
+  $pdu = TLV 0xA0 ([byte[]]((EncInt (Get-Random -Maximum 2000000000)) + (EncInt 0) + (EncInt 0) + (TLV 0x30 $vbs.ToArray())))
+  $msg = TLV 0x30 ([byte[]]((EncInt 1) + (TLV 4 ([Text.Encoding]::ASCII.GetBytes($community))) + $pdu))
+  $res = @{}
+  try {
+    $udp = New-Object Net.Sockets.UdpClient; $udp.Client.ReceiveTimeout = $ms
+    [void]$udp.Send($msg, $msg.Length, $ip, 161)
+    $from = New-Object Net.IPEndPoint ([Net.IPAddress]::Any), 0
+    $b = $udp.Receive([ref]$from); $udp.Close()
+  } catch { return $null }
+  try {
+    $top = RT $b 0; $lvl1 = Kids $b $top.S $top.N; $pduN = $lvl1[2]; $lvl2 = Kids $b $pduN.S $pduN.N
+    if ($b[$lvl2[1].S] -ne 0) { return $null }
+    foreach ($vb in (Kids $b $lvl2[3].S $lvl2[3].N)) {
+      $pair = Kids $b $vb.S $vb.N; $oid = DecOid $b $pair[0].S $pair[0].L; $v = $pair[1]
+      switch ($v.T) {
+        4 { $bytes = [byte[]]$b[$v.S..($v.N - 1)]; if ($v.L -eq 0) { $val = '' } elseif (@($bytes | Where-Object { $_ -lt 9 -or ($_ -gt 13 -and $_ -lt 32) }).Count) { $val = ($bytes | ForEach-Object { $_.ToString('X2') }) -join ':' } else { $val = [Text.Encoding]::UTF8.GetString($bytes).Trim() } }
+        { $_ -in 2, 0x41, 0x42, 0x43, 0x46 } { $n = [double]0; for ($k = $v.S; $k -lt $v.N; $k++) { $n = $n * 256 + $b[$k] }; $val = $n }
+        6 { $val = DecOid $b $v.S $v.L }
+        default { $val = $null }
+      }
+      $res[$oid] = $val
+    }
+  } catch { return $null }
+  $res
+}
+function Read-Switch($ip, $community) {
+  $O = @{ descr = '1.3.6.1.2.1.1.1.0'; up = '1.3.6.1.2.1.1.3.0'; name = '1.3.6.1.2.1.1.5.0'; loc = '1.3.6.1.2.1.1.6.0'; ifn = '1.3.6.1.2.1.2.1.0'; poeW = '1.3.6.1.2.1.105.1.3.1.1.2.1'; poeUse = '1.3.6.1.2.1.105.1.3.1.1.4.1' }
+  $r = Snmp-Get $ip $community @($O.descr, $O.up, $O.name, $O.loc, $O.ifn, $O.poeW, $O.poeUse)
+  if (-not $r -or -not $r.ContainsKey($O.descr)) { return $null }
+  $days = ''; if ($r[$O.up]) { $days = [math]::Round($r[$O.up] / 8640000, 1) }
+  [pscustomobject]@{ IP = $ip; Name = ('' + $r[$O.name]); Description = ('' + $r[$O.descr]) -replace '\s+', ' '; Location = ('' + $r[$O.loc]); 'Interfaces' = $r[$O.ifn]; 'PoE budget (W)' = $r[$O.poeW]; 'PoE used (W)' = $r[$O.poeUse]; 'Uptime (days)' = $days }
+}
+
+# ------------------------------------------------------------ Excel writer
+function XmlEsc($s) { [Security.SecurityElement]::Escape(('' + $s)) -replace '[\x00-\x08\x0B\x0C\x0E-\x1F]', '' }
+function ColName($i) { $s = ''; $i++; while ($i -gt 0) { $m = ($i - 1) % 26; $s = [char](65 + $m) + $s; $i = [math]::Floor(($i - 1) / 26) }; $s }
+function New-Sheet($title, $headers, $rows, $widths) {
+  # rows: array of arrays. A value starting with '=' becomes a formula; numbers stay numbers.
+  $sb = New-Object Text.StringBuilder
+  [void]$sb.Append('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="2" topLeftCell="A3" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>')
+  for ($c = 0; $c -lt $headers.Count; $c++) { $w = 18; if ($widths -and $c -lt $widths.Count) { $w = $widths[$c] }; [void]$sb.Append("<col min=`"$($c+1)`" max=`"$($c+1)`" width=`"$w`" customWidth=`"1`"/>") }
+  [void]$sb.Append('</cols><sheetData>')
+  [void]$sb.Append('<row r="1"><c r="A1" t="inlineStr" s="1"><is><t>' + (XmlEsc $title) + '</t></is></c></row><row r="2">')
+  for ($c = 0; $c -lt $headers.Count; $c++) { [void]$sb.Append('<c r="' + (ColName $c) + '2" t="inlineStr" s="2"><is><t>' + (XmlEsc $headers[$c]) + '</t></is></c>') }
+  [void]$sb.Append('</row>')
+  $r = 3
+  foreach ($row in $rows) {
+    [void]$sb.Append("<row r=`"$r`">")
+    for ($c = 0; $c -lt $row.Count; $c++) {
+      $v = $row[$c]; $ref = (ColName $c) + $r
+      if ($null -eq $v -or ('' + $v) -eq '') { continue }
+      if ($v -is [int] -or $v -is [long] -or $v -is [double] -or $v -is [decimal]) { [void]$sb.Append("<c r=`"$ref`" s=`"3`"><v>$v</v></c>") }
+      elseif (('' + $v).StartsWith('=')) { [void]$sb.Append("<c r=`"$ref`" s=`"3`"><f>" + (XmlEsc (('' + $v).Substring(1))) + '</f></c>') }
+      else { [void]$sb.Append("<c r=`"$ref`" t=`"inlineStr`" s=`"4`"><is><t xml:space=`"preserve`">" + (XmlEsc $v) + '</t></is></c>') }
+    }
+    [void]$sb.Append('</row>'); $r++
+  }
+  [void]$sb.Append('</sheetData>')
+  if ($rows.Count -gt 0) { [void]$sb.Append('<autoFilter ref="A2:' + (ColName ($headers.Count - 1)) + ($r - 1) + '"/>') }
+  [void]$sb.Append('</worksheet>')
+  [pscustomobject]@{ Name = $title; Xml = $sb.ToString() }
+}
+function Save-Xlsx($path, $sheets) {
+  Add-Type -AssemblyName System.IO.Compression
+  Add-Type -AssemblyName System.IO.Compression.FileSystem
+  if (Test-Path $path) { Remove-Item $path -Force }
+  $fs = [IO.File]::Open($path, 'Create'); $zip = New-Object IO.Compression.ZipArchive($fs, [IO.Compression.ZipArchiveMode]::Create)
+  $utf8 = New-Object Text.UTF8Encoding($false)
+  function Put($name, $text) { $e = $zip.CreateEntry($name); $w = New-Object IO.StreamWriter($e.Open(), $utf8); $w.Write($text); $w.Close() }
+  $ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'
+  $wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>'
+  $rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+  for ($i = 0; $i -lt $sheets.Count; $i++) {
+    $n = $i + 1
+    $ct += "<Override PartName=`"/xl/worksheets/sheet$n.xml`" ContentType=`"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml`"/>"
+    $wb += '<sheet name="' + (XmlEsc ($sheets[$i].Name.Substring(0, [math]::Min(31, $sheets[$i].Name.Length)) -replace '[\\/\?\*\[\]:]', '')) + "`" sheetId=`"$n`" r:id=`"rId$n`"/>"
+    $rels += "<Relationship Id=`"rId$n`" Type=`"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet`" Target=`"worksheets/sheet$n.xml`"/>"
+    Put "xl/worksheets/sheet$n.xml" $sheets[$i].Xml
+  }
+  $rels += '<Relationship Id="rIdS" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'
+  Put '[Content_Types].xml' ($ct + '</Types>')
+  Put '_rels/.rels' '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'
+  Put 'xl/workbook.xml' ($wb + '</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>')
+  Put 'xl/_rels/workbook.xml.rels' $rels
+  Put 'xl/styles.xml' '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="#,##0.##"/></numFmts><fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="14"/><color rgb="FF131210"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF201E1A"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left/><right/><top/><bottom style="thin"><color rgb="FFD9D2C3"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="5"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="2" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center" wrapText="1"/></xf><xf numFmtId="164" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1"/><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf></cellXfs></styleSheet>'
+  $zip.Dispose(); $fs.Close()
+}
+
+# =================================================================== RUN
+$started = Get-Date
+Step 'Finding your network'
+$nets = @(Get-LocalNets)
+if (-not $nets) { Say 'No active network found. Connect this PC to the same network as the cameras and run again.' Red; return }
+$main = $nets[0]
+foreach ($n in $nets) { Say ("   {0}  ({1}/{2}, gateway {3})" -f $n.Adapter, $n.IP, $n.Prefix, $n.Gateway) }
+
+$all = New-Object System.Collections.Generic.List[string]
+foreach ($n in $nets) { foreach ($h in (Get-HostList $n.IP $n.Prefix)) { if (-not $all.Contains($h)) { $all.Add($h) } } }
+if ($all.Count -gt 1024) { $all = $all.GetRange(0, 1024) }
+
+Step 'IP range (optional)'
+Say 'If the cameras use another IP range, type it to include it in the check.'
+Say 'Examples: 10.0.100.0/24   or   10.0.100.1-10.0.100.200   (several: separate with commas)'
+$rq = '   IP range (Enter = this network only)'; if ($QT.Ranges) { $rq = "   IP range [$($QT.Ranges)]" }
+$rin = ''
+while ($true) {
+  $rin = (Read-Host $rq).Trim(); if (-not $rin) { $rin = $QT.Ranges }; if (-not $rin) { break }
+  $ex = Expand-Ranges $rin
+  if ($ex.Bad.Count) { Say ("   Not understood: {0}. Use a format like 10.0.100.0/24" -f ($ex.Bad -join ', ')) Red; $QT.Ranges = ''; $rq = '   IP range (Enter = this network only)'; continue }
+  $added = 0; foreach ($h in $ex.IPs) { if (-not $all.Contains($h)) { $all.Add($h); $added++ } }
+  Say ("   Added {0} address(es) to the check." -f $added) Green; break
+}
+$QT.Ranges = $rin
+
+Step ("Checking {0} addresses (about 30 seconds)" -f $all.Count)
+$alive = Invoke-PingSweep $all
+Start-Sleep -Milliseconds 400
+$arp = Get-ArpTable
+Step 'Asking cameras and recorders to identify themselves (ONVIF)'
+$wsd = @{}
+foreach ($n in $nets) { $r = Invoke-WsDiscovery $n.IP; foreach ($k in $r.Keys) { $wsd[$k] = $r[$k] } }
+Say ("   {0} ONVIF device(s) answered" -f $wsd.Count)
+
+$ipset = @{}
+foreach ($k in $alive.Keys) { $ipset[$k] = 1 }
+foreach ($k in $arp.Keys) { if ($all.Contains($k)) { $ipset[$k] = 1 } }
+foreach ($k in $wsd.Keys) { $ipset[$k] = 1 }
+foreach ($n in $nets) { $ipset[$n.IP] = 1 }
+$ips = @($ipset.Keys | Sort-Object { [version]$_ })
+Step ("Identifying {0} device(s)" -f $ips.Count)
+
+$PORTS = @(80, 443, 554, 8000, 8080, 8899, 37777, 34567, 9100, 445, 3389)
+$devices = @(); $i = 0
+foreach ($ip in $ips) {
+  $i++; Write-Progress -Activity 'Identifying devices' -Status $ip -PercentComplete ([int](100 * $i / $ips.Count))
+  $d = [ordered]@{ IP = $ip; MAC = ''; MacVendor = ''; Ports = @(); Server = ''; Title = ''; Realm = ''; OnvifName = ''; OnvifHardware = ''; OnvifMfr = ''; OnvifTypes = ''; Ping = ''; Host = '' }
+  if ($arp.ContainsKey($ip)) { $d.MAC = $arp[$ip]; $d.MacVendor = Get-MacVendor $d.MAC }
+  if ($alive.ContainsKey($ip)) { $d.Ping = $alive[$ip] }
+  if ($wsd.ContainsKey($ip)) { $w = $wsd[$ip]; $d.OnvifName = $w.Name; $d.OnvifHardware = $w.Hardware; $d.OnvifMfr = $w.Mfr; $d.OnvifTypes = $w.Types }
+  if ($nets.IP -notcontains $ip) { $d.Ports = @(Test-Ports $ip $PORTS) }
+  if ($d.Ports -contains 80) {
+    $h = Get-Http "http://$ip/" $null 2500; $d.Server = $h.Server; $d.Title = Get-Title $h.Body
+    $a = Get-Http "http://$ip/ISAPI/System/deviceInfo" $null 2500; if ($a.Realm) { $d.Realm = $a.Realm }
+    if (-not $d.Realm) { $b = Get-Http "http://$ip/cgi-bin/magicBox.cgi?action=getSystemInfo" $null 2500; if ($b.Realm) { $d.Realm = $b.Realm } }
+  }
+  try { $d.Host = ([Net.Dns]::GetHostEntry($ip)).HostName; if ($d.Host -eq $ip) { $d.Host = '' } } catch {}
+  $o = [pscustomobject]$d
+  $o | Add-Member Vendor (Get-Vendor $o)
+  $o | Add-Member Type (Get-DevType $o $main.Gateway $main.IP)
+  $devices += $o
+}
+Write-Progress -Activity 'Identifying devices' -Completed
+$cams = @($devices | Where-Object { $_.Type -eq 'IP camera' })
+$nvrs = @($devices | Where-Object { $_.Type -eq 'NVR / DVR' })
+Say ("   Found {0} device(s): {1} IP camera(s), {2} NVR/DVR" -f $devices.Count, $cams.Count, $nvrs.Count) Green
+foreach ($n in $nvrs) { Say ("   Recorder: {0}  {1} {2}" -f $n.IP, $n.Vendor, ($n.OnvifHardware + ' ' + $n.Realm).Trim()) }
+
+# ---------------------------------------------------- device logins (optional)
+$recorders = @(); $camInfo = @(); $swInfo = @(); $loginState = @{}
+function Read-Secret($q) { $sp = Read-Host $q -AsSecureString; $p = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sp)); if ($null -eq $p) { $p = '' }; $p }
+function YesNo($q, $def = 'Y') { $a = (Read-Host ($q + $(if ($def -eq 'Y') { ' (Y/n)' } else { ' (y/N)' }))).Trim(); if (-not $a) { $a = $def }; $a -match '^[Yy]' }
+function Read-RecorderAt($ip, $u, $p) {
+  $cred = New-Object Net.NetworkCredential($u, $p)
+  $r = Read-Hikvision $ip $cred; if (-not $r) { $r = Read-Dahua $ip $cred }; if (-not $r) { $r = Read-Onvif $ip $u $p }; $r
+}
+$netGear = @($devices | Where-Object { $_.Type -like 'Network device*' -or $_.Type -eq 'Router / gateway' })
+
+Step 'Detailed check with device logins (optional)'
+Say 'We found:'
+foreach ($d in $nvrs) { Say ("   Recorder  {0,-15} {1} {2}" -f $d.IP, $d.Vendor, ($d.OnvifHardware + ' ' + $d.Realm).Trim()) White }
+foreach ($d in $cams) { Say ("   Camera    {0,-15} {1} {2}" -f $d.IP, $d.Vendor, $d.OnvifHardware) White }
+foreach ($d in $netGear) { Say ("   Network   {0,-15} {1} {2}" -f $d.IP, $d.Vendor, $d.Type) White }
+if (-not ($nvrs.Count + $cams.Count + $netGear.Count)) { Say '   No recorders, cameras or switches were recognised automatically.' }
+Say ''
+Say 'If you type a login, we read model, serial, firmware, channels and disks.'
+Say 'Passwords are used only now. They are never saved or sent. You can skip any device.'
+
+# Recorders
+$recList = New-Object System.Collections.Generic.List[string]; foreach ($d in $nvrs) { $recList.Add($d.IP) }
+foreach ($ip in @($recList)) {
+  Say ''
+  $d = $nvrs | Where-Object { $_.IP -eq $ip }
+  if (-not (YesNo ("Log in to recorder {0} {1}?" -f $ip, $d.Vendor))) { $loginState[$ip] = 'Skipped'; continue }
+  while ($true) {
+    $u = (Read-Host '   Username [admin]').Trim(); if (-not $u) { $u = 'admin' }
+    $p = Read-Secret '   Password'
+    Say '   Reading...'
+    $rec = Read-RecorderAt $ip $u $p; $p = $null
+    if ($rec) { $rec['IP'] = $ip; $recorders += $rec; $loginState[$ip] = 'OK'; Say ("   OK: {0} {1} - {2} channel(s), {3} disk(s)" -f $rec.Brand, $rec.Model, $rec.Channels.Count, $rec.Disks.Count) Green; break }
+    $loginState[$ip] = 'Login failed'; Say '   Could not log in (wrong username/password, or model not supported).' Red
+    if (-not (YesNo '   Try again?' 'N')) { break }
+  }
+}
+while ($true) {
+  Say ''
+  $x = (Read-Host 'Another recorder we did not find? Type its IP (Enter = no)').Trim()
+  if (-not $x) { break }
+  if ($x -notmatch '^\d{1,3}(\.\d{1,3}){3}$') { Say '   That is not an IP address.' Red; continue }
+  $u = (Read-Host '   Username [admin]').Trim(); if (-not $u) { $u = 'admin' }
+  $p = Read-Secret '   Password'; Say '   Reading...'
+  $rec = Read-RecorderAt $x $u $p; $p = $null
+  if ($rec) { $rec['IP'] = $x; $recorders += $rec; $loginState[$x] = 'OK'; Say ("   OK: {0} {1} - {2} channel(s)" -f $rec.Brand, $rec.Model, $rec.Channels.Count) Green } else { $loginState[$x] = 'Login failed'; Say '   Could not read it.' Red }
+}
+
+# Cameras
+if ($cams.Count) {
+  Say ''
+  Say ("Cameras: {0} found on the network." -f $cams.Count) White
+  Say '   [1] They all use the same username/password (most common)'
+  Say '   [2] Ask me for each camera'
+  Say '   [3] Skip the cameras'
+  $m = ''; while ($m -notmatch '^[123]$') { $m = (Read-Host '   Choose 1, 2 or 3').Trim() }
+  if ($m -ne '3') {
+    $cu = ''; $cp = ''
+    if ($m -eq '1') { $cu = (Read-Host '   Username [admin]').Trim(); if (-not $cu) { $cu = 'admin' }; $cp = Read-Secret '   Password' }
+    $k = 0
+    foreach ($c in $cams) {
+      $k++; $u = $cu; $p = $cp
+      if ($m -eq '2') {
+        Say ("   Camera {0} ({1}/{2})" -f $c.IP, $k, $cams.Count)
+        $u = (Read-Host '      Username [admin] (type skip to skip)').Trim(); if ($u -eq 'skip') { $loginState[$c.IP] = 'Skipped'; continue }; if (-not $u) { $u = 'admin' }
+        $p = Read-Secret '      Password'
+      }
+      Write-Progress -Activity 'Reading cameras' -Status $c.IP -PercentComplete ([int](100 * $k / $cams.Count))
+      $ci = Read-Camera $c.IP $u $p
+      if ($ci) { $ci['IP'] = $c.IP; $camInfo += [pscustomobject]$ci; $loginState[$c.IP] = 'OK' } else { $loginState[$c.IP] = 'Login failed'; $camInfo += [pscustomobject]@{ IP = $c.IP; Brand = $c.Vendor; Model = $c.OnvifHardware; Name = ''; Serial = ''; Firmware = ''; MAC = $c.MAC; Resolution = ''; Codec = '' } }
+    }
+    Write-Progress -Activity 'Reading cameras' -Completed
+    $cu = $null; $cp = $null; $p = $null
+    $okc = @($camInfo | Where-Object { $loginState[$_.IP] -eq 'OK' }).Count
+    Say ("   Read {0} of {1} camera(s)." -f $okc, $cams.Count) $(if ($okc -eq $cams.Count) { 'Green' } else { 'Yellow' })
+  } else { foreach ($c in $cams) { $loginState[$c.IP] = 'Skipped' } }
+}
+
+# Switches / network devices (SNMP, read-only)
+Say ''
+Say 'Managed switches: we can read model, ports and PoE power using SNMP (read-only).' White
+$sw = @($netGear | ForEach-Object { $_.IP })
+$extraSw = (Read-Host '   Switch IPs we did not list, comma separated (Enter = none)').Trim()
+foreach ($s in ($extraSw -split '[,;\s]+' | Where-Object { $_ -match '^\d{1,3}(\.\d{1,3}){3}$' })) { if ($sw -notcontains $s) { $sw += $s } }
+if ($sw.Count) {
+  $comm = (Read-Host '   SNMP community [public] (type skip to skip)').Trim()
+  if ($comm -ne 'skip') {
+    if (-not $comm) { $comm = 'public' }
+    foreach ($s in $sw) {
+      $r = Read-Switch $s $comm
+      if ($r) { $swInfo += $r; $loginState[$s] = 'OK (SNMP)'; Say ("   {0}: {1}" -f $s, $(if ($r.Name) { $r.Name } else { $r.Description.Substring(0, [math]::Min(50, $r.Description.Length)) })) Green }
+      elseif (-not $loginState.ContainsKey($s)) { $loginState[$s] = 'No SNMP answer' }
+    }
+    $comm = $null
+    if (-not $swInfo.Count) { Say '   No switch answered SNMP. (SNMP may be off - that is normal on many sites.)' Yellow }
+  }
+}
+
+# ------------------------------------------------------- what we found
+$chanAll = @(); $diskAll = @()
+foreach ($r in $recorders) {
+  foreach ($c in $r.Channels) { $chanAll += ,@(($r.IP + ' ' + $r.Brand), $c.Channel, $c.Name, $c.'Camera IP', $c.Protocol, $c.Model, $c.Status) }
+  foreach ($d in $r.Disks) { $diskAll += ,@(($r.IP + ' ' + $r.Brand), $d.Disk, $d.Name, [double]$d.'Capacity (GB)', [double]$d.'Free (GB)', $d.Status, $d.Type) }
+}
+$chanCount = @($recorders | ForEach-Object { $_.Channels }).Count
+$offline = @($recorders | ForEach-Object { $_.Channels } | Where-Object { $_.Status -in @('Offline', 'No video') }).Count
+$camTotal = [math]::Max($cams.Count, $chanCount)
+$diskTB = [math]::Round((($recorders | ForEach-Object { $_.Disks } | Measure-Object -Property 'Capacity (GB)' -Sum).Sum) / 1000, 1)
+$netGear = @($devices | Where-Object { $_.Type -like 'Network device*' })
+$recIPs = @($recorders | ForEach-Object { $_['IP'] })
+$recFound = @($nvrs | Where-Object { $recIPs -notcontains $_.IP }).Count + $recorders.Count
+
+# ------------------------------------------------- customer confirmation
+function Ask-Count($q, $found, $hint) {
+  Say ''
+  Say $q White
+  if ($hint) { Say ('   ' + $hint) DarkGray }
+  if ($null -ne $found) { Say ("   [1] Yes, {0} is correct" -f $found) } else { Say '   [1] None (0)' }
+  Say '   [2] No - let me type the right number'
+  Say "   [3] I don't know"
+  while ($true) {
+    $a = (Read-Host '   Choose 1, 2 or 3').Trim()
+    if ($a -eq '1') { if ($null -ne $found) { return [pscustomobject]@{ Answer = 'Confirmed'; Value = [int]$found } } else { return [pscustomobject]@{ Answer = 'None'; Value = 0 } } }
+    if ($a -eq '2') { $n = (Read-Host '   How many').Trim(); if ($n -match '^\d{1,4}$') { return [pscustomobject]@{ Answer = 'Corrected by customer'; Value = [int]$n } }; Say '   Please type a number only.' Red; continue }
+    if ($a -eq '3') { return [pscustomobject]@{ Answer = "I don't know"; Value = $null } }
+    Say '   Please type 1, 2 or 3.' Red
+  }
+}
+
+Step 'Please confirm what we found'
+Say 'Some equipment cannot be seen from the network (for example unmanaged'
+Say 'switches). Your answers make the report accurate. Not sure? Choose 3.'
+$checks = @(
+  [pscustomobject]@{ Key = 'rec';  Item = 'Recorders (NVR / DVR)';             Unit = 'pcs'; Found = $recFound;  Hint = '' },
+  [pscustomobject]@{ Key = 'cam';  Item = 'Cameras (IP and analog, all)';      Unit = 'pcs'; Found = $camTotal;  Hint = ("{0} seen on the network, {1} channels read from the recorder" -f $cams.Count, $chanCount) },
+  [pscustomobject]@{ Key = 'disk'; Item = 'Hard disks in the recorder(s)';     Unit = 'pcs'; Found = $(if ($recorders.Count) { $diskAll.Count } else { $null }); Hint = $(if ($recorders.Count) { "Total $diskTB TB" } else { 'We could not read the recorder, so we cannot count disks.' }) },
+  [pscustomobject]@{ Key = 'poe';  Item = 'PoE switches (power the cameras)';  Unit = 'pcs'; Found = $null;      Hint = 'Unmanaged PoE switches do not show up on the network.' },
+  [pscustomobject]@{ Key = 'msw';  Item = 'Managed switches';                  Unit = 'pcs'; Found = $(if ($swInfo.Count) { $swInfo.Count } elseif ($netGear.Count) { $netGear.Count } else { $null }); Hint = $(if ($swInfo.Count) { "$($swInfo.Count) switch(es) answered SNMP." } elseif ($netGear.Count) { "We saw $($netGear.Count) network device(s) that may be switches or access points." } else { '' }) },
+  [pscustomobject]@{ Key = 'ap';   Item = 'WiFi access points / extenders';    Unit = 'pcs'; Found = $null;      Hint = '' },
+  [pscustomobject]@{ Key = 'mon';  Item = 'Monitors / TVs showing the cameras'; Unit = 'pcs'; Found = $null;     Hint = '' }
+)
+$i = 0
+foreach ($c in $checks) {
+  $i++
+  $ans = Ask-Count ("({0}/{1}) How many {2}?" -f $i, $checks.Count, $c.Item) $c.Found $c.Hint
+  $c | Add-Member Answer $ans.Answer
+  $c | Add-Member Final $ans.Value
+}
+function Final($k) { ($checks | Where-Object { $_.Key -eq $k }).Final }
+
+# ------------------------------------------------------- recommendations
+function FwYear($s) {
+  $s = '' + $s
+  if ($s -match '(20\d\d)-\d\d-\d\d') { return [int]$matches[1] }
+  if ($s -match 'build[ :]*(\d\d)(\d\d)(\d\d)') { return 2000 + [int]$matches[1] }
+  $null
+}
+$recs = New-Object System.Collections.Generic.List[object]
+function AddRec($sev, $area, $finding, $action) { $recs.Add([pscustomobject]@{ Severity = $sev; Area = $area; Finding = $finding; Recommendation = $action }) }
+$thisYear = (Get-Date).Year
+
+foreach ($r in $recorders) {
+  $nm = ("{0} {1} ({2})" -f $r.Brand, $r.Model, $r['IP']).Trim()
+  if ($r.Disks.Count -eq 0 -and $r.Brand -in @('Hikvision', 'Dahua')) { AddRec 'High' 'Recording' "$nm reports no hard disk." 'The recorder may not be recording at all. Install a surveillance hard disk.' }
+  foreach ($d in $r.Disks) {
+    $cap = [double]$d.'Capacity (GB)'; $free = [double]$d.'Free (GB)'
+    if (('' + $d.Status) -notmatch '^(ok|normal|success|)$') { AddRec 'High' 'Hard disk' ("Disk {0} on {1} reports status '{2}'." -f $d.Disk, $nm, $d.Status) 'Check or replace this disk. Footage may be lost.' }
+    if ($cap -gt 0 -and $free -eq 0) { AddRec 'Info' 'Hard disk' ("Disk {0} on {1} is full ({2} GB) - normal when overwrite is on." -f $d.Disk, $nm, $cap) 'Confirm overwrite is enabled and that the days of footage kept meet your needs.' }
+  }
+  $fy = FwYear $r.Firmware
+  if ($fy -and ($thisYear - $fy) -ge 3) { AddRec 'Medium' 'Firmware' "$nm firmware is from $fy." 'Update to the latest firmware for security fixes and stability.' }
+  $off = @($r.Channels | Where-Object { $_.Status -in @('Offline', 'No video') })
+  if ($off.Count) { AddRec 'High' 'Cameras' ("{0} channel(s) offline on {1}: {2}" -f $off.Count, $nm, (($off | ForEach-Object { 'CH' + $_.Channel + $(if ($_.Name) { ' ' + $_.Name }) }) -join ', ')) 'Check cable, PoE power and the camera. These areas are not being recorded.' }
+}
+foreach ($n in ($nvrs | Where-Object { $recIPs -notcontains $_.IP })) { AddRec 'Info' 'Recorder' ("Recorder {0} ({1}) was not logged in." -f $n.IP, $n.Vendor) 'We will read channels and disks during the site visit.' }
+
+$lowRes = @($camInfo | Where-Object { $_.Resolution -match '^(\d+)x(\d+)$' -and ([int]$matches[1] * [int]$matches[2]) -lt 2000000 })
+if ($lowRes.Count) { AddRec 'Medium' 'Cameras' ("{0} camera(s) below 2MP: {1}" -f $lowRes.Count, (($lowRes | ForEach-Object { $_.IP + ' ' + $_.Resolution }) -join ', ')) 'Upgrade to 4MP or higher for clearer faces and number plates.' }
+$h264 = @($camInfo | Where-Object { $_.Codec -match '264' -and $_.Codec -notmatch '265' })
+if ($h264.Count) { AddRec 'Low' 'Storage' ("{0} camera(s) record in H.264." -f $h264.Count) 'Switching to H.265 (if supported) saves roughly 40-50% of disk space - more days of footage.' }
+$oldCam = @($camInfo | Where-Object { $y = FwYear $_.Firmware; $y -and ($thisYear - $y) -ge 3 })
+if ($oldCam.Count) { AddRec 'Medium' 'Firmware' ("{0} camera(s) with firmware 3+ years old." -f $oldCam.Count) 'Update camera firmware for security fixes.' }
+$failed = @($loginState.Keys | Where-Object { $loginState[$_] -eq 'Login failed' })
+if ($failed.Count) { AddRec 'Low' 'Access' ("Could not log in to: {0}" -f ($failed -join ', ')) 'Confirm these passwords and keep them in a safe place. We can standardise logins for you.' }
+foreach ($w in $swInfo) {
+  if ($w.'PoE budget (W)' -and $w.'PoE used (W)' -and ($w.'PoE used (W)' / $w.'PoE budget (W)') -ge 0.8) { AddRec 'High' 'Power' ("Switch {0} uses {1} of {2} W PoE ({3:P0})." -f $w.IP, $w.'PoE used (W)', $w.'PoE budget (W)', ($w.'PoE used (W)' / $w.'PoE budget (W)')) 'Near its PoE limit - cameras may reboot at night when IR turns on. Add a PoE switch or upgrade.' }
+  if ($w.'Uptime (days)' -and $w.'Uptime (days)' -gt 365) { AddRec 'Low' 'Network' ("Switch {0} has run {1} days without restart." -f $w.IP, $w.'Uptime (days)') 'Usually fine, but it means firmware has not been updated in over a year.' }
+}
+$pcs = @($devices | Where-Object { $_.Type -eq 'Computer / server' })
+if ($cams.Count -and $pcs.Count) { AddRec 'Medium' 'Network' ("Cameras share the same network as {0} computer(s)." -f $pcs.Count) 'Separate cameras on their own VLAN or network for security and performance.' }
+$unk = @($devices | Where-Object { $_.Type -in @('Other device', 'Device with web page') })
+if ($unk.Count) { AddRec 'Info' 'Network' ("{0} device(s) could not be identified." -f $unk.Count) 'We will identify them during the site visit (listed in the Network devices sheet).' }
+foreach ($c in ($checks | Where-Object { $null -eq $_.Final })) { AddRec 'Info' 'To confirm' ("{0}: answered 'I don't know'." -f $c.Item) 'We will count these during the site visit.' }
+$camFinal = Final 'cam'
+if ($null -ne $camFinal -and $camFinal -gt $camTotal) { AddRec 'Medium' 'Cameras' ("Customer reports {0} cameras; {1} were detected." -f $camFinal, $camTotal) 'Some cameras may be offline, analog, or on another network. We will check them on site.' }
+if ($recs.Count -eq 0) { AddRec 'Info' 'System' 'No problems found in what we could check.' 'Keep a yearly maintenance check to keep it that way.' }
+$sevOrder = @{ 'High' = 0; 'Medium' = 1; 'Low' = 2; 'Info' = 3 }
+$recsSorted = @($recs | Sort-Object { $sevOrder[$_.Severity] })
+$recRowsX = @(); foreach ($x in $recsSorted) { $recRowsX += ,@($x.Severity, $x.Area, $x.Finding, $x.Recommendation) }
+
+# ------------------------------------------------------- branded HTML report
+function HtmlEnc($s) { [Net.WebUtility]::HtmlEncode(('' + $s)) }
+function Tbl($heads, $rows) {
+  $o = '<table><thead><tr>' + (($heads | ForEach-Object { '<th>' + (HtmlEnc $_) + '</th>' }) -join '') + '</tr></thead><tbody>'
+  foreach ($r in $rows) { $o += '<tr>' + (($r | ForEach-Object { '<td>' + (HtmlEnc $_) + '</td>' }) -join '') + '</tr>' }
+  if (-not $rows.Count) { $o += '<tr><td colspan="' + $heads.Count + '" class="muted">Not available</td></tr>' }
+  $o + '</tbody></table>'
+}
+function Build-Html {
+  $hi = @($recsSorted | Where-Object { $_.Severity -eq 'High' }).Count
+  $kp = @(
+    @('Devices found', $devices.Count), @('Cameras', $(if ($null -ne $camFinal) { $camFinal } else { $camTotal })),
+    @('Recorders', $(if ($null -ne (Final 'rec')) { Final 'rec' } else { $recFound })), @('Storage', "$diskTB TB"),
+    @('Offline channels', $offline), @('Urgent items', $hi)
+  )
+  $kpis = ($kp | ForEach-Object { '<div class="kpi"><span>' + (HtmlEnc $_[0]) + '</span><b>' + (HtmlEnc $_[1]) + '</b></div>' }) -join ''
+  $recHtml = '<table><thead><tr><th>Priority</th><th>Area</th><th>Finding</th><th>Recommendation</th></tr></thead><tbody>' + (($recsSorted | ForEach-Object { '<tr><td><span class="sev ' + $_.Severity.ToLower() + '">' + (HtmlEnc $_.Severity) + '</span></td><td>' + (HtmlEnc $_.Area) + '</td><td>' + (HtmlEnc $_.Finding) + '</td><td>' + (HtmlEnc $_.Recommendation) + '</td></tr>' }) -join '') + '</tbody></table>'
+  $boqLite = @(); foreach ($c in $checks) { $boqLite += ,@($c.Item, $(if ($null -ne $c.Found) { $c.Found } else { 'Not visible' }), $(if ($null -ne $c.Final) { $c.Final } else { 'To confirm' })) }
+  $recT = @(); foreach ($r in $recorders) { $recT += ,@($r['IP'], $r.Brand, $r.Model, $r.Firmware, $r.Channels.Count, (($r.Disks | ForEach-Object { '' + $_.'Capacity (GB)' + ' GB' }) -join ', ')) }
+  $camT = @(); foreach ($c in $camInfo) { $camT += ,@($c.IP, $c.Brand, $c.Model, $c.Resolution, $c.Firmware, $loginState[$c.IP]) }
+  $chT = @(); foreach ($x in $chanAll) { $chT += ,@($x[0], $x[1], $x[2], $x[3], $x[6]) }
+  $swT = @(); foreach ($w in $swInfo) { $swT += ,@($w.IP, $w.Name, $w.Description, $w.Interfaces, $(if ($w.'PoE budget (W)') { '' + $w.'PoE used (W)' + ' / ' + $w.'PoE budget (W)' + ' W' } else { '' })) }
+  $crown = '<svg viewBox="0 0 36 36" width="44" height="44"><rect x=".5" y=".5" width="35" height="35" rx="6" fill="#131210" stroke="#E2A63F"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="#E2A63F"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="#E2A63F"/></svg>'
+  $cust = (@($QT.Company, $QT.Customer) | Where-Object { $_ }) -join ' - '
+  $loc = (@($QT.Area, $QT.Emirate) | Where-Object { $_ }) -join ', '
+@"
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>System Check Report - $(HtmlEnc $cust)</title>
+<style>
+:root{--ink:#1b1a17;--muted:#6b665d;--line:#e4dfd5;--gold:#B7862A;--dark:#131210}
+*{box-sizing:border-box}body{margin:0;font:14px/1.55 "Segoe UI",Arial,sans-serif;color:var(--ink);background:#f4f2ee}
+.page{max-width:1000px;margin:24px auto;background:#fff;padding:40px 44px;box-shadow:0 2px 18px rgba(0,0,0,.08)}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:3px solid var(--gold);padding-bottom:18px}
+.brand{display:flex;gap:12px;align-items:center}.brand b{display:block;font-size:22px;letter-spacing:.04em}.brand small{color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.meta{text-align:right;font-size:12.5px;color:var(--muted)}.meta b{color:var(--ink);font-size:15px}
+h1{font-size:26px;margin:26px 0 4px}h2{font-size:17px;margin:30px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line);color:var(--dark)}
+.sub{color:var(--muted);margin:0}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:20px}.kpi{border:1px solid var(--line);border-radius:6px;padding:12px}.kpi span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.kpi b{font-size:22px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}th{background:var(--dark);color:#fff;text-align:left;padding:8px;font-weight:600}td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}tr:nth-child(even) td{background:#faf9f6}
+.sev{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;color:#fff}.sev.high{background:#c0392b}.sev.medium{background:#d68910}.sev.low{background:#2e86c1}.sev.info{background:#7f8c8d}
+.muted{color:var(--muted)}footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:700px){.page{padding:22px}.kpis{grid-template-columns:repeat(2,1fr)}header{flex-direction:column;align-items:flex-start}.meta{text-align:left}}
+@media print{body{background:#fff}.page{box-shadow:none;margin:0;max-width:none;padding:0}h2{break-after:avoid}tr{break-inside:avoid}}
+</style></head><body><div class="page">
+<header><div class="brand">$crown<div><b>QUEEN TECH SOLUTIONS</b><small>CCTV &middot; Access control &middot; Networking &middot; IT</small></div></div>
+<div class="meta"><b>$(HtmlEnc $cust)</b><br>$(HtmlEnc $loc)$(if ($QT.SiteType) { ' &middot; ' + (HtmlEnc $QT.SiteType) })<br>Report date: $(HtmlEnc $stamp)</div></header>
+<h1>CCTV &amp; Network System Check</h1><p class="sub">Automatic survey of the site network, recorders, cameras and switches, confirmed by the customer.</p>
+<div class="kpis">$kpis</div>
+<h2>Findings &amp; recommendations</h2>$recHtml
+<h2>Equipment quantities</h2>$(Tbl @('Item', 'Detected', 'Confirmed') $boqLite)
+<h2>Recorders</h2>$(Tbl @('IP', 'Brand', 'Model', 'Firmware', 'Channels', 'Disks') $recT)
+<h2>Camera channels</h2>$(Tbl @('Recorder', 'Channel', 'Name', 'Camera IP', 'Status') $chT)
+<h2>Cameras</h2>$(Tbl @('IP', 'Brand', 'Model', 'Resolution', 'Firmware', 'Login') $camT)
+<h2>Switches</h2>$(Tbl @('IP', 'Name', 'Model', 'Ports', 'PoE used / budget') $swT)
+<p class="muted" style="margin-top:22px">Full device list, serial numbers and the priced BOQ are in the attached Excel file.</p>
+<footer><span>Queen Tech Solutions &middot; Dubai &amp; Abu Dhabi &middot; queentechsolution.info</span><span>WhatsApp +$(HtmlEnc $QT.WhatsApp) &middot; $(HtmlEnc $QT.Email)</span></footer>
+</div></body></html>
+"@
+}
+
+
+# ------------------------------------------------------------ build Excel
+Step 'Building your Excel report'
+$stamp = $started.ToString('yyyy-MM-dd HH:mm')
+$safe = ($QT.Company + ' ' + $QT.Customer).Trim() -replace '[^\w\- ]', '' -replace '\s+', '_'
+if (-not $safe) { $safe = $env:COMPUTERNAME }
+$desk = [Environment]::GetFolderPath('Desktop'); if (-not $desk -or -not (Test-Path $desk)) { $desk = $env:USERPROFILE }
+$file = Join-Path $desk ("QueenTech_SystemCheck_{0}_{1}.xlsx" -f $safe, $started.ToString('yyyyMMdd_HHmm'))
+
+$sum = @(
+  @('Customer', $QT.Customer), @('Company / site', $QT.Company), @('Phone / WhatsApp', $QT.Phone), @('Email', $QT.CEmail),
+  @('Emirate / area', ((@($QT.Emirate, $QT.Area) | Where-Object { $_ }) -join ', ')), @('Site type', $QT.SiteType),
+  @('Scan date', $stamp), @('Scanned from PC', $env:COMPUTERNAME),
+  @('Network(s)', (($nets | ForEach-Object { "$($_.IP)/$($_.Prefix) via $($_.Gateway)" }) -join '; ')), @('Extra IP ranges checked', $QT.Ranges), @('Addresses checked', [int]$all.Count),
+  @('Devices logged in', [int]@($loginState.Values | Where-Object { $_ -like 'OK*' }).Count),
+  @('Devices found', [int]$devices.Count), @('IP cameras (network)', [int]$cams.Count), @('NVR / DVR found', [int]$recFound),
+  @('Camera channels on recorder(s)', [int]$chanCount), @('Channels offline / no video', [int]$offline),
+  @('Recorder storage (TB)', [double]$diskTB), @('Network devices (switch / AP)', [int]$netGear.Count),
+  @('Report by', ('Queen Tech Solutions System Check v' + $QT.Version + ' | +' + $QT.WhatsApp))
+)
+$chkRows = @(); foreach ($c in $checks) { $chkRows += ,@($c.Item, $(if ($null -ne $c.Found) { [int]$c.Found } else { 'Not visible' }), $c.Answer, $(if ($null -ne $c.Final) { [int]$c.Final } else { 'To confirm at site visit' }), $c.Hint) }
+$devRows = @(); foreach ($d in $devices) { $devRows += ,@($d.IP, $d.Type, $d.Vendor, $(if ($loginState.ContainsKey($d.IP)) { $loginState[$d.IP] } else { '' }), ($d.OnvifHardware + ' ' + $(if ($d.OnvifName -ne $d.OnvifHardware) { $d.OnvifName })).Trim(), $d.MAC, $d.Host, (($d.Ports | Sort-Object) -join ', '), ($d.Title + $(if ($d.Realm) { ' | ' + $d.Realm })).Trim(' |'), $(if ($d.Ping -ne '') { [int]$d.Ping } else { 'no ping' })) }
+$camRows = @(); foreach ($c in $camInfo) { $camRows += ,@($c.IP, $loginState[$c.IP], $c.Brand, $c.Model, $c.Name, $c.Serial, $c.Firmware, $c.MAC, $c.Resolution, $c.Codec) }
+$swRows = @(); foreach ($w in $swInfo) { $swRows += ,@($w.IP, $w.Name, $w.Description, $w.Location, $w.Interfaces, $w.'PoE budget (W)', $w.'PoE used (W)', $w.'Uptime (days)') }
+$recRows = @(); foreach ($r in $recorders) { $recRows += ,@($r.IP, $r.Brand, $r.Model, $r.Name, $r.Serial, $r.Firmware, [int]$r.Channels.Count, [int]$r.Disks.Count) }
+
+$camBrands = (($cams | Group-Object Vendor | ForEach-Object { $(if ($_.Name) { $_.Name } else { 'unknown' }) + ' x' + $_.Count }) -join ', ')
+$recModels = (($recorders | ForEach-Object { ($_.Brand + ' ' + $_.Model).Trim() }) -join ', ')
+$netBrands = (($netGear | Group-Object Vendor | ForEach-Object { $(if ($_.Name) { $_.Name } else { 'unknown' }) + ' x' + $_.Count }) -join ', ')
+$boq = @(
+  @('Recorders (NVR / DVR)', 'rec', $recModels),
+  @('Cameras', 'cam', $camBrands),
+  @('Recorder hard disks', 'disk', $(if ($diskTB) { "Total $diskTB TB" } else { '' })),
+  @('PoE switches', 'poe', ''),
+  @('Managed switches', 'msw', $netBrands),
+  @('WiFi access points / extenders', 'ap', ''),
+  @('Monitors / TVs for CCTV', 'mon', '')
+)
+$boqRows = @(); $r = 3
+foreach ($b in $boq) {
+  $c = $checks | Where-Object { $_.Key -eq $b[1] }
+  $boqRows += ,@(($r - 2), $b[0], $(if ($null -ne $c.Found) { [int]$c.Found } else { 'Not visible' }), $c.Answer, $(if ($null -ne $c.Final) { [int]$c.Final } else { '' }), 'pcs', '', ("=E$r*G$r"), $(if ($null -eq $c.Final) { 'To confirm at site visit. ' + $b[2] } else { $b[2] }).Trim())
+  $r++
+}
+if ($offline -gt 0) { $boqRows += ,@(($r - 2), 'Service: check / repair offline channels', [int]$offline, 'Detected', [int]$offline, 'channel', '', ("=E$r*G$r"), 'Cable, PoE or camera fault'); $r++ }
+$boqRows += ,@(($r - 2), 'Site survey and system health check', '', '', 1, 'visit', 0, ("=E$r*G$r"), 'Free'); $r++
+$boqRows += ,@('', 'TOTAL (AED)', '', '', '', '', '', ("=SUM(H3:H" + ($r - 1) + ")"), '')
+
+$sheets = @(
+  (New-Sheet 'Summary' @('Item', 'Value') $sum @(38, 70)),
+  (New-Sheet 'Recommendations' @('Priority', 'Area', 'Finding', 'Recommendation') $recRowsX @(10, 13, 60, 60)),
+  (New-Sheet 'BOQ' @('#', 'Item', 'Detected', 'Customer answer', 'Qty', 'Unit', 'Unit price (AED)', 'Total (AED)', 'Notes') $boqRows @(5, 38, 12, 22, 8, 8, 16, 16, 44)),
+  (New-Sheet 'Customer check' @('Item', 'Detected by scan', 'Customer answer', 'Final quantity', 'Note') $chkRows @(38, 18, 22, 24, 50)),
+  (New-Sheet 'Network devices' @('IP', 'Type', 'Brand', 'Login', 'Model / name', 'MAC', 'Hostname', 'Open ports', 'Web page / realm', 'Ping (ms)') $devRows @(15, 26, 14, 14, 30, 19, 22, 24, 40, 10)),
+  (New-Sheet 'Cameras' @('IP', 'Login', 'Brand', 'Model', 'Name', 'Serial', 'Firmware', 'MAC', 'Resolution', 'Codec') $camRows @(15, 12, 12, 22, 18, 30, 22, 19, 12, 9)),
+  (New-Sheet 'Switches' @('IP', 'Name', 'Description', 'Location', 'Interfaces', 'PoE budget (W)', 'PoE used (W)', 'Uptime (days)') $swRows @(15, 20, 50, 16, 11, 15, 13, 13)),
+  (New-Sheet 'Recorders' @('IP', 'Brand', 'Model', 'Name', 'Serial', 'Firmware', 'Channels', 'Disks') $recRows @(15, 12, 22, 20, 28, 26, 10, 8)),
+  (New-Sheet 'Camera channels' @('Recorder', 'Channel', 'Name', 'Camera IP', 'Protocol', 'Model', 'Status') $chanAll @(24, 9, 26, 16, 16, 22, 12)),
+  (New-Sheet 'Hard disks' @('Recorder', 'Disk', 'Name', 'Capacity (GB)', 'Free (GB)', 'Status', 'Type') $diskAll @(24, 7, 14, 14, 12, 12, 12))
+)
+
+# ----------------------------------------------- feedback + contact number
+Step 'One last thing'
+Say 'How was this check? Rate it from 1 (poor) to 5 (excellent), or press Enter to skip.'
+$rating = ''
+while ($true) { $rating = (Read-Host '   Rating').Trim(); if ($rating -eq '' -or $rating -match '^[1-5]$') { break }; Say '   Please type a number from 1 to 5.' Red }
+$comment = ''
+if ($rating) { $comment = (Read-Host '   A short comment for us (optional)').Trim() }
+Say ''
+Say 'Where should we send your report and quote on WhatsApp?'
+$q = '   WhatsApp number'; if ($QT.Phone) { $q += " [$($QT.Phone)]" }
+while ($true) { $ph = (Read-Host $q).Trim(); if (-not $ph) { $ph = $QT.Phone }; if ($ph -match '^[\d+\s-]{7,20}$') { break }; Say '   Please type a valid phone number.' Red }
+$QT.Phone = $ph
+$sum += ,@('Send report to (WhatsApp)', $ph)
+if ($rating) { $sum += ,@('Customer rating', ([int]$rating)); $sum += ,@('Customer comment', $comment) }
+$sheets[0] = New-Sheet 'Summary' @('Item', 'Value') $sum @(38, 70)
+Save-Xlsx $file $sheets
+$html = [IO.Path]::ChangeExtension($file, '.html') -replace 'QueenTech_SystemCheck_', 'QueenTech_Report_'
+[IO.File]::WriteAllText($html, (Build-Html), (New-Object Text.UTF8Encoding($false)))
+Say ("   Excel report saved: {0}" -f $file) Green
+Say ("   Customer report saved: {0}" -f $html) Green
+$hiN = @($recsSorted | Where-Object { $_.Severity -eq 'High' }).Count
+if ($hiN) { Say ("   {0} urgent item(s) found - see the report." -f $hiN) Yellow }
+
+# ------------------------------------------------------------ send it
+$summaryTxt = ("{0} devices, cameras {1}, recorders {2}, channels {3} ({4} offline)" -f $devices.Count, $(if ($null -ne (Final 'cam')) { Final 'cam' } else { "$camTotal (unconfirmed)" }), $(if ($null -ne (Final 'rec')) { Final 'rec' } else { "$recFound (unconfirmed)" }), $chanCount, $offline)
+$sent = $false
+if ($QT.UploadUrl) {
+  Step 'Sending the report to Queen Tech'
+  try {
+    $payload = @{ customer = $QT.Customer; company = $QT.Company; phone = $QT.Phone; email = $QT.CEmail; emirate = $QT.Emirate; area = $QT.Area; siteType = $QT.SiteType; rating = $rating; comment = $comment; filename = (Split-Path $file -Leaf); summary = $summaryTxt; reportName = (Split-Path $html -Leaf); report = [Convert]::ToBase64String([IO.File]::ReadAllBytes($html)); urgent = $hiN; file = [Convert]::ToBase64String([IO.File]::ReadAllBytes($file)) } | ConvertTo-Json -Compress
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    $resp = Invoke-WebRequest -Uri $QT.UploadUrl -Method Post -Body ([Text.Encoding]::UTF8.GetBytes($payload)) -ContentType 'application/json' -UseBasicParsing -TimeoutSec 60
+    if ($resp.Content -match '"ok"\s*:\s*true') { $sent = $true; Say ("   Sent. Queen Tech will send your BOQ and quote to {0} on WhatsApp." -f $QT.Phone) Green }
+  } catch {}
+  if (-not $sent) { Say '   Could not send automatically.' Red }
+}
+if (-not $sent) {
+  Say ''
+  Say 'Please send the Excel file on your Desktop to Queen Tech:' Yellow
+  Say ("   WhatsApp +{0}   or   {1}" -f $QT.WhatsApp, $QT.Email) Yellow
+  Start-Process ("https://wa.me/{0}?text={1}" -f $QT.WhatsApp, [Uri]::EscapeDataString("Hello Queen Tech, I ran the system check. I'll attach the Excel file: " + (Split-Path $file -Leaf)))
+}
+Start-Process $html
+Start-Process explorer.exe ('/select,"' + $file + '"')
+
+Say ''
+Say 'Happy with Queen Tech? A Google review helps other businesses find us.' Yellow
+$rv = (Read-Host '   Open our Google Maps page to leave a review? (Y/n)').Trim()
+if ($rv -notmatch '^[Nn]') {
+  $url = $QT.Review; if (-not $url) { $url = 'https://g.page/r/CXPWAzSYn864ECE/review' }
+  Start-Process $url
+}
+Say ''
+Say ('Done in {0:N0} seconds. Thank you!' -f ((Get-Date) - $started).TotalSeconds) Green

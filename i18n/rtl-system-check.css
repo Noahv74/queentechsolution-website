@@ -1,0 +1,3 @@
+/* RTL tweaks for system-check.html */
+.sc-shot{direction:ltr;text-align:left}
+.sc-check li::before{margin-top:.6em}
