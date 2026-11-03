@@ -20,6 +20,12 @@ This worker adds a real AI brain for free-text questions. The API key stays secr
    ```
 3. Wrangler prints a URL like `https://queentech-ai.<name>.workers.dev`.
 
+## 3b. بكام؟ live price search (same worker)
+The worker also answers `/price`: Claude searches the web for every UAE store that sells the product,
+whether it's in stock, and where it was sold before if it isn't. In `site-config.js` set
+`aiWorker: "https://queentech-ai.<name>.workers.dev"` (no `/chat` at the end).
+Each search uses up to 6 web searches (PRICE_SEARCHES in wrangler.toml); the same search is reused for 6 hours.
+
 ## 3. Switch it on in the website
 Send that URL to Claude, or edit `assistant.js` line:
 `var AI_ENDPOINT=window.QT_AI_ENDPOINT||"";` → put `"https://queentech-ai.<name>.workers.dev/chat"` in the quotes.

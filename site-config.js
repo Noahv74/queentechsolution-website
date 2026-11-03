@@ -7,6 +7,9 @@ window.QT_SITE = {
      "https://queentech-pay.<name>.workers.dev". While empty, the pay page shows "coming soon" and
      the "Pay online" buttons stay hidden. The Ziina API key is NEVER put here – only in Cloudflare. */
   payEndpoint: "",
+  /* AI worker address (ai-worker/README.md), e.g. "https://queentech-ai.<name>.workers.dev".
+     While empty, the بكام؟ page links to the stores; when set, it searches the web live for every store that sells the product. */
+  aiWorker: "",
   reviewUrl: "https://g.page/r/CXPWAzSYn864ECE/review"   /* Google Business "write a review" link */,
   /* Google AdSense publisher ID (the AdSense tag itself is in the <head> of each public page).
      adsPages = where the games may call ads between levels / rewarded ads (Google's Ad Placement API). */

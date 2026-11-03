@@ -20,6 +20,10 @@ Page addresses are the file names (for example `services.html` → queentechsolu
 | `ai-worker/` | Cloudflare Worker for the AI chat (not part of the site) |
 | `dev/` | Tools that build some pages and check the game levels; see `dev/README.md` |
 
+## Customer tools added Nov 2026
+- `system-check.html` + `system-check-tool.txt`: free Windows tool (the page fills in the customer's details and downloads it as a zip). Reports go to the Google Apps Script receiver (URL in the page script, `UPLOAD_URL`).
+- `bkam.html`: بكام؟ price finder. Links to UAE stores; with `aiWorker` set in `site-config.js` it searches the web live (`ai-worker/` → `/price`).
+
 ## Main shared files
 - `pages.css`, `book.css`, `rtl.css`: styles
 - `i18n.js`: language switch, menu, cursor, analytics (GA_ID)

@@ -28,7 +28,7 @@ $QT = @{
   Review    = '__REVIEW_URL__'      # Google Maps review link
   WhatsApp  = '971557971520'
   Email     = 'noah@queentechsolution.info'
-  Version   = '1.2'
+  Version   = '1.3'
 }
 foreach ($k in @('UploadUrl','Customer','Company','Phone','CEmail','Emirate','Area','SiteType','Review','Ranges')) { if ($QT[$k] -like '__*__') { $QT[$k] = '' } }
 
@@ -115,7 +115,11 @@ function Get-ArpTable {
   foreach ($n in $nb) { $t[$n.IPAddress] = ($n.LinkLayerAddress -replace '-', ':').ToUpper() }
   if ($t.Count -eq 0) {
     foreach ($line in (arp -a)) {
-      if ($line -match '^\s*(\d+\.\d+\.\d+\.\d+)\s+([0-9a-fA-F-]{17})\s+dynamic') { $t[$matches[1]] = ($matches[2] -replace '-', ':').ToUpper() }
+      # works on any Windows language: take IP + MAC, skip broadcast and multicast
+      if ($line -match '^\s*(\d+\.\d+\.\d+\.\d+)\s+([0-9a-fA-F]{2}(?:-[0-9a-fA-F]{2}){5})\b') {
+        $mac = ($matches[2] -replace '-', ':').ToUpper()
+        if ($mac -ne 'FF:FF:FF:FF:FF:FF' -and -not $mac.StartsWith('01:00:5E') -and -not $matches[1].EndsWith('.255')) { $t[$matches[1]] = $mac }
+      }
     }
   }
   $t
@@ -489,7 +493,7 @@ foreach ($ip in $ips) {
     $a = Get-Http "http://$ip/ISAPI/System/deviceInfo" $null 2500; if ($a.Realm) { $d.Realm = $a.Realm }
     if (-not $d.Realm) { $b = Get-Http "http://$ip/cgi-bin/magicBox.cgi?action=getSystemInfo" $null 2500; if ($b.Realm) { $d.Realm = $b.Realm } }
   }
-  try { $d.Host = ([Net.Dns]::GetHostEntry($ip)).HostName; if ($d.Host -eq $ip) { $d.Host = '' } } catch {}
+  try { $dt = [Net.Dns]::GetHostEntryAsync($ip); if ($dt.Wait(800)) { $d.Host = $dt.Result.HostName; if ($d.Host -eq $ip) { $d.Host = '' } } } catch {}
   $o = [pscustomobject]$d
   $o | Add-Member Vendor (Get-Vendor $o)
   $o | Add-Member Type (Get-DevType $o $main.Gateway $main.IP)

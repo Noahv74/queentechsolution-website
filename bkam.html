@@ -6,7 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script src="/i18n.js"></script>
 <script src="/i18n/ar-common.js"></script>
+<script src="/i18n/ar-book.js"></script>
 <script src="/i18n/ar-bkam.js"></script>
+<script src="/site-config.js"></script>
 <title>بكام؟ Price Finder: Compare Prices in UAE Stores | Queen Tech</title>
 <meta name="description" content="Type any product, phone, laptop, camera or router, and compare live prices and photos across UAE stores: Amazon.ae, Noon, Carrefour and more. Or ask Queen Tech to supply and install it.">
 <link rel="canonical" href="https://queentechsolution.info/bkam.html">
@@ -44,6 +46,28 @@
   .bk-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;border:1px solid var(--gold);border-radius:10px;padding:16px 20px;background:var(--gold-soft)}
   .bk-cta b{font:800 1.3rem var(--f-display);text-transform:uppercase}
   .bk-ar{font-family:"Noto Kufi Arabic",sans-serif}
+  .bk-ac{position:relative}
+  #sug{position:absolute;z-index:30;left:0;right:0;top:calc(100% + 4px);margin:0;padding:6px;list-style:none;background:var(--surface);border:1px solid var(--line-2);border-radius:6px;box-shadow:0 18px 40px -16px rgba(0,0,0,.7);max-height:340px;overflow:auto}
+  #sug li{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:4px;cursor:pointer}
+  #sug li[aria-selected=true],#sug li:hover{background:var(--gold-soft)}
+  #sug li small{color:var(--dim);font:500 .7rem var(--f-mono);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+  #sug li mark{background:none;color:var(--gold-2);font-weight:700}
+  .bk-live{border:1px solid var(--line-2);border-radius:8px;background:var(--surface);padding:clamp(16px,2.6vw,22px)}
+  .bk-live h3{font-size:1.4rem}
+  .bk-live .sum{color:var(--muted);margin-top:6px}
+  .bk-off{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 14px;align-items:center;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .bk-off:last-child{border-bottom:0}
+  .bk-off b{font-weight:600}.bk-off .p{font:800 1.3rem var(--f-display);white-space:nowrap}
+  .bk-off .n{grid-column:1/-1;color:var(--muted);font-size:.85rem;margin-top:-4px}
+  .bk-badge{font:500 .66rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:3px;border:1px solid var(--line-2);color:var(--muted);margin-inline-start:8px}
+  .bk-badge.in{border-color:#2FA866;color:#6FD49B}.bk-badge.out{border-color:#E25B45;color:#F08A78}
+  .bk-alert{border:1px solid rgba(226,91,69,.5);background:rgba(226,91,69,.08);border-radius:6px;padding:12px 14px;margin-top:12px}
+  .bk-skel{height:12px;border-radius:2px;background:linear-gradient(90deg,var(--surface-2),var(--line-2),var(--surface-2));background-size:200% 100%;animation:bks 1.2s linear infinite;margin-top:10px}
+  @keyframes bks{to{background-position:-200% 0}}
+  .bk-alts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .bk-alts button{font:500 .8rem var(--f-body);padding:8px 12px;border:1px solid var(--line-2);border-radius:999px;background:transparent;color:var(--ink)}
+  .bk-alts button:hover{border-color:var(--gold)}
+  @media (max-width:520px){.bk-off{grid-template-columns:1fr auto}.bk-off .copy,.bk-off>a{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -71,7 +95,7 @@
   <section class="sec" style="border-bottom:0">
     <form class="bk-bar" id="bf" role="search">
       <label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Product</label>
-      <input id="q" maxlength="120" autocomplete="off" placeholder="e.g. iPhone 16 Pro 256GB, Hikvision 4MP camera, TP-Link Deco X50" required>
+      <div class="bk-ac"><input id="q" maxlength="120" autocomplete="off" spellcheck="false" placeholder="e.g. iPhone 16 Pro 256GB, Hikvision 4MP camera, TP-Link Deco X50" required role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sug"><ul id="sug" role="listbox" hidden></ul></div>
       <button class="btn btn-gold" type="submit">Compare prices <span class="arr" aria-hidden="true">→</span></button>
     </form>
     <div class="bk-try"><span class="muted" style="font:500 .7rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;align-self:center">Try</span>
@@ -82,7 +106,7 @@
       <button type="button" data-q="PlayStation 5 Slim">PS5 Slim</button>
     </div>
     <div class="bk-out" id="out" aria-live="polite"></div>
-    <p class="fine">Prices and stock are shown on each store's own site, so they are always today's. Queen Tech is not paid by these stores.</p>
+    <p class="fine" id="fine">Prices and stock are shown on each store's own site, so they are always today's. Queen Tech is not paid by these stores.</p>
   </section>
 </main>
 
@@ -95,33 +119,157 @@
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function t(s) { return typeof window.t === "function" ? window.t(s) : s; }
-  var E = encodeURIComponent;
+  function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  var E = encodeURIComponent, AR = window.QT_LANG === "ar";
+  /* Live web search: set aiWorker in site-config.js to the Cloudflare worker address (see ai-worker/README.md). */
+  var WORKER = String((window.QT_SITE || {}).aiWorker || "").replace(/\/+$/, "");
+  var PRICE_URL = WORKER ? WORKER + "/price" : "";
+
+  /* ---------- stores (fallback and "search more") ---------- */
+  function site(domain) { return function (q) { return "https://www.google.com/search?q=" + E(q + " site:" + domain); }; }
   var STORES = [
     { n: "Google Shopping", d: "Prices and photos from many UAE stores at once", u: function (q) { return "https://www.google.com/search?tbm=shop&gl=ae&q=" + E(q); }, hl: true },
+    { n: "All websites", d: "Every site that sells it in the UAE", u: function (q) { return "https://www.google.com/search?gl=ae&q=" + E(q + " price UAE buy"); }, hl: true },
     { n: "Amazon.ae", d: "Fast delivery across the UAE", u: function (q) { return "https://www.amazon.ae/s?k=" + E(q); } },
     { n: "Noon", d: "Electronics, phones and more", u: function (q) { return "https://www.noon.com/uae-en/search/?q=" + E(q); } },
     { n: "Carrefour UAE", d: "Online and in hypermarkets", u: function (q) { return "https://www.carrefouruae.com/mafuae/en/search?keyword=" + E(q); } },
+    { n: "Sharaf DG", d: "Electronics stores across the UAE", u: site("uae.sharafdg.com") },
+    { n: "Jumbo", d: "Electronics and gadgets", u: site("jumbo.ae") },
+    { n: "Emax", d: "Electronics and home appliances", u: site("emaxme.com") },
+    { n: "Virgin Megastore", d: "Gaming, gadgets and audio", u: site("virginmegastore.ae") },
+    { n: "Lulu", d: "Hypermarket electronics", u: site("luluhypermarket.com") },
+    { n: "Microless", d: "Computer parts and networking", u: site("uae.microless.com") },
+    { n: "Dubizzle (used)", d: "Used and second-hand listings", u: site("dubizzle.com") },
     { n: "Photos", d: "See what it looks like", u: function (q) { return "https://www.google.com/search?tbm=isch&q=" + E(q); } }
   ];
-  var OURS = /cctv|camera|cam\b|nvr|dvr|hikvision|dahua|uniview|ezviz|imou|router|mesh|deco|switch|poe|access point|unifi|wifi|wi-fi|access control|fingerprint|barrier|lock|كاميرا|راوتر|سويتش|واي فاي/i;
-  function search(q) {
-    q = q.trim(); if (!q) return;
+  var OURS = /cctv|camera|\bcam\b|nvr|dvr|hikvision|dahua|uniview|ezviz|imou|router|mesh|deco|switch|poe|access point|unifi|mikrotik|wifi|wi-fi|access control|fingerprint|barrier|lock|hard disk|purple|skyhawk|كاميرا|راوتر|سويتش|واي فاي|هارد/i;
+
+  /* ---------- autocomplete ---------- */
+  var DATA = [
+    ["Phones", "iPhone 16|iPhone 16 Plus|iPhone 16 Pro|iPhone 16 Pro Max|iPhone 16e|iPhone 15|iPhone 15 Pro Max|iPhone 14|Samsung Galaxy S25|Samsung Galaxy S25 Ultra|Samsung Galaxy S25 Edge|Samsung Galaxy S24 FE|Samsung Galaxy A56|Samsung Galaxy A36|Samsung Galaxy A16|Samsung Galaxy Z Fold7|Samsung Galaxy Z Flip7|Google Pixel 9|Google Pixel 9 Pro|Xiaomi 15|Xiaomi Redmi Note 14 Pro|Honor 400|Honor Magic7 Pro|Huawei Pura 70|Huawei nova 13|OnePlus 13|Nothing Phone (3a)|Oppo Reno13|Vivo X200"],
+    ["Laptops", "MacBook Air M4 13 inch|MacBook Air M4 15 inch|MacBook Pro M4 14 inch|MacBook Air M3|Dell XPS 13|Dell Inspiron 15|HP Victus 15|HP Pavilion 15|HP EliteBook 840|Lenovo IdeaPad Slim 5|Lenovo ThinkPad E14|Lenovo Legion 5|ASUS ROG Strix G16|ASUS TUF Gaming F15|ASUS Vivobook 15|Acer Nitro V 15|Acer Aspire 5|MSI Katana 15|Microsoft Surface Laptop 7"],
+    ["Tablets", "iPad 11th generation|iPad Air M3|iPad Pro M4|iPad mini|Samsung Galaxy Tab S10|Samsung Galaxy Tab A9|Xiaomi Pad 7|Lenovo Tab M11"],
+    ["Gaming", "PlayStation 5 Slim|PlayStation 5 Pro|PS5 DualSense controller|Xbox Series X|Xbox Series S|Nintendo Switch 2|Nintendo Switch OLED|Steam Deck OLED|Meta Quest 3|Logitech G29 steering wheel|Logitech G923|Thrustmaster T300 RS|Fanatec CSL DD|Razer BlackShark V2|Logitech G Pro X Superlight"],
+    ["PC parts", "NVIDIA RTX 5070|NVIDIA RTX 5080|NVIDIA RTX 4060|AMD Radeon RX 9070 XT|AMD Ryzen 7 9800X3D|AMD Ryzen 5 7600|Intel Core i7-14700K|Samsung 990 Pro 2TB SSD|WD Black SN850X 1TB|Crucial P3 Plus 1TB|Corsair Vengeance 32GB DDR5|Seagate Barracuda 2TB"],
+    ["TV & audio", "Samsung 65 inch QLED TV|LG OLED C4 55 inch|Sony Bravia 65 inch|TCL 55 inch QLED|Apple TV 4K|AirPods Pro 2|AirPods 4|Sony WH-1000XM5|Samsung Galaxy Buds3 Pro|JBL Flip 6|JBL Charge 5|Bose QuietComfort Ultra|Sonos Era 100"],
+    ["Watches", "Apple Watch Series 10|Apple Watch Ultra 2|Apple Watch SE|Samsung Galaxy Watch7|Samsung Galaxy Watch Ultra|Garmin Forerunner 265|Huawei Watch GT 5|Xiaomi Smart Band 9"],
+    ["CCTV", "Hikvision 4MP IP camera|Hikvision DS-2CD1043G2-I|Hikvision ColorVu camera|Hikvision 8 channel NVR|Hikvision DS-7608NI-K2/8P|Hikvision 4 channel NVR|Dahua 4MP IP camera|Dahua IPC-HFW1230S|Dahua 8 channel NVR|Dahua WizSense camera|Uniview 4MP camera|EZVIZ C6N|EZVIZ H8c|EZVIZ C8C|Imou Ranger 2|Imou Cruiser|TP-Link Tapo C200|TP-Link Tapo C320WS|Reolink RLC-810A|Ring Video Doorbell|WD Purple 4TB surveillance hard disk|Seagate SkyHawk 4TB|Seagate SkyHawk 8TB"],
+    ["Network", "TP-Link Deco X50|TP-Link Deco X20|TP-Link Deco BE65|TP-Link Archer AX73|TP-Link Archer AX55|TP-Link 8 port PoE switch|TP-Link TL-SG1008P|TP-Link Omada EAP650|Ubiquiti UniFi U6+|Ubiquiti UniFi U7 Pro|Ubiquiti UniFi Dream Machine|MikroTik hAP ax2|MikroTik hAP ax3|Netgear Orbi|Asus RT-AX58U|Hikvision 8 port PoE switch|Cat6 cable 305m|Huawei 5G CPE Pro"],
+    ["Access control", "ZKTeco fingerprint attendance|ZKTeco SpeedFace V5L|ZKTeco K40|Hikvision face recognition terminal|Hikvision DS-K1T343|Magnetic lock 600 lbs|Video intercom Hikvision|Dahua video intercom|Smart door lock|Gate barrier"],
+    ["Home & kitchen", "Dyson V15 vacuum|Roborock robot vacuum|Xiaomi robot vacuum|Philips Airfryer|Ninja air fryer|Nespresso Vertuo|De'Longhi coffee machine|Samsung inverter AC|LG washing machine|Dyson Airwrap"],
+    ["Computers & printing", "HP LaserJet printer|Canon PIXMA printer|Epson EcoTank printer|Brother laser printer|Logitech MX Master 3S|Logitech MX Keys|Dell 27 inch monitor|Samsung Odyssey G5|LG UltraGear 27 inch|APC UPS 1500VA|Synology DS224+|Microsoft Office 2021|Windows 11 Pro license"]
+  ];
+  var ALL = []; DATA.forEach(function (g) { g[1].split("|").forEach(function (n) { ALL.push({ n: n, c: g[0], l: n.toLowerCase() }); }); });
+  var input = $("q"), list = $("sug"), sel = -1, shown = [];
+  function recent() { return lsGet("qt-bkam-recent") || []; }
+  function remember(q) { var r = recent().filter(function (x) { return x.toLowerCase() !== q.toLowerCase(); }); r.unshift(q); lsSet("qt-bkam-recent", r.slice(0, 8)); }
+  function hl(name, words) {
+    var out = esc(name);
+    words.forEach(function (w) { if (w.length < 2) return; out = out.replace(new RegExp("(" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig"), "<mark>$1</mark>"); });
+    return out;
+  }
+  function suggest() {
+    var v = input.value.trim().toLowerCase(), words = v.split(/\s+/).filter(Boolean), items = [];
+    if (!v) { items = recent().map(function (r) { return { n: r, c: t("Recent") }; }); }
+    else {
+      recent().forEach(function (r) { if (words.every(function (w) { return r.toLowerCase().indexOf(w) >= 0; })) items.push({ n: r, c: t("Recent") }); });
+      var scored = [];
+      ALL.forEach(function (x) {
+        if (!words.every(function (w) { return x.l.indexOf(w) >= 0; })) return;
+        var s = x.l.indexOf(v) === 0 ? 0 : x.l.indexOf(" " + words[0]) >= 0 || x.l.indexOf(words[0]) === 0 ? 1 : 2;
+        scored.push([s, x.n.length, x]);
+      });
+      scored.sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+      scored.forEach(function (s) { if (!items.some(function (i) { return i.n.toLowerCase() === s[2].l; })) items.push({ n: s[2].n, c: t(s[2].c) }); });
+    }
+    shown = items.slice(0, 8); sel = -1;
+    if (!shown.length) { close(); return; }
+    list.innerHTML = shown.map(function (x, i) { return '<li role="option" id="sg' + i + '" aria-selected="false" data-i="' + i + '"><span>' + hl(x.n, words) + '</span><small>' + esc(x.c) + '</small></li>'; }).join("");
+    list.hidden = false; input.setAttribute("aria-expanded", "true");
+  }
+  function close() { list.hidden = true; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); sel = -1; }
+  function move(d) {
+    if (list.hidden) { suggest(); return; }
+    sel = (sel + d + shown.length) % shown.length;
+    [].forEach.call(list.children, function (li, i) { li.setAttribute("aria-selected", i === sel ? "true" : "false"); });
+    input.setAttribute("aria-activedescendant", "sg" + sel); list.children[sel].scrollIntoView({ block: "nearest" });
+  }
+  input.addEventListener("input", suggest);
+  input.addEventListener("focus", suggest);
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
+    else if (e.key === "Escape") { close(); }
+    else if (e.key === "Enter" && sel >= 0 && !list.hidden) { e.preventDefault(); input.value = shown[sel].n; close(); search(input.value); }
+  });
+  list.addEventListener("mousedown", function (e) { var li = e.target.closest("li"); if (!li) return; e.preventDefault(); input.value = shown[+li.getAttribute("data-i")].n; close(); search(input.value); });
+  document.addEventListener("click", function (e) { if (!e.target.closest(".bk-ac")) close(); });
+
+  /* ---------- results ---------- */
+  function aed(n) { return n ? "AED " + Number(n).toLocaleString("en-US", { maximumFractionDigits: 2 }) : "—"; }
+  function storesHtml(q) {
+    return '<div class="bk-stores">' + STORES.map(function (s) {
+      return '<a class="bk-store' + (s.hl ? " hl" : "") + '" target="_blank" rel="noopener" href="' + s.u(q) + '"><b>' + esc(t(s.n)) + '</b><span>' + esc(t(s.d)) + '</span><i>' + esc(t("Open")) + ' ↗</i></a>';
+    }).join("") + '</div>';
+  }
+  function ctaHtml(q) {
     var ours = OURS.test(q);
     var wa = "https://wa.me/" + WA + "?text=" + E("Hello Queen Tech, I'm looking for: " + q + ". Can you give me a price" + (ours ? " with installation?" : "?"));
-    $("out").innerHTML =
-      '<div class="bk-head">' + esc(q) + '</div>' +
-      '<div class="bk-stores">' + STORES.map(function (s) {
-        return '<a class="bk-store' + (s.hl ? " hl" : "") + '" target="_blank" rel="noopener" href="' + s.u(q) + '"><b>' + esc(s.n) + '</b><span>' + esc(t(s.d)) + '</span><i>' + esc(t("Open")) + ' ↗</i></a>';
-      }).join("") + '</div>' +
-      '<div class="bk-cta"><b>' + esc(t(ours ? "Want it supplied and installed?" : "Want us to find it for you?")) + '</b>' +
+    return '<div class="bk-cta"><b>' + esc(t(ours ? "Want it supplied and installed?" : "Want us to find it for you?")) + '</b>' +
       '<span class="cta-row" style="margin:0"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa + '">' + esc(t("Ask Queen Tech on WhatsApp")) + '</a>' +
       (ours ? '<a class="btn btn-line" href="/price.html">' + esc(t("Installation prices")) + '</a>' : '') + '</span></div>';
-    try { history.replaceState(null, "", "?q=" + E(q) + (location.search.match(/[?&]lang=(ar|en)/) ? "&lang=" + RegExp.$1 : "")); } catch (e) {}
+  }
+  function liveHtml(r, q) {
+    var inStock = r.offers.filter(function (o) { return o.in_stock !== false; });
+    var h = '<div class="bk-live"><span class="tag">' + esc(t("Checked live on the web")) + '</span><h3 style="margin-top:8px">' + esc(r.product || q) + '</h3>' + (r.summary ? '<p class="sum">' + esc(r.summary) + '</p>' : '');
+    if (!r.available || !inStock.length) h += '<div class="bk-alert"><b>' + esc(t("Not available in UAE stores right now.")) + '</b> ' + esc(t(r.previously_sold.length ? "It was sold at:" : "We could not find where it was sold before.")) + '</div>';
+    if (r.offers.length) {
+      h += '<div style="margin-top:10px">' + r.offers.map(function (o) {
+        var badge = o.in_stock === true ? '<span class="bk-badge in">' + esc(t("In stock")) + '</span>' : o.in_stock === false ? '<span class="bk-badge out">' + esc(t("Out of stock")) + '</span>' : '';
+        var cond = o.condition && o.condition !== "new" ? '<span class="bk-badge">' + esc(t(o.condition)) + '</span>' : '';
+        return '<div class="bk-off"><div><b>' + esc(o.store) + '</b>' + badge + cond + '</div><div class="p">' + aed(o.price_aed) + '</div><a class="btn btn-line" target="_blank" rel="noopener nofollow" href="' + esc(o.url) + '">' + esc(t("Buy")) + ' ↗</a>' + (o.note ? '<div class="n">' + esc(o.note) + '</div>' : '') + '</div>';
+      }).join("") + '</div>';
+    }
+    if (r.previously_sold.length) {
+      h += '<h3 style="margin-top:18px;font-size:1.1rem">' + esc(t("Where it was sold before")) + '</h3><div>' + r.previously_sold.map(function (o) {
+        return '<div class="bk-off"><div><b>' + esc(o.store) + '</b></div><div class="p">' + (o.last_price_aed ? aed(o.last_price_aed) : "") + '</div>' + (o.url ? '<a class="btn btn-line" target="_blank" rel="noopener nofollow" href="' + esc(o.url) + '">' + esc(t("View")) + ' ↗</a>' : '<span></span>') + (o.note ? '<div class="n">' + esc(o.note) + '</div>' : '') + '</div>';
+      }).join("") + '</div>';
+    }
+    if (r.alternatives.length) h += '<h3 style="margin-top:18px;font-size:1.1rem">' + esc(t("Similar products you can buy")) + '</h3><div class="bk-alts">' + r.alternatives.map(function (a) { return '<button type="button" data-alt="' + esc(a.product) + '" title="' + esc(a.why) + '">' + esc(a.product) + '</button>'; }).join("") + '</div>';
+    h += '<p class="fine" style="margin-top:12px">' + esc(t("Prices change often. Always confirm on the store's page before you buy.")) + '</p></div>';
+    return h;
+  }
+  var ctl = null, seq = 0;
+  function search(q) {
+    q = q.trim(); if (!q) return; close(); remember(q);
+    var my = ++seq, out = $("out");
+    var head = '<div class="bk-head">' + esc(q) + '</div>';
+    var more = '<h3 style="margin-top:4px">' + esc(t(PRICE_URL ? "Search more sites" : "Compare in UAE stores")) + '</h3>' + storesHtml(q) + ctaHtml(q);
+    if (!PRICE_URL) { out.innerHTML = head + more; }
+    else {
+      out.innerHTML = head + '<div class="bk-live" id="live"><span class="tag">' + esc(t("Searching all websites…")) + '</span><div class="bk-skel" style="width:55%"></div><div class="bk-skel"></div><div class="bk-skel" style="width:80%"></div><p class="fine">' + esc(t("This takes about 10–20 seconds.")) + '</p></div>' + more;
+      if (ctl) ctl.abort(); ctl = new AbortController();
+      fetch(PRICE_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ q: q, lang: AR ? "ar" : "en" }), signal: ctl.signal })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); })
+        .then(function (r) {
+          if (my !== seq) return;
+          var box = $("live"); if (!box) return;
+          box.outerHTML = liveHtml({ product: r.product, summary: r.summary, available: r.available, offers: r.offers || [], previously_sold: r.previously_sold || [], alternatives: r.alternatives || [] }, q);
+          [].forEach.call(document.querySelectorAll("[data-alt]"), function (b) { b.addEventListener("click", function () { input.value = b.getAttribute("data-alt"); search(input.value); window.scrollTo({ top: 0, behavior: "smooth" }); }); });
+        })
+        .catch(function (e) {
+          if (my !== seq || (e && e.name === "AbortError")) return;
+          var box = $("live"); if (box) box.outerHTML = '<div class="bk-alert">' + esc(t(e && e.error === "limit" ? "Too many searches from your connection. Try again in an hour, or use the stores below." : "The live search is busy right now. Use the stores below.")) + '</div>';
+        });
+    }
+    try { history.replaceState(null, "", "?item=" + E(q) + (/[?&]lang=ar/.test(location.search) ? "&lang=ar" : /[?&]lang=en/.test(location.search) ? "&lang=en" : "")); } catch (e) {}
     if (window.qtTrack) qtTrack("price_search", { q: q.slice(0, 60) });
   }
-  $("bf").addEventListener("submit", function (e) { e.preventDefault(); search($("q").value); });
-  document.querySelectorAll("[data-q]").forEach(function (b) { b.addEventListener("click", function () { $("q").value = b.getAttribute("data-q"); search($("q").value); }); });
-  var m = location.search.match(/[?&]q=([^&]+)/); if (m) { try { $("q").value = decodeURIComponent(m[1].replace(/\+/g, " ")); search($("q").value); } catch (e) {} }
+  if (PRICE_URL) $("fine").textContent = t("We search the web live for where it's sold in the UAE. Queen Tech is not paid by these stores.");
+  $("bf").addEventListener("submit", function (e) { e.preventDefault(); search(input.value); });
+  document.querySelectorAll("[data-q]").forEach(function (b) { b.addEventListener("click", function () { input.value = b.getAttribute("data-q"); search(input.value); }); });
+  var m = location.search.match(/[?&]item=([^&]+)/); /* not ?q= : that opens the site search */ if (m) { try { input.value = decodeURIComponent(m[1].replace(/\+/g, " ")); search(input.value); } catch (e) {} }
 })();
 </script>
 </body>
