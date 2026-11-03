@@ -65,3 +65,8 @@ QT_AR.add({
   "Delete it:":"احذفه:","message us on WhatsApp or email sales@queentechsolution.info and we delete your report.":"راسلنا على واتساب أو على sales@queentechsolution.info ونحذف تقريرك.",
   "A copy of both files stays on your Desktop, so you see everything we receive.":"تبقى نسخة من الملفين على سطح المكتب، فترى كل ما نستلمه."
 });
+QT_AR.add({
+  "Company IT policy won't allow running a file?":"سياسة تقنية المعلومات في شركتك لا تسمح بتشغيل ملفات؟",
+  "We do the same check in person: our technician visits, reviews your recorders, cameras, switches and network rooms, and sends you the report and BOQ. Free for businesses in Dubai and Abu Dhabi.":"نقوم بنفس الفحص في الموقع: يزورك فنيّنا ويراجع أجهزة التسجيل والكاميرات والسويتشات وغرف الشبكات، ويرسل لك التقرير وجدول الكميات. مجاناً للشركات في دبي وأبوظبي.",
+  "Request a free on-site audit":"اطلب فحصاً مجانياً في الموقع"
+});
