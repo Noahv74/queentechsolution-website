@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<style id="qt-cursor">@media (pointer:fine){html,body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
+<style id="qt-cursor">@media (pointer:fine){html,body{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}.qchips{display:grid;gap:8px}.qchips .muted{font-size:.85rem}#qc{display:flex;flex-wrap:wrap;gap:8px}
+.qchip{all:unset;cursor:pointer;font-size:.85rem;padding:7px 12px;border-radius:999px;border:1px solid var(--line-2);color:var(--muted)}
+.qchip[aria-pressed=true]{border-color:var(--gold);color:var(--gold-2);background:rgba(226,166,63,.12)}
+.qchip:focus-visible{outline:2px solid var(--gold-2);outline-offset:2px}
+</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script src="/i18n.js"></script>
 <script src="/i18n/ar-common.js"></script>
@@ -215,6 +219,7 @@ footer a{color:var(--muted)}
         <label>Service<select name="service" id="svcSel" translate="no"></select></label>
         <label>Repair or job code <i>(optional)</i><input name="job" maxlength="12" placeholder="QT-XXXX-XXXX" style="text-transform:uppercase"></label>
         <label class="wide">Your review<textarea name="text" rows="4" maxlength="1000" required placeholder="What did we do, and how was it?"></textarea></label>
+        <div class="wide qchips"><span class="muted" id="qcHint">Tap to add a ready phrase, then edit it in your own words:</span><div id="qc" translate="no"></div></div>
         <input name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
       </div>
       <div class="row"><button class="btn btn-gold" type="submit">Send review</button><span class="msg" id="rmsg" role="status"></span></div>
@@ -224,6 +229,21 @@ footer a{color:var(--muted)}
 </main>
 <footer class="wrap">Queen Tech Solutions · <a href="/">Home</a> · <a href="/contact.html">Contact</a> · <span>Open every day 10am–10pm · Urgent: +971 55 797 1520</span></footer>
 
+<script>
+(function(){
+  var ar=window.QT_LANG==="ar",box=document.getElementById("qc"),hint=document.getElementById("qcHint"),f=document.getElementById("rf");
+  if(!box||!f)return;
+  if(ar)hint.textContent="دوس على جملة جاهزة تتضاف لتقييمك، وبعدين عدّلها بكلامك:";
+  var P=ar?["جم في الميعاد","التركيب نضيف ومترتب","السعر كان واضح من الأول","شرحولي السيستم كويس","الكاميرات صورتها واضحة","اتصلحت المشكلة بسرعة","التعامل محترم","أنصح بيهم"]
+          :["Arrived on time","Clean, tidy installation","Clear price before starting","Explained the system well","Sharp, clear camera image","Fixed the problem quickly","Polite and professional team","I recommend them"];
+  P.forEach(function(t){var b=document.createElement("button");b.type="button";b.className="qchip";b.textContent=t;b.setAttribute("aria-pressed","false");
+    b.addEventListener("click",function(){var ta=f.elements.text,v=ta.value.trim(),on=b.getAttribute("aria-pressed")==="true",sep=ar?"، ":". ";
+      if(on){ta.value=v.split(t+sep).join("").split(sep+t).join("").split(t).join("").trim();b.setAttribute("aria-pressed","false");}
+      else{ta.value=v?(v.replace(/[.،]\s*$/,"")+sep+t):t;b.setAttribute("aria-pressed","true");}
+      ta.dispatchEvent(new Event("input",{bubbles:true}));});
+    box.appendChild(b);});
+})();
+</script>
 <script type="module">
 import { listApproved, submitReview, SERVICES } from "/qt-reviews.js";
 const ar = window.QT_LANG === "ar", $ = id => document.getElementById(id), GREV = "https://g.page/r/CXPWAzSYn864ECE/review";

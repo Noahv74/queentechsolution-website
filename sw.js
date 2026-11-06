@@ -1,7 +1,7 @@
 /* Queen Tech service worker: lets the site work as an app and keeps visited pages
    available offline. Always tries the network first, so prices and offers stay fresh.
    Change VERSION when the list of core files changes. */
-const VERSION = "qt-2026-11-03o";
+const VERSION = "qt-2026-11-06a";
 const FONTS = "qt-fonts";
 const CORE = [
   "/offline.html",
@@ -44,6 +44,7 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
+  if (url.pathname.endsWith(".mp4")) return; // let the browser stream video directly
 
   // Google Fonts: keep a copy so the app looks right offline.
   if (url.origin === "https://fonts.googleapis.com" || url.origin === "https://fonts.gstatic.com") {
