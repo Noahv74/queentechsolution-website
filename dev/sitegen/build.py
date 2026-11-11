@@ -69,6 +69,18 @@ def price_chip(kind, key, lang):
     return (f'<div class="pchip" data-p="from:{key}"><span class="k">{e(u["equip"])}</span>'
             f'<span class="v"><span data-v>{e(val)}</span></span><small>{e(name)}</small></div>')
 
+# Areas with their own page: their chips link there (internal links to the area pages)
+AREA_SLUGS = {"Business Bay": "cctv-it-support-business-bay", "JLT": "cctv-it-support-jlt",
+              "Dubai Marina": "cctv-it-support-dubai-marina", "Al Quoz": "cctv-it-support-al-quoz",
+              "Deira": "cctv-it-support-deira", "Mussafah": "cctv-it-support-mussafah"}
+
+def chip(a, lang, here=""):
+    i = 0 if lang == "en" else 1
+    slug = AREA_SLUGS.get(a[0])
+    if slug and slug != here:
+        return f'<a class="chip" href="{url(slug, lang)}">{e(a[i])}</a>'
+    return f'<span class="chip">{e(a[i])}</span>'
+
 def areas_for(pg, lang):
     i = 0 if lang == "en" else 1
     if pg["city"] == "dubai": groups = [("dubai", DUBAI_AREAS)]
@@ -76,7 +88,7 @@ def areas_for(pg, lang):
     else: groups = [("dubai", DUBAI_AREAS[:9]), ("abudhabi", AD_AREAS)]
     out = []
     for g, lst in groups:
-        chips = "".join(f'<span class="chip">{e(a[i])}</span>' for a in lst)
+        chips = "".join(chip(a, lang, pg["slug"]) for a in lst)
         head = f'<div class="lbl" style="margin:14px 0 10px">{e(UI[lang][g])}</div>' if len(groups) > 1 else ""
         out.append(head + f'<div class="chips">{chips}</div>')
     return "".join(out)
@@ -178,7 +190,7 @@ def build(pg, lang):
 <html lang="{lang}"{dir_attr} data-i18n-static>
 <head>
 <meta charset="utf-8">
-<style id="qt-cursor">@media (pointer:fine){{html,body{{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){{cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}}}</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
+<style id="qt-cursor">@media (pointer:fine){{html,body{{cursor:url(/cursor.png) 9 8,auto;cursor:-webkit-image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto;cursor:image-set(url(/cursor.png) 1x,url(/cursor@2x.png) 2x) 9 8,auto}}:is(a[href],button,[role=button],summary,label[for],select,.btn,input[type=checkbox],input[type=radio],input[type=submit],input[type=button]):not(:disabled){{cursor:url(/cursor-link.png) 9 8,pointer!important;cursor:-webkit-image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important;cursor:image-set(url(/cursor-link.png) 1x,url(/cursor-link@2x.png) 2x) 9 8,pointer!important}}}}</style><link rel="preload" href="/cursor.png" as="image" media="(pointer:fine)"><link rel="preload" href="/cursor-link.png" as="image" media="(pointer:fine)">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{e(c["title"])}</title>
 <meta name="description" content="{e(c["desc"])}">

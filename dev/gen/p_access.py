@@ -207,8 +207,8 @@ SCRIPT = '''
 
 # prices.js must load before the page script
 BODY = BODY
-page("access-planner", "Access Control &amp; Parking Barrier Planner with Price | Queen Tech Dubai",
-     "Plan door access control (card, fingerprint or face) and parking barriers (remote, UHF tags or number-plate camera) for Dubai and Abu Dhabi. See the equipment and an estimated price with installation.",
+page("access-planner", "Access Control &amp; Barrier Planner with Price | Queen Tech",
+     "Plan door access control (card, fingerprint or face) and parking barriers for Dubai and Abu Dhabi, and see the equipment and an installed price estimate.",
      "Access control &amp; barrier planner | Queen Tech Solutions", "Access planner", ("#result", "My plan"), BODY,
      '<script src="/prices.js"></script>' + SCRIPT,
      extra_ar=("price",), ld={"@context": "https://schema.org", "@type": "WebApplication", "name": "Access control and parking barrier planner", "url": "https://queentechsolution.info/access-planner.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "AED"}, "provider": BIZ})

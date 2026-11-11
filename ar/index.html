@@ -10,15 +10,12 @@
 #reviews .rmeta{font-size:.85rem;color:var(--muted)}#reviews .rmeta b{color:var(--ink)}
 #reviews .ver{justify-self:start;font:600 .74rem var(--f-body);color:#9EE0BA;border:1px solid rgba(143,198,163,.5);background:rgba(143,198,163,.1);border-radius:999px;padding:3px 10px}
 #reviews .rreply{border-inline-start:3px solid var(--gold);background:var(--bg-2,#1a1815);padding:8px 12px;border-radius:4px;font-size:.88rem}
-</style><link rel="preload" href="/cursor.png" as="image"><link rel="preload" href="/cursor-link.png" as="image">
+</style><link rel="preload" href="/cursor.png" as="image" media="(pointer:fine)"><link rel="preload" href="/cursor-link.png" as="image" media="(pointer:fine)">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="google-adsense-account" content="ca-pub-5383296169254857">
-<meta name="description" content="كوين تك للحلول التقنية في دبي وأبوظبي: تركيب وصيانة كاميرات المراقبة وأنظمة التحكم بالدخول وبوابات المواقف، الشبكات والواي فاي، صيانة الكمبيوتر واللابتوب والجوال، تثبيت البرامج والنسخ الاحتياطي. معاينة مجانية للموقع.">
+<meta name="description" content="كوين تك في دبي وأبوظبي: تركيب وصيانة كاميرات المراقبة وأنظمة الدخول وبوابات المواقف، الشبكات والواي فاي، وصيانة الكمبيوتر واللابتوب والجوال. معاينة مجانية.">
 <meta name="keywords" content="تركيب كاميرات مراقبة دبي, كاميرات مراقبة أبوظبي, أنظمة التحكم بالدخول, بوابات مواقف, صيانة لابتوب دبي, صيانة جوال, شبكات واي فاي للشركات, دعم فني دبي">
 <link rel="canonical" href="https://queentechsolution.info/ar/">
-<link rel="alternate" hreflang="en" href="https://queentechsolution.info/">
-<link rel="alternate" hreflang="ar" href="https://queentechsolution.info/ar/">
-<link rel="alternate" hreflang="x-default" href="https://queentechsolution.info/">
 <link rel="alternate" hreflang="en" href="https://queentechsolution.info/">
 <link rel="alternate" hreflang="ar" href="https://queentechsolution.info/ar/">
 <link rel="alternate" hreflang="x-default" href="https://queentechsolution.info/">
@@ -420,6 +417,8 @@ footer::after{background:linear-gradient(90deg,transparent 0,transparent 35%,#F3
   .js .rv.in{opacity:1;transform:none}
   .hero h1 .l span{animation:rise 1s var(--ease) both;animation-delay:calc(var(--i)*.1s + .1s)}
   .hero .fade{animation:fadeup .9s var(--ease) both;animation-delay:var(--d,.5s)}
+  /* Intro paragraph slides in but stays visible, so Google counts it as painted straight away (LCP) */
+  .hero .lede.fade{animation-name:slideup}@keyframes slideup{from{transform:translateY(16px)}to{transform:none}}
   .wall{animation:wallin 1.2s var(--ease) .25s both}
 }
 @keyframes rise{from{transform:translateY(105%)}to{transform:none}}
@@ -759,6 +758,7 @@ html[dir=rtl] .svc-card:hover .more span,html.rtl .svc-card:hover .more span{tra
   <div class="wrap">
     <div class="big-mark" aria-hidden="true"><svg viewBox="0 0 1000 160" role="presentation"><defs><linearGradient id="bmFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3C877"/><stop offset=".55" stop-color="#E2A63F"/><stop offset="1" stop-color="#A8742A"/></linearGradient><filter id="bmGlow" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feFlood flood-color="#E2A63F" flood-opacity=".18"/><feComposite operator="in" in2="SourceAlpha"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><text class="word" x="500" y="134" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">QUEEN TECH</text></svg></div>
     <nav class="svc-foot" aria-label="الخدمات"><a href="/ar/cctv-installation-dubai.html">تركيب كاميرات المراقبة في دبي</a><a href="/ar/cctv-installation-abu-dhabi.html">تركيب كاميرات المراقبة في أبوظبي</a><a href="/ar/access-control-dubai.html">التحكم بالدخول</a><a href="/ar/gate-barrier-installation.html">بوابات المواقف</a><a href="/ar/network-wifi-installation-dubai.html">الشبكات والواي فاي</a><a href="/ar/laptop-repair-business-bay.html">صيانة اللابتوب والكمبيوتر</a><a href="/ar/phone-repair-dubai.html">صيانة الجوال</a><a href="/ar/it-support-dubai.html">الدعم الفني للشركات</a><a href="/planner.html?lang=ar">مخطط الكاميرات</a><a href="/shop-planner.html?lang=ar">مخطط كاميرات المحل</a><a href="/quickswap.html?lang=ar">أجهزة بديلة (QuickSwap)</a></nav>
+    <nav class="svc-foot" aria-label="مناطق نخدمها"><span>مناطق نخدمها:</span><a href="/ar/cctv-it-support-business-bay.html">الخليج التجاري</a><a href="/ar/cctv-it-support-jlt.html">أبراج بحيرات جميرا JLT</a><a href="/ar/cctv-it-support-dubai-marina.html">دبي مارينا</a><a href="/ar/cctv-it-support-al-quoz.html">القوز</a><a href="/ar/cctv-it-support-deira.html">ديرة</a><a href="/ar/cctv-it-support-mussafah.html">مصفح، أبوظبي</a></nav>
     <div class="foot">
       <span>© 2026 كوين تك للحلول التقنية · كاميرات مراقبة وأنظمة دخول وشبكات وصيانة تقنية في دبي وأبوظبي · <a href="/ar/tools.html#free-tools" style="color:inherit">أدوات مجانية</a> · <a href="/help.html" style="color:inherit">مركز المساعدة</a> · <a href="/track.html?lang=ar" style="color:inherit">تابع إصلاح جهازك</a> · <a href="/reviews.html?lang=ar" style="color:inherit">آراء العملاء</a> · <a href="/work.html?lang=ar" style="color:inherit">شغلنا</a> · <a href="/account.html" style="color:inherit">الحساب</a> · <a href="/app.html" style="color:inherit">بوابة العملاء وتتبع الصيانة</a> · <a href="/privacy.html" style="color:inherit">الخصوصية</a> · <a href="https://g.page/r/CXPWAzSYn864ECE/review" style="color:inherit" target="_blank" rel="noopener">⭐ تقييماتنا على جوجل</a></span>
       <span>دبي وأبوظبي · <bdi>+971 55 797 1520</bdi> · sales@queentechsolution.info · مفتوحين يومياً من 10 صباحاً لـ 10 مساءً</span>

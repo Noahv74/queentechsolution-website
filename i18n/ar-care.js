@@ -1,6 +1,6 @@
 /* Arabic for care.html (CCTV Care Plan) */
 QT_AR.add({
-  "CCTV Care Plan: Yearly CCTV Maintenance in Dubai & Abu Dhabi | Queen Tech":"خطة صيانة الكاميرات: صيانة سنوية لكاميرات المراقبة في دبي وأبوظبي | كوين تك",
+  "CCTV Maintenance Contracts in Dubai & Abu Dhabi | Queen Tech":"خطة صيانة الكاميرات: صيانة سنوية لكاميرات المراقبة في دبي وأبوظبي | كوين تك",
   "Schedule visits":"جدولة الزيارات",
   "CCTV maintenance · Dubai · Abu Dhabi":"صيانة كاميرات المراقبة · دبي · أبوظبي",
   "CCTV Care Plan:":"خطة صيانة الكاميرات:","cameras that keep recording.":"كاميرات تسجّل دائماً.",

@@ -1,6 +1,6 @@
 /* Arabic for access-planner.html */
 QT_AR.add({
-  "Access Control & Parking Barrier Planner with Price | Queen Tech Dubai":"مخطط أنظمة الدخول وبوابات المواقف مع السعر | كوين تك دبي",
+  "Access Control & Barrier Planner with Price | Queen Tech":"مخطط أنظمة الدخول وبوابات المواقف مع السعر | كوين تك دبي",
   "Access planner":"مخطط أنظمة الدخول","My plan":"خطتي","Access & barrier planner":"مخطط الدخول والبوابات",
   "Free tool · Dubai · Abu Dhabi":"أداة مجانية · دبي · أبوظبي",
   "Plan your access control":"خطّط نظام الدخول","and parking barrier.":"وبوابة المواقف.",

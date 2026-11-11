@@ -245,7 +245,7 @@ $("f").addEventListener("submit", async e => {
 </script>
 '''
 
-page("express", "ExpressFix PC, Laptop &amp; Phone Repair with Pickup and Live Tracking | Queen Tech Dubai",
+page("express", "ExpressFix: PC, Laptop &amp; Phone Repair with Pickup | Queen Tech",
      "Book a PC, laptop or phone repair in Dubai in one minute. We come to you or pick it up. Free check, price before work, warranty and a live tracking page.",
      "ExpressFix repair booking | Queen Tech Solutions", "ExpressFix repair", ("/track.html", "Track repair"),
      BODY, SCRIPT, ld=ld_service("ExpressFix PC, laptop and phone repair", "Repair booking with an on-site visit or pickup in Dubai, free check, quote before work and live tracking.", "express"))

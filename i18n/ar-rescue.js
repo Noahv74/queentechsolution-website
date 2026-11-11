@@ -1,6 +1,6 @@
 /* Arabic for rescue.html */
 QT_AR.add({
-  "Game Error Rescue: Vanguard, EasyAntiCheat, DirectX, FPS & Controller Fixes | Queen Tech Dubai":"إنقاذ أخطاء الألعاب: حلول Vanguard وEasyAntiCheat وDirectX والـFPS ويد التحكم | كوين تك دبي",
+  "Game Error Fixes: Vanguard, EasyAntiCheat & DirectX":"إنقاذ أخطاء الألعاب: حلول Vanguard وEasyAntiCheat وDirectX والـFPS ويد التحكم | كوين تك دبي",
   "Game error rescue":"إنقاذ أخطاء الألعاب",
   "Find my error":"ابحث عن الخطأ",
   "Gamers & PC":"الجيمرز والكمبيوتر",

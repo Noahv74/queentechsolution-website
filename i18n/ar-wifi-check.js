@@ -1,6 +1,6 @@
 /* Arabic for wifi-check.html (Wi-Fi Checkup) */
 QT_AR.add({
-  "Wi-Fi Checkup: Find Dead Zones & Fix Slow Wi-Fi in Dubai | Queen Tech":"فحص الواي فاي: اكتشف المناطق الميتة وأصلح بطء الواي فاي في دبي | كوين تك",
+  "Wi-Fi Checkup: Fix Dead Zones & Slow Wi-Fi | Queen Tech":"فحص الواي فاي: اكتشف المناطق الميتة وأصلح بطء الواي فاي في دبي | كوين تك",
   "Book a checkup":"احجز الفحص",
   "Wi-Fi survey · Homes · Offices · Dubai · Abu Dhabi":"فحص الواي فاي · البيوت · المكاتب · دبي · أبوظبي",
   "Wi-Fi Checkup:":"فحص الواي فاي:","find the dead zones, fix them once.":"نكتشف المناطق الميتة ونصلحها مرة واحدة.",

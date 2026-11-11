@@ -10,7 +10,7 @@ def areas_for(pg, lang):
     if "near" not in pg:
         return _orig(pg, lang)
     i = 0 if lang == "en" else 1
-    chips = "".join(f'<span class="chip">{html.escape(a[i])}</span>' for a in pg["near"])
+    chips = "".join(build.chip(a, lang, pg["slug"]) for a in pg["near"])
     return f'<div class="chips">{chips}</div>'
 build.areas_for = areas_for
 

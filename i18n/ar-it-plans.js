@@ -1,6 +1,6 @@
 /* Arabic for it-plans.html (Business IT Support Plans) */
 QT_AR.add({
-  "Business IT Support Plans for Small Offices in Dubai | Queen Tech":"باقات الدعم التقني الشهرية للمكاتب الصغيرة في دبي | كوين تك",
+  "IT Support Plans for Small Offices in Dubai | Queen Tech":"باقات الدعم التقني الشهرية للمكاتب الصغيرة في دبي | كوين تك",
   "Get a plan":"اطلب باقة",
   "Monthly IT support · Small offices · Dubai · Abu Dhabi":"دعم تقني شهري · المكاتب الصغيرة · دبي · أبوظبي",
   "Business IT Support Plans:":"باقات الدعم التقني للشركات:","your IT team for a fixed monthly fee.":"فريق الـIT الخاص بك برسوم شهرية ثابتة.",

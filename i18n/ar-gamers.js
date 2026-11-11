@@ -1,6 +1,6 @@
 /* Arabic for gamers.html */
 QT_AR.add({
-  "Gaming PC Repair & Online Game Fixes in Dubai | Queen Tech Solutions":"صيانة أجهزة الجيمنج وحل مشاكل الألعاب أونلاين في دبي | كوين تك",
+  "Gaming PC Repair & Game Fixes in Dubai | Queen Tech":"صيانة أجهزة الجيمنج وحل مشاكل الألعاب أونلاين في دبي | كوين تك",
   "Gamers & PC rescue":"الجيمرز والكمبيوتر",
   "Get help now":"اطلب مساعدة",
   "Gamers & PC rescue · Dubai · Abu Dhabi":"الجيمرز وصيانة الكمبيوتر · دبي · أبوظبي",

@@ -3,7 +3,7 @@ QT_AR.add({
   "🚧 Barrier board error codes: CAME · BFT · Titan":"🚧 أكواد أعطال كروت البوابات: CAME · BFT · Titan",
   "Choose the board, type the code, get the fix step by step with videos.":"اختار الكارت، اكتب الكود، واعرف الحل خطوة بخطوة مع فيديوهات.",
   "Open the board fixer":"افتح أعطال الكروت",
-  "Help Centre for Technicians: CCTV, Access Control, Network, Barriers | Queen Tech":"مركز المساعدة للفنيين: كاميرات، أكسس كنترول، شبكات، بوابات | كوين تك",
+  "Help Centre: CCTV, Access Control & Network Fixes | Queen Tech":"مركز المساعدة للفنيين: كاميرات، أكسس كنترول، شبكات، بوابات | كوين تك",
   "Help centre · for technicians":"مركز المساعدة · للفنيين",
   "Free · Help centre":"مجاني · مركز المساعدة",
   "Stuck on site?":"واقف في الموقع؟",

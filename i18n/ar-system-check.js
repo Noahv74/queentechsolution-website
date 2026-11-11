@@ -1,6 +1,6 @@
 /* Arabic for system-check.html (CCTV System Check) */
 QT_AR.add({
-  "Free CCTV System Check: Find Every Camera, NVR & Switch | Queen Tech":"فحص نظام الكاميرات المجاني: اعرف كل كاميرا وجهاز تسجيل وسويتش | كوين تك",
+  "Free CCTV System Check: Find Every Camera & NVR | Queen Tech":"فحص نظام الكاميرات المجاني: اعرف كل كاميرا وجهاز تسجيل وسويتش | كوين تك",
   "System Check":"فحص النظام","Get the tool":"حمّل الأداة","Tools":"الأدوات",
   "Free · Windows · CCTV · Network · BOQ":"مجاني · ويندوز · كاميرات · شبكة · جدول كميات",
   "CCTV System Check:":"فحص نظام الكاميرات:","know exactly what you have.":"اعرف بالضبط ما عندك.",

@@ -23,7 +23,7 @@ AREA_PAGES = [
  "prices": [("lab", "cam"), ("lab", "door"), ("lab", "point"), ("lab", "ap")],
  "related": ["it-support-dubai", "access-control-dubai", "network-wifi-installation-dubai", "laptop-repair-business-bay"],
  "en": {
-  "title": "CCTV, Access Control & IT Support in Business Bay, Dubai | Queen Tech",
+  "title": "CCTV, Access Control & IT Support in Business Bay | Queen Tech",
   "desc": "CCTV, access control, office network and Wi-Fi, laptop repair and monthly IT support for Business Bay offices, shops and apartments.",
   "keywords": "IT support Business Bay, CCTV Business Bay, access control Business Bay, office network Business Bay, laptop repair Business Bay, IT company Business Bay",
   "crumb": "Business Bay", "tag": "Business Bay · Dubai",
@@ -52,7 +52,7 @@ AREA_PAGES = [
                 ("/express.html", "ExpressFix repair", "Book a laptop or phone repair.", "تصليح إكسبرس فيكس", "احجز تصليح لابتوب أو موبايل.")],
  },
  "ar": {
-  "title": "كاميرات مراقبة وأنظمة دخول ودعم تقني في الخليج التجاري، دبي | كوين تك",
+  "title": "كاميرات مراقبة وأنظمة دخول ودعم تقني في الخليج التجاري",
   "desc": "كاميرات مراقبة، أنظمة دخول، شبكات وواي فاي للمكاتب، صيانة لابتوب ودعم تقني شهري لمكاتب ومحلات وشقق الخليج التجاري.",
   "keywords": "دعم تقني الخليج التجاري, كاميرات مراقبة الخليج التجاري, نظام دخول الخليج التجاري, شبكات مكاتب الخليج التجاري, صيانة لابتوب الخليج التجاري",
   "crumb": "الخليج التجاري", "tag": "الخليج التجاري · دبي",
@@ -115,7 +115,7 @@ AREA_PAGES = [
                 ("/wifi-check.html", "Wi-Fi Checkup", "Find dead zones and interference.", "فحص الواي فاي", "اكتشف المناطق الميتة والتداخل.")],
  },
  "ar": {
-  "title": "دعم تقني وكاميرات مراقبة وواي فاي مكاتب في أبراج بحيرات جميرا JLT | كوين تك",
+  "title": "دعم تقني وكاميرات مراقبة وواي فاي في JLT، دبي | كوين تك",
   "desc": "دعم تقني وشبكات مكاتب وواي فاي وأنظمة دخول وكاميرات مراقبة لمكاتب وعيادات وكافيهات وشقق JLT. زيارة مجانية وأسعار مكتوبة وباقات شهرية.",
   "keywords": "دعم تقني JLT, شركة IT أبراج بحيرات جميرا, كاميرات مراقبة JLT, واي فاي مكاتب JLT, نظام دخول JLT, تمديد شبكات JLT",
   "crumb": "أبراج بحيرات جميرا JLT", "tag": "JLT · أبراج بحيرات جميرا",
@@ -150,7 +150,7 @@ AREA_PAGES = [
  "related": ["network-wifi-installation-dubai", "cctv-installation-dubai", "phone-repair-dubai", "laptop-repair-business-bay"],
  "en": {
   "title": "Home Wi-Fi, Cameras & Tech Help in Dubai Marina | Queen Tech",
-  "desc": "Mesh Wi-Fi, indoor cameras, video doorbells, smart home and laptop or phone repair for Dubai Marina apartments, plus CCTV and networks for Marina shops, cafés and offices.",
+  "desc": "Mesh Wi-Fi, indoor cameras, video doorbells and laptop or phone repair for Dubai Marina apartments, plus CCTV and networks for Marina shops and offices.",
   "keywords": "WiFi Dubai Marina, mesh WiFi apartment Dubai Marina, CCTV Dubai Marina, video doorbell Dubai Marina, laptop repair Dubai Marina, IT support Dubai Marina",
   "crumb": "Dubai Marina", "tag": "Dubai Marina · Dubai",
   "h1": "Tech help for Dubai Marina", "h1em": "homes and businesses.",
@@ -212,7 +212,7 @@ AREA_PAGES = [
  "prices": [("lab", "cam"), ("lab", "barrier"), ("lab", "door"), ("lab", "point")],
  "related": ["cctv-installation-dubai", "gate-barrier-installation", "access-control-dubai", "network-wifi-installation-dubai"],
  "en": {
-  "title": "Warehouse CCTV, Barriers & Access Control in Al Quoz, Dubai | Queen Tech",
+  "title": "Warehouse CCTV, Barriers & Access Control in Al Quoz, Dubai",
   "desc": "CCTV for warehouses and workshops, parking barriers, access control with attendance and site networks in Al Quoz Industrial. Free site visit and written prices.",
   "keywords": "CCTV Al Quoz, warehouse CCTV Al Quoz, gate barrier Al Quoz, access control Al Quoz, attendance system Al Quoz, network cabling Al Quoz",
   "crumb": "Al Quoz", "tag": "Al Quoz · Industrial areas",
@@ -275,8 +275,8 @@ AREA_PAGES = [
  "prices": [("lab", "cam"), ("lab", "nvr"), ("lab", "door"), ("lab", "point")],
  "related": ["cctv-installation-dubai", "access-control-dubai", "phone-repair-dubai", "it-support-dubai"],
  "en": {
-  "title": "Shop CCTV, Access Control & IT Support in Deira, Dubai | Queen Tech",
-  "desc": "CCTV for shops, trading companies and stores, access control, networks and IT support in Deira. Upgrades of old camera systems, phone viewing, free site visit and written prices.",
+  "title": "Shop CCTV, Access Control & IT Support in Deira | Queen Tech",
+  "desc": "CCTV for shops, trading companies and stores, access control, networks and IT support in Deira. Old system upgrades, free site visit and written prices.",
   "keywords": "CCTV Deira, shop CCTV Deira, CCTV repair Deira, access control Deira, IT support Deira, network Deira, camera installation Deira",
   "crumb": "Deira", "tag": "Deira · Dubai",
   "h1": "Cameras and IT for Deira", "h1em": "shops and trading companies.",
@@ -304,7 +304,7 @@ AREA_PAGES = [
  },
  "ar": {
   "title": "كاميرات محلات وأنظمة دخول ودعم تقني في ديرة، دبي | كوين تك",
-  "desc": "كاميرات مراقبة للمحلات والشركات التجارية والمخازن، أنظمة دخول، شبكات ودعم تقني في ديرة. ترقية أنظمة الكاميرات القديمة، المشاهدة من الجوال، زيارة مجانية وأسعار مكتوبة.",
+  "desc": "كاميرات مراقبة للمحلات والشركات التجارية والمخازن، أنظمة دخول وشبكات ودعم تقني في ديرة. ترقية الأنظمة القديمة وزيارة مجانية وأسعار مكتوبة.",
   "keywords": "كاميرات مراقبة ديرة, كاميرات محلات ديرة, صيانة كاميرات ديرة, نظام دخول ديرة, دعم تقني ديرة, تركيب كاميرات ديرة",
   "crumb": "ديرة", "tag": "ديرة · دبي",
   "h1": "كاميرات وتقنية", "h1em": "لمحلات وشركات ديرة.",
@@ -337,8 +337,8 @@ AREA_PAGES = [
  "prices": [("lab", "cam"), ("lab", "barrier"), ("lab", "door"), ("lab", "loop")],
  "related": ["cctv-installation-abu-dhabi", "gate-barrier-installation", "access-control-dubai", "network-wifi-installation-dubai"],
  "en": {
-  "title": "CCTV, Barriers & Attendance Systems in Mussafah, Abu Dhabi | Queen Tech",
-  "desc": "CCTV for workshops, warehouses and labour camps, parking barriers, face attendance and site networks in Mussafah and ICAD, Abu Dhabi. Free site visit and written prices.",
+  "title": "CCTV, Barriers & Attendance in Mussafah | Queen Tech",
+  "desc": "CCTV for workshops, warehouses and labour camps, parking barriers, face attendance and site networks in Mussafah and ICAD. Free visit and written prices.",
   "keywords": "CCTV Mussafah, CCTV installation Mussafah, gate barrier Mussafah, attendance system Mussafah, access control Mussafah, warehouse CCTV Abu Dhabi",
   "crumb": "Mussafah", "tag": "Mussafah · Abu Dhabi",
   "h1": "Cameras, barriers and attendance", "h1em": "for Mussafah.",

@@ -160,7 +160,7 @@ SCRIPT = '''
 </script>
 '''
 
-page("it-plans", "Business IT Support Plans for Small Offices in Dubai | Queen Tech",
-     "Monthly IT support for small offices in Dubai and Abu Dhabi: remote help, on-site visits, updates, antivirus, backup checks, email and Wi-Fi. Three clear plans, month to month.",
+page("it-plans", "IT Support Plans for Small Offices in Dubai | Queen Tech",
+     "Monthly IT support for small offices in Dubai and Abu Dhabi: remote help, on-site visits, updates, antivirus, backup checks, email and Wi-Fi. No contract.",
      "Business IT Support Plans | Queen Tech Solutions", "IT Support Plans", ("#book", "Get a plan"), BODY, SCRIPT,
      ld=ld_service("Business IT Support Plans", "Monthly managed IT support for small offices with remote help, on-site visits, updates, antivirus and backup checks.", "it-plans", {"serviceType": "Managed IT support"}))

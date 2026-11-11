@@ -1,6 +1,6 @@
 /* Arabic for express.html (ExpressFix) */
 QT_AR.add({
-  "ExpressFix PC, Laptop & Phone Repair with Pickup and Live Tracking | Queen Tech Dubai":"إكسبرس فيكس: تصليح الكمبيوتر واللابتوب والموبايل مع الاستلام والتتبّع المباشر | كوين تك دبي",
+  "ExpressFix: PC, Laptop & Phone Repair with Pickup | Queen Tech":"إكسبرس فيكس: تصليح الكمبيوتر واللابتوب والموبايل مع الاستلام والتتبّع المباشر | كوين تك دبي",
   "Track repair":"تتبّع التصليح",
   "PC · Laptop · Phone repair · Dubai":"تصليح كمبيوتر · لابتوب · موبايل · دبي",
   "ExpressFix: book a repair,":"إكسبرس فيكس: احجز التصليح،","track it live.":"وتابعه لحظة بلحظة.",

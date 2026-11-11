@@ -147,7 +147,7 @@ SCRIPT = '''
 </script>
 '''
 
-page("care", "CCTV Care Plan: Yearly CCTV Maintenance in Dubai &amp; Abu Dhabi | Queen Tech",
-     "Yearly CCTV maintenance contracts for offices, shops, warehouses and residential communities in Dubai and Abu Dhabi, with scheduled visits, a written response time and loaner devices.",
+page("care", "CCTV Maintenance Contracts in Dubai &amp; Abu Dhabi | Queen Tech",
+     "Yearly CCTV maintenance for offices, shops, warehouses and communities in Dubai and Abu Dhabi: scheduled visits, a written response time and loaners.",
      "CCTV Care Plan | Queen Tech Solutions", "CCTV Care Plan", ("#book", "Schedule visits"), BODY, SCRIPT,
      ld=ld_service("CCTV Care Plan", "Yearly CCTV maintenance plan with scheduled visits checking cameras, recorder, cabling and remote viewing.", "care", {"serviceType": "CCTV maintenance"}))

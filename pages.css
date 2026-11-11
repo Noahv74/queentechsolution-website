@@ -96,6 +96,7 @@ html[lang=ar] .pchip .v{font-size:1.6rem}
 /* areas */
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font:500 .78rem var(--f-mono);letter-spacing:.03em;padding:7px 11px;border:1px solid var(--line-2);border-radius:3px;color:var(--muted);text-decoration:none}
+a.chip:hover,a.chip:focus-visible{color:var(--gold);border-color:var(--gold)}
 html[lang=ar] .chip{font-family:var(--f-body);letter-spacing:0;font-size:.88rem}
 a.chip:hover{border-color:var(--gold);color:var(--gold-2)}
 

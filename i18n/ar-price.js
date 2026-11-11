@@ -35,7 +35,7 @@ var FRX=new RegExp("("+FRAG.map(function(f){return f[0].replace(/[.*+?^${}()|[\]
 function frag(s){FRAG.forEach(function(f){s=s.split(f[0]).join(f[1])});return s}
 
 QT_AR.add({
-  "Instant Price Check: CCTV, Access Control, Gate Barrier & WiFi | Queen Tech Dubai":"فحص السعر الفوري: كاميرات المراقبة، التحكم بالدخول، حواجز البوابات والواي فاي | كوين تك دبي",
+  "Instant Price: CCTV, Access Control & WiFi | Queen Tech Dubai":"فحص السعر الفوري: كاميرات المراقبة، التحكم بالدخول، حواجز البوابات والواي فاي | كوين تك دبي",
   /* offer bar */
   "Limited offer:":"عرض لفترة محدودة:","50% off":"خصم 50%","all installation":"على جميع أعمال التركيب","installation labour":"على أجرة التركيب",
   ". Cameras only":". تركيب الكاميرا بـ","each instead of AED 150.":"فقط بدلاً من 150 درهم.",". Camera installation":". تركيب الكاميرا بـ","each instead of AED 150, camera hardware extra.":"بدلاً من 150 درهم، وسعر الكاميرا نفسها منفصل.","Ends 1 December 2026.":"ينتهي 1 ديسمبر 2026.",

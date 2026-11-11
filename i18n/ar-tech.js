@@ -16,7 +16,7 @@ var DEV={
 QT_AR.add(DEV);
 QT_AR.add({
   /* head, nav */
-  "Tech Tools for CCTV & Network Technicians | Queen Tech Solutions":"أدوات الفنيين للكاميرات والشبكات | Queen Tech Solutions",
+  "Tech Tools for CCTV & Network Technicians | Queen Tech":"أدوات الفنيين للكاميرات والشبكات | Queen Tech Solutions",
   "Tech tools · for technicians":"أدوات فنية · للفنيين",
   "PoE budget":"قدرة PoE","Lock wiring":"توصيل الأقفال","Default IPs":"عناوين IP الافتراضية",
   "RJ45 & Wiegand":"RJ45 و Wiegand","Tools checklist":"قائمة العدّة",

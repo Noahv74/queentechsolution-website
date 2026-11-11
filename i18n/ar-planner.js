@@ -1,6 +1,6 @@
 /* Arabic for planner.html */
 QT_AR.add({
-  "CCTV Camera Planner for Villas, Shops, Offices & Warehouses | Queen Tech Dubai":"مخطط كاميرات المراقبة للفلل والمحلات والمكاتب والمستودعات | كوين تك دبي",
+  "CCTV Camera Planner for Villas, Shops & Offices | Queen Tech":"مخطط كاميرات المراقبة للفلل والمحلات والمكاتب والمستودعات | كوين تك دبي",
   "Camera planner":"مخطط الكاميرات",
   "My plan":"خطتي",
   "Free tool · Dubai · Abu Dhabi":"أداة مجانية · دبي · أبوظبي",

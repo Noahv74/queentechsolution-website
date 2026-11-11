@@ -147,5 +147,5 @@ if (id0) { $("i").value = id0; load(id0); }
 '''
 
 page("system", "System Card: Warranty, Service History &amp; Support | Queen Tech",
-     "Scan the Queen Tech sticker on your CCTV recorder, access control panel or barrier to see the warranty, next service and history, and report a problem in one tap.",
+     "Scan the Queen Tech sticker on your CCTV recorder, access panel or barrier to see the warranty, next service and history, and report a problem in a tap.",
      "Queen Tech system card", "System card", ("https://wa.me/971557971520", "WhatsApp"), BODY, SCRIPT)

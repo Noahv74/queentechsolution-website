@@ -1,6 +1,6 @@
 /* Arabic for bkam.html (Price finder) */
 QT_AR.add({
-  "بكام؟ Price Finder: Compare Prices in UAE Stores | Queen Tech":"بكام؟ قارن الأسعار في متاجر الإمارات | كوين تك",
+  "بكام؟ Price Finder: Compare UAE Store Prices | Queen Tech":"بكام؟ قارن الأسعار في متاجر الإمارات | كوين تك",
   "Installation prices":"أسعار التركيب","Tools":"الأدوات",
   "Price finder · UAE stores":"قارن الأسعار · متاجر الإمارات",
   "Find it, compare the price, know where to buy.":"ابحث عن أي منتج، قارن السعر، واعرف أين تشتريه.",

@@ -1,6 +1,6 @@
 /* Arabic for boards.html (codes and fixes are bilingual in boards-data.js) */
 QT_AR.add({
-  "Gate Barrier Error Codes: CAME, BFT, Titan Board Fixer | Queen Tech":"أكواد أعطال بوابات المواقف: CAME و BFT و Titan | كوين تك",
+  "Gate Barrier Error Codes: CAME, BFT & Titan | Queen Tech":"أكواد أعطال بوابات المواقف: CAME و BFT و Titan | كوين تك",
   "Help centre · for technicians":"مركز المساعدة · للفنيين",
   "Help centre":"مركز المساعدة",
   "Tech corner":"ركن الفنيين",

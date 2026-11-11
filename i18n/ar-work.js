@@ -1,6 +1,6 @@
 /* Arabic for /work.html */
 QT_AR.add({
-  "Our work: real CCTV, network room and gate barrier jobs | Queen Tech":"شغلنا: مشاريع كاميرات وغرف شبكة وبوابات حقيقية | كوين تك",
+  "Our Work: Real CCTV, Network & Barrier Jobs | Queen Tech":"شغلنا: مشاريع كاميرات وغرف شبكة وبوابات حقيقية | كوين تك",
   "Our work":"شغلنا","Our work · Real jobs":"شغلنا · مشاريع حقيقية","Real sites.":"مواقع حقيقية.","Real photos.":"صور حقيقية.",
   "Photos from our own jobs, taken by our technicians on site. We remove locations and blur camera screens to protect our clients' privacy.":"صور من شغلنا الحقيقي، صوّرها فنيينا في الموقع. بنشيل الموقع ونموّه شاشات الكاميرات عشان نحمي خصوصية عملائنا.",
   "CCTV · Network rooms · Gate barriers":"كاميرات · غرف الشبكة · بوابات",

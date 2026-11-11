@@ -1,6 +1,6 @@
 /* Arabic text for bandwidth.html (bandwidth & CCTV storage calculator) */
 QT_AR.add({
-  "Bandwidth & CCTV Storage Calculator | Queen Tech Solutions Dubai":"حاسبة سرعة الشبكة وتخزين كاميرات المراقبة | كوين تك دبي",
+  "CCTV Bandwidth & Storage Calculator | Queen Tech Dubai":"حاسبة سرعة الشبكة وتخزين كاميرات المراقبة | كوين تك دبي",
 
   /* page head */
   "Free tool · Bandwidth calculator":"أداة مجانية · حاسبة سرعة الشبكة",
