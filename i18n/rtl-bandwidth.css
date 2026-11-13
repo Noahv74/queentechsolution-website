@@ -4,7 +4,7 @@ html.rtl .grp::before{left:auto;right:-1px}
 html.rtl .r-main .big small{margin-left:0;margin-right:8px}
 html.rtl .stat .v small{margin-left:0;margin-right:4px}
 html.rtl .phead::before{background:
-  radial-gradient(60% 60% at 15% 20%,rgba(226,166,63,.10),transparent 70%),
+  radial-gradient(60% 60% at 15% 20%,color-mix(in srgb,var(--gold) 10%,transparent),transparent 70%),
   linear-gradient(var(--line) 1px,transparent 1px) 0 0/100% 64px}
 html.rtl .phead h1{line-height:1.25}
 html.rtl .ttable td:first-child{unicode-bidi:plaintext;text-align:right}

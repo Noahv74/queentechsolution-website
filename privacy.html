@@ -19,7 +19,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="Queen Tech Solutions">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#131210">
+<meta name="theme-color" content="#000F0F">
 <link rel="manifest" href="/manifest.webmanifest?v=3">
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
 <link rel="icon" href="/icon.svg?v=3" type="image/svg+xml">
@@ -28,8 +28,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@500&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Noto+Kufi+Arabic:wght@800&display=swap">
 <style>
-:root{--bg:#131210;--surface:#201E1A;--ink:#EFE8DB;--muted:#A79E8F;--dim:#6E675C;--line:#36322B;--line-2:#4A443A;--gold:#E2A63F;--gold-2:#F3C877;
-  --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;--f-body:"Figtree","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:dark}
+:root{--bg:#FFFFFF;--surface:#F4F6F8;--ink:#031B4E;--muted:#4D5B7C;--dim:#5F6E8C;--line:#E3E8EE;--line-2:#C9D2DE;--gold:#0069FF;--gold-2:#0050C8;
+  --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;--f-body:"Figtree","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}
+/* theme: DigitalOcean-style palette. Light pages; header, hero, call-to-action band and footer use the dark teal set. */
+header.top,.hero,footer,.cta-band{--bg:#000F0F;--bg-2:#071A1A;--surface:#13302E;--surface-2:#1F403E;--ink:#FFFFFF;--muted:#B4C6C5;--dim:#7E9896;--line:#1F403E;--line-2:#2F5552;--gold:#6FE0ED;--gold-2:#A8EEF5;--live:#E25B45;--net:#5FC8A0;--warn:#F08A73;--gold-soft:rgba(111,224,237,.12);--net-soft:rgba(95,200,160,.12);color:var(--ink);color-scheme:dark}
+header.top,.hero,footer{background-color:var(--bg)}
+footer.wrap,footer.pfoot{box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax)}
+[fill="#0069FF"]{fill:var(--gold)}[stroke="#0069FF"]{stroke:var(--gold)}[stop-color="#0069FF"]{stop-color:var(--gold)}[flood-color="#0069FF"]{flood-color:var(--gold)}[fill="#0050C8"]{fill:var(--gold-2)}[stroke="#0050C8"]{stroke:var(--gold-2)}[stop-color="#0050C8"]{stop-color:var(--gold-2)}[flood-color="#0050C8"]{flood-color:var(--gold-2)}[fill="#031B4E"]{fill:var(--ink)}[stroke="#031B4E"]{stroke:var(--ink)}[stop-color="#031B4E"]{stop-color:var(--ink)}[flood-color="#031B4E"]{flood-color:var(--ink)}[fill="#FFFFFF"]{fill:var(--bg)}[stroke="#FFFFFF"]{stroke:var(--bg)}[stop-color="#FFFFFF"]{stop-color:var(--bg)}[flood-color="#FFFFFF"]{flood-color:var(--bg)}[fill="#4D5B7C"]{fill:var(--muted)}[stroke="#4D5B7C"]{stroke:var(--muted)}[stop-color="#4D5B7C"]{stop-color:var(--muted)}[flood-color="#4D5B7C"]{flood-color:var(--muted)}[fill="#C9D2DE"]{fill:var(--line-2)}[stroke="#C9D2DE"]{stroke:var(--line-2)}[stop-color="#C9D2DE"]{stop-color:var(--line-2)}[flood-color="#C9D2DE"]{flood-color:var(--line-2)}[fill="#F4F6F8"]{fill:var(--surface)}[stroke="#F4F6F8"]{stroke:var(--surface)}[stop-color="#F4F6F8"]{stop-color:var(--surface)}[flood-color="#F4F6F8"]{flood-color:var(--surface)}[fill="#5F6E8C"]{fill:var(--dim)}[stroke="#5F6E8C"]{stroke:var(--dim)}[stop-color="#5F6E8C"]{stop-color:var(--dim)}[flood-color="#5F6E8C"]{flood-color:var(--dim)}
+
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;overflow-x:hidden}
 a{color:var(--gold)}
@@ -51,7 +57,7 @@ p b,li b{color:var(--ink)}
 ul{padding-inline-start:22px}
 li{margin:6px 0}
 .upd{font:500 .78rem var(--f-mono);color:var(--dim)}
-.box{border:1px solid var(--gold);background:rgba(226,166,63,.08);border-radius:10px;padding:16px 18px;margin-top:14px}
+.box{border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);border-radius:10px;padding:16px 18px;margin-top:14px}
 .box p{margin:0 0 10px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:6px;font:600 .92rem/1.2 var(--f-body);text-decoration:none;border:1px solid var(--line-2);color:var(--ink);margin:4px 6px 4px 0}
 .btn.wa{background:#2FA866;border-color:#2FA866;color:#fff}

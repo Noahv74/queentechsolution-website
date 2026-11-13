@@ -132,22 +132,22 @@
   function draw() {
     var W = S.W, D = S.D, pad = 1.6, r = plan(); last = r;
     svg.setAttribute("viewBox", (-0.6) + " " + (-0.6) + " " + (W + 1.2) + " " + (D + pad + 0.6));
-    var h = '<defs><pattern id="gr" width="1" height="1" patternUnits="userSpaceOnUse"><path d="M1 0H0V1" fill="none" stroke="rgba(226,166,63,.08)" stroke-width=".03"/></pattern></defs>';
+    var h = '<defs><pattern id="gr" width="1" height="1" patternUnits="userSpaceOnUse"><path d="M1 0H0V1" fill="none" stroke="rgba(0,105,255,.08)" stroke-width=".03"/></pattern></defs>';
     h += '<rect x="0" y="' + D + '" width="' + W + '" height="' + pad + '" fill="rgba(95,200,232,.05)"/><text x="' + (W / 2) + '" y="' + (D + pad - 0.25) + '" class="lbl" text-anchor="middle">' + esc(ar ? "الشارع / الممر" : "Street / mall corridor") + '</text>';
-    h += '<rect x="0" y="0" width="' + W + '" height="' + D + '" fill="#1d1b17" stroke="#E2A63F" stroke-width=".12"/><rect x="0" y="0" width="' + W + '" height="' + D + '" fill="url(#gr)"/>';
+    h += '<rect x="0" y="0" width="' + W + '" height="' + D + '" fill="#1d1b17" stroke="#0069FF" stroke-width=".12"/><rect x="0" y="0" width="' + W + '" height="' + D + '" fill="url(#gr)"/>';
     if (S.stock) h += '<rect class="drag" data-k="stock" x="' + S.stock.x + '" y="' + S.stock.y + '" width="' + S.stock.w + '" height="' + S.stock.h + '" fill="#26231e" stroke="#8a7d66" stroke-width=".08" stroke-dasharray=".25 .15"/><text x="' + (S.stock.x + S.stock.w / 2) + '" y="' + (S.stock.y + S.stock.h / 2 + 0.15) + '" class="lbl" text-anchor="middle">' + esc(L.items.stock) + '</text>';
     /* uncovered floor */
     r.pts.forEach(function (p, i) { if (!r.covP[i]) h += '<rect x="' + (p.x - 0.5) + '" y="' + (p.y - 0.5) + '" width="1" height="1" fill="rgba(226,91,69,.18)"/>'; });
     /* camera cones */
     r.cams.forEach(function (c, i) {
       var a1 = c.a - FOV / 2, a2 = c.a + FOV / 2, R = 4.2;
-      h += '<path d="M' + c.x + ' ' + c.y + ' L' + (c.x + Math.cos(a1) * R) + ' ' + (c.y + Math.sin(a1) * R) + ' A' + R + ' ' + R + ' 0 0 1 ' + (c.x + Math.cos(a2) * R) + ' ' + (c.y + Math.sin(a2) * R) + ' Z" fill="rgba(226,166,63,.16)" stroke="rgba(226,166,63,.5)" stroke-width=".04"/>';
+      h += '<path d="M' + c.x + ' ' + c.y + ' L' + (c.x + Math.cos(a1) * R) + ' ' + (c.y + Math.sin(a1) * R) + ' A' + R + ' ' + R + ' 0 0 1 ' + (c.x + Math.cos(a2) * R) + ' ' + (c.y + Math.sin(a2) * R) + ' Z" fill="rgba(0,105,255,.16)" stroke="rgba(0,105,255,.5)" stroke-width=".04"/>';
     });
     S.items.forEach(function (it, i) {
-      h += '<g class="drag" data-k="' + i + '" transform="translate(' + it.x + ' ' + it.y + ')"><circle r=".42" fill="#131210" stroke="' + (it.t === "outside" ? "#5FC8E8" : "#EFE8DB") + '" stroke-width=".05"/><text y=".16" text-anchor="middle" class="ic">' + ICON[it.t] + '</text></g>';
+      h += '<g class="drag" data-k="' + i + '" transform="translate(' + it.x + ' ' + it.y + ')"><circle r=".42" fill="#FFFFFF" stroke="' + (it.t === "outside" ? "#5FC8E8" : "#031B4E") + '" stroke-width=".05"/><text y=".16" text-anchor="middle" class="ic">' + ICON[it.t] + '</text></g>';
     });
     r.cams.forEach(function (c, i) {
-      h += '<g pointer-events="none" transform="translate(' + c.x + ' ' + c.y + ')"><circle r=".3" fill="#E2A63F"/><text y=".11" text-anchor="middle" class="cn">' + (i + 1) + '</text></g>';
+      h += '<g pointer-events="none" transform="translate(' + c.x + ' ' + c.y + ')"><circle r=".3" fill="#0069FF"/><text y=".11" text-anchor="middle" class="cn">' + (i + 1) + '</text></g>';
     });
     if (r.outside) { var o = S.items.find(function (x) { return x.t === "outside"; }), fx = Math.min(W - 0.3, Math.max(0.3, o.x)); h += '<g pointer-events="none" transform="translate(' + fx + ' ' + (D - 0.15) + ')"><path d="M0 0 L-1.6 1.5 A2.2 2.2 0 0 0 1.6 1.5 Z" fill="rgba(95,200,232,.18)"/><circle r=".3" fill="#5FC8E8"/><text y=".11" text-anchor="middle" class="cn">' + (r.cams.length + 1) + '</text></g>'; }
     h += '<text x="' + (W / 2) + '" y="-.15" class="lbl" text-anchor="middle">' + W + ' ' + L.m + '</text><text x="-.2" y="' + (D / 2) + '" class="lbl" text-anchor="middle" transform="rotate(-90 -.2 ' + (D / 2) + ')">' + D + ' ' + L.m + '</text>';

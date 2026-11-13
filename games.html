@@ -16,7 +16,7 @@
 <meta property="og:description" content="Three free original games. Play on your phone, challenge your friends on WhatsApp.">
 <meta property="og:url" content="https://queentechsolution.info/games.html">
 <meta property="og:image" content="https://queentechsolution.info/og-image.png">
-<meta name="theme-color" content="#131210">
+<meta name="theme-color" content="#000F0F">
 <link rel="manifest" href="/manifest.webmanifest?v=3">
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
 <link rel="icon" href="/icon.svg?v=3" type="image/svg+xml">
@@ -25,8 +25,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-:root{--bg:#131210;--bg-2:#1A1916;--surface:#201E1A;--surface-2:#2A2722;--ink:#EFE8DB;--muted:#A79E8F;--dim:#6E675C;--line:#36322B;--line-2:#4A443A;--gold:#E2A63F;--gold-2:#F3C877;--gold-soft:rgba(226,166,63,.12);--wa:#2FA866;
-  --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;--f-body:"Figtree","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
+:root{--bg:#FFFFFF;--bg-2:#F4F6F8;--surface:#F4F6F8;--surface-2:#E8EDF3;--ink:#031B4E;--muted:#4D5B7C;--dim:#5F6E8C;--line:#E3E8EE;--line-2:#C9D2DE;--gold:#0069FF;--gold-2:#0050C8;--gold-soft:rgba(0,105,255,.10);--wa:#2FA866;
+  --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;--f-body:"Figtree","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;color-scheme:light}
+/* theme: DigitalOcean-style palette. Light pages; header, hero, call-to-action band and footer use the dark teal set. */
+header.top,.hero,footer,.cta-band{--bg:#000F0F;--bg-2:#071A1A;--surface:#13302E;--surface-2:#1F403E;--ink:#FFFFFF;--muted:#B4C6C5;--dim:#7E9896;--line:#1F403E;--line-2:#2F5552;--gold:#6FE0ED;--gold-2:#A8EEF5;--live:#E25B45;--net:#5FC8A0;--warn:#F08A73;--gold-soft:rgba(111,224,237,.12);--net-soft:rgba(95,200,160,.12);color:var(--ink);color-scheme:dark}
+header.top,.hero,footer{background-color:var(--bg)}
+footer.wrap,footer.pfoot{box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax)}
+[fill="#0069FF"]{fill:var(--gold)}[stroke="#0069FF"]{stroke:var(--gold)}[stop-color="#0069FF"]{stop-color:var(--gold)}[flood-color="#0069FF"]{flood-color:var(--gold)}[fill="#0050C8"]{fill:var(--gold-2)}[stroke="#0050C8"]{stroke:var(--gold-2)}[stop-color="#0050C8"]{stop-color:var(--gold-2)}[flood-color="#0050C8"]{flood-color:var(--gold-2)}[fill="#031B4E"]{fill:var(--ink)}[stroke="#031B4E"]{stroke:var(--ink)}[stop-color="#031B4E"]{stop-color:var(--ink)}[flood-color="#031B4E"]{flood-color:var(--ink)}[fill="#FFFFFF"]{fill:var(--bg)}[stroke="#FFFFFF"]{stroke:var(--bg)}[stop-color="#FFFFFF"]{stop-color:var(--bg)}[flood-color="#FFFFFF"]{flood-color:var(--bg)}[fill="#4D5B7C"]{fill:var(--muted)}[stroke="#4D5B7C"]{stroke:var(--muted)}[stop-color="#4D5B7C"]{stop-color:var(--muted)}[flood-color="#4D5B7C"]{flood-color:var(--muted)}[fill="#C9D2DE"]{fill:var(--line-2)}[stroke="#C9D2DE"]{stroke:var(--line-2)}[stop-color="#C9D2DE"]{stop-color:var(--line-2)}[flood-color="#C9D2DE"]{flood-color:var(--line-2)}[fill="#F4F6F8"]{fill:var(--surface)}[stroke="#F4F6F8"]{stroke:var(--surface)}[stop-color="#F4F6F8"]{stop-color:var(--surface)}[flood-color="#F4F6F8"]{flood-color:var(--surface)}[fill="#5F6E8C"]{fill:var(--dim)}[stroke="#5F6E8C"]{stroke:var(--dim)}[stop-color="#5F6E8C"]{stop-color:var(--dim)}[flood-color="#5F6E8C"]{flood-color:var(--dim)}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
@@ -69,7 +75,7 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 html[dir=rtl] .game .type,html[dir=rtl] .tag{font-family:inherit;letter-spacing:0}
 html[dir=rtl] .game .play svg{transform:scaleX(-1)}
 .sec{padding-block:clamp(30px,5vw,50px);border-top:1px solid var(--line)}
-.promo{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;border:1px solid var(--line-2);border-radius:14px;background:linear-gradient(120deg,#201E1A,#1a1712);padding:clamp(16px,3vw,26px)}
+.promo{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;border:1px solid var(--line-2);border-radius:14px;background:linear-gradient(120deg,var(--surface),#1a1712);padding:clamp(16px,3vw,26px)}
 @media (max-width:760px){.promo{grid-template-columns:1fr}}
 .promo .ic{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;background:var(--gold-soft);color:var(--gold)}
 .promo .ic svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -111,16 +117,16 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
   <section class="games" aria-label="Games">
     <a class="game" href="/games/glitch-run.html">
       <svg class="art" viewBox="0 0 320 180" aria-hidden="true">
-        <defs><pattern id="g1" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" fill="none" stroke="rgba(226,166,63,.07)"/></pattern></defs>
+        <defs><pattern id="g1" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" fill="none" stroke="rgba(0,105,255,.07)"/></pattern></defs>
         <rect width="320" height="180" fill="url(#g1)"/>
-        <rect x="0" y="140" width="130" height="40" fill="#24211c"/><rect x="0" y="140" width="130" height="4" fill="#E2A63F"/>
-        <rect x="186" y="140" width="134" height="40" fill="#24211c"/><rect x="186" y="140" width="134" height="4" fill="#E2A63F"/>
+        <rect x="0" y="140" width="130" height="40" fill="#24211c"/><rect x="0" y="140" width="130" height="4" fill="#0069FF"/>
+        <rect x="186" y="140" width="134" height="40" fill="#24211c"/><rect x="186" y="140" width="134" height="4" fill="#0069FF"/>
         <rect x="134" y="152" width="48" height="16" fill="#24211c" opacity=".7" transform="rotate(8 158 160)"/>
-        <path d="M206 140l6-14 6 14zM218 140l6-14 6 14z" fill="#EFE8DB"/>
-        <rect x="270" y="92" width="26" height="48" fill="#0b0a09" stroke="#E2A63F" stroke-width="2"/><rect x="266" y="82" width="34" height="10" fill="#1f8f5a"/>
-        <text x="283" y="90" fill="#EFE8DB" font-size="7" font-weight="700" text-anchor="middle" font-family="system-ui,sans-serif">EXIT</text>
-        <g transform="translate(96 108)"><rect x="0" y="6" width="22" height="22" rx="5" fill="#EFE8DB"/><rect x="4" y="12" width="14" height="7" fill="#131210"/><rect x="12" y="13" width="4" height="4" fill="#E2A63F"/><path d="M11 6V0" stroke="#EFE8DB" stroke-width="2"/><circle cx="11" cy="-1" r="2.5" fill="#E2A63F"/></g>
-        <path d="M70 40l14 0M78 30l0 22" stroke="rgba(243,200,119,.25)" stroke-width="2"/>
+        <path d="M206 140l6-14 6 14zM218 140l6-14 6 14z" fill="#031B4E"/>
+        <rect x="270" y="92" width="26" height="48" fill="#0b0a09" stroke="#0069FF" stroke-width="2"/><rect x="266" y="82" width="34" height="10" fill="#1f8f5a"/>
+        <text x="283" y="90" fill="#031B4E" font-size="7" font-weight="700" text-anchor="middle" font-family="system-ui,sans-serif">EXIT</text>
+        <g transform="translate(96 108)"><rect x="0" y="6" width="22" height="22" rx="5" fill="#031B4E"/><rect x="4" y="12" width="14" height="7" fill="#FFFFFF"/><rect x="12" y="13" width="4" height="4" fill="#0069FF"/><path d="M11 6V0" stroke="#031B4E" stroke-width="2"/><circle cx="11" cy="-1" r="2.5" fill="#0069FF"/></g>
+        <path d="M70 40l14 0M78 30l0 22" stroke="rgba(0,80,200,.25)" stroke-width="2"/>
       </svg>
       <div class="body">
         <span class="type">Trap platformer · 100 levels</span>
@@ -133,13 +139,13 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
       <svg class="art" viewBox="0 0 320 180" aria-hidden="true">
         <rect width="320" height="180" fill="#100f0d"/>
         <path d="M0 150h30v-60h28v60h20v-90h34v90h16v-50h30v50h22v-74h26v74h30v-40h26v40h38v30H0z" fill="#1a1813"/>
-        <circle cx="40" cy="22" r="1" fill="#EFE8DB" opacity=".6"/><circle cx="210" cy="16" r="1" fill="#EFE8DB" opacity=".5"/><circle cx="290" cy="30" r="1" fill="#EFE8DB" opacity=".6"/>
+        <circle cx="40" cy="22" r="1" fill="#031B4E" opacity=".6"/><circle cx="210" cy="16" r="1" fill="#031B4E" opacity=".5"/><circle cx="290" cy="30" r="1" fill="#031B4E" opacity=".6"/>
         <rect x="0" y="166" width="320" height="14" fill="#0e0d0b"/><path d="M0 170l10-4 10 6 10-5 10 5 10-4 10 6 10-5 10 5 10-4 10 6 10-5 10 5 10-4 10 6 10-5 10 5 10-4 10 6 10-5 10 5 10-4 10 6 10-5 10 5 10-4 10 6 10-5 10 5 10-4 10 6 10-5 10 5" stroke="#5FC8E8" stroke-width="1.5" fill="none" opacity=".8"/>
-        <circle cx="120" cy="40" r="7" fill="none" stroke="#E2A63F" stroke-width="3"/><circle cx="236" cy="56" r="7" fill="none" stroke="#E2A63F" stroke-width="3"/>
-        <path d="M120 40L176 104" stroke="#E2A63F" stroke-width="2"/>
-        <circle cx="150" cy="84" r="3" fill="#E2A63F" opacity=".2"/><circle cx="162" cy="94" r="3.5" fill="#E2A63F" opacity=".3"/>
-        <g transform="translate(176 104)"><circle r="11" fill="#EFE8DB"/><rect x="-7" y="-5" width="14" height="6" fill="#131210"/><rect x="2" y="-4" width="3" height="3" fill="#E2A63F"/></g>
-        <path d="M262 100l2-8 4 4 3-6 3 6 4-4 2 8z" fill="#E2A63F"/>
+        <circle cx="120" cy="40" r="7" fill="none" stroke="#0069FF" stroke-width="3"/><circle cx="236" cy="56" r="7" fill="none" stroke="#0069FF" stroke-width="3"/>
+        <path d="M120 40L176 104" stroke="#0069FF" stroke-width="2"/>
+        <circle cx="150" cy="84" r="3" fill="#0069FF" opacity=".2"/><circle cx="162" cy="94" r="3.5" fill="#0069FF" opacity=".3"/>
+        <g transform="translate(176 104)"><circle r="11" fill="#031B4E"/><rect x="-7" y="-5" width="14" height="6" fill="#FFFFFF"/><rect x="2" y="-4" width="3" height="3" fill="#0069FF"/></g>
+        <path d="M262 100l2-8 4 4 3-6 3 6 4-4 2 8z" fill="#0069FF"/>
       </svg>
       <div class="body">
         <span class="type">One-tap swing · 20 missions</span>
@@ -151,11 +157,11 @@ html[dir=rtl] .wa-float{right:auto;left:18px}
     <a class="game" href="/games/crown-heist.html">
       <svg class="art" viewBox="0 0 320 180" aria-hidden="true">
         <rect width="320" height="180" fill="#15130f"/>
-        <rect x="90" y="0" width="140" height="180" fill="#1c1915"/><rect x="132" y="30" width="56" height="150" fill="#3a1717"/><rect x="132" y="30" width="2" height="150" fill="#E2A63F"/><rect x="186" y="30" width="2" height="150" fill="#E2A63F"/>
+        <rect x="90" y="0" width="140" height="180" fill="#1c1915"/><rect x="132" y="30" width="56" height="150" fill="#3a1717"/><rect x="132" y="30" width="2" height="150" fill="#0069FF"/><rect x="186" y="30" width="2" height="150" fill="#0069FF"/>
         <path d="M160 22L60 180h200z" fill="rgba(226,91,69,.18)"/>
-        <rect x="150" y="10" width="20" height="10" fill="#EFE8DB"/><circle cx="156" cy="15" r="2" fill="#E25B45"/>
-        <path d="M150 44l2-9 5 5 3-8 3 8 5-5 2 9z" fill="#E2A63F"/><rect x="146" y="46" width="28" height="10" fill="#3a352d"/>
-        <g transform="translate(160 140)"><circle cx="13" cy="4" r="7" fill="#6b5532"/><circle r="13" fill="#EFE8DB"/><rect x="-11" y="-6" width="22" height="8" fill="#131210"/><rect x="-7" y="-4" width="4" height="3" fill="#EFE8DB"/><rect x="3" y="-4" width="4" height="3" fill="#EFE8DB"/></g>
+        <rect x="150" y="10" width="20" height="10" fill="#031B4E"/><circle cx="156" cy="15" r="2" fill="#E25B45"/>
+        <path d="M150 44l2-9 5 5 3-8 3 8 5-5 2 9z" fill="#0069FF"/><rect x="146" y="46" width="28" height="10" fill="#3a352d"/>
+        <g transform="translate(160 140)"><circle cx="13" cy="4" r="7" fill="#6b5532"/><circle r="13" fill="#031B4E"/><rect x="-11" y="-6" width="22" height="8" fill="#FFFFFF"/><rect x="-7" y="-4" width="4" height="3" fill="#031B4E"/><rect x="3" y="-4" width="4" height="3" fill="#031B4E"/></g>
         <text x="160" y="118" fill="#E25B45" font-size="16" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">!!</text>
       </svg>
       <div class="body">

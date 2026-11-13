@@ -29,7 +29,7 @@ def page(slug, title, desc, ogt, sub, cta, body, script, ld=None, admin=False, m
               '<meta property="og:title" content="%s">' % ogt, '<meta property="og:description" content="%s">' % desc,
               '<meta property="og:url" content="%s">' % url, '<meta property="og:image" content="https://queentechsolution.info/og-image.png">',
               '<meta name="twitter:card" content="summary_large_image">']
-    h += ['<meta name="theme-color" content="#131210">', '<link rel="manifest" href="/manifest.webmanifest?v=3">',
+    h += ['<meta name="theme-color" content="#000F0F">', '<link rel="manifest" href="/manifest.webmanifest?v=3">',
           '<link rel="icon" href="/favicon.ico?v=3" sizes="any">', '<link rel="icon" href="/icon.svg?v=3" type="image/svg+xml">',
           '<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">']
     if ld:

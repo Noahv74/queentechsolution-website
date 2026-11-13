@@ -15,7 +15,7 @@
 <meta property="og:description" content="Online fixes for games, FPS and controllers with AnyDesk. Gaming PC hardware repair and builds in Dubai and Abu Dhabi.">
 <meta property="og:url" content="https://queentechsolution.info/gamers.html">
 <meta property="og:image" content="https://queentechsolution.info/og-image.png">
-<meta name="theme-color" content="#131210">
+<meta name="theme-color" content="#000F0F">
 <link rel="manifest" href="/manifest.webmanifest?v=3">
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
 <link rel="icon" href="/icon.svg?v=3" type="image/svg+xml">
@@ -25,15 +25,21 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --bg:#131210; --bg-2:#1A1916; --surface:#201E1A; --surface-2:#2A2722;
-  --ink:#EFE8DB; --muted:#A79E8F; --dim:#6E675C; --line:#36322B; --line-2:#4A443A;
-  --gold:#E2A63F; --gold-2:#F3C877; --gold-soft:rgba(226,166,63,.12);
-  --net:#5FC8A0; --net-soft:rgba(95,200,160,.12); --wa:#2FA866;
+  --bg:#FFFFFF; --bg-2:#F4F6F8; --surface:#F4F6F8; --surface-2:#E8EDF3;
+  --ink:#031B4E; --muted:#4D5B7C; --dim:#5F6E8C; --line:#E3E8EE; --line-2:#C9D2DE;
+  --gold:#0069FF; --gold-2:#0050C8; --gold-soft:rgba(0,105,255,.10);
+  --net:#12805C; --net-soft:rgba(18,128,92,.10); --wa:#2FA866;
   --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;
   --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-  color-scheme:dark;
+  color-scheme:light;
 }
+/* theme: DigitalOcean-style palette. Light pages; header, hero, call-to-action band and footer use the dark teal set. */
+header.top,.hero,footer,.cta-band{--bg:#000F0F;--bg-2:#071A1A;--surface:#13302E;--surface-2:#1F403E;--ink:#FFFFFF;--muted:#B4C6C5;--dim:#7E9896;--line:#1F403E;--line-2:#2F5552;--gold:#6FE0ED;--gold-2:#A8EEF5;--live:#E25B45;--net:#5FC8A0;--warn:#F08A73;--gold-soft:rgba(111,224,237,.12);--net-soft:rgba(95,200,160,.12);color:var(--ink);color-scheme:dark}
+header.top,.hero,footer{background-color:var(--bg)}
+footer.wrap,footer.pfoot{box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax)}
+[fill="#0069FF"]{fill:var(--gold)}[stroke="#0069FF"]{stroke:var(--gold)}[stop-color="#0069FF"]{stop-color:var(--gold)}[flood-color="#0069FF"]{flood-color:var(--gold)}[fill="#0050C8"]{fill:var(--gold-2)}[stroke="#0050C8"]{stroke:var(--gold-2)}[stop-color="#0050C8"]{stop-color:var(--gold-2)}[flood-color="#0050C8"]{flood-color:var(--gold-2)}[fill="#031B4E"]{fill:var(--ink)}[stroke="#031B4E"]{stroke:var(--ink)}[stop-color="#031B4E"]{stop-color:var(--ink)}[flood-color="#031B4E"]{flood-color:var(--ink)}[fill="#FFFFFF"]{fill:var(--bg)}[stroke="#FFFFFF"]{stroke:var(--bg)}[stop-color="#FFFFFF"]{stop-color:var(--bg)}[flood-color="#FFFFFF"]{flood-color:var(--bg)}[fill="#4D5B7C"]{fill:var(--muted)}[stroke="#4D5B7C"]{stroke:var(--muted)}[stop-color="#4D5B7C"]{stop-color:var(--muted)}[flood-color="#4D5B7C"]{flood-color:var(--muted)}[fill="#C9D2DE"]{fill:var(--line-2)}[stroke="#C9D2DE"]{stroke:var(--line-2)}[stop-color="#C9D2DE"]{stop-color:var(--line-2)}[flood-color="#C9D2DE"]{flood-color:var(--line-2)}[fill="#F4F6F8"]{fill:var(--surface)}[stroke="#F4F6F8"]{stroke:var(--surface)}[stop-color="#F4F6F8"]{stop-color:var(--surface)}[flood-color="#F4F6F8"]{flood-color:var(--surface)}[fill="#5F6E8C"]{fill:var(--dim)}[stroke="#5F6E8C"]{stroke:var(--dim)}[stop-color="#5F6E8C"]{stop-color:var(--dim)}[flood-color="#5F6E8C"]{flood-color:var(--dim)}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:130px}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
@@ -121,7 +127,7 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .field textarea{min-height:84px;resize:vertical}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
 .field input[readonly]{color:var(--gold-2);background:var(--bg-2)}
-.field .err{font-size:.82rem;color:#F08A73}
+.field .err{font-size:.82rem;color:var(--warn,#C9302C)}
 #adId{font-family:var(--f-mono);letter-spacing:.08em;direction:ltr}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media (max-width:520px){.two{grid-template-columns:1fr}}
@@ -148,7 +154,7 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .hint-link{font-size:.85rem;color:var(--muted)}
 .small{font-size:.84rem;color:var(--dim);margin-top:14px;max-width:80ch}
 .arcade-cta{display:flex;align-items:center;gap:14px;margin:6px 0 34px;padding:16px 18px;border:1px solid var(--gold);border-radius:12px;background:var(--gold-soft);color:var(--ink);text-decoration:none;font-weight:700}
-.arcade-cta:hover{background:rgba(226,166,63,.2)}
+.arcade-cta:hover{background:color-mix(in srgb,var(--gold) 20%,transparent)}
 .arcade-cta .ic{font-size:1.6rem}
 .arcade-cta .go{margin-inline-start:auto;color:var(--gold);font-size:1.3rem}
 html[dir=rtl] .arcade-cta .go{transform:scaleX(-1)}

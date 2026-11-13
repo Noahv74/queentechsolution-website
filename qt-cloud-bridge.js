@@ -20,7 +20,7 @@
   function toast() {
     var t = document.createElement("div");
     t.textContent = (document.documentElement.lang === "ar" || window.QT_LANG === "ar") ? "☁ اتحفظ في حسابك" : "☁ Saved to your account";
-    t.style.cssText = "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:500;background:#201E1A;color:#EFE8DB;border:1px solid #E2A63F;border-radius:999px;padding:8px 16px;font:600 14px system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.4)";
+    t.style.cssText = "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:500;background:var(--surface);color:var(--ink);border:1px solid var(--gold);border-radius:999px;padding:8px 16px;font:600 14px system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.4)";
     document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2200);
   }
   function settle(u) { user = u || null; C.user = user; if (!user && C.status === "loading") C.status = "signed-out"; known = true; var w = waiters; waiters = []; w.forEach(function (fn) { try { fn(user); } catch (e) {} }); }

@@ -15,7 +15,7 @@
 <meta property="og:description" content="Instant prices, gamers & PC help, help centre and WhatsApp support in one free app.">
 <meta property="og:url" content="https://queentechsolution.info/app.html">
 <meta property="og:image" content="https://queentechsolution.info/og-image.png">
-<meta name="theme-color" content="#131210">
+<meta name="theme-color" content="#000F0F">
 <link rel="manifest" href="/manifest.webmanifest?v=3">
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
 <link rel="icon" href="/icon.svg?v=3" type="image/svg+xml">
@@ -25,14 +25,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --bg:#131210; --bg-2:#1A1916; --surface:#201E1A; --surface-2:#2A2722;
-  --ink:#EFE8DB; --muted:#A79E8F; --dim:#6E675C; --line:#36322B; --line-2:#4A443A;
-  --gold:#E2A63F; --gold-2:#F3C877; --gold-soft:rgba(226,166,63,.12); --wa:#2FA866; --and:#3DDC84;
+  --bg:#FFFFFF; --bg-2:#F4F6F8; --surface:#F4F6F8; --surface-2:#E8EDF3;
+  --ink:#031B4E; --muted:#4D5B7C; --dim:#5F6E8C; --line:#E3E8EE; --line-2:#C9D2DE;
+  --gold:#0069FF; --gold-2:#0050C8; --gold-soft:rgba(0,105,255,.10); --wa:#2FA866; --and:#3DDC84;
   --f-display:"Big Shoulders Display","Arial Narrow",system-ui,sans-serif;
   --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-  color-scheme:dark;
+  color-scheme:light;
 }
+/* theme: DigitalOcean-style palette. Light pages; header, hero, call-to-action band and footer use the dark teal set. */
+header.top,.hero,footer,.cta-band{--bg:#000F0F;--bg-2:#071A1A;--surface:#13302E;--surface-2:#1F403E;--ink:#FFFFFF;--muted:#B4C6C5;--dim:#7E9896;--line:#1F403E;--line-2:#2F5552;--gold:#6FE0ED;--gold-2:#A8EEF5;--live:#E25B45;--net:#5FC8A0;--warn:#F08A73;--gold-soft:rgba(111,224,237,.12);--net-soft:rgba(95,200,160,.12);color:var(--ink);color-scheme:dark}
+header.top,.hero,footer{background-color:var(--bg)}
+footer.wrap,footer.pfoot{box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax)}
+[fill="#0069FF"]{fill:var(--gold)}[stroke="#0069FF"]{stroke:var(--gold)}[stop-color="#0069FF"]{stop-color:var(--gold)}[flood-color="#0069FF"]{flood-color:var(--gold)}[fill="#0050C8"]{fill:var(--gold-2)}[stroke="#0050C8"]{stroke:var(--gold-2)}[stop-color="#0050C8"]{stop-color:var(--gold-2)}[flood-color="#0050C8"]{flood-color:var(--gold-2)}[fill="#031B4E"]{fill:var(--ink)}[stroke="#031B4E"]{stroke:var(--ink)}[stop-color="#031B4E"]{stop-color:var(--ink)}[flood-color="#031B4E"]{flood-color:var(--ink)}[fill="#FFFFFF"]{fill:var(--bg)}[stroke="#FFFFFF"]{stroke:var(--bg)}[stop-color="#FFFFFF"]{stop-color:var(--bg)}[flood-color="#FFFFFF"]{flood-color:var(--bg)}[fill="#4D5B7C"]{fill:var(--muted)}[stroke="#4D5B7C"]{stroke:var(--muted)}[stop-color="#4D5B7C"]{stop-color:var(--muted)}[flood-color="#4D5B7C"]{flood-color:var(--muted)}[fill="#C9D2DE"]{fill:var(--line-2)}[stroke="#C9D2DE"]{stroke:var(--line-2)}[stop-color="#C9D2DE"]{stop-color:var(--line-2)}[flood-color="#C9D2DE"]{flood-color:var(--line-2)}[fill="#F4F6F8"]{fill:var(--surface)}[stroke="#F4F6F8"]{stroke:var(--surface)}[stop-color="#F4F6F8"]{stop-color:var(--surface)}[flood-color="#F4F6F8"]{flood-color:var(--surface)}[fill="#5F6E8C"]{fill:var(--dim)}[stroke="#5F6E8C"]{stroke:var(--dim)}[stop-color="#5F6E8C"]{stop-color:var(--dim)}[flood-color="#5F6E8C"]{flood-color:var(--dim)}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:120px}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
@@ -70,9 +76,9 @@ header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .chip{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:6px 12px;border-radius:999px;border:1px solid var(--line-2);font-size:.85rem;color:var(--muted)}
 .chip i{width:8px;height:8px;border-radius:50%;background:var(--and)}
 
-.phone{justify-self:center;width:min(300px,78vw);aspect-ratio:9/19;border-radius:38px;border:10px solid #2a2722;background:#0c0b0a;box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 0 1px #4A443A;position:relative;overflow:hidden}
+.phone{justify-self:center;width:min(300px,78vw);aspect-ratio:9/19;border-radius:38px;border:10px solid var(--surface-2);background:#0c0b0a;box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 0 1px var(--line-2);position:relative;overflow:hidden}
 .phone::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:34%;height:18px;border-radius:12px;background:#0c0b0a;z-index:2}
-.phone .scr{position:absolute;inset:0;padding:40px 16px 16px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,#171512,#131210)}
+.phone .scr{position:absolute;inset:0;padding:40px 16px 16px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,#171512,var(--bg))}
 .phone .appbar{display:flex;align-items:center;gap:8px;font:900 1rem/1 var(--f-display);text-transform:uppercase}
 .phone .appbar svg{width:24px;height:24px}
 .phone .big{font:900 1.9rem/.9 var(--f-display);text-transform:uppercase;margin-top:6px}
@@ -150,7 +156,7 @@ html[dir=rtl] .meta,html[dir=rtl] .tag{font-family:"IBM Plex Sans Arabic",var(--
     </div>
     <div class="phone" aria-hidden="true" translate="no">
       <div class="scr">
-        <div class="appbar"><svg viewBox="0 0 36 36"><rect x=".5" y=".5" width="35" height="35" rx="6" fill="#131210" stroke="#E2A63F"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="#E2A63F"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="#E2A63F"/></svg>Queen Tech</div>
+        <div class="appbar"><svg viewBox="0 0 36 36"><rect x=".5" y=".5" width="35" height="35" rx="6" fill="#FFFFFF" stroke="#0069FF"/><path d="M8 23.5 L9.6 12.5 L14.4 17.6 L18 10 L21.6 17.6 L26.4 12.5 L28 23.5 Z" fill="#0069FF"/><rect x="8" y="25.2" width="20" height="2.4" rx="1" fill="#0069FF"/></svg>Queen Tech</div>
         <div class="big">Secure.<br><em>Connected.</em></div>
         <div class="tile"><b>Camera installation</b><span>AED 75</span></div>
         <div class="tile"><b>Assetto Corsa + mods</b><span>AED 150</span></div>
